@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; 
+        charset=UTF-8" />
+    <title>Nokia Maps API Example</title>
+    <script src="http://api.maps.nokia.com/2.2.3/jsl.js" 
+        type="text/javascript" charset="utf-8"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="mapContainer" style="width:600px; height:400px;">
+        </div>
+        <div id="inputbox-block"></div>
+        <script type="text/javascript">
+            // Set up is the credentials to use the API:
+            nokia.Settings.set("appId", "Mek1RWK8L0PLr48gT0al"); 
+            nokia.Settings.set("authenticationToken", "BU8plLql-XdJ0CmizJSsow");
+            var map = new nokia.maps.map.Display(
+            	    document.getElementById("mapContainer"), {
+            	    	components: [ 
+            	    	             // Behavior collection
+            	    	             new nokia.maps.map.component.Behavior(),
+            	    	             new nokia.maps.map.component.ZoomBar(),
+            	    	             /* new nokia.maps.map.component.Overview(), */
+            	    	             new nokia.maps.map.component.TypeSelector(),
+            	    	             new nokia.maps.map.component.ScaleBar(),
+            	    	             new nokia.maps.positioning.component.Positioning()],
+            	        // Zoom level for the map
+            	        'zoomLevel': 10,
+            	        // Map center coordinates
+            	        'center': [52.51, 13.4] 
+            	    });
+            var marker = new nokia.maps.map.StandardMarker(map.center, {
+                text: "Hi!", // Small label
+                draggable: true  // Make the marker draggable
+            });
+            map.objects.add(marker);
+            /* $("#inputbox-block").append('<input type="text" name="location" id="asdfdas" />'); */
+            $("#asdfdas").blur(function(){
+            	 var centre = $("#asdfdas").val();
+            	 var location = centre.split(",")
+            	 if (nokia.maps.geo.Coordinate.isValid(location[0],location[1])){
+            		 var newCentre = new nokia.maps.geo.Coordinate(location[0],location[1]);
+                	 map.setCenter(newCentre);
+            	 }
+         
+            });
+            $("#inputbox-block").append('<a href="#" id="ghdgf">positioning</a>');
+            $('#ghdgf').on('click',function(){
+            	if (nokia.maps.positioning.Manager) {
+            	    var positioning = new nokia.maps.positioning.Manager();
+
+            	    // Get the current position. If available, the first callback is run, 
+            	    // otherwise the second.
+            	    positioning.getCurrentPosition(
+            	        function (position) {
+            	            var coords = position.coords;
+            	            var marker = 
+            	                new nokia.maps.map.StandardMarker(coords);
+            	            var accuracyCircle = 
+            	                new nokia.maps.map.Circle(coords, coords.accuracy);
+            	            map.objects.addAll([accuracyCircle, marker]);
+            	            map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
+            	        },
+            	        // Handle errors (display message):
+            	        function (error) {
+            	            var errorMsg = "Location could not be determined: ";
+
+            	            // Determine what caused the error and show error message:
+            	            if (error.code == 1) 
+            	                errorMsg += "PERMISSION_DENIED";
+            	            else if (error.code == 2) 
+            	                errorMsg += "POSITION_UNAVAILABLE";
+            	            else if (error.code == 3) 
+            	                errorMsg += "TIMEOUT";
+            	            else errorMsg += "UNKNOWN_ERROR";
+
+            	            alert(errorMsg);
+            	        }
+            	    )
+            	}
+            });
+        </script>
+    </body>
+</html>
