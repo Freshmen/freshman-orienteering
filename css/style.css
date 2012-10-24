@@ -1,0 +1,39 @@
+html { 
+  min-height: 100%; 
+}
+body { 
+  min-height: 100%; 
+  max-width: 360px; 
+  margin: 0 auto; 
+  background-color: #7b98d0; 
+  color: #fff;      
+  font-family: 'Arial, Sans-serif';
+}
+h1, h2, h3 {
+  text-align: center;
+  font-weight: normal;
+}
+#logo-orienteering {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  background: url('../img/Nota_disambigua.svg') no-repeat center center;
+}
+.wide-btn {
+  display: block;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  text-shadow: 0 1px 1px white;
+  -webkit-box-shadow: 0 1px 1px #fff;
+  -moz-box-shadow:    0 1px 1px #fff;
+  box-shadow:         0 1px 1px #fff;
+  padding: 6px 10px;
+  white-space: nowrap;
+  vertical-align: middle;
+  color: #666;
+  background: snow;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  margin: 20px;
+}
