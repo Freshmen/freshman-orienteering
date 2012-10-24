@@ -13,12 +13,15 @@ h1, h2, h3 {
   text-align: center;
   font-weight: normal;
 }
+h1 { margin-bottom: 5px; }
 .disabled { opacity: 0.75; }
 #logo-orienteering {
-  width: 200px;
-  height: 200px;
+  width: 320px;
+  height: 80px;
   margin: 0 auto;
-  background: url('../img/Nota_disambigua.svg') no-repeat center center;
+  background: url('../img/mercator.jpg') no-repeat center center;
+  border-radius: 5px;
+  box-shadow: 4px 4px 5px #444;
 }
 .wide-btn {
   display: block;
