@@ -6,10 +6,15 @@
     <title>Nokia Maps API Example</title>
     <script src="http://api.maps.nokia.com/2.2.3/jsl.js" 
         type="text/javascript" charset="utf-8"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<style>
+	  html, body { height: 100%; margin: 0; padding: 0;}
+	  #mapContainer { height: 100%; width: 100%;}
+	  #inputbox-block { position: relative; top: -20px; height: 18px; width: 80px; margin: 0 auto; background-color: #fff; border: solid 2px #124191; border-bottom: 0; text-align: center; border-radius: 5px 5px 0 0;}
+	</style>
     </head>
     <body>
-        <div id="mapContainer" style="width:600px; height:400px;">
+        <div id="mapContainer">
         </div>
         <div id="inputbox-block"></div>
         <script type="text/javascript">
