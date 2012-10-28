@@ -26,7 +26,13 @@ var updatePosition = function(position) {
   });
   circle.bindTo('center', marker, 'position');
   map.setCenter(pos);
-  map.setZoom(13);
+  var posAccuracy = Math.max(position.coords.accuracy / 1852, 200 / 1852);
+  var sw = new google.maps.LatLng(position.coords.latitude + posAccuracy,
+                                        position.coords.longitude + posAccuracy);
+  var ne = new google.maps.LatLng(position.coords.latitude - posAccuracy,
+                                        position.coords.longitude - posAccuracy);
+  map.fitBounds(new LatLngBounds(sw, ne));
+  //map.setZoom(13);
 };
 
 document.addEventListener('locationUpdated', function(evt){
