@@ -8,9 +8,9 @@ A location-based application that uses F-Secure Content Cloud to crowdsource ima
 
 To sreve the application you need a server running Node.js with NPM installed. Step to get the application server running:
 
-   cd freshman-orienteering
-   npm install
-   node app.js
+    cd freshman-orienteering
+    npm install
+    node app.js
 
 
 ## Licence
