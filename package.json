@@ -9,6 +9,7 @@
     "express": "3.0.0",
     "ejs": "*",
     "stylus": "*",
-    "nconf" : "*"
+    "nconf" : "*",
+    "mocha" : "*"
   }
 }
