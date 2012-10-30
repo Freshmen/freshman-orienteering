@@ -24,10 +24,10 @@ var updatePosition = function(position) {
   });
   circle.bindTo('center', marker, 'position');
   map.setCenter(pos);
-  var posAccuracy = Math.max(position.coords.accuracy / 1852, 200 / 1852);
-  var sw = new google.maps.LatLng(position.coords.latitude + posAccuracy,
+  var posAccuracy = position.coords.accuracy / (185200*0.75);
+  var ne = new google.maps.LatLng(position.coords.latitude + posAccuracy,
                                         position.coords.longitude + posAccuracy);
-  var ne = new google.maps.LatLng(position.coords.latitude - posAccuracy,
+  var sw = new google.maps.LatLng(position.coords.latitude - posAccuracy,
                                         position.coords.longitude - posAccuracy);
   map.fitBounds(new google.maps.LatLngBounds(sw, ne));
   //map.setZoom(13);
