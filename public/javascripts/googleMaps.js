@@ -6,9 +6,7 @@ var initialize = function() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map(document.getElementById('mapArea'), mapOptions);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
+}();
 
 var updatePosition = function(position) {
   var pos = new google.maps.LatLng(position.coords.latitude,
