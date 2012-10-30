@@ -5,12 +5,11 @@
 	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <title><%= provider.title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="<%= provider.api %>"></script>
   </head>
   <body>
     <div id="mapArea"></div>
-    <script src="<%= provider.api %>"></script>
     <script src="<%= provider.js %>" ></script>
     <script src="/javascripts/geolocation.js"></script>
-    <script src=""></script>
   </body>
 </html>
