@@ -18,7 +18,7 @@ var app = express();
   //   3. A file located at 'path/to/config.json'
 nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
-  'PORT':8124,
+  'PORT':3000,
   'sessionSecret':'your secret here'
 });
 
