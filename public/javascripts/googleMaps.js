@@ -29,7 +29,7 @@ var updatePosition = function(position) {
                                         position.coords.longitude + posAccuracy);
   var ne = new google.maps.LatLng(position.coords.latitude - posAccuracy,
                                         position.coords.longitude - posAccuracy);
-  map.fitBounds(new LatLngBounds(sw, ne));
+  map.fitBounds(new google.maps.LatLngBounds(sw, ne));
   //map.setZoom(13);
 };
 
