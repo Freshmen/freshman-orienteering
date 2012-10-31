@@ -1,0 +1,20 @@
+{
+	"events": [
+		{
+			"title" 		:"",
+			"startTime"		:"",
+			"endTime"		:"",
+			"location"		:"",
+			"organizer"		:"",
+			"uploadToken"	:"",
+			"order"			:"",
+			"waypoints"		: [
+			{
+				"title"			:"",
+				"location"		:"",
+				"taskURL"		:""
+			}
+			]
+		}
+	]
+}
