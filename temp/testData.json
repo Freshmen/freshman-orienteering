@@ -1,0 +1,104 @@
+{
+	"events": [
+		{
+			"title" 		: "Freshmen Orienteering",
+			"startTime"		: "2012-11-01T20:32:51.349Z",
+			"endTime"		: "2013-03-01T20:32:51.349Z",
+			"location"		: {
+				"altitude"	: 0,	
+				"latitude" 	: 60.18554400786786,
+				"longitude" : 24.829591591683794
+			},
+			"organizer"		: "Tuomo Vierros",
+			"uploadToken"	: "randomToken",
+			"ordered"		: true,
+			"waypoints"		: [
+				{
+					"title"			: "Ossin lampi",
+					"order"			: 1,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.188359064518515,
+						"longitude" : 24.83182855400429
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"title"			: "Dipoli",
+					"order"			: 2,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.18480586567334,
+						"longitude" : 24.832036425203114
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"title"			: "Design Factory",
+					"order"			: 3,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.181178925959664,
+						"longitude" : 24.831821848481752
+					},
+					"taskURL"		: "#"
+				}			
+			]
+		},
+		{
+			"title" 		: "City Orienteering",
+			"startTime"		: "2012-11-02T20:32:51.349Z",
+			"endTime"		: "2013-04-01T20:32:51.349Z",
+			"location"		: {
+				"altitude"	: 0,	
+				"latitude" 	: 60.16960524998759,
+				"longitude" : 24.935030569261897
+			},
+			"organizer"		: "Sanna Olkkonen",
+			"uploadToken"	: "anotherRandomToken",
+			"ordered"		: false,
+			"waypoints"		: [
+				{
+					"title"			: "Kiasma",
+					"order"			: 1,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.171438420665694,
+						"longitude" : 24.936633189149802
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"title"			: "Old Student House",
+					"order"			: 2,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.16894080042432,
+						"longitude" : 24.940492887925842
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"title"			: "Esplanadi",
+					"order"			: 3,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.16748243328637,
+						"longitude" : 24.947517593342383
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"title"			: "Uspenski Cathedral",
+					"order"			: 4,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.1684738097586,
+						"longitude" : 24.959745784252647
+					},
+					"taskURL"		: "#"
+				}				
+			]
+		}
+	]
+}
