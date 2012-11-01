@@ -8,4 +8,6 @@ Geolocation.updatePosition = function(data) {
 	document.dispatchEvent(evt);
 };
 
-navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
+if(navigator.geolocation) { 
+	navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
+}
