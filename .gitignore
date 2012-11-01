@@ -8,5 +8,6 @@ lib-cov
 *.gz
 *.pem
 
+node_modules
 npm-debug.log
 config.json
