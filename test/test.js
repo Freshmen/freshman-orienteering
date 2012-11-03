@@ -9,7 +9,7 @@ describe('Array', function(){
   describe('#indexOf()', function(){
     it('should return the index of the value that we were looking for', function(){
       assert.equal(0, [1,2,3].indexOf(1));
-      assert.equal(1, [1,2,3].indexOf(3)); //Fail on purpose
+      assert.equal(1, [1,2,3].indexOf(2));
     })
   });
 });
