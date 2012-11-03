@@ -20,8 +20,6 @@ var providers = {
 	}
 };
 
-
 exports.show = function(req, res){
-	console.log(req.query.provider);
 	res.render('map', { 'provider': providers[req.query.provider] || providers['NokiaMaps']})
 };
