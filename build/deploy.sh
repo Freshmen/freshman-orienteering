@@ -1,3 +1,3 @@
 #!/bin/bash
 npm install
-forever restart app.js
+node_modules/forever/bin/forever restart app.js
