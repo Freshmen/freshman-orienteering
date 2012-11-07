@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , map = require('./routes/map')
+  , desktop = require('./routes/desktop')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf');
@@ -43,6 +44,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/map', map.show);
+app.get('/desktop', desktop.show);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
