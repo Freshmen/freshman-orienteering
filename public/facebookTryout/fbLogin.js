@@ -2,6 +2,7 @@
 //App ID:    449519988438382
 //App Secret:    6b878512fa91d329803d933a9ac286de
   var isLoaded = false;
+  var loggedInToFacebook = false;
 
   // Additional JS functions here
   window.fbAsyncInit = function() {
@@ -17,12 +18,13 @@
      FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
       // connected
+      loggedInToFacebook = true;
     } else if (response.status === 'not_authorized') {
       // not_authorized
       login();
     } else {
       // not_logged_in
-      login();
+      loggedInToFacebook = false;
     }
    });
 
