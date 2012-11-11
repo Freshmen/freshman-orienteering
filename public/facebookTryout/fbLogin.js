@@ -21,7 +21,7 @@
       loggedInToFacebook = true;
     } else if (response.status === 'not_authorized') {
       // not_authorized
-      login();
+      loggedInToFacebook = false;
     } else {
       // not_logged_in
       loggedInToFacebook = false;
@@ -51,9 +51,6 @@
     });
   }
 
-
- 
-
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
@@ -63,7 +60,7 @@
 
 /*
 
-This should be the responce
+This should be the response
 {
     status: 'connected',
     authResponse: {
