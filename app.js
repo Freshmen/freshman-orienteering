@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , map = require('./routes/map')
   , desktop = require('./routes/desktop')
+  , db = require('./routes/db')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf');
@@ -23,6 +24,7 @@ nconf.defaults({
   'sessionSecret':'your secret here'
 });
 
+//no need to configured by developers
 app.configure(function(){
   app.set('port', nconf.get('PORT'));
   app.set('views', __dirname + '/views');
@@ -45,6 +47,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/map', map.show);
 app.get('/desktop', desktop.show);
+app.get('/db',db.create);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
