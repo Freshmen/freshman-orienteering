@@ -19,6 +19,7 @@
     if (response.status === 'connected') {
       // connected
       loggedInToFacebook = true;
+      testAPI();
     } else if (response.status === 'not_authorized') {
       // not_authorized
       loggedInToFacebook = false;
@@ -45,7 +46,7 @@
         if (response.authResponse) {
           console.log(response)
 
-          //testAPI();
+          testAPI();
 
             // connected
         } else {
