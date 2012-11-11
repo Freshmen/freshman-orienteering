@@ -38,7 +38,7 @@
    }(document, /*debug*/ false));
   // Load the SDK Asynchronously
 
-  var loginFunction = function login() {
+ function login() {
     FB.login(function(response) {
         if (response.authResponse) {
           testAPI();
@@ -47,7 +47,7 @@
             // cancelled
         }
     });
-}
+  }
 
 
  
