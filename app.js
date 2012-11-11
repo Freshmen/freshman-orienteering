@@ -48,6 +48,10 @@ app.get('/', routes.index);
 app.get('/map', map.show);
 app.get('/desktop', desktop.show);
 app.get('/db',db.create);
+app.get('/api/v1/events', db.listEvents);
+app.get('/api/v1/events/:eventId', db.showEvent);
+app.get('/api/v1/events/:eventId/waypoints', db.listWaypoints);
+app.get('/api/v1/events/:eventId/waypoints/:wpId', db.showWaypoint)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
