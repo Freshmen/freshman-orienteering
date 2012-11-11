@@ -14,12 +14,19 @@
 
     isLoaded = true;   
 
+     FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      // connected
+    } else if (response.status === 'not_authorized') {
+      // not_authorized
+      login();
+    } else {
+      // not_logged_in
+      login();
+    }
+   });
+
   };
-
-  /*
-   
-
-*/
 
   // Load the SDK's source Asynchronously
   (function(d, debug){
@@ -43,17 +50,7 @@
 }
 
 
-  FB.getLoginStatus(function(response) {
-    if (response.status === 'connected') {
-      // connected
-    } else if (response.status === 'not_authorized') {
-      // not_authorized
-      login();
-    } else {
-      // not_logged_in
-      login();
-    }
-   });
+ 
 
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
