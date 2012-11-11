@@ -43,9 +43,13 @@
  function login() {
     FB.login(function(response) {
         if (response.authResponse) {
-          testAPI();
+          console.log(response)
+
+          //testAPI();
+
             // connected
         } else {
+          console.log(response)
             // cancelled
         }
     });
