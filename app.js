@@ -48,10 +48,28 @@ app.get('/', routes.index);
 app.get('/map', map.show);
 app.get('/desktop', desktop.show);
 app.get('/db',db.create);
-app.get('/api/v1/events', db.listEvents);
-app.get('/api/v1/events/:eventId', db.showEvent);
-app.get('/api/v1/events/:eventId/waypoints', db.listWaypoints);
-app.get('/api/v1/events/:eventId/waypoints/:wpId', db.showWaypoint)
+
+
+//Calls that can be made to the API
+app.post('/api/v1/events', db.createEvents);
+app.post('/api/v1/events/:eventID', db.createEvent);
+app.post('/api/v1/events/:eventID/waypoints', db.createWaypoints);
+app.post('/api/v1/events/:eventID/waypoints/:waypointID', db.createWaypoint);
+
+app.get('/api/v1/events', db.readEvents);
+app.get('/api/v1/events/:eventID', db.readEvent);
+app.get('/api/v1/events/:eventID/waypoints', db.readWaypoints);
+app.get('/api/v1/events/:eventID/waypoints/:waypointID', db.readWaypoint);
+
+app.put('/api/v1/events', db.updateEvents);
+app.put('/api/v1/events/:eventID', db.updateEvent);
+app.put('/api/v1/events/:eventID/waypoints', db.updateWaypoints);
+app.put('/api/v1/events/:eventID/waypoints/:waypointID', db.updateWaypoint);
+
+app.delete('/api/v1/events', db.deleteEvents);
+app.delete('/api/v1/events/:eventID', db.deleteEvent);
+app.delete('/api/v1/events/:eventID/waypoints', db.deleteWaypoints);
+app.delete('/api/v1/events/:eventID/waypoints/:waypointID', db.deleteWaypoint);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
