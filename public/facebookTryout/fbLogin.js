@@ -70,8 +70,14 @@
     FB.api('/me', function(response) {
         console.log('Good to see you, ' + response.name + '.');
     });
+    setTimeout('homePage()', 5000);
+    $("#rediction-hint").append("<p id='wanning'>The page will redirect to Freshman Orientation Home Page.</p>");
 }
 
+  
+  function homePage(){
+	  window.location="http://fori.uni.me";
+  }
 /*
 
 This should be the response
