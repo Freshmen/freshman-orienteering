@@ -8,7 +8,7 @@ fs.readFile('./temp/testData.json', 'utf8', function(err, data){
 		return console.log(err);
 	}
 	content = JSON.parse(data);
-	console.log(content.events[0]);
+	//console.log(content.events[0]);
 })
 //////////////////
 
