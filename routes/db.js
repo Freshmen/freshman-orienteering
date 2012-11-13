@@ -47,7 +47,7 @@ exports.readWaypoints = function(req, res){
 exports.readWaypoint = function(req, res){
 	res.send('GETting here will describe the waypoint ' 
 		+  req.params.waypointID
-		+ ' of event'
+		+ ' of event '
 		+ req.params.eventID 
 		+ ' here...\n');	
 };
