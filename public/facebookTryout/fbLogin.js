@@ -11,16 +11,18 @@
       appId      : '449519988438382', // App ID
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
+      xfbml      : true,  // parse XFBML
+      oauth		 : true
     });
 
     isLoaded = true;   
 
-     FB.getLoginStatus(function(response) {
+    FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
       // connected
       loggedInToFacebook = true;
-      testAPI();
+      console.log("you has logged in");
+//      testAPI();
     } else if (response.status === 'not_authorized') {
       // not_authorized
       loggedInToFacebook = false;
@@ -28,6 +30,7 @@
     } else {
       // not_logged_in
       loggedInToFacebook = false;
+      console.log("you has NOT logged in");
     }
    });
 
@@ -58,13 +61,25 @@
     });
   }
 
+ function logout() {
+	 FB.logout(function(response) {
+         console.log("you have logged out");
+         });
+	  }
+ 
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
         console.log('Good to see you, ' + response.name + '.');
     });
+    setTimeout('homePage()', 5000);
+    $("#rediction-hint").append("<p id='wanning'>The page will redirect to Freshman Orientation Home Page.</p>");
 }
 
+  
+  function homePage(){
+	  window.location="http://fori.uni.me";
+  }
 /*
 
 This should be the response
