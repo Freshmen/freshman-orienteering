@@ -13,6 +13,7 @@
 fontFamily="AvantGardeGothicITCW01B 731063","Helvetica Neue",Arial,sans-serif
 fontBig=18px
 fontNav=13px
+fontSmall = 10px;
 
 /* global colors */
 siteBackgroundColor = #eee
@@ -22,6 +23,18 @@ navFontHoverColor= #44e
 
 /*Global measures */
 navBarHeight = 50px;
+listBarHeight = 30px;
+listBarSmallHeight = 20px;
+
+/* Style functions, not working, seems handy */
+linkHover()
+  text-decoration:none;
+  -webkit-transition:all .2s ease-in
+  -moz-transition:all .2s ease-in
+  -o-transition:all .2s ease-in
+  transition:all .2s ease-in
+
+
 
 /*Good demo about -webkit-font-smothing
 http://maxvoltar.com/sandbox/fontsmoothing/
@@ -96,7 +109,10 @@ h1, h2, h3 {
 }
 
 #listContent{
-  position: relative;
+  position: fixed;
+  top: navBarHeight+10;
+  right:10px;
+  min-width: 250px;
   margin-left: auto;
   margin-right: auto;
   background:navBackgroundColor;
@@ -151,6 +167,21 @@ h1, h2, h3 {
   font-size:fontNav;
 }
 
+#contentList ul li{
+   line-height: listBarHeight;
+}
+
+#contentList a{
+  linkHover
+  text-decoration:none;
+  
+}
+
+#contentList .listSmall{
+  font-size: fontSmall
+  line-height: listBarSmallHeight;
+  margin-left 20px;
+}
 #control ul{
   margin:0;
   padding:0 0 0 9px;
@@ -166,11 +197,8 @@ h1, h2, h3 {
 }
 
 #control ul li a{
+  linkHover
   text-decoration:none;
-  -webkit-transition:all .2s ease-in
-  -moz-transition:all .2s ease-in
-  -o-transition:all .2s ease-in
-  transition:all .2s ease-in
 } 
 
 #footer footer #control{

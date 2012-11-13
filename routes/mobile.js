@@ -20,3 +20,11 @@ exports.show = function(req, res){
 							'content' : content.events});
 }
 
+/*
+*/
+
+function showEvents(){
+	new EJS({url: 'mobile'}).update('contentWrap', {'content' : content.events})
+
+
+}
