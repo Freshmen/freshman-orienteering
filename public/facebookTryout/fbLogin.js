@@ -3,6 +3,7 @@
 //App Secret:    6b878512fa91d329803d933a9ac286de
   var isLoaded = false;
   var loggedInToFacebook = false;
+  var notAuthorized = false;
 
   // Additional JS functions here
   window.fbAsyncInit = function() {
@@ -23,6 +24,7 @@
     } else if (response.status === 'not_authorized') {
       // not_authorized
       loggedInToFacebook = false;
+      notAuthorized = false;
     } else {
       // not_logged_in
       loggedInToFacebook = false;
