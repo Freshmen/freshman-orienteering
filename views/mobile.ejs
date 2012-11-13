@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, intial-scale=1"/>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='./stylesheets/mobile.css' />
+  </head>
+  <body>
+    <section id="header">
+      <header> 
+        <h1>F-orienteering</h1>
+        <nav id="control">
+           <ul>  
+            <li><a href="#">Status</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#"><%= signinStatus %></a></li>
+          </ul>
+        </nav>
+      </header>
+    </section>
+
+    <div id="contentWrap">
+     <section id="listContent">
+      <ul>
+        <nav id="list">
+        <% for(var i = 0; i<content.length; i++) {%>
+          <li><a href="#"><%= content[i].title%></a></li>
+        <% } %>
+      </nav>
+      </ul>
+    </section>
+    </div>
+
+    <section id="footer">
+      <footer> 
+        <nav id="control">
+           <ul>  
+            <li><a href="#">Check In</a></li>
+          </ul>
+        </nav>
+      </footer>
+    </section>
+
+    <div id="mapArea"><div/>
+
+    <script src='http://api.maps.nokia.com/2.2.3/jsl.js'></script>
+    <script src="/javascripts/nokiaMaps.js"></script>
+    <script src="/javascripts/geolocation.js"></script>
+    <script src="/javascripts/mobileFunctions.js"></script>
+  </body>
+</html>
