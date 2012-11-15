@@ -3,8 +3,41 @@ var nano = require('nano')('http://fori.uni.me:8124');
 nano.db.create('fori-test');
 var db = nano.use('fori-test');
 
+
+function insert_doc(doc, tried, callback) {
+    db.insert(doc,
+      function (error,http_body,http_headers) {
+        if(error) {
+          if(error.message === 'no_db_file'  && tried < 1) {
+            // create database and retry
+            return nano.db.create(db_name, function () {
+              insert_doc(doc, tried+1);
+            });
+          }
+          else { return console.log(error); }
+        }
+        callback(http_body);
+    });
+}
+
+function read_doc(id, callback) {
+	db.get(id, { revs_info: true }, function(err, body) {
+		if (!err) {
+			callback(body);
+		} 
+		else { return console.log(error); }
+	});
+}
+
 exports.createEvents = function(req, res){
-	res.send('POSTing here creates overrides everything...\n');	
+	if (req.body) {
+		insert_doc(req.body, 0, function(body){
+			res.send(body, 201);
+		});
+	}
+	else {
+		res.send('{"error" : "No body in request"}', 400);
+	}
 };
 
 exports.createEvent = function(req, res){
@@ -33,9 +66,9 @@ exports.readEvents = function(req, res){
 
 
 exports.readEvent = function(req, res){
-	res.send('GETting here will describe event ' 
-		+  req.params.eventID 
-		+ ' here...\n');	
+	read_doc(req.params.eventID, function(body) {
+		res.send(body);
+	});
 };
 
 exports.readWaypoints = function(req, res){
