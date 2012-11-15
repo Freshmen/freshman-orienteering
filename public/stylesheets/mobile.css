@@ -8,6 +8,7 @@
 /* Font definitions */
 /* global colors */
 /*Global measures */
+/* Style functions, not working, seems handy */
 /*Good demo about -webkit-font-smothing
 http://maxvoltar.com/sandbox/fontsmoothing/
 */
@@ -72,7 +73,10 @@ h3 {
   padding-left: 20px;
 }
 #listContent {
-  position: relative;
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  min-width: 250px;
   margin-left: auto;
   margin-right: auto;
   background: #fff;
@@ -122,6 +126,17 @@ h3 {
   right: 20px;
   font-size: 13px;
 }
+#contentList ul li {
+  line-height: 30px;
+}
+#contentList a {
+  text-decoration: none;
+}
+#contentList .listSmall {
+  font-size: 10px;
+  line-height: 20px;
+  margin-left: 20px;
+}
 #control ul {
   margin: 0;
   padding: 0 0 0 9px;
@@ -136,10 +151,6 @@ h3 {
 }
 #control ul li a {
   text-decoration: none;
-  -webkit-transition: all 0.2s ease-in;
-  -moz-transition: all 0.2s ease-in;
-  -o-transition: all 0.2s ease-in;
-  transition: all 0.2s ease-in;
 }
 #footer footer #control {
   position: absolute;

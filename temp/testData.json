@@ -1,6 +1,7 @@
 {
 	"events": [
 		{
+			"type"			: "Event",
 			"title" 		: "Freshmen Orienteering",
 			"startTime"		: "2012-11-01T20:32:51.349Z",
 			"endTime"		: "2013-03-01T20:32:51.349Z",
@@ -12,8 +13,9 @@
 			"organizer"		: "Tuomo Vierros",
 			"uploadToken"	: "randomToken",
 			"ordered"		: true,
-			"waypoints"		: [
+			"checkpoints"		: [
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Ossin lampi",
 					"order"			: 1,
 					"location"		: {
@@ -24,6 +26,7 @@
 					"taskURL"		: "#"
 				},
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Dipoli",
 					"order"			: 2,
 					"location"		: {
@@ -34,6 +37,7 @@
 					"taskURL"		: "#"
 				},
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Design Factory",
 					"order"			: 3,
 					"location"		: {
@@ -46,6 +50,7 @@
 			]
 		},
 		{
+			"type"			: "Event",
 			"title" 		: "City Orienteering",
 			"startTime"		: "2012-11-02T20:32:51.349Z",
 			"endTime"		: "2013-04-01T20:32:51.349Z",
@@ -57,8 +62,9 @@
 			"organizer"		: "Sanna Olkkonen",
 			"uploadToken"	: "anotherRandomToken",
 			"ordered"		: false,
-			"waypoints"		: [
+			"checkpoints"		: [
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Kiasma",
 					"order"			: 1,
 					"location"		: {
@@ -69,6 +75,7 @@
 					"taskURL"		: "#"
 				},
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Old Student House",
 					"order"			: 2,
 					"location"		: {
@@ -79,6 +86,7 @@
 					"taskURL"		: "#"
 				},
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Esplanadi",
 					"order"			: 3,
 					"location"		: {
@@ -89,6 +97,7 @@
 					"taskURL"		: "#"
 				},
 				{
+					"type"			: "Checkpoint",
 					"title"			: "Uspenski Cathedral",
 					"order"			: 4,
 					"location"		: {

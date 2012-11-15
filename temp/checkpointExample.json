@@ -1,0 +1,13 @@
+{
+	"type"			: "Checkpoint",
+	"event"			: "uuid",
+	"title"			: "Ossin lampi",
+	"order"			: 1,
+	"location"		: {
+		"altitude"	: 0,	
+		"latitude" 	: 60.188359064518515,
+		"longitude" : 24.83182855400429
+	},
+	"deleted"		: true,
+	"taskURL"		: "http://f-secure.com/"
+}
