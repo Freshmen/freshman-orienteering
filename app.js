@@ -5,7 +5,6 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , map = require('./routes/map')
   , desktop = require('./routes/desktop')
   , mobile = require('./routes/mobile')
   , db = require('./routes/db')
@@ -46,7 +45,6 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/map', map.show);
 app.get('/desktop', desktop.show);
 app.get('/db',db.create);
 app.get('/mobile', mobile.show);
