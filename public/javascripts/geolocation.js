@@ -9,5 +9,7 @@ Geolocation.updatePosition = function(data) {
 };
 
 if(navigator.geolocation) { 
-	navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
+	// TESTING WatchPosition - Vidhuran
+	//	navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
+	var watchId = navigator.geolocation.watchPosition(Geolocation.updatePosition, function(data){ console.log(data)},{enableHighAccuracy:true, maximumAge:30000, timeout:27000});
 }
