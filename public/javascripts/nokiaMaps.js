@@ -34,8 +34,6 @@ $().ready(function(){
 	      map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
 
-	//-- testing -- click events
-	
 	/* We would like to add event listener on mouse click or finger tap so we check
 	 * nokia.maps.dom.Page.browser.touch which indicates whether the used browser has a touch interface.
 	 */
@@ -69,7 +67,9 @@ $().ready(function(){
 		})
 		.on('click:ok', function(){
 			this.destroy();
+			//add a marker to the coordinator
 			addMarker(coord);
+			//trigger notification
 			marker_notifier.success('A new marker has been created');
 		})
 		.on('click:cancel', 'destroy');
@@ -85,7 +85,6 @@ $().ready(function(){
 		});
 		map.objects.add(marker);
 	}
-	//-- finish testing -- click events   
 
 	document.addEventListener('locationUpdated', function(evt){
 	  updatePosition(evt.position);
