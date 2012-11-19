@@ -37,12 +37,14 @@ $().ready(function(){
 	/* We would like to add event listener on mouse click or finger tap so we check
 	 * nokia.maps.dom.Page.browser.touch which indicates whether the used browser has a touch interface.
 	 */
+	var DBLTOUCH = nokia.maps.dom.Page.browser.touch,
+		DBLCLICK = DBLTOUCH ? "dbltap" : "dblclick";
 	var TOUCH = nokia.maps.dom.Page.browser.touch,
-		CLICK = TOUCH ? "dbltap" : "dblclick";
+		CLICK = TOUCH ? "tap" : "click";
 	/* Attach an event listener to map display
 	 * push info bubble with coordinate information to map
 	 */
-	map.addListener(CLICK, function (evt) {
+	map.addListener(DBLCLICK, function (evt) {
 		evt.preventDefault();
 		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
 		notifiedWindow(coord);
@@ -68,9 +70,11 @@ $().ready(function(){
 		.on('click:ok', function(){
 			this.destroy();
 			//add a marker to the coordinator
-			addMarker(coord);
+			var marker = addMarker(coord);
 			//trigger notification
 			marker_notifier.success('A new marker has been created');
+			//initialise events for the marker
+			initEvent(marker);
 		})
 		.on('click:cancel', 'destroy');
 	}
@@ -84,8 +88,23 @@ $().ready(function(){
 		    draggable: false  
 		});
 		map.objects.add(marker);
+		return marker;
 	}
-
+	/**
+	 * marker events
+	 */
+	function initEvent(marker){
+		marker.addListener(CLICK,manageEvent,false);
+	}
+	/**
+	 * manage new events
+	 */
+	function manageEvent(){
+		/**
+		 * template
+		 */
+		alert("any template?");
+	}
 	document.addEventListener('locationUpdated', function(evt){
 	  updatePosition(evt.position);
 	}, false);
