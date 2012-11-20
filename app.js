@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , desktop = require('./routes/desktop')
+  , create = require('./routes/desktop_create')
   , mobile = require('./routes/mobile')
   , db = require('./routes/db')
   , http = require('http')
@@ -46,6 +47,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/desktop', desktop.show);
+app.get('/desktop_create', create.show);
 app.get('/db',db.create);
 app.get('/mobile', mobile.show);
 
