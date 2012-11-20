@@ -52,23 +52,25 @@ app.get('/mobile', mobile.show);
 //Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
 app.post('/api/v1/events/:eventID', db.createEvent);
-app.post('/api/v1/events/:eventID/waypoints', db.createWaypoints);
-app.post('/api/v1/events/:eventID/waypoints/:waypointID', db.createWaypoint);
+app.post('/api/v1/events/:eventID/checkpoints', db.createCheckpoints);
+app.post('/api/v1/events/:eventID/checkpoints/:checkpointID', db.createCheckpoint);
 
 app.get('/api/v1/events', db.readEvents);
 app.get('/api/v1/events/:eventID', db.readEvent);
-app.get('/api/v1/events/:eventID/waypoints', db.readWaypoints);
-app.get('/api/v1/events/:eventID/waypoints/:waypointID', db.readWaypoint);
+app.get('/api/v1/events/:eventID/checkpoints', db.readChcekpointspoints);
+app.get('/api/v1/events/:eventID/checkpoints/:checkpointID', db.readCheckpoint);
 
 app.put('/api/v1/events', db.updateEvents);
 app.put('/api/v1/events/:eventID', db.updateEvent);
-app.put('/api/v1/events/:eventID/waypoints', db.updateWaypoints);
-app.put('/api/v1/events/:eventID/waypoints/:waypointID', db.updateWaypoint);
+app.put('/api/v1/events/:eventID/checkpoints', db.updateCheckpoints);
+app.put('/api/v1/events/:eventID/checkpoints/:checkpointID', db.updateCheckpoint);
 
 app.delete('/api/v1/events', db.deleteEvents);
 app.delete('/api/v1/events/:eventID', db.deleteEvent);
-app.delete('/api/v1/events/:eventID/waypoints', db.deleteWaypoints);
-app.delete('/api/v1/events/:eventID/waypoints/:waypointID', db.deleteWaypoint);
+app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
+app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
+
+app.post('/api/v1/test', db.test);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

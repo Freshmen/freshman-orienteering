@@ -31,7 +31,8 @@ function read_doc(id, callback) {
 
 exports.createEvents = function(req, res){
 	if (req.body) {
-		insert_doc(req.body, 0, function(body){
+		var event = req.body;
+		insert_doc(event, 0, function(body){
 			res.send(body, 201);
 		});
 	}
@@ -41,23 +42,24 @@ exports.createEvents = function(req, res){
 };
 
 exports.createEvent = function(req, res){
-	res.send('POSTing here creates event (eventID:' 
-		+ req.params.eventID
-		+ ')...\n');	
+	res.send('{"error" : "Cannot POST here."}', 400);
 };
 
-exports.createWaypoints = function(req, res){
-	res.send('POSTing here overrides all waypoints for this event (eventID:' 
-		+ req.params.eventID
-		+ ')...\n');	
+exports.createCheckpoints = function(req, res){
+	if (req.body) {
+		var checkPoint = req.body;
+		checkPoint.event = req.params.eventID;
+		insert_doc(checkPoint, 0, function(body){
+			res.send(body, 201);
+		});
+	}
+	else {
+		res.send('{"error" : "No body in request"}', 400);
+	}	
 };
 
-exports.createWaypoint = function(req, res){
-	res.send('POSTing here creates a waypoint (waypointID:'
-		+ req.params.waypointID
-		+') for this event (eventID:' 
-		+ req.params.eventID
-		+ ') everything...\n');	
+exports.createCheckpoint = function(req, res){
+	res.send('{"error" : "Cannot POST here."}', 400);
 };
 
 exports.readEvents = function(req, res){
@@ -71,18 +73,16 @@ exports.readEvent = function(req, res){
 	});
 };
 
-exports.readWaypoints = function(req, res){
+exports.readCheckpoints = function(req, res){
 	res.send('GETing here will list all the waypoints for event ' 
 		+ req.params.eventID 
 		+ ' here...\n');	
 };
 
-exports.readWaypoint = function(req, res){
-	res.send('GETting here will describe the waypoint ' 
-		+  req.params.waypointID
-		+ ' of event '
-		+ req.params.eventID 
-		+ ' here...\n');	
+exports.readCheckpoint = function(req, res){
+	read_doc(req.params.checkPointID, function(body) {
+		res.send(body);
+	});	
 };
 
 exports.updateEvents = function(req, res){
@@ -90,18 +90,23 @@ exports.updateEvents = function(req, res){
 };
 
 exports.updateEvent = function(req, res){
-	res.send('PUTting here updates this event (eventID:' 
-		+ req.params.eventID
-		+ ')...\n');	
+	read_doc(req.params.eventID, function(body) {
+		var currentEvent = body;
+		var _rev = currentEvent._rev;
+		console.log(_rev);
+		insert_doc(currentEvent, _rev, function(body){
+			res.send(body, 200);
+		});
+	});
 };
 
-exports.updateWaypoints = function(req, res){
+exports.updateCheckpoints = function(req, res){
 	res.send('PUTting here updates the submitted waypoints for this event (eventID:' 
 		+ req.params.eventID
 		+ ')...\n');	
 };
 
-exports.updateWaypoint = function(req, res){
+exports.updateCheckpoint = function(req, res){
 	res.send('PUTting here updates a waypoint (waypointID:'
 		+ req.params.waypointID
 		+') for this event (eventID:' 
@@ -119,16 +124,22 @@ exports.deleteEvent = function(req, res){
 		+ ')...\n');	
 };
 
-exports.deleteWaypoints = function(req, res){
+exports.deleteCheckpoints = function(req, res){
 	res.send('DELETEing here deletes all waypoints for this event (eventID:' 
 		+ req.params.eventID
 		+ ')...\n');	
 };
 
-exports.deleteWaypoint = function(req, res){
+exports.deleteCheckpoint = function(req, res){
 	res.send('DELETEing here deletes waypoint (waypointID:'
 		+ req.params.waypointID
 		+') of this event (eventID:' 
 		+ req.params.eventID
 		+ ') everything...\n');	
 };
+
+exports.test = function(req, res) {
+	var data = req.body;
+	data.success = 'OK';
+	res.send(data, 200);
+}
