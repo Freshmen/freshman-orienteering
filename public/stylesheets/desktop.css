@@ -13,10 +13,41 @@ body {
   margin: 0 auto;
   width: 800px;
 }
+.columns {
+  clear: both;
+  margin: 0 auto;
+  width: 800px;
+  column-count: 1;
+  -moz-column-count: 1;
+  -webkit-column-count: 1;
+}
+.button {
+  background-color: #000;
+  border-radius: 10px;
+  display: inline-block;
+  color: #fff;
+  font-weight: bold;
+  padding: 6px 20px;
+  text-decoration: none;
+  outline: none;
+  border-width: 0px;
+}
+.button:hover {
+  background-color: #1b7ae0;
+}
+.button:active {
+  position: relative;
+  top: 1px;
+}
 #mapArea {
   height: 500px;
   width: 800px;
   border: 10px solid #eaeaea;
+}
+#mapArea2 {
+  height: 390px;
+  width: 390px;
+  border: 0px solid #eaeaea;
 }
 #banner {
   margin: 0 auto;
