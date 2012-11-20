@@ -20,32 +20,44 @@
 	<section id="content" class="columns">
 		
 			<p>
-				<form action="save_event.ph" method="">
-					<div data-role="fieldcontain" id="event_form">
-						<input type="text" name="event_name" size="30" placeholder="Event Name" style="font-size: 20px" required><br />
+				<form id="event_form" action="">
+						<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 20px" required><br />
 						<input type="datetime" name="date" id="date" style="font-size: 18px" value="" required><br />
 						Ordered checkpoints <input type="checkbox" id="ordered"><br />
-						<input type="button" id="addOption" value="New Checkpoint" class="button"/><br /><br /><br />
-						<input type="submit" value="Save Event" class="button"/>						
-					</div>
 				</form>
+				<div id ="checkpoint_holder">
+						<input type="button" id="addOption" value="New Checkpoint" class="button"><br /><br /><br />
+						<input type="button" id="submit" value="Save Event" class="button">
+				</div>
 			</p>
 		
 	</section>
 	<script>
 		var i = 0;
+
 		$('#addOption').click(function (){
-			$('<div id="checkpoint"></div>').insertBefore('#addOption');
+			if(i > 0){
+				var temp = '#checkpoint_'+i+'';
+				console.log(temp);
+				$.post('http://localhost:3000/api/v1/test/',$(temp).serializeArray(),console.log);
+			}
+			$('<form id="checkpoint"></form>').insertBefore('#addOption');
 			i++;
 			$('#checkpoint').append('<h2>Checkpoint ' + i + '</h2>');
-			$('#checkpoint').append('<input type="text" id="title" placeholder="Title" required/>');
-			$('#checkpoint').append('<input type="text" id="altitude" placeholder="Altitude" required/>');
-			$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" required/>');
-			$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" required/>');
-			$('#checkpoint').append('<input type="text" id="url" placeholder="Task URL" required/>');
+			$('#checkpoint').append('<input type="text" id="title" placeholder="Title" required>');
+			$('#checkpoint').append('<input type="text" id="altitude" placeholder="Altitude" required>');
+			$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" required>');
+			$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" required>');
+			$('#checkpoint').append('<input type="text" id="taskURL" placeholder="Task URL" required>');
 			$('#checkpoint').attr("id","checkpoint_" + i);
 
 		});
+
+		$('#submit').click(function() {
+			console.log($('#event_form').serializeArray());
+			$.post("http://localhost:3000/api/v1/test/",$('#event_form').serializeArray(),console.log);
+		});
+
 	</script>
 
 	
