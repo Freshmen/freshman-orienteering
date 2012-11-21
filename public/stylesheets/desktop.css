@@ -205,10 +205,11 @@ thead td,
 tbody td {
   padding: 0.5em 0.4em;
 }
-#liquid-round {
+.drag-container {
   width: 100%;
   margin: 0px auto;
   background: #fff url("../images/leftside.gif") repeat-y left top;
+  float: top;
 }
 .top {
   width: 100%;
@@ -235,9 +236,4 @@ tbody td {
   position: relative;
   height: 60px;
   background: url("../images/bottom-right.gif") no-repeat right top;
-}
-.trash.resize {
-  width: 70%;
-/* you can use % */
-  height: auto;
 }
