@@ -56,7 +56,7 @@
 			$('<div id="liquid-round"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
 			$(".center-content").last().append('<form id="checkpoint"></form>');
 			i++;
-			$('#checkpoint').append('<h2>Checkpoint ' + i + '</h2>');
+			$('#checkpoint').append('<img src="images/trash.jpg" class="trash" onclick=removeThis(this) style="float:right; margin:0 5px 0 0; height: auto; width: 20px;"><h2>Checkpoint ' + i + '</h2>');
 			$('#checkpoint').append('<input type="text" id="title" placeholder="Title" required>');
 			$('#checkpoint').append('<input type="text" id="altitude" placeholder="Altitude" required>');
 			$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" required>');
@@ -69,7 +69,11 @@
 		$('#submit').click(function() {
 			console.log($('#event_form').serializeArray());
 			$.post("http://localhost:3000/api/v1/test/",$('#event_form').serializeArray(),console.log);
-	});
+		});
+	
+		function removeThis(dustbin){
+			$(dustbin).parent().parent().parent().slideUp();
+		};
 
 	</script>
 
