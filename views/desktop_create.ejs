@@ -53,7 +53,8 @@
 				console.log(temp);
 				$.post('http://localhost:3000/api/v1/test/',$(temp).serializeArray(),console.log);
 			}
-			$('<form id="checkpoint"></form>').insertBefore('#addOption');
+			$('<div id="liquid-round"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
+			$(".center-content").last().append('<form id="checkpoint"></form>');
 			i++;
 			$('#checkpoint').append('<h2>Checkpoint ' + i + '</h2>');
 			$('#checkpoint').append('<input type="text" id="title" placeholder="Title" required>');
