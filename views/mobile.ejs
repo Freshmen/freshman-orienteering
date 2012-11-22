@@ -12,7 +12,7 @@
         <nav id="control">
            <ul>  
             <li><a href="#">Status</a></li>
-            <li><a href="#">Events</a></li>
+            <li><a href="/">Events</a></li>
             <li><a href="#"><%= signinStatus %></a></li>
           </ul>
         </nav>
@@ -20,11 +20,11 @@
     </section>
 
     <div id="contentWrap">
-     <section id="listContent">
+     <section id="listContent" style = 'display:none;'>
        <nav id="contentList">
         <ul>
           <% for(var i = 0; i<content.length; i++) {%>
-            <li><a href="#"><%= content[i].title%></a></li>
+            <li><a href="/"><%= content[i].title%></a></li>
               <% for(var j = 0; j<content[i].checkpoints.length; j++) {%>
                 <li class ="listSmall"><a href="#"><%= content[i].checkpoints[j].title%></a></li>
               <% }%>
@@ -45,9 +45,10 @@
     </section>
 
     <div id="mapArea"><div/>
-
+    <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script>
     <script src='http://api.maps.nokia.com/2.2.3/jsl.js'></script>
     <script src="/javascripts/nokiaMaps.js"></script>
     <script src="/javascripts/geolocation.js"></script>
+    <script src='/javascripts/mobileLayoutFunctions.js'></script>
   </body>
 </html>

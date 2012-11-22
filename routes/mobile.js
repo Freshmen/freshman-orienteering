@@ -13,7 +13,6 @@ fs.readFile('./temp/testData.json', 'utf8', function(err, data){
 //////////////////
 
 exports.show = function(req, res){
-
 	//res.render('mobile', { 'selection' : events[req.query.selection] || data['Index']})
 	res.render('mobile', { 'title' : 'Freshman Orienteering',
 							'signinStatus' : 'Sign In',
@@ -23,8 +22,5 @@ exports.show = function(req, res){
 /*
 */
 
-function showEvents(){
-	new EJS({url: 'mobile'}).update('contentWrap', {'content' : content.events})
 
 
-}
