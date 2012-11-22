@@ -32,31 +32,29 @@
 						<input type="text" id="starttime" style="font-size: 18px; width: 48%; padding: 5px" value="" placeholder="Start Time "required>
 						<input type="text" id="endtime" style="font-size: 18px; width: 48%; padding: 5px" placeholder="End Time" value="" required>
 						<br />Ordered checkpoints <input type="checkbox" id="ordered"><br />
+						<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
 				<div id ="checkpoint_holder">
-						<input type="button" id="addOption" value="New Checkpoint" class="button"><br /><br />
-						<input type="button" id="submit" value="Save Event" class="button">
+						<input type="button" id="addOption" value="New Checkpoint" class="button"><br />
 				</div>
 			</p>
 		
 	</section>
 	<script>
 		var i = 0;
-
 		$(document).ready(function(){
+			$("#addOption").hide();
 			$("#starttime").datetimepicker();
 			$("#endtime").datetimepicker();
 			$( "#checkpoint_holder" ).sortable({
-        			items: '.sortable'
-       			});
+				stop: function(event, ui) {
+				
+    			}
+    		});
 		});
 		$('#addOption').click(function (){
-			if(i > 0){
-				var temp = '#checkpoint_'+i+'';
-				console.log(temp);
-				$.post('http://localhost:3000/api/v1/test/',$(temp).serializeArray(),console.log);
-			}
-			$('<div class="drag-container sortable"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
+
+			$('<div class="drag-container"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
 			$(".center-content").last().append('<form id="checkpoint"></form>');
 			i++;
 			$('#checkpoint').append('<img src="images/trash.jpg" class="trash" onclick=removeMe(this) style="float:right; margin:0 5px 0 0; height: auto; width: 20px;"><img src="images/save.png" class="save" onclick=saveMe(this) style="float:right; margin:0 5px 0 0; height: auto; width: 24px;"><h2>Checkpoint ' + i + '</h2>');
@@ -66,18 +64,58 @@
 			$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" required>');
 			$('#checkpoint').append('<input type="text" id="taskURL" placeholder="Task URL" required>');
 			$('#checkpoint').attr("id","checkpoint_" + i);
-			$('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" });
+			<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
 
 		});
 
+		$('#event_form').submit(function(){
+ 			eventSender();
+
+ 			<!-- Display add checkpoint button -->	
+ 			$("#addOption").trigger('click');
+ 			$("#addOption").show();
+
+ 			<!-- Disable editing on the event details form -->
+ 			$("#title").attr("disabled","true");
+ 			$("#starttime").attr("disabled","true");
+ 			$("#endtime").attr("disabled","true");
+ 			$("#ordered").attr("disabled","true");
+ 			return false;
+		});
+		
+		function eventSender(){
+			var event_details = {};
+			$("#event_form").children().filter(":text").each(function(){
+				event_details[$(this).attr("id")] = $(this).val();
+			});
+			event_details["ordered"] = $('#ordered').attr('checked')?true:false;
+			$.post("http://localhost:3000/api/v1/test/",event_details,function(){});
+		}
+		function fixIds() {
+				var j = 1;
+				$("#checkpoint_holder form").each(function(){
+        			$(this).attr("id","checkpoint_" + j++);
+        		});
+        		j = 1;
+        		$("#checkpoint_holder h2").each(function(){
+        			$(this).text("Checkpoint " + j++);
+        		});
+		}
+
 		function saveMe(floppy) {
-			console.log($(floppy).serializeArray());
-			$.post("http://localhost:3000/api/v1/test/",$(floppy).serializeArray(),console.log);
+			var floppyParent = {};
+			$(".save:last").parent().children().filter("input").each(function(){
+				floppyParent[$(this).attr("id")] = $(this).val();
+			})
+			$.post("http://localhost:3000/api/v1/test/",floppyParent,function(){});
 		};
 	
 		function removeMe(dustbin){
+			<!-- Just for eye candy -->
 			$(dustbin).parent().parent().parent().slideUp();
-			<!-- $(dustbin).parent().parent().parent().remove(); -->
+			<!-- Get rid of the DOM elements -->
+			$(dustbin).parent().parent().parent().remove(); 
+			fixIds();
 		};
 
 	</script>
