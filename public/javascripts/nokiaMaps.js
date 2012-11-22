@@ -35,6 +35,8 @@ $().ready(function(){
 	      //var marker = 
 	      marker =
 	         new nokia.maps.map.StandardMarker(coords);
+
+	      console.log(coords.accuracy);
 	      //var accuracyCircle = 
 	      accuracyCircle =
 	          new nokia.maps.map.Circle(coords, coords.accuracy);
@@ -42,31 +44,7 @@ $().ready(function(){
 	      map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
 
-	/*
-	 * Function to remove exist accuracyCircle from map
-	 */
-
-	function removeCircle() {
-
-		if(accuracyCircle){
-			map.objects.remove(accuracyCircle);
-		}
-		
-		accuracyCircle = null;
-	} 
-	/*
-	 * Function to remove exist marker from map
-	 */
-
-	function removeMarker() {
-
-		if(marker){
-			map.objects.remove(marker);
-		}
-		
-		marker = null;
-	} 
-
+	
 	/* We would like to add event listener on mouse click or finger tap so we check
 	 * nokia.maps.dom.Page.browser.touch which indicates whether the used browser has a touch interface.
 	 */
@@ -139,6 +117,30 @@ $().ready(function(){
 		 */
 		alert("any template?");
 	}
+
+	/*
+	 * Function to remove exist accuracyCircle from map
+	 */
+	function removeCircle() {
+
+		if(accuracyCircle){
+			map.objects.remove(accuracyCircle);
+		}
+		
+		accuracyCircle = null;
+	} 
+	/*
+	 * Function to remove exist marker from map
+	 */
+	function removeMarker() {
+
+		if(marker){
+			map.objects.remove(marker);
+		}
+		
+		marker = null;
+	} 
+
 	document.addEventListener('locationUpdated', function(evt){
 	  updatePosition(evt.position);
 	}, false);
