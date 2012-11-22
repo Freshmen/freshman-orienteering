@@ -94,6 +94,7 @@ $().ready(function(){
 	 */
 	function addMarker(coord){
 		// Create a marker and add it to the map
+		console.log(coord);
 		var marker = new nokia.maps.map.StandardMarker(coord, {
 		    text: "Hi!", // Small label
 		    draggable: false  

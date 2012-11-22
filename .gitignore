@@ -13,3 +13,4 @@ npm-debug.log
 config.json
 .DS_Store
 .project
+test/kentest_ignore.js
