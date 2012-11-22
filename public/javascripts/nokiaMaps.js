@@ -20,19 +20,35 @@ $().ready(function(){
 	//prevent default behaviours
 	map.removeComponent(map.getComponentById("zoom.DoubleClick"));
 
-	var marker = new nokia.maps.map.StandardMarker(map.center, {
+	var marker = null;
+	marker = new nokia.maps.map.StandardMarker(map.center, {
 	    draggable: true  // Make the marker draggable
 	});
 	map.objects.add(marker);
 	var updatePosition = function(position) {
+		  removeMarker();
 	      var coords = position.coords;
-	      var marker = 
-	          new nokia.maps.map.StandardMarker(coords);
+	      //var marker = 
+	      marker =
+	         new nokia.maps.map.StandardMarker(coords);
 	      var accuracyCircle = 
 	          new nokia.maps.map.Circle(coords, coords.accuracy);
 	      map.objects.addAll([accuracyCircle, marker]);
 	      map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
+
+	/*
+	 * Function to remove exist marker from map
+	 */
+
+	function removeMarker() {
+
+		if(marker){
+			map.objects.remove(marker);
+		}
+		
+		marker = null;
+	} 
 
 	/* We would like to add event listener on mouse click or finger tap so we check
 	 * nokia.maps.dom.Page.browser.touch which indicates whether the used browser has a touch interface.
