@@ -1,0 +1,33 @@
+{
+"db": [
+{
+	"type"			: "Event",
+	"title" 		: "Freshmen Orienteering",
+	"startTime"		: "2012-11-01T20:32:51.349Z",
+	"endTime"		: "2013-03-01T20:32:51.349Z",
+	"location"		: {
+		"altitude"	: 0,	
+		"latitude" 	: 60.18554400786786,
+		"longitude" : 24.829591591683794
+	},
+	"organizer"		: "Tuomo Vierros",
+	"uploadToken"	: "randomToken",
+	"ordered"		: true
+},
+
+{
+	"type"			: "Event",
+	"title" 		: "City Orienteering",
+	"startTime"		: "2012-11-02T20:32:51.349Z",
+	"endTime"		: "2013-04-01T20:32:51.349Z",
+	"location"		: {
+		"altitude"	: 0,	
+		"latitude" 	: 60.16960524998759,
+		"longitude" : 24.935030569261897
+	},
+	"organizer"		: "Sanna Olkkonen",
+	"uploadToken"	: "anotherRandomToken",
+	"ordered"		: false
+}
+]
+}
