@@ -1,0 +1,38 @@
+{
+	"event" : "Freshmen Orienteering",
+	"checkpoints": [
+				{
+					"type"			: "Checkpoint",
+					"title"			: "Ossin lampi",
+					"order"			: 1,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.188359064518515,
+						"longitude" : 24.83182855400429
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"type"			: "Checkpoint",
+					"title"			: "Dipoli",
+					"order"			: 2,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.18480586567334,
+						"longitude" : 24.832036425203114
+					},
+					"taskURL"		: "#"
+				},
+				{
+					"type"			: "Checkpoint",
+					"title"			: "Design Factory",
+					"order"			: 3,
+					"location"		: {
+						"altitude"	: 0,	
+						"latitude" 	: 60.181178925959664,
+						"longitude" : 24.831821848481752
+					},
+					"taskURL"		: "#"
+				}			
+	]
+}
