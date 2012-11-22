@@ -26,10 +26,7 @@
        <nav id="contentList">
         <ul>
           <% for(var i = 0; i<content.length; i++) {%>
-            <li><a href="/"><%= content[i].title%></a></li>
-              <% for(var j = 0; j<content[i].checkpoints.length; j++) {%>
-                <li class ="listSmall"><a href="#"><%= content[i].checkpoints[j].title%></a></li>
-              <% }%>
+            <li><a href="/"><%= content[i].title%></a></li>      
           <% } %>
         </ul>
       </nav>
