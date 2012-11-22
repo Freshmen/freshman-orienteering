@@ -31,7 +31,7 @@
 					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 20px; padding: 10px" required><br />
 					<input type="text" id="starttime" style="font-size: 18px; width: 48%; padding: 5px" value="" placeholder="Start Time "required>
 					<input type="text" id="endtime" style="font-size: 18px; width: 48%; padding: 5px" placeholder="End Time" value="" required>
-					<br />Ordered checkpoints <input type="checkbox" id="ordered"><br />
+					<br /><label title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label> <input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><br />
 					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
 				<div id ="checkpoint_holder">
@@ -113,8 +113,8 @@
 	
 		function removeMe(dustbin){
 
-			$(dustbin).parent().parent().parent().fadeTo("slow", 0.01, function(){ //fade
-             			$(this).slideUp("slow", function() { //slide up
+			$(dustbin).parent().parent().parent().fadeTo("normal", 0.01, function(){ //fade
+             			$(this).slideUp("normal", function() { //slide up
                  			$(this).remove(); //then remove from the DOM
 					fixIds();
              			});
