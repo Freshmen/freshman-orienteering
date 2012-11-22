@@ -24,19 +24,36 @@ $().ready(function(){
 	marker = new nokia.maps.map.StandardMarker(map.center, {
 	    draggable: true  // Make the marker draggable
 	});
+
+	var accuracyCircle = null;
+
 	map.objects.add(marker);
 	var updatePosition = function(position) {
 		  removeMarker();
+		  removeCircle();
 	      var coords = position.coords;
 	      //var marker = 
 	      marker =
 	         new nokia.maps.map.StandardMarker(coords);
-	      var accuracyCircle = 
+	      //var accuracyCircle = 
+	      accuracyCircle =
 	          new nokia.maps.map.Circle(coords, coords.accuracy);
 	      map.objects.addAll([accuracyCircle, marker]);
 	      map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
 
+	/*
+	 * Function to remove exist accuracyCircle from map
+	 */
+
+	function removeCircle() {
+
+		if(accuracyCircle){
+			map.objects.remove(accuracyCircle);
+		}
+		
+		accuracyCircle = null;
+	} 
 	/*
 	 * Function to remove exist marker from map
 	 */
