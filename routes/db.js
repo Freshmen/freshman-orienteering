@@ -142,4 +142,4 @@ exports.test = function(req, res) {
 	var data = req.body;
 	data.success = 'OK';
 	res.send(data, 200);
-}
+};
