@@ -112,12 +112,44 @@ $().ready(function(){
 	 * manage new events
 	 */
 	function manageEvent(){
-		/**
-		 * template
-		 */
-		alert("any template?");
+		var current_marker = this;
+		// get an instance from notification centre
+		var marker_notifier = initialiseNotification();
+		// modify notification
+		var confirmMsg = marker_notifier.notify({
+			message: "Would you like to?",
+			'type': "warning",
+			buttons: [
+				{'data-role': 'edit', text: 'Edit'},
+				{'data-role': 'remove', text: 'Remove'},
+				{'data-role': 'cancel', text: 'No', 'class': 'default'}
+			],
+			modal: true,
+			ms: 10000,
+			opacity : .7
+		})
+		.on('click:edit', function(){
+			this.destroy();
+			editCheckPoint(current_marker);
+		})
+		.on('click:remove', function(){
+			this.destroy();
+			removeCheckPoint(current_marker);
+		})
+		.on('click:cancel', 'destroy');
 	}
-
+	/**
+	 * when a user click on a marker, he can edit the checkpoint
+	 */
+	function editCheckPoint(current_marker){
+		
+	}
+	/**
+	 * when a user click on a marker, he can remove the marker
+	 */
+	function removeCheckPoint(current_marker){
+		map.objects.remove(current_marker);
+	}
 	/*
 	 * Function to remove exist accuracyCircle from map
 	 */
