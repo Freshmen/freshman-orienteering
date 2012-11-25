@@ -40,6 +40,9 @@ $().ready(function(){
 			  success: function(data) {
 				// inject
 				var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
+			  },
+			  error: function(e){
+				  alert(e);
 			  }
 			});
 		
