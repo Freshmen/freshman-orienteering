@@ -13,7 +13,6 @@ $().ready(function(){
 		isDisplay = false;
 	}
 	function injectEvents(){
-//		var eventName = $(this).children().text().replace(/ /,"");
 		// new data
 		$.ajax({
 			  url: '/mockData/eventExample.json',
@@ -42,7 +41,9 @@ $().ready(function(){
 				var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
 			  },
 			  error: function(e){
-				  alert(e);
+				// get an instance from notification centre
+				var marker_notifier = initialiseNotification();
+				marker_notifier.error('Sorry, your request cannot be made.');
 			  }
 			});
 		
