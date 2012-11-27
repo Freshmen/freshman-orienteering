@@ -59,7 +59,7 @@ app.post('/api/v1/events/:eventID/checkpoints/:checkpointID', db.createCheckpoin
 
 app.get('/api/v1/events', db.readEvents);
 app.get('/api/v1/events/:eventID', db.readEvent);
-app.get('/api/v1/events/:eventID/checkpoints', db.readChcekpointspoints);
+app.get('/api/v1/events/:eventID/checkpoints', db.readCheckpoints);
 app.get('/api/v1/events/:eventID/checkpoints/:checkpointID', db.readCheckpoint);
 
 app.put('/api/v1/events', db.updateEvents);
