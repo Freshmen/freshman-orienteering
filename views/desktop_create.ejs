@@ -76,7 +76,7 @@
 			});
 			event_details["ordered"] = $('#ordered').attr('checked')?true:false;
 			console.log(event_details);
-			$.post("http://localhost:3000/api/v1/test/",event_details,function(){});
+			$.post("http://localhost:3000/api/v1/events/",event_details,function(){});
  			
 			<!-- Display add checkpoint button -->	
  			$("#addOption").trigger('click');
