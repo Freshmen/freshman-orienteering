@@ -66,7 +66,12 @@ exports.readEvents = function(req, res){
 	db.view('Lists', 'Events', function(err, body) {
   		if (!err) {
   			var response = {};
-  			if(body && body.rows) response.events = body.rows;
+  			response.events = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.events.push(doc.value);
+    			});
+  			}
     		res.send(response, 200);
     	} else {
     		res.send(err, 400);
