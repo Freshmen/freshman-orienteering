@@ -48,4 +48,10 @@ $().ready(function(){
 			});
 		
 	});
+
+	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
+
+	$('#fbSignIn').click(function(){
+		fbLogin();
+	});	
 });

@@ -8,6 +8,7 @@
 	<link rel='stylesheet' href='/stylesheets/notifier-theme-plastic.css' />
   </head>
   <body>
+    <div id="fb-root"></div>
     <section id="header">
       <header> 
         <h1>F-orienteering</h1>
@@ -15,7 +16,7 @@
            <ul>  
             <li><a href="#">Status</a></li>
             <li id="testEvent"><a href="#">Events</a></li>
-            <li><a href="#"><%= signinStatus %></a></li>
+            <li id="fbSignIn"><a href="#"><%= signinStatus %></a></li>
           </ul>
         </nav>
       </header>
@@ -44,6 +45,7 @@
 	<script src="/javascripts/nokiaMaps.js"></script>
 	<script src="/javascripts/geolocation.js"></script>
 	<script type="text/javascript" src="/javascripts/ejs_production.js"></script>
+  <script type="text/javascript" src="/facebookTryout/fbLogin.js"></script>
 	<script type="text/javascript" src="/javascripts/m_event_controler.js"></script>
   </body>
 </html>
