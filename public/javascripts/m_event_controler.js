@@ -14,11 +14,15 @@ $().ready(function(){
 	}
 	function injectEvents(){
 		// new data
+
+
+
 		$.ajax({
-			  url: '/mockData/eventExample.json',
+			  url: '/api/v1/events',
 			  success: function(data) {
 				// inject
-				  new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.db});
+					console.log(data);
+				  new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
 			  }
 			});
 			
