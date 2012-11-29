@@ -25,23 +25,24 @@
 	</header>
 
 	<section id="content">
-		
-			<p>
 				<form id="event_form" action="">
-					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 20px; padding: 10px" required><br />
-					<input type="text" id="starttime" style="font-size: 18px; padding: 5px" value="" placeholder="Start Time "required><br />
-					<input type="text" id="endtime" style="font-size: 18px; padding: 5px" placeholder="End Time" value="" required>
+					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 20px; width: 100%" required><br />
+					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time "required><br />
+					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" required>
 					<br /><label title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label> <input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><br />
 					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
+				<div id="mapArea"></div>
 				<div id ="checkpoint_holder">
 					<input type="button" id="addOption" value="New Checkpoint" class="button"><br />
 				</div>
-				<div id="mapArea"></div>
-			</p>
-		
 	</section>
+	
+	<script src="http://api.maps.nokia.com/2.2.3/jsl.js"></script>
+	<script src="/javascripts/notifier.js"></script>
 	<script src="/javascripts/nokiaMaps.js"></script>
+	<script src="/javascripts/geolocation.js"></script>
+	
 	<script>
 		var i = 0;
 		$(document).ready(function(){
