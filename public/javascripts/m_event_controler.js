@@ -51,13 +51,21 @@ $().ready(function(){
 			
 		}else{
 //			TO-DO
+			return false;
 		}
 		// new data
 		$.ajax({
 			  url: '/api/v1/events/' + event_id + '/checkpoints',
 			  success: function(data) {
 				// inject
-				var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
+				  if (data.checkpoints.length == 0){
+					  var marker_notifier = initialiseNotification();
+					  marker_notifier.warning('Sorry, no checkpoints');
+					  return false;
+				  }else{
+					  var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
+
+				  }
 			  },
 			  error: function(e){
 				// get an instance from notification centre
