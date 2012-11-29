@@ -32,7 +32,7 @@ function read_doc(id, callback) {
 exports.createEvents = function(req, res){
 	if (req.body) {
 		var event = req.body;
-		event.type = 'event';
+		event.type = 'Event';
 		insert_doc(event, 0, function(body){
 			res.send(body, 201);
 		});
