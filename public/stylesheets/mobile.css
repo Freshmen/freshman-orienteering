@@ -72,7 +72,7 @@ h3 {
   padding-right: 20px;
   padding-left: 20px;
 }
-#listContent {
+#content {
   position: fixed;
   top: 60px;
   right: 10px;
@@ -126,13 +126,13 @@ h3 {
   right: 20px;
   font-size: 13px;
 }
-#contentList ul li {
+#contentNav ul li {
   line-height: 30px;
 }
-#contentList a {
+#contentNav a {
   text-decoration: none;
 }
-#contentList .listSmall {
+#contentNav .listSmall {
   font-size: 10px;
   line-height: 20px;
   margin-left: 20px;
