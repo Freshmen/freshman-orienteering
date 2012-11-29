@@ -14,15 +14,21 @@ $().ready(function(){
 	}
 	function injectEvents(){
 		// new data
-
-
-
 		$.ajax({
 			  url: '/api/v1/events',
 			  success: function(data) {
 				// inject
-					console.log(data);
-				  new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
+				if(typeof(Storage)!=="undefined")
+			    {
+			    	sessionStorage.eventArray = JSON.stringify(data);
+			    }
+			    else
+			    {
+			    	alert("Asdfasdfsd");
+			    	/* NEED TO IMPROVE - No web storage support */
+			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
+			    }
+				new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
 			  }
 			});
 			
@@ -36,10 +42,19 @@ $().ready(function(){
 		
 	});
 	$('#eventList li').live('click',function(){
-		var eventName = $(this).children().text().replace(/ /,"");
+//		var eventName = $(this).children().text().replace(/ /,"");
+		var event_id = null;
+		var eventArray = JSON.parse(sessionStorage.eventArray);
+		if(eventArray != null && typeof eventArray != 'undefined'){
+			var index = $(this).attr('data-index');
+			event_id = eventArray['events'][index]._id;
+			
+		}else{
+//			TO-DO
+		}
 		// new data
 		$.ajax({
-			  url: '/mockData/' + eventName + '.json',
+			  url: '/api/v1/events/' + event_id + '/checkpoints',
 			  success: function(data) {
 				// inject
 				var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
