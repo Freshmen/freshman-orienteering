@@ -1,8 +1,9 @@
+var map;
 $().ready(function(){
 	// Set up is the credentials to use the API:
 	nokia.Settings.set("appId", "Mek1RWK8L0PLr48gT0al"); 
 	nokia.Settings.set("authenticationToken", "BU8plLql-XdJ0CmizJSsow");
-	var map = new nokia.maps.map.Display(
+	map = new nokia.maps.map.Display(
 	      document.getElementById("mapArea"), {
 	      	components: [ 
 	      	             // Behavior collection
@@ -57,9 +58,12 @@ $().ready(function(){
 	 */
 	map.addListener(DBLCLICK, function (evt) {
 		evt.preventDefault();
-		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
+//		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
+		var coord = getCoord(map, evt.displayX, evt.displayY);
+		console.log(evt.displayX)
 		notifiedWindow(coord);
 	});
+	
 	/**
 	 * is allow to add a marker
 	 */
@@ -81,32 +85,20 @@ $().ready(function(){
 		.on('click:ok', function(){
 			this.destroy();
 			//add a marker to the coordinator
-			var marker = addMarker(coord);
+			var new_marker = addMarker(map,coord);
 			//trigger notification
 			marker_notifier.success('A new marker has been created');
 			//initialise events for the marker
-			initEvent(marker);
+			initEvent(new_marker);
 		})
 		.on('click:cancel', 'destroy');
 	}
-	/**
-	 * add a marker to the location
-	 */
-	function addMarker(coord){
-		// Create a marker and add it to the map
-		console.log(coord);
-		var marker = new nokia.maps.map.StandardMarker(coord, {
-		    text: "Hi!", // Small label
-		    draggable: false  
-		});
-		map.objects.add(marker);
-		return marker;
-	}
+	
 	/**
 	 * marker events
 	 */
-	function initEvent(marker){
-		marker.addListener(CLICK,manageEvent,false);
+	function initEvent(new_marker){
+		new_marker.addListener(CLICK,manageEvent,false);
 	}
 	/**
 	 * manage new events
@@ -177,3 +169,20 @@ $().ready(function(){
 	  updatePosition(evt.position);
 	}, false);
 });
+
+function getCoord(map, lat, long){
+	var new_coord = map.pixelToGeo(lat, long);
+	return new_coord;
+}
+/**
+ * add a marker to the location
+ */
+function addMarker(map, new_coord){
+	// Create a marker and add it to the map
+	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
+	    text: "Hi!", // Small label
+	    draggable: false  
+	});
+	map.objects.add(new_marker);
+	return new_marker;
+}

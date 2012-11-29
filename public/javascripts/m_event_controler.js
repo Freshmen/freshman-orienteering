@@ -41,7 +41,7 @@ $().ready(function(){
 		}
 		
 	});
-	$('#eventList li').live('click',function(){
+	$('#contentList li').live('click',function(){
 //		var eventName = $(this).children().text().replace(/ /,"");
 		var event_id = null;
 		var eventArray = JSON.parse(sessionStorage.eventArray);
@@ -64,7 +64,8 @@ $().ready(function(){
 					  return false;
 				  }else{
 					  var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
-
+					  // place all markers that in that event onto the map
+					  displayMaker(data.checkpoints)
 				  }
 			  },
 			  error: function(e){
@@ -75,7 +76,12 @@ $().ready(function(){
 			});
 		
 	});
-
+	function displayMaker(checkpoints){
+		$.each(checkpoints,function(index,values){
+			addMarker(map,[values.location.latitude, values.location.longitude]);
+		});
+		
+	}
 	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
 
 	$('#fbSignIn').click(function(){
