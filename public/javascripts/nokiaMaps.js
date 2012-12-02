@@ -218,8 +218,7 @@ $().ready(function(){
 	  updatePosition(evt.position);
 	}, false);
 });
-<<<<<<< HEAD
-=======
+
 
 function getCoord(map, lat, long){
 	var new_coord = map.pixelToGeo(lat, long);
@@ -237,4 +236,4 @@ function addMarker(map, new_coord){
 	map.objects.add(new_marker);
 	return new_marker;
 }
->>>>>>> 722cd6d68795988393561e675109ebe82caa4f06
+
