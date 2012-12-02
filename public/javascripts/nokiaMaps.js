@@ -28,20 +28,50 @@ $().ready(function(){
 	var accuracyCircle = null;
 
 	map.objects.add(marker);
-	var updatePosition = function(position) {
-		  removeMarker();
-		  removeCircle();
-	      var coords = position.coords;
-	      //var marker = 
-	      marker =
-	         new nokia.maps.map.StandardMarker(coords);
 
-	      console.log(coords.accuracy);
-	      //var accuracyCircle = 
-	      accuracyCircle =
-	          new nokia.maps.map.Circle(coords, coords.accuracy);
-	      map.objects.addAll([accuracyCircle, marker]);
-	      map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
+    var watchPositionSuccess = function(data) {
+        
+        var evt = document.createEvent('Event');
+        evt.initEvent('locationUpdated', true, true);
+        evt.position = data;
+        document.dispatchEvent(evt);
+    };
+
+    var getCurrentPositionSuccess = function(data) {
+        alert("nothing here");
+    };
+
+    Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);
+    Geolocation.watchPosition();
+
+    var infoBubbles = null;
+    var updatePosition = function(position) {
+        removePreviousPosition();
+        
+	    var contentString = '<div id="content">' +
+            '<p> Coordinates:' + position.coords + '</p>' +
+            '<p> Timestamp:' + position.timestamp + '</p>' +
+            '<p> Accuracy:' + position.coords.accuracy + '</p></div>';
+
+        
+        infoBubbles = new nokia.maps.map.component.InfoBubbles();
+
+        var TOUCH = nokia.maps.dom.Page.browser.touch,
+            CLICK = TOUCH ? "tap" : "click";
+        var coords = new nokia.maps.geo.Coordinate(position.coords.latitude, position.coords.longitude);
+        marker = new nokia.maps.map.StandardMarker(coords);
+        marker.addListener(
+            'click',
+            function (evt) {
+                infoBubbles.addBubble(contentString, marker.coordinate);
+            }
+        );
+        
+        accuracyCircle = new nokia.maps.map.Circle(coords, position.coords.accuracy);
+
+        map.addComponent(infoBubbles);
+        map.objects.addAll([accuracyCircle, marker]);
+        map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
 
 	
@@ -139,7 +169,26 @@ $().ready(function(){
 		}
 		
 		marker = null;
-	} 
+	}
+
+    function removePreviousPosition() {
+        if(accuracyCircle){
+			map.objects.remove(accuracyCircle);
+		}
+		
+		accuracyCircle = null;
+
+        if(marker){
+			map.objects.remove(marker);
+		}
+		
+		marker = null;
+
+        if (infoBubbles){
+            map.removeComponent(infoBubbles);
+        }
+        infoBubbles = null;        
+    }
 
 	document.addEventListener('locationUpdated', function(evt){
 	  updatePosition(evt.position);

@@ -1,5 +1,41 @@
 var Geolocation = {};
 
+Geolocation.watchPositionSuccess = function(data) {
+    alert("default watchPositionSuccess");
+};
+
+Geolocation.getCurrentPositionSuccess = function(data){
+    alert("default getCurrentPositionSuccess");
+};
+
+Geolocation.initialize = function(watchPositionSuccess, getCurrentPositionSuccess) {
+    Geolocation.watchPositionSuccess = watchPositionSuccess;
+    Geolocation.getCurrentPositionSuccess = getCurrentPositionSuccess;
+};
+
+Geolocation.watchPosition = function() {
+	if(navigator.geolocation) { 
+	 //	navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
+   	var timeoutVal = 10 * 1000;
+	    navigator.geolocation.watchPosition(
+			Geolocation.watchPositionSuccess, 
+			Geolocation.showError,
+			{ enableHighAccuracy: true, timeout: timeoutVal }
+		);
+	}
+	else {
+		alert("Geolocation is not supported by this browser");
+	} 
+};
+
+Geolocation.getCurrentPosition = function() {
+    if(navigator.geolocation) { 
+        navigator.getCurrentPosition(Geolocation.getCurrentPositionSuccess);
+	}
+	else {
+		alert("Geolocation is not supported by this browser");
+	} 
+};
 
 Geolocation.showError = function(error) {
   switch(error.code) 
@@ -18,29 +54,3 @@ Geolocation.showError = function(error) {
       break;
     };
 };
-
-
-Geolocation.updatePosition = function(data) {
-	console.log(data);
-	Geolocation.position = data;
-	var evt = document.createEvent('Event');
-	evt.initEvent('locationUpdated', true, true);
-	evt.position = data;
-	document.dispatchEvent(evt);
-};
-
-
-
-
-if(navigator.geolocation) { 
-	//	navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
-		var timeoutVal = 10 * 1000;
-			navigator.geolocation.watchPosition(
-				Geolocation.updatePosition, 
-				Geolocation.showError,
-				{ enableHighAccuracy: true, timeout: timeoutVal }
-			);
-}
-else {
-		alert("Geolocation is not supported by this browser");
-}
