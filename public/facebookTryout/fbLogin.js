@@ -76,10 +76,49 @@
     $("#rediction-hint").append("<p id='wanning'>The page will redirect to Freshman Orientation Home Page.</p>");
 }
 
-  
   function homePage(){
 	  window.location="http://fori.uni.me";
   }
+
+  /////////////////////////////////
+  ////////// Added code by Jukka
+
+  function fbLogin() {
+    FB.login(function(response) {
+        if (response.authResponse) {
+          console.log(response)
+          updateSignStatus();
+          // connected
+        } else {
+          console.log(response)
+          // cancelled
+        }
+    });
+  }
+
+  function fbLogout() {
+    FB.logout(function(response) {
+  // user is now logged out
+    });
+  }
+
+  function updatePage(data){
+    // Grab the a node of fbSignIn list element
+    document.getElementById('fbSignIn').childNodes[0].innerHTML = data.name;
+
+  }
+
+  function updateSignStatus() {
+    console.log('Update signStatus,  Fetching your information.... ');
+    FB.api('/me', function(response) {
+        console.log(response);
+        console.log('Good to see you, ' + response.name + '.');
+        updatePage(response);
+    });
+  }
+
+/////////////////
+
 /*
 
 This should be the response

@@ -32,6 +32,7 @@ function read_doc(id, callback) {
 exports.createEvents = function(req, res){
 	if (req.body) {
 		var event = req.body;
+		event.type = 'Event';
 		insert_doc(event, 0, function(body){
 			res.send(body, 201);
 		});
@@ -63,7 +64,20 @@ exports.createCheckpoint = function(req, res){
 };
 
 exports.readEvents = function(req, res){
-	res.send('GETting here will list all the events');
+	db.view('Lists', 'Events', function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.events = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.events.push(doc.value);
+    			});
+  			}
+    		res.send(response, 200);
+    	} else {
+    		res.send(err, 400);
+    	}
+	});
 };
 
 
@@ -74,15 +88,29 @@ exports.readEvent = function(req, res){
 };
 
 exports.readCheckpoints = function(req, res){
-	res.send('GETing here will list all the waypoints for event ' 
-		+ req.params.eventID 
-		+ ' here...\n');	
+	var filter = {};
+	filter.keys = [];
+	filter.keys.push(req.params.eventID);
+	db.view('Lists', 'Checkpoints', filter ,function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.checkpoints = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.checkpoints.push(doc.value);
+    			});
+  			}
+    		res.send(response, 200);
+    	} else {
+    		res.send(err, 400);
+    	}
+	}); 
 };
 
 exports.readCheckpoint = function(req, res){
-	read_doc(req.params.checkPointID, function(body) {
+	read_doc(req.params.checkpointID, function(body) {
 		res.send(body);
-	});	
+	});
 };
 
 exports.updateEvents = function(req, res){
@@ -142,4 +170,4 @@ exports.test = function(req, res) {
 	var data = req.body;
 	data.success = 'OK';
 	res.send(data, 200);
-}
+};

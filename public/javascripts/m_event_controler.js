@@ -13,13 +13,22 @@ $().ready(function(){
 		isDisplay = false;
 	}
 	function injectEvents(){
-//		var eventName = $(this).children().text().replace(/ /,"");
 		// new data
 		$.ajax({
-			  url: '/mockData/eventExample.json',
+			  url: '/api/v1/events',
 			  success: function(data) {
 				// inject
-				  new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.db});
+				if(typeof(Storage)!=="undefined")
+			    {
+			    	sessionStorage.eventArray = JSON.stringify(data);
+			    }
+			    else
+			    {
+			    	alert("Asdfasdfsd");
+			    	/* NEED TO IMPROVE - No web storage support */
+			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
+			    }
+				new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
 			  }
 			});
 			
@@ -32,16 +41,50 @@ $().ready(function(){
 		}
 		
 	});
-	$('#eventList li').live('click',function(){
-		var eventName = $(this).children().text().replace(/ /,"");
+	$('#contentList li').live('click',function(){
+//		var eventName = $(this).children().text().replace(/ /,"");
+		var event_id = null;
+		var eventArray = JSON.parse(sessionStorage.eventArray);
+		if(eventArray != null && typeof eventArray != 'undefined'){
+			var index = $(this).attr('data-index');
+			event_id = eventArray['events'][index]._id;
+			
+		}else{
+//			TO-DO
+			return false;
+		}
 		// new data
 		$.ajax({
-			  url: '/mockData/' + eventName + '.json',
+			  url: '/api/v1/events/' + event_id + '/checkpoints',
 			  success: function(data) {
 				// inject
-				var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
+				  if (data.checkpoints.length == 0){
+					  var marker_notifier = initialiseNotification();
+					  marker_notifier.warning('Sorry, no checkpoints');
+					  return false;
+				  }else{
+					  var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
+					  // place all markers that in that event onto the map
+					  displayMaker(data.checkpoints)
+				  }
+			  },
+			  error: function(e){
+				// get an instance from notification centre
+				var marker_notifier = initialiseNotification();
+				marker_notifier.error('Sorry, your request cannot be made.');
 			  }
 			});
 		
 	});
+	function displayMaker(checkpoints){
+		$.each(checkpoints,function(index,values){
+			addMarker(map,[values.location.latitude, values.location.longitude]);
+		});
+		
+	}
+	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
+
+	$('#fbSignIn').click(function(){
+		fbLogin();
+	});	
 });

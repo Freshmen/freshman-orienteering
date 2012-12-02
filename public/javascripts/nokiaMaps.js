@@ -1,8 +1,9 @@
+var map;
 $().ready(function(){
 	// Set up is the credentials to use the API:
 	nokia.Settings.set("appId", "Mek1RWK8L0PLr48gT0al"); 
 	nokia.Settings.set("authenticationToken", "BU8plLql-XdJ0CmizJSsow");
-	var map = new nokia.maps.map.Display(
+	map = new nokia.maps.map.Display(
 	      document.getElementById("mapArea"), {
 	      	components: [ 
 	      	             // Behavior collection
@@ -87,9 +88,12 @@ $().ready(function(){
 	 */
 	map.addListener(DBLCLICK, function (evt) {
 		evt.preventDefault();
-		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
+//		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
+		var coord = getCoord(map, evt.displayX, evt.displayY);
+		console.log(evt.displayX)
 		notifiedWindow(coord);
 	});
+	
 	/**
 	 * is allow to add a marker
 	 */
@@ -111,43 +115,63 @@ $().ready(function(){
 		.on('click:ok', function(){
 			this.destroy();
 			//add a marker to the coordinator
-			var marker = addMarker(coord);
+			var new_marker = addMarker(map,coord);
 			//trigger notification
 			marker_notifier.success('A new marker has been created');
 			//initialise events for the marker
-			initEvent(marker);
+			initEvent(new_marker);
 		})
 		.on('click:cancel', 'destroy');
 	}
-	/**
-	 * add a marker to the location
-	 */
-	function addMarker(coord){
-		// Create a marker and add it to the map
-		console.log(coord);
-		var marker = new nokia.maps.map.StandardMarker(coord, {
-		    text: "Hi!", // Small label
-		    draggable: false  
-		});
-		map.objects.add(marker);
-		return marker;
-	}
+	
 	/**
 	 * marker events
 	 */
-	function initEvent(marker){
-		marker.addListener(CLICK,manageEvent,false);
+	function initEvent(new_marker){
+		new_marker.addListener(CLICK,manageEvent,false);
 	}
 	/**
 	 * manage new events
 	 */
 	function manageEvent(){
-		/**
-		 * template
-		 */
-		alert("any template?");
+		var current_marker = this;
+		// get an instance from notification centre
+		var marker_notifier = initialiseNotification();
+		// modify notification
+		var confirmMsg = marker_notifier.notify({
+			message: "Would you like to?",
+			'type': "warning",
+			buttons: [
+				{'data-role': 'edit', text: 'Edit'},
+				{'data-role': 'remove', text: 'Remove'},
+				{'data-role': 'cancel', text: 'No', 'class': 'default'}
+			],
+			modal: true,
+			ms: 10000,
+			opacity : .7
+		})
+		.on('click:edit', function(){
+			this.destroy();
+			editCheckPoint(current_marker);
+		})
+		.on('click:remove', function(){
+			this.destroy();
+			removeCheckPoint(current_marker);
+		})
+		.on('click:cancel', 'destroy');
 	}
-
+	/**
+	 * when a user click on a marker, he can edit the checkpoint
+	 */
+	function editCheckPoint(current_marker){
+		
+	}
+	/**
+	 * when a user click on a marker, he can remove the marker
+	 */
+	function removeCheckPoint(current_marker){
+		map.objects.remove(current_marker);
+	}
 	/*
 	 * Function to remove exist accuracyCircle from map
 	 */
@@ -194,3 +218,23 @@ $().ready(function(){
 	  updatePosition(evt.position);
 	}, false);
 });
+<<<<<<< HEAD
+=======
+
+function getCoord(map, lat, long){
+	var new_coord = map.pixelToGeo(lat, long);
+	return new_coord;
+}
+/**
+ * add a marker to the location
+ */
+function addMarker(map, new_coord){
+	// Create a marker and add it to the map
+	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
+	    text: "Hi!", // Small label
+	    draggable: false  
+	});
+	map.objects.add(new_marker);
+	return new_marker;
+}
+>>>>>>> 722cd6d68795988393561e675109ebe82caa4f06

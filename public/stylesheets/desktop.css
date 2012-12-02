@@ -39,10 +39,15 @@ body {
   position: relative;
   top: 1px;
 }
+#event_form {
+  float: left;
+  padding: 40px;
+}
 #mapArea {
-  height: 500px;
-  width: 800px;
-  border: 10px solid #eaeaea;
+  height: 400px;
+  width: 500px;
+  float: right;
+  padding: 40px;
 }
 #mapArea2 {
   height: 390px;
@@ -52,6 +57,7 @@ body {
 #banner {
   margin: 0 auto;
   padding: 2.5em 0 0 0;
+  text-align: center;
 }
 #banner h1 {
   font-size: 3.571em;
@@ -79,14 +85,12 @@ body {
   line-height: 30px;
   margin: 0 auto 2em auto;
   padding: 0;
-  text-align: center;
-  width: 800px;
+  width: 500px;
   border-radius: 5px;
 }
 #banner nav ul {
   list-style: none;
   margin: 0 auto;
-  width: 800px;
 }
 #banner nav li {
   float: left;
@@ -112,6 +116,10 @@ body {
 #banner nav li:first-child a {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+}
+#banner nav li:last-child a {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 h2 {
   font-size: 1.571em;
@@ -162,40 +170,6 @@ p {
 }
 * p:last-child {
   margin-bottom: 0;
-}
-strong,
-b {
-  font-weight: bold;
-}
-em,
-i {
-  font-style: italic;
-}
-ul {
-  list-style: outside disc;
-  margin: 1em 0 1.5em 1.5em;
-}
-ol {
-  list-style: outside decimal;
-  margin: 1em 0 1.5em 1.5em;
-}
-dl {
-  margin: 0 0 1.5em 0;
-}
-dt {
-  font-weight: bold;
-}
-dd {
-  margin-left: 1.5em;
-}
-blockquote {
-  font-style: italic;
-}
-cite,
-q,
-table {
-  margin: 0.5em auto 1.5em auto;
-  width: 98%;
 }
 thead th {
   padding: 0.5em 0.4em;

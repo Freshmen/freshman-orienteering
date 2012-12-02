@@ -1,17 +1,69 @@
 {
   "name": "freshmen-orienteering",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
+  "author": "Team Freshmen @ Aalto University",
+  "description" : "an application to turn your event to a orienteering course. Tasks on course let's you crowdsource images and videos form the event",
+  "contributors": [ 
+    {
+      "name": "Sanna Olkkonen",
+      "email": "sanna.olkkonen@xerox.com"
+    },
+    {
+      "name": "Dexter He",
+      "email": "dexter.he@nokia.com"
+    },
+    {
+      "name": "Fuguo Huang",
+      "email": "fuguo.huang@aalto.fi"
+    },
+    {
+      "name": "Vidhuran Harichandra",
+      "email": "vidhuran.harichandra.babu@aalto.fi"
+    },
+    {
+      "name": "Raoul Udd",
+      "email": "raoul.udd@aalto.fi"
+    },
+    {
+      "name": "TianShi Xiang",
+      "email": "tianshi.xiang@aalto.fi"
+    },
+    {
+      "name": "Jukka Saarelma",
+      "email": "jukka.saarelma@aalto.fi"
+    },
+    {
+      "name": "Tuomo Vierros",
+      "email": "tuomo.vierros@aalto.fi"
+    }
+  ],
   "scripts": {
-    "start": "node app"
+    "start": "node app",
+    "test" : "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Freshmen/freshman-orienteering.git"
+  },
+  "keywords": [
+    "geolocation",
+    "eventsourcing",
+    "orienteering"
+  ],
   "dependencies": {
     "express": "3.0.x",
     "ejs": "*",
     "stylus": "*",
     "nconf" : "*",
-    "mocha" : "*",
     "forever" : "*",
     "nano" : "*"
+  },
+  "devDependencies": {
+    "mocha" : "*"
+  },
+  "license": "Apache License, Version 2.0",
+  "engines": {
+    "node": ">=0.6"
   }
 }

@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>Pörinä Desktop Client</title>
+	<title>Freshman Orienteering Desktop Client</title>
 	<link rel='stylesheet' href='/stylesheets/desktop.css' />
 	<script src="http://api.maps.nokia.com/2.2.3/jsl.js"></script>
 	<!-- For now commenting this to include a full jquery lib
@@ -16,7 +16,7 @@
 </head>
 <body>
 		<header id="banner" class="body">
-		<h1><a href="desktop">Pörinä Desktop Client</a></h1>
+		<h1><a href="desktop">Freshman Orienteering</a></h1>
 		<nav><ul>
 			<li><a href="desktop">Home</a></li>
 			<li class="active"><a href="desktop_create">Create Event</a></li>
@@ -24,33 +24,36 @@
 		</ul></nav>
 	</header>
 
-	<section id="content" class="columns">
-		
-			<p>
+	<section id="content">
 				<form id="event_form" action="">
-						<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 20px; padding: 10px" required><br />
-						<input type="text" id="starttime" style="font-size: 18px; width: 48%; padding: 5px" value="" placeholder="Start Time "required>
-						<input type="text" id="endtime" style="font-size: 18px; width: 48%; padding: 5px" placeholder="End Time" value="" required>
-						<br />Ordered checkpoints <input type="checkbox" id="ordered"><br />
-						<input type="submit" id="submit" value="Create Event" class="button">
+					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 20px; width: 100%" required><br />
+					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time "required><br />
+					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" required>
+					<br /><label title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label> <input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><br />
+					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
+				<div id="mapArea"></div>
 				<div id ="checkpoint_holder">
-						<input type="button" id="addOption" value="New Checkpoint" class="button"><br />
+					<input type="button" id="addOption" value="New Checkpoint" class="button"><br />
 				</div>
-			</p>
-		
 	</section>
+	
+	<script src="http://api.maps.nokia.com/2.2.3/jsl.js"></script>
+	<script src="/javascripts/notifier.js"></script>
+	<script src="/javascripts/nokiaMaps.js"></script>
+	<script src="/javascripts/geolocation.js"></script>
+	
 	<script>
 		var i = 0;
 		$(document).ready(function(){
 			$("#addOption").hide();
-			$("#starttime").datetimepicker();
-			$("#endtime").datetimepicker();
+			$("#starttime").datetimepicker({useLocalTimezone : true});
+			$("#endtime").datetimepicker({useLocalTimezone : true});
 			$( "#checkpoint_holder" ).sortable({
 				stop: function(event, ui) {
-				
-    			}
-    		});
+        				fixIds();
+    				}
+    			});
 		});
 		$('#addOption').click(function (){
 
@@ -65,13 +68,25 @@
 			$('#checkpoint').append('<input type="text" id="taskURL" placeholder="Task URL" required>');
 			$('#checkpoint').attr("id","checkpoint_" + i);
 			<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
-
+			fixIds();
 		});
 
 		$('#event_form').submit(function(){
- 			eventSender();
-
- 			<!-- Display add checkpoint button -->	
+		    var event_details = {};
+			$("#event_form").children().filter(":text").each(function() {
+				if ($(this).attr("id") == 'starttime' || $(this).attr("id") == 'endtime'){
+					var date = new Date($(this).val());
+					event_details[$(this).attr("id")] = date.toJSON();
+				}
+				else {
+					event_details[$(this).attr("id")] = $(this).val();
+				}
+			});
+			event_details["ordered"] = $('#ordered').attr('checked')?true:false;
+			console.log(event_details);
+			$.post("/api/v1/events/",event_details,function(){});
+ 			
+			<!-- Display add checkpoint button -->	
  			$("#addOption").trigger('click');
  			$("#addOption").show();
 
@@ -80,20 +95,14 @@
  			$("#starttime").attr("disabled","true");
  			$("#endtime").attr("disabled","true");
  			$("#ordered").attr("disabled","true");
+			$("#submit").attr("disabled","true");
  			return false;
 		});
 		
-		function eventSender(){
-			var event_details = {};
-			$("#event_form").children().filter(":text").each(function(){
-				event_details[$(this).attr("id")] = $(this).val();
-			});
-			event_details["ordered"] = $('#ordered').attr('checked')?true:false;
-			$.post("http://localhost:3000/api/v1/test/",event_details,function(){});
-		}
 		function fixIds() {
-				var j = 1;
-				$("#checkpoint_holder form").each(function(){
+			var j = 1;
+			
+			$("#checkpoint_holder form").each(function(){
         			$(this).attr("id","checkpoint_" + j++);
         		});
         		j = 1;
@@ -111,11 +120,13 @@
 		};
 	
 		function removeMe(dustbin){
-			<!-- Just for eye candy -->
-			$(dustbin).parent().parent().parent().slideUp();
-			<!-- Get rid of the DOM elements -->
-			$(dustbin).parent().parent().parent().remove(); 
-			fixIds();
+
+			$(dustbin).parent().parent().parent().fadeTo("normal", 0.01, function(){ //fade
+             			$(this).slideUp("normal", function() { //slide up
+                 			$(this).remove(); //then remove from the DOM
+					fixIds();
+             			});
+         		});
 		};
 
 	</script>
