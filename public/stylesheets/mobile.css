@@ -1,10 +1,6 @@
 /*Display settings for mobile and tablet
   Dont know how to work with these just yet
  */
-@media screen and (min-width: 28.75em) {
-}
-@media screen and (min-width: 28.75em) {
-}
 /* Font definitions */
 /* global colors */
 /*Global measures */
@@ -74,7 +70,6 @@ h3 {
 }
 #content {
   position: fixed;
-  top: 60px;
   right: 10px;
   min-width: 250px;
   margin-left: auto;
@@ -85,6 +80,18 @@ h3 {
   -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
+/*
+#header header:before,#header header:after{
+  display:table;
+  content:"";
+  line-height:0
+}
+
+#header header:after{
+  clear:both
+}
+
+*/
 #header {
   position: fixed;
   top: 0;
@@ -192,4 +199,56 @@ h3 {
   line-height: 50px;
   text-align: center;
   letter-spacing: 0;
+}
+@media (max-width: 400px) {
+  #header header {
+    min-height: 30px;
+  }
+  #header header h1 {
+    font-size: 10.799999999999999px;
+    line-height: 30px;
+    min-height: 30px;
+  }
+  #header header #control {
+    font-size: 7.8px;
+    line-height: 30px;
+    min-height: 30px;
+  }
+  #control ul {
+    line-height: 30px;
+  }
+  #control ul li {
+    line-height: 30px;
+    height: 30px;
+  }
+  #footer footer {
+    min-height: 30px;
+  }
+  #footer footer h1 {
+    min-height: 30px;
+  }
+  #footer footer #control {
+    line-height: 30px;
+    font-size: 9.6px;
+  }
+  #contentWrap {
+    position: fixed;
+    top: 40px;
+  }
+  #content {
+    min-width: 150px;
+  }
+  #contentNav ul li {
+    font-size: 7.8px;
+    line-height: 18px;
+  }
+  #contentList {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+  #contentNav .listSmall {
+    font-size: 6px;
+    line-height: 12px;
+    margin-left: 12px;
+  }
 }
