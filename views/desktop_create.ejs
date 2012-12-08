@@ -41,7 +41,7 @@
         					<div class="onoffswitch-switch"></div>
     					</label>
 					</div><br /><br />
-					
+
 					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
 				<div id="mapArea"></div>
@@ -103,9 +103,14 @@
 			console.log(event_details);
 			$.post("/api/v1/events/",event_details,function(){});
  			
+			eventCreated = true;
+			allowMarkers = true;
+			//removeEvents();
+			
+
 			<!-- Display add checkpoint button -->	
- 			$("#addOption").trigger('click');
- 			$("#addOption").show();
+ 			//$("#addOption").trigger('click');
+ 			//$("#addOption").show();
 
  			<!-- Disable editing on the event details form -->
  			$("#title").attr("disabled","true");

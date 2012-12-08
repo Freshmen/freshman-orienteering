@@ -1,4 +1,10 @@
 var map;
+//A boolean value to check if more markers are allowed
+var allowMarkers = true;
+//A boolean value to check if the event has been created
+var eventCreated = false;
+var eventMarker;
+
 $().ready(function(){
 	// Set up is the credentials to use the API:
 	nokia.Settings.set("appId", "Mek1RWK8L0PLr48gT0al"); 
@@ -19,9 +25,6 @@ $().ready(function(){
 	);
 	//prevent default behaviours
 	map.removeComponent(map.getComponentById("zoom.DoubleClick"));
-
-	//A boolean value to check if more markers are allowed
-	var allowMarkers = true;
 
 	var marker = null;
 	marker = new nokia.maps.map.StandardMarker(map.center, {
@@ -92,7 +95,7 @@ $().ready(function(){
 		evt.preventDefault();
 //		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
 		var coord = getCoord(map, evt.displayX, evt.displayY);
-		console.log(evt.displayX)
+		console.log(evt.displayX);
 		notifiedWindow(coord);
 	});
 	
@@ -103,7 +106,7 @@ $().ready(function(){
 		// get an instance from notification centre
 		var marker_notifier = initialiseNotification();
 		// modify notification
-		if (allowMarkers == true){
+		if (allowMarkers == true && eventCreated == false){
 			var confirmMsg = marker_notifier.notify({
 				message: "Would you like to mark this point?",
 				'type': "warning",
@@ -118,11 +121,11 @@ $().ready(function(){
 			.on('click:ok', function(){
 				this.destroy();
 				//add a marker to the coordinator
-				var new_marker = addMarker(map,coord);
+				eventMarker = addEventMarker(map,coord);
 				//trigger notification
 				marker_notifier.success('A new marker has been created');
 				//initialise events for the marker
-				initEvent(new_marker);
+				initEvent(eventMarker);
 				//Fill event coordinates on desktop site
 				$('#location').val(coord);
 			})
@@ -130,7 +133,7 @@ $().ready(function(){
 			//don't allow more markers to be added
 			allowMarkers = false;
 		}
-		else if (allowMarkers == false){
+		else if (eventCreated == false && allowMarkers == false){
 			var confirmMsg = marker_notifier.notify({
 				message: "No more markers are allowed!",
 				'type': "error",
@@ -143,6 +146,32 @@ $().ready(function(){
 			})
 			.on('click:cancel', 'destroy');
 		}
+		else if (eventCreated == true && allowMarkers == true) {
+			var confirmMsg = marker_notifier.notify({
+				message: "Would you like to mark this point?",
+				'type': "warning",
+				buttons: [
+					{'data-role': 'ok', text: 'Yes'},
+					{'data-role': 'cancel', text: 'No', 'class': 'default'}
+				],
+				modal: true,
+				ms: 10000,
+				opacity : .7
+			})
+			.on('click:ok', function(){
+				this.destroy();
+				//add a marker to the coordinator
+				var new_marker = addCheckpointMarker(map,coord);
+				//trigger notification
+				marker_notifier.success('A new marker has been created');
+				//initialise events for the marker
+				initEvent(new_marker);
+				//Fill event coordinates on desktop site
+				$("#addOption").trigger('click');
+			})
+			.on('click:cancel', 'destroy');
+
+		}
 	}
 	
 	/**
@@ -150,6 +179,11 @@ $().ready(function(){
 	 */
 	function initEvent(new_marker){
 		new_marker.addListener(CLICK,manageEvent,false);
+	}
+
+	function removeEvents(){
+		eventMarker.removeListener(CLICK,manageEvent,false);
+		return false;
 	}
 	/**
 	 * manage new events
@@ -252,11 +286,21 @@ function getCoord(map, lat, long){
 /**
  * add a marker to the location
  */
-function addMarker(map, new_coord){
+
+function addEventMarker(map, new_coord){
+	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
+	    text: "EVT", // Small label
+	    draggable: false
+	});
+	map.objects.add(new_marker);
+	return new_marker;
+}
+function addCheckpointMarker(map, new_coord){
 	// Create a marker and add it to the map
 	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
-	    text: "S", // Small label
-	    draggable: false  
+	    text: "CHP", // Small label
+	    draggable: false,
+	    brush: nokia.maps.util.Brush({"color": "#FFFFFF"})
 	});
 	map.objects.add(new_marker);
 	return new_marker;
