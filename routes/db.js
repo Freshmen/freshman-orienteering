@@ -1,7 +1,7 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
 var nano = require('nano')('http://fori.uni.me:8124');
-nano.db.create('fori-test');
-var db = nano.use('fori-test');
+nano.db.create('fori-test-2');
+var db = nano.use('fori-test-2');
 
 
 function insert_doc(doc, tried, callback) {
@@ -29,6 +29,10 @@ function read_doc(id, callback) {
 	});
 }
 
+function deleteItem(id, callback) {	
+	
+}
+
 exports.createEvents = function(req, res){
 	if (req.body) {
 		var event = req.body;
@@ -50,6 +54,7 @@ exports.createCheckpoints = function(req, res){
 	if (req.body) {
 		var checkPoint = req.body;
 		checkPoint.event = req.params.eventID;
+		checkPoint.type = 'Checkpoint';
 		insert_doc(checkPoint, 0, function(body){
 			res.send(body, 201);
 		});
@@ -121,7 +126,6 @@ exports.updateEvent = function(req, res){
 	read_doc(req.params.eventID, function(body) {
 		var currentEvent = body;
 		var _rev = currentEvent._rev;
-		console.log(_rev);
 		insert_doc(currentEvent, _rev, function(body){
 			res.send(body, 200);
 		});
@@ -135,11 +139,13 @@ exports.updateCheckpoints = function(req, res){
 };
 
 exports.updateCheckpoint = function(req, res){
-	res.send('PUTting here updates a waypoint (waypointID:'
-		+ req.params.waypointID
-		+') for this event (eventID:' 
-		+ req.params.eventID
-		+ ') everything...\n');	
+	read_doc(req.params.checkpointID, function(body) {
+		var currentCheckpoint = body;
+		var _rev = currentCheckpoint._rev;
+		insert_doc(currentCheckpoint, _rev, function(body){
+			res.send(body, 200);
+		});
+	});	
 };
 
 exports.deleteEvents = function(req, res){
@@ -147,23 +153,46 @@ exports.deleteEvents = function(req, res){
 };
 
 exports.deleteEvent = function(req, res){
-	res.send('DELETEing deletes this event (eventID:' 
-		+ req.params.eventID
-		+ ')...\n');	
+	read_doc(req.params.eventID, function(body) {
+		var currentEvent = body;
+		var _rev = currentEvent._rev;
+		currentEvent._deleted = true;
+		insert_doc(currentEvent, _rev, function(body){
+			res.send(body, 200);
+		});
+	});
 };
 
 exports.deleteCheckpoints = function(req, res){
-	res.send('DELETEing here deletes all waypoints for this event (eventID:' 
-		+ req.params.eventID
-		+ ')...\n');	
+	var filter = {};
+	filter.keys = [];
+	filter.keys.push(req.params.eventID);
+	db.view('Lists', 'Checkpoints', filter ,function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.status = 'OK';
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				doc._deleted = true;
+      				console.log('checkpoint ' + doc._id + ' deleted.');
+    			});
+  			}
+    		res.send(response, 200);
+    	} else {
+    		res.send(err, 400);
+    	}
+	}); 
 };
 
 exports.deleteCheckpoint = function(req, res){
-	res.send('DELETEing here deletes waypoint (waypointID:'
-		+ req.params.waypointID
-		+') of this event (eventID:' 
-		+ req.params.eventID
-		+ ') everything...\n');	
+	read_doc(req.params.checkpointID, function(body) {
+		var currentCheckpoint = body;
+		currentCheckpoint._deleted = true;
+		var _rev = currentCheckpoint._rev;
+		insert_doc(currentCheckpoint, _rev, function(body){
+			res.send(body, 200);
+		});
+	});	
 };
 
 exports.test = function(req, res) {
