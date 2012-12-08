@@ -58,15 +58,15 @@ $().ready(function(){
 		var self = this;
 		if ($(this).parent().attr("data-tag") == "events"){
 			var o = self;
-			getEvents.call(o);
+			var event_id = getEvents.call(o);
+			getCheckpoints(event_id);
 		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
 			
 		}else {
 			alert("kiuyiuoy87687687");
 		}
-
-		
 	});
+	
 	function getEvents() {
 //		var eventName = $(this).children().text().replace(/ /,"");
 		var o = this;
@@ -79,6 +79,10 @@ $().ready(function(){
 //			TO-DO
 			return false;
 		}
+		return event_id;
+	}
+	
+	function getCheckpoints(event_id){
 		// new checkpoints in events
 		$.ajax({
 			  url: '/api/v1/events/' + event_id + '/checkpoints',
