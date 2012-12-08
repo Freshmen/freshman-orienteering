@@ -28,11 +28,11 @@
 
 	<div id="content">
 				<form id="event_form" action="">
-					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 36px; width: 100%" required><br /><br />
+					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 36px; width: 100%" autocomplete="off" required><br /><br />
 					<input type="text" id="location" style="font-size: 18px; width: 100%" value="" placeholder="Double click on the map to mark the start location" required disabled><br /><br />
-					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time "required><br />
-					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" required>
-					<br /><br /><input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><label title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label><br /><br />
+					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time" autocomplete="off" required><br />
+					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" autocomplete="off" required>
+					<br /><br /><input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><label for="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label><br /><br />
 					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
 				<div id="mapArea"></div>
@@ -69,11 +69,11 @@
 			$(".center-content").last().append('<form id="checkpoint"></form>');
 			i++;
 			$('#checkpoint').append('<img src="images/trash.jpg" class="trash" onclick=removeMe(this) style="float:right; margin:0 5px 0 0; height: auto; width: 20px;"><img src="images/save.png" class="save" onclick=saveMe(this) style="float:right; margin:0 5px 0 0; height: auto; width: 24px;"><h2>Checkpoint ' + i + '</h2>');
-			$('#checkpoint').append('<input type="text" id="title" placeholder="Title" required>');
-			$('#checkpoint').append('<input type="text" id="altitude" placeholder="Altitude" required>');
-			$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" required>');
-			$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" required>');
-			$('#checkpoint').append('<input type="text" id="taskURL" placeholder="Task URL" required>');
+			$('#checkpoint').append('<input type="text" id="title" placeholder="Title" autocomplete="off" required>');
+			$('#checkpoint').append('<input type="text" id="altitude" placeholder="Altitude" autocomplete="off" required>');
+			$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" autocomplete="off" required>');
+			$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" autocomplete="off" required>');
+			$('#checkpoint').append('<input type="text" id="taskURL" placeholder="Task URL" autocomplete="off" required>');
 			$('#checkpoint').attr("id","checkpoint_" + i);
 			<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
 			fixIds();
