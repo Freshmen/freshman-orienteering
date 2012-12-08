@@ -59,7 +59,8 @@ h3 {
 }
 */
 /* http://paulirish.com/2012/box-sizing-border-box-ftw/ */
-#contentWrap {
+#contentWrap,
+#taskWrap {
   position: fixed;
   top: 60px;
   left: 0;
@@ -74,6 +75,8 @@ h3 {
   min-width: 250px;
   margin-left: auto;
   margin-right: auto;
+}
+.listbox {
   background: #fff;
   *zoom: 1;
   -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.15);
@@ -81,13 +84,13 @@ h3 {
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 #taskWrap {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  z-index: 100;
-  width: 100%;
-  padding-right: 20px;
-  padding-left: 20px;
+  z-index: 99;
+}
+#taskContent {
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  text-align: center;
 }
 /*
 #header header:before,#header header:after{

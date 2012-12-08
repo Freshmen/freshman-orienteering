@@ -97,7 +97,7 @@ h1, h2, h3 {
 
 
 
-#contentWrap{
+#contentWrap, #taskWrap{
   position: fixed;
   top: navBarHeight+10;
   left:0;
@@ -107,28 +107,31 @@ h1, h2, h3 {
   padding-left: 20px;
 }
 
-#content{
+#content {
   position: fixed;
   right:10px;
   min-width: 250px;
   margin-left: auto;
   margin-right: auto;
-  background:navBackgroundColor;
-  *zoom:1;
-  -webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
-  -moz-box-shadow:0 2px 4px rgba(0,0,0,.15);
-  box-shadow:0 1px 3px rgba(0,0,0,.15)
 }
 
+.listbox{
+	background:navBackgroundColor;
+	*zoom:1;
+	-webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
+	-moz-box-shadow:0 2px 4px rgba(0,0,0,.15);
+	box-shadow:0 1px 3px rgba(0,0,0,.15);
+}
 
 #taskWrap{
-  position: fixed;
-  top: navBarHeight+10;
-  left:0;
-  z-index:100;
-  width: 100%;
-  padding-right: 20px;
-  padding-left: 20px;
+z-index:99;
+}
+
+#taskContent{
+	margin-left: auto;
+    margin-right: auto;
+	width:400px;
+	text-align: center;
 }
 
 /*

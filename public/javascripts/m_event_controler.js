@@ -112,6 +112,7 @@ $().ready(function(){
 			url: '/mockdata/taskExample.json',
 			success : function(data){
 				//task data is coming here
+				 var callback = new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap',{content:data.task});
 			},
 			error : function(data){
 				// get an instance from notification centre
