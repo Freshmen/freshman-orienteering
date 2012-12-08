@@ -2,7 +2,7 @@ body {
   background: #f5f4ef;
   color: #000305;
   font-size: 87.5%;
-  font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Arvo', serif;
   line-height: 1.429;
   margin: 0;
   padding: 0;
@@ -70,7 +70,6 @@ body {
   font-weight: bold;
   margin: 0 0 0.6em 0.2em;
   text-decoration: none;
-  width: 800px;
 }
 #banner h1 a:hover,
 #banner h1 a:active {
@@ -84,18 +83,12 @@ body {
   height: 40px;
   line-height: 30px;
   margin: 0 auto 2em auto;
-  padding: 0;
-  width: 460px;
+  display: inline-block;
   border-radius: 5px;
-}
-#banner nav ul {
-  list-style: none;
 }
 #banner nav li {
   float: left;
-  display: inline;
-  margin: 0;
-  text-align: center;
+  display: inline-block;
 }
 #banner nav a:link,
 #banner nav a:visited {
