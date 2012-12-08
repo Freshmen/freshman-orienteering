@@ -109,7 +109,7 @@ $().ready(function(){
 	
 	function getTask(){
 		$.ajax({
-			url: '/mockdata/taskExample.json',
+			url: '/mockData/taskExample.json',
 			success : function(data){
 				//task data is coming here
 				 var callback = new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap',{content:data.task});
