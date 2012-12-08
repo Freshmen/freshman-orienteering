@@ -6,6 +6,7 @@
 	<link rel='stylesheet' href='/stylesheets/desktop.css' />
     <link rel='stylesheet' href='/stylesheets/notifier-base.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-theme-plastic.css' />
+	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
 	<!-- For now commenting this to include a full jquery lib
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 	-->
@@ -18,16 +19,17 @@
 <body>
 		<header id="banner" class="body">
 		<h1><a href="desktop">Freshman Orienteering</a></h1>
-		<nav><ul>
+		<nav>
 			<li><a href="desktop">Home</a></li>
 			<li class="active"><a href="desktop_create">Create Event</a></li>
 			<li><a href="#">Manage Events</a></li>
-		</ul></nav>
+		</nav>
 	</header>
 
 	<div id="content">
 				<form id="event_form" action="">
 					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 36px; width: 100%" required><br /><br />
+					<input type="text" id="location" style="font-size: 18px; width: 100%" value="" placeholder="Double click on the map to mark the start location" required disabled><br /><br />
 					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time "required><br />
 					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" required>
 					<br /><br /><input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><label title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label><br /><br />
