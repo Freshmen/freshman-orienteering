@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="urf-8" />
+	<title>Create a new <%= type %> | Freshman orienteering</title>
+	<link rel="stylesheet" href="/stylesheets/forms.css" />
+</head>
+<body>
+	<h1>Create a new <%= type %></h1>
+	<form>
+		<% for(var i=0; i<items.length; i++) {%>
+   			<label><%= items[i] %><input type="text" /></label>
+		<% } %>
+		<div id="buttons">
+			<button type="submit" id="submit">Submit</button>
+			<button type="reset" id="reset">Reset</button>
+		</div>
+	</form>
+</body>
+</html>

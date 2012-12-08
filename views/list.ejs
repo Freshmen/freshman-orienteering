@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="urf-8" />
+	<title>All <%= type %>s | Freshman orienteering</title>
+	<link rel="stylesheet" href="/stylesheets/forms.css" />
+</head>
+<body>
+	<h1>All <%= type %>s</h1>
+	<ul>
+		<% for(var i=0; i<items.length; i++) {%>
+   			<li><a><%= items[i].link %></a></li>
+		<% } %>
+	</ul>
+</body>
+</html>
