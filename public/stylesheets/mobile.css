@@ -84,10 +84,11 @@ h3 {
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 #taskWrap {
+  padding-right: 10px;
+  padding-left: 10px;
   z-index: 99;
 }
 #taskContent {
-  margin-left: auto;
   margin-right: auto;
   width: 400px;
   text-align: center;
@@ -262,5 +263,15 @@ h3 {
     font-size: 6px;
     line-height: 12px;
     margin-left: 12px;
+  }
+  #taskWrap {
+    top: 40px;
+  }
+  #taskContent {
+    font-size: 6px;
+    margin-left: 0px;
+    margin-right: auto;
+    width: 200px;
+    text-align: center;
   }
 }
