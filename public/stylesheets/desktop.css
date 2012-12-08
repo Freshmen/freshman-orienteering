@@ -23,9 +23,13 @@ body {
   outline: none;
   border-width: 0px;
   font-size: 16px;
+  font-family: 'Arvo', serif;
 }
 .button:hover {
   background-color: #1b7ae0;
+}
+input {
+  font-family: 'Arvo', serif;
 }
 #event_form {
   float: left;
@@ -56,19 +60,17 @@ body {
 }
 #banner {
   margin: 0 auto;
-  padding: 2.5em 0 0 0;
   text-align: center;
 }
 #banner h1 {
   font-size: 3.571em;
   line-height: 0.6;
+  padding: 20px;
 }
 #banner h1 a:link,
 #banner h1 a:visited {
   color: #000305;
-  display: block;
   font-weight: bold;
-  margin: 0 0 0.6em 0.2em;
   text-decoration: none;
 }
 #banner h1 a:hover,
