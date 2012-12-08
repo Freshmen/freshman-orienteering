@@ -55,18 +55,31 @@ $().ready(function(){
 		
 	});
 	$('#contentList li').live('click',function(){
+		var self = this;
+		if ($(this).parent().attr("data-tag") == "events"){
+			var o = self;
+			getEvents.call(o);
+		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
+			
+		}else {
+			alert("kiuyiuoy87687687");
+		}
+
+		
+	});
+	function getEvents() {
 //		var eventName = $(this).children().text().replace(/ /,"");
+		var o = this;
 		var event_id = null;
 		var eventArray = JSON.parse(sessionStorage.eventArray);
 		if(eventArray != null && typeof eventArray != 'undefined'){
-			var index = $(this).attr('data-index');
+			var index = $(o).attr('data-index');
 			event_id = eventArray['events'][index]._id;
-			
 		}else{
 //			TO-DO
 			return false;
 		}
-		// new data
+		// new checkpoints in events
 		$.ajax({
 			  url: '/api/v1/events/' + event_id + '/checkpoints',
 			  success: function(data) {
@@ -78,7 +91,8 @@ $().ready(function(){
 				  }else{
 					  var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
 					  // place all markers that in that event onto the map
-					  displayMaker(data.checkpoints)
+					  displayMaker(data.checkpoints);
+					  
 				  }
 			  },
 			  error: function(e){
@@ -87,8 +101,7 @@ $().ready(function(){
 				marker_notifier.error('Sorry, your request cannot be made.');
 			  }
 			});
-		
-	});
+	}
 	function displayMaker(checkpoints){
 		$.each(checkpoints,function(index,values){
 			addMarker(map,[values.location.latitude, values.location.longitude]);
