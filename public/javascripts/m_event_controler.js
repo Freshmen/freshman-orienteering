@@ -13,6 +13,12 @@ $().ready(function(){
 		$('#testEvent a').css('color',defaultColor);
 		isDisplay = false;
 	}
+	function displayTaskList(){
+		/* -- Nothing to do yet-- */
+	}
+	function undisplayTaskList(){
+		$('#taskContent').css('display','none');
+	}
 	function injectEvents(){
 		// new data
 		$.ajax({
@@ -128,9 +134,17 @@ $().ready(function(){
 		});
 		
 	}
+	
 	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
-
 	$('#fbSignIn').click(function(){
 		fbLogin();
+	});	
+	$('#taskListClose').die();
+	$('#taskListClose').live('click',function(){
+		undisplayTaskList();
+	});
+	$('#contentListClose').die();
+	$('#contentListClose').live('click',function(){
+		undisplayEventList();
 	});	
 });

@@ -213,6 +213,22 @@ h3 {
   text-align: center;
   letter-spacing: 0;
 }
+span.delete {
+  position: relative;
+  padding: 2px;
+  float: right;
+  margin-top: 3px;
+  margin-right: 3px;
+  border-radius: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+span.delete:hover {
+  color: #fff;
+  background: #000;
+}
 @media (max-width: 400px) {
   #header header {
     min-height: 30px;
