@@ -1,14 +1,15 @@
 $().ready(function(){
 	var isDisplay = false;
 	var defaultColor = '#333';
+	
 	function displayEventList(){
 		injectEvents();
-		$('#listContent').css('display','block');
+		$('#content').css('display','block');
 		$('#testEvent a').css('color','#44e');
 		isDisplay = true;
 	}
 	function undisplayEventList(){
-		$('#listContent').css('display','none');
+		$('#content').css('display','none');
 		$('#testEvent a').css('color',defaultColor);
 		isDisplay = false;
 	}
@@ -33,6 +34,18 @@ $().ready(function(){
 			});
 			
 	}
+
+	function injectTask(){
+		$.ajax({
+			 url: '/public/mockData/taskExample.json', success: function(data){
+
+			 new EJS({url: 'mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
+		
+		}
+		});
+
+	}
+
 	$('#testEvent').click(function(){
 		if(!isDisplay){
 			displayEventList();
