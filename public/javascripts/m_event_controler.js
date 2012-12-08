@@ -61,7 +61,7 @@ $().ready(function(){
 			var event_id = getEvents.call(o);
 			getCheckpoints(event_id);
 		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
-			
+			getTask();
 		}else {
 			alert("kiuyiuoy87687687");
 		}
@@ -106,6 +106,21 @@ $().ready(function(){
 			  }
 			});
 	}
+	
+	function getTask(){
+		$.ajax({
+			url: '/mockdata/taskExample.json',
+			success : function(data){
+				//task data is coming here
+			},
+			error : function(data){
+				// get an instance from notification centre
+				var marker_notifier = initialiseNotification();
+				marker_notifier.error('Sorry, your request cannot be made.');
+			}
+		});
+	}
+	
 	function displayMaker(checkpoints){
 		$.each(checkpoints,function(index,values){
 			addMarker(map,[values.location.latitude, values.location.longitude]);

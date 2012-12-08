@@ -4,8 +4,7 @@
        <nav id="contentNav">
        <% if (content[0].type == "Checkpoint") {%>  
             	<ul id="contentList" data-tag="checkpoints">
-        <%}%>
-        <%if (content[0].type = "Events"){%>   
+        <%} else{ %>   
        			<ul id="contentList" data-tag="events">
        	<%}%>
           <% for(var i = 0; i<content.length; i++) {%>
