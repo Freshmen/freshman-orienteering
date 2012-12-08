@@ -4,7 +4,7 @@ nano.db.create('fori-test');
 var db = nano.use('fori-test');
 
 
-function insert_doc(doc, tried, callback) {
+var insert_doc = function(doc, tried, callback) {
     db.insert(doc,
       function (error,http_body,http_headers) {
         if(error) {
@@ -20,8 +20,8 @@ function insert_doc(doc, tried, callback) {
     });
 }
 
-function read_doc(id, callback) {
-	db.get(id, { revs_info: true }, function(err, body) {
+var read_doc = function(id, callback) {
+	db.get(id, function(err, body) {
 		if (!err) {
 			callback(body);
 		} 
@@ -29,10 +29,32 @@ function read_doc(id, callback) {
 	});
 }
 
-function deleteItem(id, callback) {	
-
+var deleteItem = function(id, callback) {
+	read_doc(id, function(item){
+		db.destroy(item._id, item._rev, function(err, body) {
+			if (err) {
+				callback(err);
+			}
+			else  {
+				callback(body);
+			}  	
+		});
+	});
 }
 
+var updateItem = function(id, updateItem, callback) {
+	read_doc(id, function(body) {
+		var currentItem = body;
+		for (var prop in updateItem) {
+			if (updateItem.hasOwnProperty(prop)) {
+				currentItem[prop] = updateItem[prop];
+			}
+		}
+		insert_doc(currentItem, 0, function(body) {
+			callback(body);
+		});
+	});
+}
 
 exports.createEvents = function(req, res){
 	if (req.body) {
@@ -124,12 +146,8 @@ exports.updateEvents = function(req, res){
 };
 
 exports.updateEvent = function(req, res){
-	read_doc(req.params.eventID, function(body) {
-		var currentEvent = body;
-		var _rev = currentEvent._rev;
-		insert_doc(currentEvent, _rev, function(body){
-			res.send(body, 200);
-		});
+	updateItem(req.params.eventID, req.body, function(body){
+		res.send(body, 200);
 	});
 };
 
@@ -150,17 +168,13 @@ exports.updateCheckpoint = function(req, res){
 };
 
 exports.deleteEvents = function(req, res){
+
 	res.send('DELETEing here deletes everything...\n');	
 };
 
 exports.deleteEvent = function(req, res){
-	read_doc(req.params.eventID, function(body) {
-		var currentEvent = body;
-		var _rev = currentEvent._rev;
-		currentEvent._deleted = true;
-		insert_doc(currentEvent, _rev, function(body){
-			res.send(body, 200);
-		});
+	deleteItem(req.params.eventID, function(body) {
+		res.send(body, 200);
 	});
 };
 
@@ -186,18 +200,7 @@ exports.deleteCheckpoints = function(req, res){
 };
 
 exports.deleteCheckpoint = function(req, res){
-	read_doc(req.params.checkpointID, function(body) {
-		var currentCheckpoint = body;
-		currentCheckpoint._deleted = true;
-		var _rev = currentCheckpoint._rev;
-		insert_doc(currentCheckpoint, _rev, function(body){
-			res.send(body, 200);
-		});
-	});	
-};
-
-exports.test = function(req, res) {
-	var data = req.body;
-	data.success = 'OK';
-	res.send(data, 200);
+	deleteItem(id, function(body) {
+		res.send(body, 200);
+	});
 };

@@ -29,7 +29,7 @@ $().ready(function(){
 			    	/* NEED TO IMPROVE - No web storage support */
 			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
 			    }
-				new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
+				new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
 			  }
 			});
 			
@@ -37,9 +37,9 @@ $().ready(function(){
 
 	function injectTask(){
 		$.ajax({
-			 url: '/public/mockData/taskExample.json', success: function(data){
+			 url: '/mockData/taskExample.json', success: function(data){
 
-			 new EJS({url: 'mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
+			 new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
 		
 		}
 		});
@@ -109,7 +109,7 @@ $().ready(function(){
 	
 	function getTask(){
 		$.ajax({
-			url: '/mockdata/taskExample.json',
+			url: '/mockData/taskExample.json',
 			success : function(data){
 				//task data is coming here
 				 var callback = new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap',{content:data.task});
