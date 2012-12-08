@@ -20,6 +20,9 @@ $().ready(function(){
 	//prevent default behaviours
 	map.removeComponent(map.getComponentById("zoom.DoubleClick"));
 
+	//A boolean value to check if more markers are allowed
+	var allowMarkers = true;
+
 	var marker = null;
 	marker = new nokia.maps.map.StandardMarker(map.center, {
 	    draggable: true  // Make the marker draggable
@@ -100,27 +103,46 @@ $().ready(function(){
 		// get an instance from notification centre
 		var marker_notifier = initialiseNotification();
 		// modify notification
-		var confirmMsg = marker_notifier.notify({
-			message: "Would you like to mark this point?",
-			'type': "warning",
-			buttons: [
-				{'data-role': 'ok', text: 'Yes'},
-				{'data-role': 'cancel', text: 'No', 'class': 'default'}
-			],
-			modal: true,
-			ms: 10000,
-			opacity : .7
-		})
-		.on('click:ok', function(){
-			this.destroy();
-			//add a marker to the coordinator
-			var new_marker = addMarker(map,coord);
-			//trigger notification
-			marker_notifier.success('A new marker has been created');
-			//initialise events for the marker
-			initEvent(new_marker);
-		})
-		.on('click:cancel', 'destroy');
+		if (allowMarkers == true){
+			var confirmMsg = marker_notifier.notify({
+				message: "Would you like to mark this point?",
+				'type': "warning",
+				buttons: [
+					{'data-role': 'ok', text: 'Yes'},
+					{'data-role': 'cancel', text: 'No', 'class': 'default'}
+				],
+				modal: true,
+				ms: 10000,
+				opacity : .7
+			})
+			.on('click:ok', function(){
+				this.destroy();
+				//add a marker to the coordinator
+				var new_marker = addMarker(map,coord);
+				//trigger notification
+				marker_notifier.success('A new marker has been created');
+				//initialise events for the marker
+				initEvent(new_marker);
+				//Fill event coordinates on desktop site
+				$('#location').val(coord);
+			})
+			.on('click:cancel', 'destroy');
+			//don't allow more markers to be added
+			allowMarkers = false;
+		}
+		else if (allowMarkers == false){
+			var confirmMsg = marker_notifier.notify({
+				message: "No more markers are allowed!",
+				'type': "error",
+				buttons: [
+					{'data-role': 'cancel', text: 'Ok', 'class': 'default'},
+				],
+				modal: true,
+				ms: 10000,
+				opacity : .7
+			})
+			.on('click:cancel', 'destroy');
+		}
 	}
 	
 	/**
@@ -156,6 +178,10 @@ $().ready(function(){
 		.on('click:remove', function(){
 			this.destroy();
 			removeCheckPoint(current_marker);
+			//empty location field on desktop site
+			$('#location').val('');
+			//allow more markers to be added
+			allowMarkers = true;
 		})
 		.on('click:cancel', 'destroy');
 	}
@@ -229,7 +255,7 @@ function getCoord(map, lat, long){
 function addMarker(map, new_coord){
 	// Create a marker and add it to the map
 	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
-	    text: "Hi!", // Small label
+	    text: "S", // Small label
 	    draggable: false  
 	});
 	map.objects.add(new_marker);
