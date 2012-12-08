@@ -1,7 +1,7 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
 var nano = require('nano')('http://fori.uni.me:8124');
-nano.db.create('fori-test-2');
-var db = nano.use('fori-test-2');
+nano.db.create('fori-test');
+var db = nano.use('fori-test');
 
 
 function insert_doc(doc, tried, callback) {
@@ -30,8 +30,9 @@ function read_doc(id, callback) {
 }
 
 function deleteItem(id, callback) {	
-	
+
 }
+
 
 exports.createEvents = function(req, res){
 	if (req.body) {
