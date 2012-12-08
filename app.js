@@ -5,10 +5,12 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , desktop = require('./routes/desktop')
-  , create = require('./routes/desktop_create')
-  , mobile = require('./routes/mobile')
-  , db = require('./routes/db')
+  , desktop = require('./routes/desktop.js')
+  , create = require('./routes/desktop_create.js')
+  , mobile = require('./routes/mobile.js')
+  , db = require('./routes/db.js')
+  , events = require('./routes/events.js')
+  , checkpoints = require('./routes/checkpoints.js')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf');
@@ -50,6 +52,17 @@ app.get('/desktop', desktop.show);
 app.get('/desktop_create', create.show);
 app.get('/db',db.create);
 app.get('/mobile', mobile.show);
+
+//Test pages for the api
+app.get('/events', events.list);
+app.get('/events/create', events.create);
+app.get('/events/:eventID', events.show);
+app.get('/events/:eventID/edit', events.edit);
+
+app.get('/events/:eventID/checkpoints', checkpoints.list);
+app.get('/events/:eventID/checkpoints/create', checkpoints.create);
+app.get('/events/:eventID/checkpoints/:checkpointID', checkpoints.show);
+app.get('/events/:eventID/checkpoints/:checkpointID/edit', checkpoints.edit);
 
 //Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
