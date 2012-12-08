@@ -37,7 +37,7 @@ $().ready(function(){
 
 	function injectTask(){
 		$.ajax({
-			 url: '/public/mockData/taskExample.json', success: function(data){
+			 url: '/mockData/taskExample.json', success: function(data){
 
 			 new EJS({url: 'mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
 		
