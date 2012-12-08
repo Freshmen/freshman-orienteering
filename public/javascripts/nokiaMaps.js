@@ -1,6 +1,6 @@
 var map;
 //A boolean value to check if more markers are allowed
-var allowMarkers = true;
+var eventMarked = false;
 //A boolean value to check if the event has been created
 var eventCreated = false;
 var eventMarker;
@@ -95,7 +95,7 @@ $().ready(function(){
 		evt.preventDefault();
 //		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
 		var coord = getCoord(map, evt.displayX, evt.displayY);
-		console.log(evt.displayX);
+//		console.log(evt.displayX);
 		notifiedWindow(coord);
 	});
 	
@@ -106,8 +106,8 @@ $().ready(function(){
 		// get an instance from notification centre
 		var marker_notifier = initialiseNotification();
 		// modify notification
-		if (allowMarkers == true && eventCreated == false){
-			var confirmMsg = marker_notifier.notify({
+		if (eventMarked == false && eventCreated == false){
+		/**	var confirmMsg = marker_notifier.notify({
 				message: "Would you like to mark this point?",
 				'type': "warning",
 				buttons: [
@@ -120,7 +120,7 @@ $().ready(function(){
 			})
 			.on('click:ok', function(){
 				this.destroy();
-				//add a marker to the coordinator
+			**/	//add a marker to the coordinator
 				eventMarker = addEventMarker(map,coord);
 				//trigger notification
 				marker_notifier.success('A new marker has been created');
@@ -128,23 +128,21 @@ $().ready(function(){
 				initEvent(eventMarker);
 				//Fill event coordinates on desktop site
 				$('#location').val(coord);
-			})
+		/**	})
 			.on('click:cancel', 'destroy');
-			//don't allow more markers to be added
-			allowMarkers = false;
+		**/	//don't allow more markers to be added
+			eventMarked = true;
 		}
-		else if (eventCreated == false && allowMarkers == false){
-			var confirmMsg = marker_notifier.notify({
-				message: "No more markers are allowed!",
-				'type': "error",
-				buttons: [
-					{'data-role': 'cancel', text: 'Ok', 'class': 'default'},
-				],
-				modal: true,
-				ms: 10000,
-				opacity : .7
-			})
-			.on('click:cancel', 'destroy');
+		else if (eventCreated == false && eventMarked == true){
+			eventMarker.destroy()
+			eventMarker = addEventMarker(map,coord);
+			//trigger notification
+			marker_notifier.success('A new marker has been created');
+			//initialise events for the marker
+			initEvent(eventMarker);
+			//Fill event coordinates on desktop site
+			$('#location').val(coord);
+
 		}
 		else if (eventCreated == true && allowMarkers == true) {
 			var confirmMsg = marker_notifier.notify({
@@ -181,10 +179,6 @@ $().ready(function(){
 		new_marker.addListener(CLICK,manageEvent,false);
 	}
 
-	function removeEvents(){
-		eventMarker.removeListener(CLICK,manageEvent,false);
-		return false;
-	}
 	/**
 	 * manage new events
 	 */
