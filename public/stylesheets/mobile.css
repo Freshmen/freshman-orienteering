@@ -80,6 +80,15 @@ h3 {
   -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
+#taskWrap {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
+}
 /*
 #header header:before,#header header:after{
   display:table;
