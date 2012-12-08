@@ -9,8 +9,7 @@ var express = require('express')
   , create = require('./routes/desktop_create.js')
   , mobile = require('./routes/mobile.js')
   , db = require('./routes/db.js')
-  , events = require('./routes/events.js')
-  , checkpoints = require('./routes/checkpoints.js')
+  , admin = require('./routes/admin.js')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf');
@@ -53,16 +52,8 @@ app.get('/desktop_create', create.show);
 app.get('/db',db.create);
 app.get('/mobile', mobile.show);
 
-//Test pages for the api
-app.get('/events', events.list);
-app.get('/events/create', events.create);
-app.get('/events/:eventID', events.show);
-app.get('/events/:eventID/edit', events.edit);
-
-app.get('/events/:eventID/checkpoints', checkpoints.list);
-app.get('/events/:eventID/checkpoints/create', checkpoints.create);
-app.get('/events/:eventID/checkpoints/:checkpointID', checkpoints.show);
-app.get('/events/:eventID/checkpoints/:checkpointID/edit', checkpoints.edit);
+//Test page for the api
+app.get('/admin', admin.show);
 
 //Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
@@ -84,8 +75,6 @@ app.delete('/api/v1/events', db.deleteEvents);
 app.delete('/api/v1/events/:eventID', db.deleteEvent);
 app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
 app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
-
-app.post('/api/v1/test', db.test);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

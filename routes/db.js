@@ -1,8 +1,23 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
-var nano = require('nano')('http://fori.uni.me:8124');
+var nano = require('nano')('http://fori.uni.me:5984/');
 nano.db.create('fori-test');
 var db = nano.use('fori-test');
 
+
+var addDesignDocs = function() {
+	db.insert(
+		{ "views": 
+			{
+   				"Events": {
+       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.title, doc);\n}"
+   				},	
+   				"Checkpoints": {
+       				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
+   				}
+			}
+  		}, '_design/Lists'
+  	);
+}();
 
 var insert_doc = function(doc, tried, callback) {
     db.insert(doc,
@@ -54,6 +69,22 @@ var updateItem = function(id, updateItem, callback) {
 			callback(body);
 		});
 	});
+}
+
+exports.getEvents = function(callback) {
+	db.view('Lists', 'Events', function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.events = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.events.push(doc.value);
+    			});
+  			}
+  			callback(response);
+    	}
+	});
+
 }
 
 exports.createEvents = function(req, res){
@@ -152,24 +183,19 @@ exports.updateEvent = function(req, res){
 };
 
 exports.updateCheckpoints = function(req, res){
-	res.send('PUTting here updates the submitted waypoints for this event (eventID:' 
+	res.send('Unimplemented. PUTting here updates the submitted waypoints for this event (eventID:' 
 		+ req.params.eventID
-		+ ')...\n');	
+		+ ')...\n', 404);	
 };
 
 exports.updateCheckpoint = function(req, res){
-	read_doc(req.params.checkpointID, function(body) {
-		var currentCheckpoint = body;
-		var _rev = currentCheckpoint._rev;
-		insert_doc(currentCheckpoint, _rev, function(body){
-			res.send(body, 200);
-		});
-	});	
+	updateItem(req.params.checkpointID, req.body, function(body){
+		res.send(body, 200);
+	});
 };
 
 exports.deleteEvents = function(req, res){
-
-	res.send('DELETEing here deletes everything...\n');	
+	res.send('Unimplemented. DELETEing here deletes everything...\n', 404);	
 };
 
 exports.deleteEvent = function(req, res){
@@ -189,7 +215,6 @@ exports.deleteCheckpoints = function(req, res){
   			if(body && body.rows) {
   				body.rows.forEach(function(doc) {
       				doc._deleted = true;
-      				console.log('checkpoint ' + doc._id + ' deleted.');
     			});
   			}
     		res.send(response, 200);
