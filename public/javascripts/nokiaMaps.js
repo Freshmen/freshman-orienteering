@@ -9,7 +9,6 @@ $().ready(function(){
 	      	             // Behavior collection
 	      	             new nokia.maps.map.component.Behavior(),
 	      	             new nokia.maps.map.component.ZoomBar(),
-	      	             new nokia.maps.map.component.TypeSelector(),
 	      	             new nokia.maps.map.component.ScaleBar(),
 	      	             new nokia.maps.positioning.component.Positioning()],
 	            // Zoom level for the map
