@@ -29,7 +29,7 @@ $().ready(function(){
 			    	/* NEED TO IMPROVE - No web storage support */
 			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
 			    }
-				new EJS({url: 'mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
+				new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
 			  }
 			});
 			
@@ -39,7 +39,7 @@ $().ready(function(){
 		$.ajax({
 			 url: '/mockData/taskExample.json', success: function(data){
 
-			 new EJS({url: 'mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
+			 new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
 		
 		}
 		});
