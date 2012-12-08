@@ -32,7 +32,16 @@
 					<input type="text" id="location" style="font-size: 18px; width: 100%" value="" placeholder="Double click on the map to mark the start location" required disabled><br /><br />
 					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time" autocomplete="off" required><br />
 					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" autocomplete="off" required>
-					<br /><br /><input type="checkbox" id="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order."><label for="ordered" title="Select this if the checkpoints are ordered. Shuffle around to make the order.">Ordered checkpoints</label><br /><br />
+					<br /><br />
+
+					<div class="onoffswitch">
+					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="ordered">
+    					<label class="onoffswitch-label" for="ordered">
+        					<div class="onoffswitch-inner"></div>
+        					<div class="onoffswitch-switch"></div>
+    					</label>
+					</div>
+					<br /><br />
 					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
 				<div id="mapArea"></div>
