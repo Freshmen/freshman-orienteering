@@ -13,14 +13,6 @@ body {
   margin: 0 auto;
   width: 800px;
 }
-.columns {
-  clear: both;
-  margin: 0 auto;
-  width: 800px;
-  column-count: 1;
-  -moz-column-count: 1;
-  -webkit-column-count: 1;
-}
 .button {
   background-color: #000;
   border-radius: 5px;
@@ -35,10 +27,6 @@ body {
 .button:hover {
   background-color: #1b7ae0;
 }
-.button:active {
-  position: r elative;
-  top: 1px;
-}
 #event_form {
   float: left;
   width: 450px;
@@ -52,11 +40,19 @@ body {
   width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  padding: 20px;
 }
 #mapArea2 {
   height: 390px;
   width: 390px;
   border: 0px solid #eaeaea;
+}
+#checkpoint_holder {
+  width: 1000px;
+  padding: 20px;
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
 }
 #banner {
   margin: 0 auto;
