@@ -134,7 +134,7 @@ $().ready(function(){
 	
 	function displayMaker(checkpoints){
 		$.each(checkpoints,function(index,values){
-			addMarker(map,[values.location.latitude, values.location.longitude]);
+			addCheckpointMarker(map,[values.location.latitude, values.location.longitude]);
 		});
 		
 	}
