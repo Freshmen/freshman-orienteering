@@ -146,14 +146,13 @@ $().ready(function(){
 		else if (eventCreated == true && eventMarked == true) {
 			var confirmMsg = marker_notifier.notify({
 				message: "Would you like to add a checkpoint here?",
-				'type': "warning",
+				'type': "info",
 				buttons: [
 					{'data-role': 'ok', text: 'Yes'},
 					{'data-role': 'cancel', text: 'No', 'class': 'default'}
 				],
 				modal: true,
 				ms: 10000,
-				opacity : .7
 			})
 			.on('click:ok', function(){
 				this.destroy();
