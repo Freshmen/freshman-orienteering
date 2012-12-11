@@ -1,5 +1,5 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
-var nano = require('nano')('http://fori.uni.me:5984/');
+var nano = require('nano')('http://fori.uni.me:8124/');
 nano.db.create('fori-test');
 var db = nano.use('fori-test');
 
