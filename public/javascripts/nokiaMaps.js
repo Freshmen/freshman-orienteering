@@ -142,19 +142,17 @@ $().ready(function(){
 			initEvent(eventMarker);
 			//Fill event coordinates on desktop site
 			$('#location').val(coord);
-
 		}
-		else if (eventCreated == true && allowMarkers == true) {
+		else if (eventCreated == true && eventMarked == true) {
 			var confirmMsg = marker_notifier.notify({
-				message: "Would you like to mark this point?",
-				'type': "warning",
+				message: "Would you like to add a checkpoint here?",
+				'type': "info",
 				buttons: [
 					{'data-role': 'ok', text: 'Yes'},
 					{'data-role': 'cancel', text: 'No', 'class': 'default'}
 				],
 				modal: true,
 				ms: 10000,
-				opacity : .7
 			})
 			.on('click:ok', function(){
 				this.destroy();

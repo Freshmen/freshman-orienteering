@@ -105,6 +105,24 @@
  			
 			eventCreated = true;
 			
+			<!-- Display info dialog -->
+			var notifier = new Backbone.Notifier({
+				theme: 'plastic',
+				type: 'info',
+				dialog: false,
+				modal: true,
+				ms: 20000,
+				position: 'center',
+				zIndex: 10000,
+				screenOpacity: 0.7
+			});
+			notifier.notify({
+				title: "Your event has been created!",
+				message: "Start adding checkpoints by double-clicking on the map.",
+				hideOnClick: true,
+				fadeInMs: 800,
+				fadeOutMs: 800
+				});
 
 			<!-- Display add checkpoint button -->	
  			//$("#addOption").trigger('click');
