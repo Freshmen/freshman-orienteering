@@ -46,13 +46,16 @@ input {
   width: 450px;
 }
 #mapArea {
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -khtml-border-radius: 7px;
+  -webkit-border-radius: 7px;
   height: 400px;
   width: 500px;
   float: right;
+  border: 4px;
+  border-style: solid;
+  border-color: #eaeaea;
 }
 #content {
   width: 1000px;
