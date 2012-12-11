@@ -1,7 +1,7 @@
 {
 	"task": {
 		"title" : "Design Factory",
-		"description" : "Code an orienteering software for f-secure"
+		"description" : "Code an orienteering software for f-secure Using CAN. FSIO is a secure core platform for content-centric applications that share content. FSIO provides simple, scalable and reliable access to content. Clients can upload files to FSIO and manage the files in various ways. For example, the files can be tagged, assigned to collections and shared with others using public links that can be e-mailed or posted on Facebook or Twitter."
 	}
 
 }

@@ -1,5 +1,6 @@
 {
 "event" : "City Orienteering",
+"organizer" : "Mikko Pöri",
 "checkpoints"		: [
 				{
 					"type"			: "Checkpoint",

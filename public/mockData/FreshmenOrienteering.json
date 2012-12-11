@@ -1,5 +1,6 @@
 {
 	"event" : "Freshmen Orienteering",
+	"organizer" : "Tuomo Vierros",
 	"checkpoints": [
 				{
 					"type"			: "Checkpoint",

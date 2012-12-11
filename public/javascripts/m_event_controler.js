@@ -26,12 +26,14 @@ $().ready(function(){
 	function injectEvents(){
 		// new data
 		$.ajax({
-			  url: '/api/v1/events',
+			url: '/mockData/eventExample.json',
+			  //url: '/api/v1/events',
 			  success: function(data) {
 				// inject
 				if(typeof(Storage)!=="undefined")
 			    {
-			    	sessionStorage.eventArray = JSON.stringify(data);
+			    	//sessionStorage.eventArray = JSON.stringify(data.db);
+			    	sessionStorage.eventArray = JSON.stringify(data); // mock data version
 			    }
 			    else
 			    {
@@ -39,7 +41,8 @@ $().ready(function(){
 			    	/* NEED TO IMPROVE - No web storage support */
 			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
 			    }
-				new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
+				//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
+			  	new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
 			  }
 			});
 			
@@ -95,7 +98,8 @@ $().ready(function(){
 	function getCheckpoints(event_id){
 		// new checkpoints in events
 		$.ajax({
-			  url: '/api/v1/events/' + event_id + '/checkpoints',
+			  //url: '/api/v1/events/' + event_id + '/checkpoints',
+			  url: 'mockData/cityOrienteering.json',
 			  success: function(data) {
 				// inject
 				  if (data.checkpoints.length == 0){
@@ -106,6 +110,7 @@ $().ready(function(){
 					  var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
 					  // place all markers that in that event onto the map
 					  displayMaker(data.checkpoints);
+					  centerScreenWithCheckpoints(data.checkpoints);
 					  
 				  }
 			  },
@@ -132,6 +137,22 @@ $().ready(function(){
 		});
 	}
 	
+	function centerScreenWithCheckpoints(checkpoints){
+		var len = checkpoints.length;
+		var meanLon = 0.0;
+		var meanLat = 0.0;
+		for(var i = 0; i < len; i++){
+		  	meanLon += checkpoints[i].location.longitude;
+		  	meanLat += checkpoints[i].location.latitude;
+		  }
+
+		  meanLon = meanLon/len;
+		  meanLat = meanLat/len;
+		  
+		  centerMapToCoordinate(map, meanLat, meanLon);
+	}
+
+
 	function displayMaker(checkpoints){
 		$.each(checkpoints,function(index,values){
 			addCheckpointMarker(map,[values.location.latitude, values.location.longitude]);

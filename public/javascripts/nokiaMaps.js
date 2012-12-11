@@ -300,3 +300,7 @@ function addCheckpointMarker(map, new_coord){
 	return new_marker;
 }
 
+function centerMapToCoordinate(map, lat, lon){
+	//map.center = [lat, lon];
+	map.setCenter([lat, lon]);
+}

@@ -16,6 +16,7 @@ navFontStaticColor= #333
 navFontHoverColor= #44e
 
 /*Global measures */
+mobileScalingMedium = 0.8;
 mobileScaling = 0.6;
 
 navBarHeight = 50px;
@@ -131,7 +132,7 @@ h1, h2, h3 {
 
 #taskContent{
   margin-right: auto;
-	width:400px;
+	width:300px;
 	text-align: center;
 }
 
@@ -147,6 +148,17 @@ h1, h2, h3 {
 }
 
 */
+
+#header header:before,#header header:after{
+display:table;
+content:"";
+line-height:0
+}
+
+#header header:after{
+clear:both
+}
+
 #header{
   position:fixed;
   top:0;
@@ -186,6 +198,16 @@ h1, h2, h3 {
 }
 
 
+#header header #control:before, #header header #control:after {
+display:table;
+content:"";
+line-height:0
+}
+
+#header header #control:after{
+clear:both
+}
+
 #header header #control{
   position:absolute;
   top:0px;
@@ -193,6 +215,15 @@ h1, h2, h3 {
   font-size:fontNav;
 }
 
+#contentNav ul:before, #contentNav ul::after {
+display:table;
+content:"";
+line-height:0
+}
+
+#contentNav ul:after{
+clear:both
+}
 
 #contentNav ul li{
   line-height: listBarHeight;
@@ -372,6 +403,86 @@ span.delete:hover{
     #taskContent{
       
       font-size: fontSmall*mobileScaling;
+      margin-left: 0px;
+      margin-right: auto;
+      width:400px*0.5;
+      text-align: center;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 600px) {
+    #header header {
+      min-height:navBarHeight*mobileScalingMedium;
+    }
+     #header header h1 { 
+      font-size:fontBig*mobileScaling;
+      line-height:navBarHeight*mobileScalingMedium; 
+      min-height: navBarHeight*mobileScalingMedium;
+    }
+
+    #header header #control { 
+      font-size:fontNav*mobileScalingMedium; 
+      line-height:navBarHeight*mobileScalingMedium; 
+      min-height: navBarHeight*mobileScalingMedium;
+    }
+
+    #control ul{
+      line-height:navBarHeight*mobileScalingMedium; 
+    }
+
+    #control ul li{
+      line-height:navBarHeight*mobileScalingMedium;
+      height:navBarHeight*mobileScalingMedium;
+    }
+
+    #footer footer{
+      min-height:navBarHeight*mobileScalingMedium;  
+    }
+
+    #footer footer h1{
+      min-height:navBarHeight*mobileScalingMedium; 
+    }
+
+    #footer footer #control {
+      line-height:navBarHeight*mobileScalingMedium; 
+      font-size:(fontNav+3)*mobileScalingMedium;
+    }
+
+    #contentWrap{
+      position: fixed;
+      top: navBarHeight*mobileScalingMedium+10;
+      
+    }
+
+    #content{
+      min-width: 250px*mobileScalingMedium;
+      
+    }
+
+    #contentNav ul li{
+      font-size:fontNav*mobileScalingMedium; 
+      line-height: listBarHeight*mobileScalingMedium;
+    }
+
+    #contentList {
+      padding-right: 20px*mobileScalingMedium;
+      padding-left: 20px*mobileScalingMedium;
+
+    }
+
+    #contentNav .listSmall{
+      font-size: fontSmall*mobileScalingMedium;
+      line-height: listBarSmallHeight*mobileScalingMedium;
+      margin-left 20px*mobileScalingMedium;
+  }
+
+    #taskWrap{
+      top: navBarHeight*mobileScalingMedium+10;
+    }
+
+    #taskContent{
+      
+      font-size: fontSmall*mobileScalingMedium;
       margin-left: 0px;
       margin-right: auto;
       width:400px*0.5;

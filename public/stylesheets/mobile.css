@@ -90,7 +90,7 @@ h3 {
 }
 #taskContent {
   margin-right: auto;
-  width: 400px;
+  width: 300px;
   text-align: center;
 }
 /*
@@ -105,6 +105,15 @@ h3 {
 }
 
 */
+#header header:before,
+#header header:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#header header:after {
+  clear: both;
+}
 #header {
   position: fixed;
   top: 0;
@@ -140,11 +149,29 @@ h3 {
   text-align: center;
   letter-spacing: 0;
 }
+#header header #control:before,
+#header header #control:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#header header #control:after {
+  clear: both;
+}
 #header header #control {
   position: absolute;
   top: 0px;
   right: 20px;
   font-size: 13px;
+}
+#contentNav ul:before,
+#contentNav ul::after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#contentNav ul:after {
+  clear: both;
 }
 #contentNav ul li {
   line-height: 30px;
@@ -293,6 +320,68 @@ span.delete:hover {
   }
   #taskContent {
     font-size: 6px;
+    margin-left: 0px;
+    margin-right: auto;
+    width: 200px;
+    text-align: center;
+  }
+}
+@media (min-width: 400px) and (max-width: 600px) {
+  #header header {
+    min-height: 40px;
+  }
+  #header header h1 {
+    font-size: 10.799999999999999px;
+    line-height: 40px;
+    min-height: 40px;
+  }
+  #header header #control {
+    font-size: 10.4px;
+    line-height: 40px;
+    min-height: 40px;
+  }
+  #control ul {
+    line-height: 40px;
+  }
+  #control ul li {
+    line-height: 40px;
+    height: 40px;
+  }
+  #footer footer {
+    min-height: 40px;
+  }
+  #footer footer h1 {
+    min-height: 40px;
+  }
+  #footer footer #control {
+    line-height: 40px;
+    font-size: 12.8px;
+  }
+  #contentWrap {
+    position: fixed;
+    top: 50px;
+  }
+  #content {
+    min-width: 200px;
+  }
+  #contentNav ul li {
+    font-size: 10.4px;
+    line-height: 24px;
+  }
+  #contentList {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  #contentNav .listSmall {
+    font-size: 8px;
+    line-height: 16px;
+    margin-left: 16px;
+  }
+  #taskWrap {
+    top: 50px;
+  }
+  #taskContent {
+    font-size: 8px;
     margin-left: 0px;
     margin-right: auto;
     width: 200px;
