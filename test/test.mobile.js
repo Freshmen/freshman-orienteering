@@ -1,4 +1,5 @@
 var mobile = require('../routes/mobile.js');
+var should = require('should');
 
 describe('routes/mobile', function() {
     describe('#show', function() {

@@ -1,4 +1,5 @@
 var desktop_create = require('../routes/desktop_create.js');
+var should = require('should');
 
 describe('routes/desktop', function() {
     describe('#show', function() {

@@ -1,4 +1,5 @@
 var admin = require('../routes/admin.js');
+var should = require('should');
 
 describe('routes/admin', function() {
     describe('#show', function() {

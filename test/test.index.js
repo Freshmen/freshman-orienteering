@@ -1,4 +1,5 @@
 var index = require('../routes/index.js');
+var should = require('should');
 
 describe('routes/index', function() {
     describe('#show', function() {
