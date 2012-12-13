@@ -3,7 +3,7 @@ var should = require('should');
 
 describe('routes/desktop', function() {
     describe('#show', function() {
-      it('should be a function', function() {
+      it('should be an object', function() {
         desktop.show.should.be.a["function"];
       });
       it('should return a webpage', function() {
