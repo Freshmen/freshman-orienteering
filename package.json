@@ -62,7 +62,8 @@
   "devDependencies": {
     "mocha" : "*",
     "should" : "*",
-    "request" : "*"
+    "request" : "*",
+    "connect" :"*"
   },
   "license": "Apache License, Version 2.0",
   "engines": {

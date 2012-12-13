@@ -46,7 +46,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', routes.show);
 app.get('/desktop', desktop.show);
 app.get('/desktop_create', create.show);
 app.get('/db',db.create);
