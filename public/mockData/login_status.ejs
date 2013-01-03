@@ -1,0 +1,11 @@
+<section id="content">
+       <% if (content.status == "login") {%>  
+            	<p><%= content.username %></p>
+            	<div id="map-button-wrapper">
+			      <a class="wide-btn" href="mobile">Continue</a>
+			      <a class="wide-btn" href="signout">Log out</a>
+			    </div>
+        <%} else{ %>   
+       			<ul id="contentList" data-tag="events">
+       	<%}%>
+ </section>

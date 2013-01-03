@@ -27,6 +27,7 @@
       // not_authorized
       loggedInToFacebook = false;
       notAuthorized = false;
+      console.log("you has not authorized");
     } else {
       // not_logged_in
       loggedInToFacebook = false;
