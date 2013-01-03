@@ -52,8 +52,15 @@ app.get('/desktop_create', create.show);
 app.get('/db',db.create);
 app.get('/mobile', mobile.show);
 
-//Test page for the api
-app.get('/admin', admin.show);
+//Pages for admin view
+app.get('/admin/events', admin.list);
+app.get('/admin/events/create', admin.create);
+app.get('/admin/events/:eventID/checkpoints', admin.list);
+app.get('/admin/events/:eventID/edit', admin.edit);
+app.get('/admin/events/:eventID', admin.show);
+app.get('/admin/events/:eventID/checkpoints/create', admin.create);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID', admin.show);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID/edit', admin.edit);
 
 //Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);

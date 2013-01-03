@@ -1,7 +1,8 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
-var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
-nano.db.create('fori-test');
-var db = nano.use('fori-test');
+var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
+//var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
+nano.db.create('fori-test-3');
+var db = nano.use('fori-test-3');
 
 
 var addDesignDocs = function() {
@@ -13,6 +14,9 @@ var addDesignDocs = function() {
    				},	
    				"Checkpoints": {
        				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
+   				},
+   				"Children" : {
+   					"map" : "function(doc) {\n if (doc.type === \"Event\")\n  emit(doc.title, doc);\n  else if (doc.parent)\n   emit(doc.parent, doc);\n}"
    				}
 			}
   		}, '_design/Lists'
@@ -40,7 +44,7 @@ var read_doc = function(id, callback) {
 		if (!err) {
 			callback(body);
 		} 
-		else { return console.log(error); }
+		else { return console.log(err); }
 	});
 }
 
@@ -71,20 +75,53 @@ var updateItem = function(id, updateItem, callback) {
 	});
 }
 
-exports.getEvents = function(callback) {
-	db.view('Lists', 'Events', function(err, body) {
+exports.getDocumentById = function(id, callback){
+	read_doc(id, function(body) {
+		callback(body);
+	});
+};
+
+
+exports.getChildrenById = function(id, callback) {
+	var filter;
+	if (id) {
+		filter = {};
+		filter.keys = [];
+		filter.keys.push(id);
+	} else {
+		filter = '';
+	}
+	db.view('Lists', 'Children', filter, function(err, body) {
   		if (!err) {
-  			var response = {};
-  			response.events = [];
+  			var response = [];
   			if(body && body.rows) {
   				body.rows.forEach(function(doc) {
-      				response.events.push(doc.value);
+      				response.push(doc.value);
     			});
   			}
   			callback(response);
+    	} else {
+    		console.log(err);
     	}
 	});
+}
 
+exports.getCheckpoints = function(eventID, callback) {
+	var filter = {};
+	filter.keys = [];
+	filter.keys.push(eventID);
+	db.view('Lists', 'Checkpoints', filter ,function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.checkpoints = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.checkpoints.push(doc.value);
+    			});
+  			}
+    		callback(response);
+    	}
+	}); 	
 }
 
 exports.createEvents = function(req, res){
@@ -110,7 +147,7 @@ exports.createCheckpoints = function(req, res){
 		checkPoint.event = req.params.eventID;
 		checkPoint.type = 'Checkpoint';
 		insert_doc(checkPoint, 0, function(body){
-			res.send(body, 201);
+			res.json(body, 201);
 		});
 	}
 	else {
@@ -132,7 +169,7 @@ exports.readEvents = function(req, res){
       				response.events.push(doc.value);
     			});
   			}
-    		res.send(response, 200);
+    		res.json(response);
     	} else {
     		res.send(err, 400);
     	}
@@ -142,7 +179,7 @@ exports.readEvents = function(req, res){
 
 exports.readEvent = function(req, res){
 	read_doc(req.params.eventID, function(body) {
-		res.send(body);
+		res.json(body);
 	});
 };
 
@@ -159,7 +196,7 @@ exports.readCheckpoints = function(req, res){
       				response.checkpoints.push(doc.value);
     			});
   			}
-    		res.send(response, 200);
+    		res.json(response);
     	} else {
     		res.send(err, 400);
     	}
@@ -168,7 +205,7 @@ exports.readCheckpoints = function(req, res){
 
 exports.readCheckpoint = function(req, res){
 	read_doc(req.params.checkpointID, function(body) {
-		res.send(body);
+		res.json(body);
 	});
 };
 
@@ -178,7 +215,7 @@ exports.updateEvents = function(req, res){
 
 exports.updateEvent = function(req, res){
 	updateItem(req.params.eventID, req.body, function(body){
-		res.send(body, 200);
+		res.json(body);
 	});
 };
 
@@ -190,7 +227,7 @@ exports.updateCheckpoints = function(req, res){
 
 exports.updateCheckpoint = function(req, res){
 	updateItem(req.params.checkpointID, req.body, function(body){
-		res.send(body, 200);
+		res.json(body);
 	});
 };
 
@@ -200,7 +237,7 @@ exports.deleteEvents = function(req, res){
 
 exports.deleteEvent = function(req, res){
 	deleteItem(req.params.eventID, function(body) {
-		res.send(body, 200);
+		res.json(body);
 	});
 };
 
@@ -217,7 +254,7 @@ exports.deleteCheckpoints = function(req, res){
       				doc._deleted = true;
     			});
   			}
-    		res.send(response, 200);
+    		res.json(response);
     	} else {
     		res.send(err, 400);
     	}
@@ -226,6 +263,6 @@ exports.deleteCheckpoints = function(req, res){
 
 exports.deleteCheckpoint = function(req, res){
 	deleteItem(id, function(body) {
-		res.send(body, 200);
+		res.json(body);
 	});
 };
