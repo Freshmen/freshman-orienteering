@@ -8,6 +8,7 @@ var express = require('express')
   , desktop = require('./routes/desktop.js')
   , create = require('./routes/desktop_create.js')
   , mobile = require('./routes/mobile.js')
+  , login = require('./routes/login.js')
   , db = require('./routes/db.js')
   , admin = require('./routes/admin.js')
   , http = require('http')
@@ -51,6 +52,7 @@ app.get('/desktop', desktop.show);
 app.get('/desktop_create', create.show);
 app.get('/db',db.create);
 app.get('/mobile', mobile.show);
+app.get('/login', login.show);
 
 //Test page for the api
 app.get('/admin', admin.show);
