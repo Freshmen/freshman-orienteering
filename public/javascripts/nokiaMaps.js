@@ -298,7 +298,20 @@ function addCheckpointMarker(map, new_coord){
 	return new_marker;
 }
 
+
+// Function to set the zoom level of the map
+function setZoom(map, zoomLevel){
+	if(map.minZoomLevel > zoomLevel || map.maxZoomLevel < zoomLevel){
+		console.log("Invalid zoom level" + zoomLevel);
+		console.log("Max: " +  map.maxZoomLevel);
+		console.log("Min: " +  map.minZoomLevel);
+		return;
+	}
+
+	map.setZoomLevel(zoomLevel);
+}
+
+
 function centerMapToCoordinate(map, lat, lon){
-	//map.center = [lat, lon];
 	map.setCenter([lat, lon]);
 }

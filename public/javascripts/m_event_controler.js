@@ -13,9 +13,11 @@ $().ready(function(){
 		$('#testEvent a').css('color',defaultColor);
 		isDisplay = false;
 	}
+
 	function displayTaskList(){
 		/* -- Nothing to do yet-- */
 	}
+
 	function undisplayTaskList(){
 		$('#taskContent').css('display','none');
 	}
@@ -64,9 +66,9 @@ $().ready(function(){
 			displayEventList();
 		}else{
 			undisplayEventList();
-		}
-		
+		}	
 	});
+
 	$('#contentList li').live('click',function(){
 		var self = this;
 		if ($(this).parent().attr("data-tag") == "events"){
@@ -149,7 +151,9 @@ $().ready(function(){
 		  meanLon = meanLon/len;
 		  meanLat = meanLat/len;
 		  
+		  setZoom(map, 14); // 14 is default for street level
 		  centerMapToCoordinate(map, meanLat, meanLon);
+		  
 	}
 
 
