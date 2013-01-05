@@ -1,11 +1,13 @@
 <section id="content">
-       <% if (content.status == "login") {%>  
-            	<p><%= content.username %></p>
+       <% if (content && content.status == "login") {%>  
+            	<p><%= content.response.name %></p>
             	<div id="map-button-wrapper">
 			      <a class="wide-btn" href="mobile">Continue</a>
-			      <a class="wide-btn" href="signout">Log out</a>
+			      <a id="signout" class="wide-btn" href="#">Log out</a>
 			    </div>
         <%} else{ %>   
-       			<ul id="contentList" data-tag="events">
+       			<div id="map-button-wrapper">
+			      <a id="signin" class="wide-btn" href="#">Sign in</a>
+			    </div>
        	<%}%>
  </section>

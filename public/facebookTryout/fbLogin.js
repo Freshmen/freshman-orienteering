@@ -16,12 +16,16 @@
     });
 
     isLoaded = true;   
-
+    
+    // this will run automatically before login_helper.js
     FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
       // connected
       loggedInToFacebook = true;
       console.log("you has logged in");
+      if (window.location.pathname == "/login") {
+    	  getUserNameByID(response.authResponse.userID,updateTemplate_Login);
+      }
 //      testAPI();
     } else if (response.status === 'not_authorized') {
       // not_authorized
@@ -32,6 +36,9 @@
       // not_logged_in
       loggedInToFacebook = false;
       console.log("you has NOT logged in");
+      if (window.location.pathname == "/login") {
+    	  updateTemplate_Login();
+      }
     }
    });
 
@@ -51,10 +58,10 @@
     FB.login(function(response) {
         if (response.authResponse) {
           console.log(response)
-
-          testAPI();
-
-            // connected
+          if (window.location.pathname == "/login") {
+    	  getUserNameByID(response.authResponse.userID,updateTemplate_Login);
+          }
+          // connected
         } else {
           console.log(response)
             // cancelled
@@ -67,15 +74,6 @@
          console.log("you have logged out");
          });
 	  }
- 
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-        console.log('Good to see you, ' + response.name + '.');
-    });
-    setTimeout('homePage()', 5000);
-    $("#rediction-hint").append("<p id='wanning'>The page will redirect to Freshman Orientation Home Page.</p>");
-}
 
   function homePage(){
 	  window.location="http://fori.uni.me";
@@ -87,8 +85,8 @@
   function fbLogin() {
     FB.login(function(response) {
         if (response.authResponse) {
-          console.log(response)
-          updateSignStatus();
+//          console.log(response)
+//          updateSignStatus();
           // connected
         } else {
           console.log(response)
@@ -118,20 +116,15 @@
     });
   }
 
-/////////////////
-
-/*
-
-This should be the response
-{
-    status: 'connected',
-    authResponse: {
-        accessToken: '...',
-        expiresIn:'...',
-        signedRequest:'...',
-        userID:'...'
-    }
-}
-*/
+  function getUserNameByID(id,callback){
+	  var o = {};
+	  FB.api('/'+id, function(response) {
+		  o.status = "login";
+		  o.response = response;
+		  if (callback && typeof(callback) === "function"){
+			  callback.call(o);
+		  }
+      });
+  }
 
 
