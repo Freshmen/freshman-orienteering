@@ -5,12 +5,12 @@ $().ready(function(){
 	function displayEventList(){
 		injectEvents();
 		$('#content').css('display','block');
-		$('#testEvent a').css('color','#44e');
+		$('#eventList a').css('color','#44e');
 		isDisplay = true;
 	}
 	function undisplayEventList(){
 		$('#content').css('display','none');
-		$('#testEvent a').css('color',defaultColor);
+		$('#eventList a').css('color',defaultColor);
 		isDisplay = false;
 	}
 
@@ -28,8 +28,8 @@ $().ready(function(){
 	function injectEvents(){
 		// new data
 		$.ajax({
-			url: '/mockData/eventExample.json',
-			  //url: '/api/v1/events',
+			  url: '/mockData/eventExample.json',
+//			  url: '/api/v1/events',
 			  success: function(data) {
 				// inject
 				if(typeof(Storage)!=="undefined")
@@ -39,12 +39,14 @@ $().ready(function(){
 			    }
 			    else
 			    {
-			    	alert("Asdfasdfsd");
 			    	/* NEED TO IMPROVE - No web storage support */
 			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
 			    }
 				//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
 			  	new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
+			  },
+			  error : function(data){
+				  console.log(data);//return error if the JSON is not valid
 			  }
 			});
 			
@@ -55,13 +57,11 @@ $().ready(function(){
 			 url: '/mockData/taskExample.json', success: function(data){
 
 			 new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
-		
 		}
 		});
-
 	}
 
-	$('#testEvent').click(function(){
+	$('#eventList').click(function(){
 		if(!isDisplay){
 			displayEventList();
 		}else{
@@ -73,12 +73,13 @@ $().ready(function(){
 		var self = this;
 		if ($(this).parent().attr("data-tag") == "events"){
 			var o = self;
-			var event_id = getEvents.call(o);
-			getCheckpoints(event_id);
+			var event = getEvents.call(o);
+//			getCheckpoints(event_id);
+			// show Event's description
+			showEventDescription(event);
 		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
 			getTask();
 		}else {
-			alert("kiuyiuoy87687687");
 		}
 	});
 	
@@ -89,18 +90,23 @@ $().ready(function(){
 		var eventArray = JSON.parse(sessionStorage.eventArray);
 		if(eventArray != null && typeof eventArray != 'undefined'){
 			var index = $(o).attr('data-index');
-			event_id = eventArray['events'][index]._id;
+//			event_id = eventArray['events'][index]._id;
+			return eventArray['events'][index];
 		}else{
 //			TO-DO
 			return false;
 		}
-		return event_id;
+		
+	}
+	
+	function showEventDescription(event){
+		var html = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:event});
 	}
 	
 	function getCheckpoints(event_id){
 		// new checkpoints in events
 		$.ajax({
-			  //url: '/api/v1/events/' + event_id + '/checkpoints',
+//			  url: '/api/v1/events/' + event_id + '/checkpoints',
 			  url: 'mockData/cityOrienteering.json',
 			  success: function(data) {
 				// inject
@@ -173,7 +179,7 @@ $().ready(function(){
 		undisplayTaskList();
 	});
 	$('#contentListClose').die();
-	$('#contentListClose').live('click',function(){
+	$('#contentListClose').live('click',function(e){
 		undisplayEventList();
 	});	
 	$("#expand").die();

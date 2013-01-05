@@ -26,6 +26,9 @@
       if (window.location.pathname == "/login") {
     	  getUserNameByID(response.authResponse.userID,updateTemplate_Login);
       }
+      if (window.location.pathname == "/mobile") {
+    	  console.log("inside");
+      }
 //      testAPI();
     } else if (response.status === 'not_authorized') {
       // not_authorized
@@ -38,6 +41,9 @@
       console.log("you has NOT logged in");
       if (window.location.pathname == "/login") {
     	  updateTemplate_Login();
+      }
+      if (window.location.pathname == "/mobile") {
+    	  window['location'] = "/login"; 
       }
     }
    });

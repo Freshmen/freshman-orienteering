@@ -2,6 +2,7 @@
 "events": [
 {
 	"type"			: "Event",
+	"id"			: "asfas0870870987asdfsadfsad",
 	"title" 		: "Freshmen Orienteering",
 	"startTime"		: "2012-11-01T20:32:51.349Z",
 	"endTime"		: "2013-03-01T20:32:51.349Z",
@@ -12,11 +13,13 @@
 	},
 	"organizer"		: "Tuomo Vierros",
 	"uploadToken"	: "randomToken",
-	"ordered"		: true
+	"ordered"		: true,
+	"description"	: "This is a very fake description. The Freshmen Orienteering event is created by Mr. O/'Suvillience who is a leading professiong in Computer Science Department. to participant the event, you will have to visit three different places in Otaniemi and perform some tasks."
 },
 
 {
 	"type"			: "Event",
+	"id"			: "afhfghfgs0876598675887aefe",
 	"title" 		: "City Orienteering",
 	"startTime"		: "2012-11-02T20:32:51.349Z",
 	"endTime"		: "2013-04-01T20:32:51.349Z",
@@ -27,7 +30,8 @@
 	},
 	"organizer"		: "Sanna Olkkonen",
 	"uploadToken"	: "anotherRandomToken",
-	"ordered"		: false
+	"ordered"		: false,
+	"description"	: "This is a very fake description 2. The City Orienteering event is created by Mr. O/'Suvillience who is a leading professiong in Computer Science Department. to participant the event, you will have to visit three different places in Helsinki and perform some tasks."
 }
 ]
 }
