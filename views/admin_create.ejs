@@ -2,39 +2,166 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Show view</title>
+  <title>Create view</title>
+  <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
+  <style>
+    .clear { clear: both;}
+    .form-label { display: block; width: 100px; float: left; }
+    .form-input { display: block; width: 180px; float: left; }
+    .form-button-area { text-align: right; padding: 5px 10px;}
+    #create-form { width: 300px; }
+  </style>
 </head>
 <body>
-  <% if (type == 'Events') { %>
-    <h2>Create a new event</h2>
-    <ul>
-      <li><label >Title</label><input type="text" /></li>
-      <li><label >Description</label><input type="text" /></li>
-      <li><label >Start Time</label><input type="text" /></li>
-      <li><label >End Time</label><input type="text" /></li>
-      <li><label >Longitude</label><input type="text" /></li>
-      <li><label >Latitude</label><input type="text" /></li>
-      <li><label >Altitude</label><input type="text" /></li>
-    </ul>
-  <% } %>
-
   <% if (type == 'Event') { %>
-      <h2>Create a new checkpoint</h2>
-      <ul>
-      <li><label >Title</label><input type="text" /></li>
-      <li><label >Description</label><input type="text" /></li>
-      <li><label >Order</label><input type="text" /></li>
-      <li><label >Longitude</label><input type="text" /></li>
-      <li><label >Latitude</label><input type="text" /></li>
-      <li><label >Altitude</label><input type="text" /></li>
-    </ul>
+    <h2>Create a new event</h2>
+    <form id="create-form" action="<%= action %>">
+    <div class="form-row">
+      <label class="form-label" for="title">Title</label>
+      <input class="form-input" id="title" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="description">Description</label>
+      <input class="form-input" id="description" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="startTime">Start Time</label>
+      <input class="form-input" id="startTime" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="endTime">End Time</label>
+      <input class="form-input" id="endTime" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="longitude">Longitude</label>
+      <input class="form-input" id="longitude" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="latitude">Latitude</label>
+      <input class="form-input" id="latitude" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-button-area">
+        <button id="submit-button" type="button">Save</button>
+        <button id="cancel-button" type="button">Cancel</button>
+    </div>
+  </form>
   <% } %>
 
-  <ul>
-    <li><a href="#">Save</a></li>
-    <li><a href="./">Cancel</a></li>
-  </ul>
+  <% if (type == 'Checkpoint') { %>
+    <h2>Create a new checkpoint</h2>
+    <form id="create-form" action="<%= action %>">
+      <div class="form-row">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-input" id="title" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="description">Description</label>
+        <input class="form-input" id="description" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="order">Order</label>
+        <input class="form-input" id="order" type="number" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="longitude">Longitude</label>
+        <input class="form-input" id="longitude" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="latitude">Latitude</label>
+        <input class="form-input" id="latitude" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-button-area">
+          <button id="submit-button" type="button">Save</button>
+          <button id="cancel-button" type="button">Cancel</button>
+          <div class="clear" />
+      </div>
+    </form>
+  <% } %>
 
-  <script src="/javascripts/events.js"></script>
+  <% if (type == 'User') { %>
+    <h2>Create a new user</h2>
+    <form id="create-form" action="<%= action %>">
+      <div class="form-row">
+        <label class="form-label" for="role">Role</label>
+        <input class="form-input" id="role" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="provider">Provider</label>
+        <input class="form-input" id="provider" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="provider_id">ID</label>
+        <input class="form-input" id="provider_id" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="displayName">Display Name</label>
+        <input class="form-input" id="displayName" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="familyName">Family Name</label>
+        <input class="form-input" id="familyName" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="givenName">Given Name</label>
+        <input class="form-input" id="givenName" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="middleName">Middle Name</label>
+        <input class="form-input" id="middleName" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" id="email" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-button-area">
+          <button id="submit-button" type="button">Save</button>
+          <button id="cancel-button" type="button">Cancel</button>
+      </div>
+    </form>
+  <% } %>
+
+  <script>
+    var back = function() { window.location='./'; }
+    var parseForm = function() {
+      var data = {};
+      var fields = document.getElementsByTagName('input');
+      for (var i = 0; i < fields.length; i++) {
+        data[fields[i].id] = fields[i].value; 
+      }
+      return data;
+    };
+    var submit = function(form, data, callback) {
+      $.ajax({
+        type: "POST",
+        url: form.action,
+        data: data
+      }).done(callback);
+    };
+    $('#cancel-button').bind('click', back );
+    $('#submit-button').bind('click', function() { 
+      var data = parseForm();
+      var form = document.getElementById('create-form'); 
+      submit(form, data, back); 
+    });
+  </script>
 </body>
 </html

@@ -4,10 +4,16 @@ var getRequestType = function(req) {
 	var type;
 	if (req.params.checkpointID) {
 		type = 'Checkpoint';
+	} else if (req.path.match(/\/checkpoints/i)) {
+		type = 'Checkpoint';
 	} else if (req.params.eventID) {
 		type = 'Event';
+	} else if (req.params.userID) {
+		type = 'User';
+	} else if (req.path.match(/\/users/i)) {
+		type = 'User';
 	} else {
-		type = 'Events';
+		type = 'Event';
 	}
 	return type;
 }
@@ -18,6 +24,8 @@ var getRequestId = function(req){
 		id = req.params.checkpointID;
 	} else if (req.params.eventID) {
 		id = req.params.eventID;
+	} else if (req.params.userID) {
+		id = req.params.userID;
 	} else {
 		id = null;
 	}
@@ -27,9 +35,16 @@ var getRequestId = function(req){
 exports.list = function(req, res) {
 	var id = getRequestId(req);
 	var type = getRequestType(req);
-	db.getChildrenById(id, function(data) {
-		res.render('admin_list', {'type' : type, 'items' : data});
-	});
+	if (type === "Checkpoints") {
+		db.getChildrenById(id, function(data) {
+			res.render('admin_list', {'type' : type, 'items' : data});
+		});
+	} else {
+		db.getDocumentsByType(type, function(data) {
+			res.render('admin_list', {'type' : type, 'items' : data});
+		});
+	}
+
 }
 
 exports.show = function(req, res) {
@@ -38,7 +53,7 @@ exports.show = function(req, res) {
 	db.getDocumentById(id, function(data) {
 		var items = [];
 		for (var prop in data) {
-			if (data.hasOwnProperty(prop)) {
+			if (data.hasOwnProperty(prop) && prop.charAt(0) !== '_') {
 				var item = {};
 				item.key = prop;
 				item.value = data[prop];
@@ -52,21 +67,27 @@ exports.show = function(req, res) {
 exports.edit = function(req, res) {
 	var id = getRequestId(req);
 	var type = getRequestType(req);
+	var actionPath = req.path.replace('admin/', 'api/v1/').replace('/edit', '');
 	db.getDocumentById(id, function(data) {
 		var items = [];
 		for (var prop in data) {
-			if (data.hasOwnProperty(prop)) {
+			if (data.hasOwnProperty(prop) && prop.charAt(0) !== '_') {
 				var item = {};
 				item.key = prop;
 				item.value = data[prop];
 				items.push(item);
 			}
 		}
-		res.render('admin_edit', { 'type' : type, 'items' : items });
+		res.render('admin_edit', { 'type' : type, 'items' : items, 'action' : actionPath });
 	});
 }
 
 exports.create = function(req, res) {
 	var type = getRequestType(req);
-	res.render('admin_create', { 'type' : type });
+	var actionPath = req.path.replace('admin/', 'api/v1/').replace('/create', '');
+	res.render('admin_create', { 'type' : type, 'action' : actionPath });
+}
+
+exports.index = function(req, res) {
+	res.render('admin_index');
 }

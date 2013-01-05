@@ -1,8 +1,8 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
 //var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
 var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
-nano.db.create('fori-test-3');
-var db = nano.use('fori-test-3');
+nano.db.create('fori-test-4');
+var db = nano.use('fori-test-4');
 
 
 var addDesignDocs = function() {
@@ -15,8 +15,14 @@ var addDesignDocs = function() {
    				"Checkpoints": {
        				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
    				},
+   				"Users": {
+       				"map": "function(doc) {\n  if (doc.type === \"User\")\n    emit(doc, doc);\n}"
+   				},
    				"Children" : {
    					"map" : "function(doc) {\n if (doc.type === \"Event\")\n  emit(doc.title, doc);\n  else if (doc.parent)\n   emit(doc.parent, doc);\n}"
+   				},	
+   				"byType": {
+       				"map": "function(doc) {\n  if (doc.type)\n    emit(doc.type, doc);\n}"
    				}
 			}
   		}, '_design/Lists'
@@ -78,6 +84,30 @@ var updateItem = function(id, updateItem, callback) {
 exports.getDocumentById = function(id, callback){
 	read_doc(id, function(body) {
 		callback(body);
+	});
+};
+
+exports.getDocumentsByType = function(type, callback){
+	var filter;
+	if (type) {
+		filter = {};
+		filter.keys = [];
+		filter.keys.push(type);
+	} else {
+		filter = '';
+	}
+	db.view('Lists', 'byType', filter, function(err, body) {
+  		if (!err) {
+  			var response = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.push(doc.value);
+    			});
+  			}
+  			callback(response);
+    	} else {
+    		console.log(err);
+    	}
 	});
 };
 
@@ -145,6 +175,7 @@ exports.createCheckpoints = function(req, res){
 	if (req.body) {
 		var checkPoint = req.body;
 		checkPoint.event = req.params.eventID;
+		checkPoint.parent = req.params.eventID;
 		checkPoint.type = 'Checkpoint';
 		insert_doc(checkPoint, 0, function(body){
 			res.json(body, 201);
@@ -262,7 +293,55 @@ exports.deleteCheckpoints = function(req, res){
 };
 
 exports.deleteCheckpoint = function(req, res){
-	deleteItem(id, function(body) {
+	deleteItem(req.params.checkpointID, function(body) {
+		res.json(body);
+	});
+};
+
+exports.readUsers = function(req, res) {
+	db.view('Users', 'Events', function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.users = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.users.push(doc.value);
+    			});
+  			}
+    		res.json(response);
+    	} else {
+    		res.send(err, 400);
+    	}
+	});
+};
+
+exports.readUser = function(req, res) {
+	read_doc(req.params.userID, function(body) {
+		res.json(body);
+	});
+};
+
+exports.createUser = function(req, res) {
+	if (req.body) {
+		var user = req.body;
+		user.type = 'User';
+		insert_doc(user, 0, function(body){
+			res.json(body, 201);
+		});
+	}
+	else {
+		res.send('{"error" : "No body in request"}', 400);
+	}	
+};
+
+exports.updateUser = function(req, res) {
+	updateItem(req.params.userID, req.body, function(body) {
+		res.json(body);
+	});	
+};
+
+exports.deleteUser = function(req, res) {
+	deleteItem(req.params.userID, function(body) {
 		res.json(body);
 	});
 };

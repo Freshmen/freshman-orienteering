@@ -55,6 +55,7 @@ app.get('/mobile', mobile.show);
 app.get('/login', login.show);
 
 //Pages for admin view
+app.get('/admin', admin.index);
 app.get('/admin/events', admin.list);
 app.get('/admin/events/create', admin.create);
 app.get('/admin/events/:eventID/checkpoints', admin.list);
@@ -63,17 +64,24 @@ app.get('/admin/events/:eventID', admin.show);
 app.get('/admin/events/:eventID/checkpoints/create', admin.create);
 app.get('/admin/events/:eventID/checkpoints/:checkpointID', admin.show);
 app.get('/admin/events/:eventID/checkpoints/:checkpointID/edit', admin.edit);
+app.get('/admin/users', admin.list);
+app.get('/admin/users/create', admin.create);
+app.get('/admin/users/:userID', admin.show);
+app.get('/admin/users/:userID/edit', admin.edit);
 
 //Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
 app.post('/api/v1/events/:eventID', db.createEvent);
 app.post('/api/v1/events/:eventID/checkpoints', db.createCheckpoints);
 app.post('/api/v1/events/:eventID/checkpoints/:checkpointID', db.createCheckpoint);
+app.post('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins', db.createCheckin);
 
 app.get('/api/v1/events', db.readEvents);
 app.get('/api/v1/events/:eventID', db.readEvent);
 app.get('/api/v1/events/:eventID/checkpoints', db.readCheckpoints);
 app.get('/api/v1/events/:eventID/checkpoints/:checkpointID', db.readCheckpoint);
+app.get('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins', db.readCheckins);
+app.get('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.readCheckin);
 
 app.put('/api/v1/events', db.updateEvents);
 app.put('/api/v1/events/:eventID', db.updateEvent);
@@ -84,6 +92,15 @@ app.delete('/api/v1/events', db.deleteEvents);
 app.delete('/api/v1/events/:eventID', db.deleteEvent);
 app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
 app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
+
+//Calls that can be made to the User API
+app.post('/api/v1/users', db.createUser);
+app.get('/api/v1/users', db.readUsers);
+app.get('/api/v1/users/:userID', db.readUser);
+app.put('/api/v1/users/:userID', db.updateUser);
+app.delete('/api/v1/users/:userID', db.deleteUser);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
