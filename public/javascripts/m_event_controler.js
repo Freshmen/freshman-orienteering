@@ -293,7 +293,7 @@ $().ready(function(){
 				checkpoints = checkpoints.checkpoints;
 			}
 			$.each(checkpoints,function(index,values){
-				addCheckpointMarker(map,[values.location.latitude, values.location.longitude]);
+				mobileAddCheckpointMarker(map, values);
 			});
 		}
 		self.centerScreenWithCheckpoints = function centerScreenWithCheckpoints(checkpoints){

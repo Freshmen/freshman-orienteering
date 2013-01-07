@@ -5,7 +5,7 @@ var eventMarked = false;
 var eventCreated = false;
 var eventMarker;
 
-$().ready(function(){
+$().ready(function() {
 	// Set up is the credentials to use the API:
 	nokia.Settings.set("appId", "Mek1RWK8L0PLr48gT0al"); 
 	nokia.Settings.set("authenticationToken", "BU8plLql-XdJ0CmizJSsow");
@@ -287,6 +287,7 @@ function addEventMarker(map, new_coord){
 	map.objects.add(new_marker);
 	return new_marker;
 }
+
 function addCheckpointMarker(map, new_coord){
 	// Create a marker and add it to the map
 	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
@@ -294,7 +295,13 @@ function addCheckpointMarker(map, new_coord){
 	    draggable: false,
 	    brush: nokia.maps.util.Brush({"color": "#FFFFFF"})
 	});
+
+	var TOUCH = nokia.maps.dom.Page.browser.touch,
+        CLICK = TOUCH ? "tap" : "click";
+
+	new_marker.addListener(CLICK,checkPointClickEvent,false);
 	map.objects.add(new_marker);
+
 	return new_marker;
 }
 
@@ -307,7 +314,7 @@ function setZoom(map, zoomLevel){
 		console.log("Min: " +  map.minZoomLevel);
 		return;
 	}
-
+	
 	map.setZoomLevel(zoomLevel);
 }
 
