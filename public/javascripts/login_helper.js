@@ -1,10 +1,10 @@
-function updateTemplate_Devices(){
+function updateTemplate_Login(){
 	var o = this;
-	if (typeof o.devices === "undefined"){
-		// no devices
-		
+	if (typeof o.response === "undefined"){
+		//not logged in
+		return new EJS({url: '/mockData/login_status.ejs'}).update('contentWrap', {});
 	}else{
-		// has devices
+		//loged in
 		return new EJS({url: '/mockData/login_status.ejs'}).update('contentWrap', {content: o});
 	}
 }
