@@ -23,7 +23,7 @@
        
        <%} else {%>
        		<li><h2>Event Name: <%= content.title %></h2></li>
-       		<li>Description: <%= content.description %></li>
+       		<li><p>Description: <%= content.description %><p></li>
           <li data-tag=<%=content.id%> id="showCheckpoints"><a href="#">Show Checkpoints</a></li>
           <li><div id="checkPointWrap"></div></li>
           <li id="goBack"><a href="#">Go Back</a></li>

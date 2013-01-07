@@ -149,7 +149,7 @@ $().ready(function(){
 		$.ajax({
 			 url: '/mockData/taskExample.json', success: function(data){
 
-			 new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
+			 new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
 		}
 		});
 	}
@@ -197,11 +197,11 @@ $().ready(function(){
 			}
 		}
 		//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
-	  	new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: o.events});
+	  	new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o.events});
 	}
 
 	function showEventDescription(event){
-		var html = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:event});
+		var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
 	}
 	
 	function Checkpoints(){
@@ -248,7 +248,7 @@ $().ready(function(){
 			if (o.checkpoints.event){
 				o.checkpoints = o.checkpoints.checkpoints;
 			}
-			var callback = new EJS({url: '/mockData/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o.checkpoints});
+			var callback = new EJS({url: '/templates/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o.checkpoints});
 			checkPoints.isShown = true;
 			// place all markers that in that event onto the map
 			self.displayMaker(o.checkpoints);
@@ -322,7 +322,7 @@ $().ready(function(){
 			url: '/mockData/taskExample.json',
 			success : function(data){
 				//task data is coming here
-				 var callback = new EJS({url: '/mockData/taskTemplate.ejs'}).update('taskWrap',{content:data.task});
+				 var callback = new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap',{content:data.task});
 			},
 			error : function(data){
 				// get an instance from notification centre
