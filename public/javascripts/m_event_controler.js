@@ -3,7 +3,7 @@ $().ready(function(){
 	var defaultColor = '#333';
 	
 	function displayEventList(){
-		injectEvents();
+		getEvents();
 		$('#content').css('display','block');
 		$('#eventList a').css('color','#44e');
 		isDisplay = true;
@@ -25,7 +25,7 @@ $().ready(function(){
 		$('#expandWrap').append('<input type="file" id="files" name="files[]"/><output id="list"></output>');
 		document.getElementById('files').addEventListener('change', handleFileSelect, false);
 	}
-	function injectEvents(){
+	function getEvents(){
 		// new data
 		$.ajax({
 			  url: '/mockData/eventExample.json',
@@ -42,8 +42,7 @@ $().ready(function(){
 			    	/* NEED TO IMPROVE - No web storage support */
 			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
 			    }
-				//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
-			  	new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data.events});
+				injectEvents.call(data);
 			  },
 			  error : function(data){
 				  console.log(data);//return error if the JSON is not valid
@@ -69,21 +68,24 @@ $().ready(function(){
 		}	
 	});
 
-	$('#contentList li').live('click',function(){
+	$('#contentList li').live('click',getEventByIndexHelper);
+	
+	function getEventByIndexHelper(){
 		var self = this;
 		if ($(this).parent().attr("data-tag") == "events"){
 			var o = self;
-			var event = getEvents.call(o);
-//			getCheckpoints(event_id);
+			var event = getEventByIndex.call(o);
 			// show Event's description
 			showEventDescription(event);
 		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
 			getTask();
-		}else {
+		}else if ($(this).parent().attr("data-tag") == "event_description"){
+			var o = self;
+			var event = getEventByIndex.call(o);
 		}
-	});
+	}
 	
-	function getEvents() {
+	function getEventByIndex() {
 //		var eventName = $(this).children().text().replace(/ /,"");
 		var o = this;
 		var event_id = null;
@@ -98,7 +100,20 @@ $().ready(function(){
 		}
 		
 	}
-	
+	function injectEvents(){
+		var o = {};
+		if (this.events){
+			o = this;
+		}else{
+			if (sessionStorage.eventArray){
+				o = JSON.parse(sessionStorage.eventArray);
+			}else{
+				return false;
+			}
+		}
+		//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
+	  	new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: o.events});
+	}
 	function showEventDescription(event){
 		var html = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:event});
 	}
@@ -201,6 +216,9 @@ $().ready(function(){
 	    		  console.log(data);
 	    	  }
 	    	});
+	});
+	$('#goBack').live('click',function(){
+		injectEvents.call();
 	});
 	
 	$("#uploadButton").die();
