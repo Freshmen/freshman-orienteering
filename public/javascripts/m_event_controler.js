@@ -59,8 +59,29 @@ $().ready(function(){
 	
 	displayEventList();
 	
+	var checkPoints = new Checkpoints();
+	
 	$('#showCheckpoints').live('click',function(){
-		getCheckpoints.call('1');
+		// if hasn't been shown
+		if (!checkPoints.isShown){
+			// show checkpoints
+			checkPoints.getCheckpointsHelper($(this).attr("data-tag"));
+			// isShown = true
+			checkPoints.setCheckpoints(true);
+			// if it is shown
+			if(checkPoints.isShown){
+				// change text to "hide"
+				$(this).children().text("Hide Checkpoints");
+			}
+		}else{
+			// hide the checkpoints
+			checkPoints.hideCheckpointsByCallback(hideCheckpoints);
+			// change text to "show"
+			$(this).children().text("Show Checkpoints");
+			// isShown to false
+			checkPoints.setCheckpoints(false);
+		}
+		
 	});
 
 	// End Initialisation
@@ -70,6 +91,10 @@ $().ready(function(){
 	 * functions
 	 *
 	 * ***********************/
+	
+	function hideCheckpoints(){
+		$("#checkPointWrap").children().remove();
+	}
 	
 	function displayEventList(){
 		getEvents();
@@ -179,31 +204,117 @@ $().ready(function(){
 		var html = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:event});
 	}
 	
-	function getCheckpoints(event_id){
-		// new checkpoints in events
-		$.ajax({
-//			  url: '/api/v1/events/' + event_id + '/checkpoints',
-			  url: 'mockData/cityOrienteering.json',
-			  success: function(data) {
-				// inject
-				  if (data.checkpoints.length == 0){
-					  var marker_notifier = initialiseNotification();
-					  marker_notifier.warning('Sorry, no checkpoints');
-					  return false;
-				  }else{
-					  var callback = new EJS({url: '/mockData/checkpointTemplate.ejs'}).update('checkPointWrap',{content:data.checkpoints});
-					  // place all markers that in that event onto the map
-					  displayMaker(data.checkpoints);
-					  centerScreenWithCheckpoints(data.checkpoints);
-					  
+	function Checkpoints(){
+		var self = this;
+		self.isShown = false;
+		self.checkpoints = {};
+		
+		self.setCheckpoints = function setCheckpoints(b){
+			if (typeof(b) === "boolean")
+				self.isShown = b;
+			else return false;
+		}
+		
+		self.hideCheckpointsByCallback = function hideCheckpoints(callback){
+			if(callback && typeof(callback) === "function"){
+				// how you want to hide it
+				callback();
+			}
+		}
+		
+		self.getCheckpointsHelper = function getCheckpointsHelper(event_id,callback){
+			if ($.isEmptyObject(self.checkpoints)){
+				if (callback && typeof(callback) === "function"){
+					self.getCheckpoints(event_id,callback);
+				}else{
+					self.getCheckpoints(event_id,self.injectCheckpoints);
+				}
+			}else{
+				self.injectCheckpoints();
+			}
+		}
+		
+		self.injectCheckpoints = function injectCheckpoints(){
+			var o = {};
+			if (!$.isEmptyObject(this.checkpoints)){
+				o = this;
+			}else{
+				if (self.checkpoints.length != 0){
+					o = self.checkpoints;
+				}else{
+					return false;
+				}
+			}
+			if (o.checkpoints.event){
+				o.checkpoints = o.checkpoints.checkpoints;
+			}
+			var callback = new EJS({url: '/mockData/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o.checkpoints});
+			checkPoints.isShown = true;
+			// place all markers that in that event onto the map
+			self.displayMaker(o.checkpoints);
+			self.centerScreenWithCheckpoints(o.checkpoints);
+		}
+		
+		self.getCheckpoints = function getCheckpoints(event_id,callback){
+			// new checkpoints in events
+			$.ajax({
+//				  url: '/api/v1/events/' + event_id + '/checkpoints',
+				  url: 'mockData/cityOrienteering.json',
+				  success: function(data) {
+					// inject
+					  if (data.checkpoints.length == 0){
+						  var marker_notifier = initialiseNotification();
+						  marker_notifier.warning('Sorry, no checkpoints');
+						  return false;
+					  }else{
+						  if(typeof(Storage)!=="undefined")
+						    {
+						    	//sessionStorage.eventArray = JSON.stringify(data.db);
+//						    	sessionStorage.checkpointsArray = JSON.stringify(data); // mock data version
+						    	self.checkpoints = data;
+						    }
+						    else
+						    {
+						    }
+						  if (callback && typeof(callback) === "function"){
+							  callback.call(data);
+						  }
+					  }
+				  },
+				  error: function(e){
+					// get an instance from notification centre
+					var marker_notifier = initialiseNotification();
+					marker_notifier.error('Sorry, your request cannot be made.');
 				  }
-			  },
-			  error: function(e){
-				// get an instance from notification centre
-				var marker_notifier = initialiseNotification();
-				marker_notifier.error('Sorry, your request cannot be made.');
-			  }
+				});
+		}
+		self.displayMaker = function displayMaker(checkpoints){
+			if (checkpoints.event){
+				checkpoints = checkpoints.checkpoints;
+			}
+			$.each(checkpoints,function(index,values){
+				addCheckpointMarker(map,[values.location.latitude, values.location.longitude]);
 			});
+		}
+		self.centerScreenWithCheckpoints = function centerScreenWithCheckpoints(checkpoints){
+			if (checkpoints.event){
+				checkpoints = checkpoints.checkpoints;
+			}
+			var len = checkpoints.length;
+			var meanLon = 0.0;
+			var meanLat = 0.0;
+			for(var i = 0; i < len; i++){
+			  	meanLon += checkpoints[i].location.longitude;
+			  	meanLat += checkpoints[i].location.latitude;
+			  }
+
+			  meanLon = meanLon/len;
+			  meanLat = meanLat/len;
+			  
+			  setZoom(map, 14); // 14 is default for street level
+			  centerMapToCoordinate(map, meanLat, meanLon);
+			  
+		}
 	}
 	
 	function getTask(){
@@ -219,31 +330,6 @@ $().ready(function(){
 				marker_notifier.error('Sorry, your request cannot be made.');
 			}
 		});
-	}
-	
-	function centerScreenWithCheckpoints(checkpoints){
-		var len = checkpoints.length;
-		var meanLon = 0.0;
-		var meanLat = 0.0;
-		for(var i = 0; i < len; i++){
-		  	meanLon += checkpoints[i].location.longitude;
-		  	meanLat += checkpoints[i].location.latitude;
-		  }
-
-		  meanLon = meanLon/len;
-		  meanLat = meanLat/len;
-		  
-		  setZoom(map, 14); // 14 is default for street level
-		  centerMapToCoordinate(map, meanLat, meanLon);
-		  
-	}
-
-
-	function displayMaker(checkpoints){
-		$.each(checkpoints,function(index,values){
-			addCheckpointMarker(map,[values.location.latitude, values.location.longitude]);
-		});
-		
 	}
 	
 	/* ***********************
