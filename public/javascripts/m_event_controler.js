@@ -1,6 +1,71 @@
 $().ready(function(){
 	var isDisplay = false;
 	var defaultColor = '#333';
+	/* ***********************
+	 * Initialisation
+	 *
+	 * ***********************/
+	
+	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
+	$('#fbSignIn').click(function(){
+		fbLogin();
+	});	
+	$('#taskListClose').die();
+	$('#taskListClose').live('click',function(){
+		undisplayTaskList();
+	});
+	$('#contentListClose').die();
+	$('#contentListClose').live('click',function(e){
+		undisplayEventList();
+	});	
+	$("#expand").die();
+	$("#expand").live('click',function(){
+		explandContent();
+	});
+	$("#status").die();
+	$("#status").live('click',function(){
+		$.ajax({
+	    	  url: "/mockData/",
+	    	  type: "POST",
+	    	  data: {"task": "asdfadsfsdaf"},
+	    	  dataType: "json",
+	    	  contentType: "application/json",
+	    	  success : function(data){
+	    		  console.log(log);
+	    	  },
+	    	  error : function(data){
+	    		  console.log(data);
+	    	  }
+	    	});
+	});
+	$('#goBack').live('click',function(){
+		injectEvents.call();
+	});
+	
+	$("#uploadButton").die();
+	$("#uploadButton").live('click',function(){
+		
+	});
+	
+	$('#eventList').click(function(){
+		if(!isDisplay){
+			displayEventList();
+		}else{
+			undisplayEventList();
+		}	
+	});
+
+	$('#contentList li').live('click',getEventByIndexHelper);
+	
+	displayEventList();
+	
+	// End Initialisation
+	
+	
+	/* ***********************
+	 * functions
+	 *
+	 * ***********************/
 	
 	function displayEventList(){
 		getEvents();
@@ -59,16 +124,6 @@ $().ready(function(){
 		}
 		});
 	}
-
-	$('#eventList').click(function(){
-		if(!isDisplay){
-			displayEventList();
-		}else{
-			undisplayEventList();
-		}	
-	});
-
-	$('#contentList li').live('click',getEventByIndexHelper);
 	
 	function getEventByIndexHelper(){
 		var self = this;
@@ -185,46 +240,10 @@ $().ready(function(){
 		
 	}
 	
-	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
-	$('#fbSignIn').click(function(){
-		fbLogin();
-	});	
-	$('#taskListClose').die();
-	$('#taskListClose').live('click',function(){
-		undisplayTaskList();
-	});
-	$('#contentListClose').die();
-	$('#contentListClose').live('click',function(e){
-		undisplayEventList();
-	});	
-	$("#expand").die();
-	$("#expand").live('click',function(){
-		explandContent();
-	});
-	$("#status").die();
-	$("#status").live('click',function(){
-		$.ajax({
-	    	  url: "/mockData/",
-	    	  type: "POST",
-	    	  data: {"task": "asdfadsfsdaf"},
-	    	  dataType: "json",
-	    	  contentType: "application/json",
-	    	  success : function(data){
-	    		  console.log(log);
-	    	  },
-	    	  error : function(data){
-	    		  console.log(data);
-	    	  }
-	    	});
-	});
-	$('#goBack').live('click',function(){
-		injectEvents.call();
-	});
-	
-	$("#uploadButton").die();
-	$("#uploadButton").live('click',function(){
-		
-	});
+	/* ***********************
+	 * Testing functions
+	 *
+	 * ***********************/
 	function handleFileSelect(evt) {
 	    var files = evt.target.files; // FileList object
 
