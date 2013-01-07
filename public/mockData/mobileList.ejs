@@ -9,6 +9,7 @@
        <%} else{%>
        			<ul id="contentList" data-tag="event_description">
        <%} %>
+
        <!-- if statement -->
        <% if (content[0]) {%>
 	       <!-- for statement -->
@@ -19,12 +20,16 @@
 	            <%}%>         
 	          <% } %>
 	       <!-- end of for statement -->
+       
        <%} else {%>
        		<li>Event Name: <%= content.title %></li>
        		<li>Description: <%= content.description %></li>
-            <li id="goBack"><a href="#">Go Back</a></li>
-            <li id="enrol"><a href="#">Enrol</a></li>
+          <li data-tag=<%=content.id%> id="showCheckpoints"><a href="#">Show Checkpoints</a></li>
+          <li><div id="checkPointWrap"></div></li>
+          <li id="goBack"><a href="#">Go Back</a></li>
+          <li id="enrol"><a href="#">Enrol</a></li>
        <%}%>
         </ul>
+      
       </nav>
  </section>

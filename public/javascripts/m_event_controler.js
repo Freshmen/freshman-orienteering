@@ -59,6 +59,10 @@ $().ready(function(){
 	
 	displayEventList();
 	
+	$('#showCheckpoints').live('click',function(){
+		getCheckpoints.call('1');
+	});
+
 	// End Initialisation
 	
 	
@@ -155,6 +159,7 @@ $().ready(function(){
 		}
 		
 	}
+
 	function injectEvents(){
 		var o = {};
 		if (this.events){
@@ -169,6 +174,7 @@ $().ready(function(){
 		//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
 	  	new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: o.events});
 	}
+
 	function showEventDescription(event){
 		var html = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:event});
 	}
@@ -185,7 +191,7 @@ $().ready(function(){
 					  marker_notifier.warning('Sorry, no checkpoints');
 					  return false;
 				  }else{
-					  var callback = new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap',{content:data.checkpoints});
+					  var callback = new EJS({url: '/mockData/checkpointTemplate.ejs'}).update('checkPointWrap',{content:data.checkpoints});
 					  // place all markers that in that event onto the map
 					  displayMaker(data.checkpoints);
 					  centerScreenWithCheckpoints(data.checkpoints);
