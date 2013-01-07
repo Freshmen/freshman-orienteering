@@ -5,8 +5,8 @@
 /* Font definitions */
 fontFamily="AvantGardeGothicITCW01B 731063","Helvetica Neue",Arial,sans-serif
 fontBig=18px
-fontNav=13px
-fontSmall = 10px;
+fontNav=14px
+fontSmall = 13px;
 
 /* global colors */
 siteBackgroundColor = #eee
@@ -17,7 +17,7 @@ navFontHoverColor= #44e
 
 /*Global measures */
 mobileScalingMedium = 0.8;
-mobileScaling = 0.6;
+mobileScaling = 0.7;
 
 navBarHeight = 50px;
 listBarHeight = 30px;
@@ -96,24 +96,20 @@ h1, h2, h3 {
 /* http://paulirish.com/2012/box-sizing-border-box-ftw/ */
 
 
-
-
 #contentWrap, #taskWrap{
   position: fixed;
   top: navBarHeight+10;
   left:0;
   z-index:100;
-  width: 100%;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 #content {
-  position: fixed;
-  right:10px;
-  min-width: 250px;
-  margin-left: auto;
-  margin-right: auto;
+  position: relative;
+  margin-right:auto;
+  margin-left:auto;
+  *zoom:1;
 }
 
 .listbox{
@@ -135,19 +131,6 @@ h1, h2, h3 {
 	width:300px;
 	text-align: center;
 }
-
-/*
-#header header:before,#header header:after{
-  display:table;
-  content:"";
-  line-height:0
-}
-
-#header header:after{
-  clear:both
-}
-
-*/
 
 #header header:before,#header header:after{
 display:table;
@@ -199,13 +182,13 @@ clear:both
 
 
 #header header #control:before, #header header #control:after {
-display:table;
-content:"";
-line-height:0
+  display:table;
+  content:"";
+  line-height:0
 }
 
 #header header #control:after{
-clear:both
+  clear:both
 }
 
 #header header #control{
@@ -216,14 +199,16 @@ clear:both
 }
 
 #contentNav ul:before, #contentNav ul::after {
-display:table;
-content:"";
-line-height:0
+  display:table;
+  content:"";
+  line-height:0
 }
 
 #contentNav ul:after{
 clear:both
 }
+
+
 
 #contentNav ul li{
   line-height: listBarHeight;
@@ -369,15 +354,16 @@ span.delete:hover{
     }
 
     #contentWrap{
-      position: fixed;
       top: navBarHeight*mobileScaling+10;
       
     }
 
     #content{
       /*min-width: 250px*mobileScaling;*/
+      /*
       width:93.6%;
       height: 83%;
+      */
     }
 
     #contentNav ul li{
@@ -401,8 +387,7 @@ span.delete:hover{
       top: navBarHeight*mobileScaling+10;
     }
 
-    #taskContent{
-      
+    #taskContent{   
       font-size: fontSmall*mobileScaling;
       margin-left: 0px;
       margin-right: auto;
@@ -450,15 +435,16 @@ span.delete:hover{
     }
 
     #contentWrap{
-      position: fixed;
       top: navBarHeight*mobileScalingMedium+10;
       
     }
 
     #content{
-      min-width: 250px*mobileScalingMedium;
+      /*min-width: 250px*mobileScalingMedium;
+      /*
       width:95.8%;
       height: 84%;
+      */
     }
 
     #contentNav ul li{
@@ -482,8 +468,7 @@ span.delete:hover{
       top: navBarHeight*mobileScalingMedium+10;
     }
 
-    #taskContent{
-      
+    #taskContent{ 
       font-size: fontSmall*mobileScalingMedium;
       margin-left: 0px;
       margin-right: auto;
