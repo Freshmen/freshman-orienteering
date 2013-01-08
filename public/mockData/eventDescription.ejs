@@ -1,0 +1,12 @@
+<section id="content" class="listbox">
+       <span id="contentListClose" class="delete">X</span>
+       <nav id="contentNav">
+       <h2>Events near you</h2>
+       <ul id="contentList" data-tag="events">
+          <% for(var i = 0; i<content.length; i++) {%>
+            <li  ><a href="#"><%= content[i].title%></a><button> enroll </button></li>  
+            <span class="listSmall" id="organizer"><%= 'Organizer: ' + content[i] %></span>
+             <% } %> 
+        </ul>
+      </nav>
+ </section>
