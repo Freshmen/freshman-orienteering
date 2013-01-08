@@ -345,3 +345,12 @@ exports.deleteUser = function(req, res) {
 		res.json(body);
 	});
 };
+
+exports.readCheckin = function(req, res) {
+};
+
+exports.readCheckins = function(req, res) {
+};
+
+exports.createCheckin = function(req, res) {
+};

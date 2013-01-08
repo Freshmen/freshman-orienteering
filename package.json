@@ -52,7 +52,7 @@
     "orienteering"
   ],
   "dependencies": {
-    "express": "3.0.x",
+    "express": "*",
     "ejs": "*",
     "stylus": "*",
     "nconf" : "*",
@@ -61,8 +61,7 @@
   },
   "devDependencies": {
     "mocha" : "*",
-    "should" : "*",
-    "jsdom" : "*"
+    "should" : "*"
   },
   "license": "Apache License, Version 2.0",
   "engines": {

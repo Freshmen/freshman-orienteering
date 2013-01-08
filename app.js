@@ -50,7 +50,6 @@ app.configure('development', function(){
 app.get('/', routes.show);
 app.get('/desktop', desktop.show);
 app.get('/desktop_create', create.show);
-app.get('/db',db.create);
 app.get('/mobile', mobile.show);
 app.get('/login', login.show);
 
