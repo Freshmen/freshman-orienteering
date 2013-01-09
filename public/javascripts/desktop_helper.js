@@ -1,4 +1,4 @@
-function createcheckpoint(){
+function createCheckpoint(){
 
 	$('<div class="drag-container"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
 	$(".center-content").last().append('<form id="checkpoint"></form>');
@@ -67,6 +67,13 @@ function saveEvent(){
 	$("#ordered").attr("disabled","true");
 	$("#submit").attr("disabled","true");
 	$("#description").attr("disabled","true");
+	$("#submit").attr('style', 'background-color:silver');
+
+	<!-- Add save event button -->
+
+	//$("#event_form").append("<input type="submit" id="save" value="Save Event" class="button" style="float:right">")
+
+
 	return false;
 }
 
@@ -77,16 +84,16 @@ function displayNotifier() {
 		type: 'info',
 		dialog: false,
 		modal: true,
-		ms: 20000,
 		position: 'center',
 		zIndex: 10000,
-		screenOpacity: 0.7
+		screenOpacity: 0.7,
 	});
 	notifier.notify({
 		title: "Your event has been created!",
 		message: "Start adding checkpoints by double-clicking on the map.",
 		hideOnClick: true,
 		fadeInMs: 800,
-		fadeOutMs: 800
+		fadeOutMs: 800,
+		ms: 6000,
 	});
 }
