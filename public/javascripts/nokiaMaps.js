@@ -295,14 +295,11 @@ function addCheckpointMarker(map, new_coord){
 	    draggable: false,
 	    brush: nokia.maps.util.Brush({"color": "#FFFFFF"})
 	});
-
-	var TOUCH = nokia.maps.dom.Page.browser.touch,
-        CLICK = TOUCH ? "tap" : "click";
-
 	map.objects.add(new_marker);
-
 	return new_marker;
 }
+
+
 
 
 // Function to set the zoom level of the map
