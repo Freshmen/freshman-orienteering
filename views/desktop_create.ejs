@@ -28,11 +28,11 @@
 
 	<div id="content">
 				<form id="event_form" action="">
-					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 36px; width: 100%" autocomplete="off" required><br /><br />
-					<input type="text" id="location" style="font-size: 18px; width: 100%" value="" placeholder="Double-click the map to mark the start location" required disabled><br /><br />
+					<input type="text" id="title" size="30" placeholder="Event Name" style="font-size: 36px; width: 100%" autocomplete="off" maxlength="255" required><br />
+					<input type="text" id="location" style="font-size: 18px; width: 100%" value="" placeholder="Double-click the map to mark the start location" required disabled><br />
 					<input type="text" id="starttime" style="font-size: 18px; width: 100%" value="" placeholder="Start Time" autocomplete="off" required><br />
-					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" autocomplete="off" required>
-					<br /><br />
+					<input type="text" id="endtime" style="font-size: 18px; width: 100%" placeholder="End Time" value="" autocomplete="off" required><br />
+					<textarea id="description" style="font-size: 18px; width: 100%" rows = "6" placeholder="Enter Description" value="" autocomplete="off" required maxlength="1024" required></textarea><br /><br />
 
 					<div class="onoffswitch">
 					    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="ordered">
@@ -40,7 +40,7 @@
         					<div class="onoffswitch-inner"></div>
         					<div class="onoffswitch-switch"></div>
     					</label>
-					</div><br /><br />
+					</div><br />
 
 					<input type="submit" id="submit" value="Create Event" class="button">
 				</form>
