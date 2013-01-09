@@ -163,7 +163,7 @@ $().ready(function() {
 				//initialise events for the marker
 				initEvent(new_marker);
 				//Fill event coordinates on desktop site
-				$("#addOption").trigger('click');
+				createCheckpoint();
 			})
 			.on('click:cancel', 'destroy');
 
