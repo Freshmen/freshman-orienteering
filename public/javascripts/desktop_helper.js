@@ -46,6 +46,7 @@ function saveEvent(){
 			event_details[$(this).attr("id")] = $(this).val();
 		}
 	});
+	event_details["description"] = $('#description').val();
 	event_details["ordered"] = $('#ordered').attr('checked')?true:false;
 	console.log(event_details);
 	$.post("/api/v1/events/",event_details,function(){});
@@ -65,6 +66,7 @@ function saveEvent(){
 	$("#endtime").attr("disabled","true");
 	$("#ordered").attr("disabled","true");
 	$("#submit").attr("disabled","true");
+	$("#description").attr("disabled","true");
 	return false;
 }
 
