@@ -125,7 +125,7 @@ $().ready(function() {
 				//trigger notification
 				marker_notifier.success('A new marker has been created');
 				//initialise events for the marker
-				initEvent(eventMarker);
+				//initEvent(eventMarker);
 				//Fill event coordinates on desktop site
 				$('#location').val(coord);
 		/**	})
@@ -139,7 +139,7 @@ $().ready(function() {
 			//trigger notification
 			marker_notifier.success('A new marker has been created');
 			//initialise events for the marker
-			initEvent(eventMarker);
+			//initEvent(eventMarker);
 			//Fill event coordinates on desktop site
 			$('#location').val(coord);
 		}
@@ -161,7 +161,7 @@ $().ready(function() {
 				//trigger notification
 				marker_notifier.success('A new marker has been created');
 				//initialise events for the marker
-				initEvent(new_marker);
+				//initEvent(new_marker);
 				//Fill event coordinates on desktop site
 				createCheckpoint();
 			})
