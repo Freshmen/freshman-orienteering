@@ -97,12 +97,14 @@ h1, h2, h3 {
 
 
 #contentWrap, #taskWrap{
-  position: fixed;
+  position:fixed;
   top: navBarHeight+10;
   left:0;
   z-index:100;
+  width:100%;
   padding-right: 10px;
   padding-left: 10px;
+  box-sizing:border-box;
 }
 
 #content {
@@ -357,7 +359,6 @@ span.delete:hover{
 
     #contentWrap{
       top: navBarHeight*mobileScaling+10;
-      
     }
 
     #content{
@@ -437,8 +438,7 @@ span.delete:hover{
     }
 
     #contentWrap{
-      top: navBarHeight*mobileScalingMedium+10;
-      
+      top: navBarHeight*mobileScaling+10;
     }
 
     #content{

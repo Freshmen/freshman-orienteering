@@ -299,7 +299,6 @@ function addCheckpointMarker(map, new_coord){
 	var TOUCH = nokia.maps.dom.Page.browser.touch,
         CLICK = TOUCH ? "tap" : "click";
 
-	new_marker.addListener(CLICK,checkPointClickEvent,false);
 	map.objects.add(new_marker);
 
 	return new_marker;
@@ -314,7 +313,7 @@ function setZoom(map, zoomLevel){
 		console.log("Min: " +  map.minZoomLevel);
 		return;
 	}
-	
+
 	map.setZoomLevel(zoomLevel);
 }
 
