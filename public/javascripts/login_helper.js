@@ -1,3 +1,4 @@
+//updateTemplate_Login();
 function updateTemplate_Login(){
 	var o = this;
 	if (typeof o.response === "undefined"){
