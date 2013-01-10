@@ -1,5 +1,6 @@
 var checkpoint_hash = {};
 var hashkey = 0;
+var eventCoord;
 
 function createCheckpoint(marker){
 	$('<div class="drag-container"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
@@ -47,6 +48,13 @@ function saveEvent(){
 		if ($(this).attr("id") == 'starttime' || $(this).attr("id") == 'endtime'){
 			var date = new Date($(this).val());
 			event_details[$(this).attr("id")] = date.toJSON();
+		}
+		else if ($(this).attr("id") == 'location') {
+			var location = {};
+			location["latitude"] = eventCoord.latitude;
+			location["longitude"] = eventCoord.longitude;
+			event_details["location"] = location;
+			//event_details["location"]["longitude"] = lon;
 		}
 		else {
 			event_details[$(this).attr("id")] = $(this).val();
