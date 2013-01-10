@@ -6,6 +6,10 @@ var getRequestType = function(req) {
 		type = 'Checkpoint';
 	} else if (req.path.match(/\/checkpoints/i)) {
 		type = 'Checkpoint';
+	} else if (req.params.enrollmentID) {
+		type = 'Enrollment';
+	} else if (req.path.match(/\/enrollments/i)) {
+		type = 'Enrollment';
 	} else if (req.params.eventID) {
 		type = 'Event';
 	} else if (req.params.userID) {
@@ -26,6 +30,8 @@ var getRequestId = function(req){
 		id = req.params.eventID;
 	} else if (req.params.userID) {
 		id = req.params.userID;
+	} else if (req.params.enrollmentID) {
+		id = req.params.enrollmentID;
 	} else {
 		id = null;
 	}

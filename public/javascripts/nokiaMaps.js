@@ -128,6 +128,8 @@ $().ready(function() {
 				//initEvent(eventMarker);
 				//Fill event coordinates on desktop site
 				$('#location').val(coord);
+				eventCoord = coord;
+
 		/**	})
 			.on('click:cancel', 'destroy');
 		**/	//don't allow more markers to be added

@@ -149,15 +149,21 @@ app.get('/admin', admin.index);
 app.get('/admin/events', admin.list);
 app.get('/admin/events/create', admin.create);
 app.get('/admin/events/:eventID/checkpoints', admin.list);
+app.get('/admin/events/:eventID/enrollments', admin.list);
 app.get('/admin/events/:eventID/edit', admin.edit);
 app.get('/admin/events/:eventID', admin.show);
 app.get('/admin/events/:eventID/checkpoints/create', admin.create);
 app.get('/admin/events/:eventID/checkpoints/:checkpointID', admin.show);
 app.get('/admin/events/:eventID/checkpoints/:checkpointID/edit', admin.edit);
+app.get('/admin/events/:eventID/enrollments/create', admin.create);
+app.get('/admin/events/:eventID/enrollments/:enrollmentID', admin.show);
+app.get('/admin/events/:eventID/enrollments/:enrollmentID/edit', admin.edit);
 app.get('/admin/users', admin.list);
 app.get('/admin/users/create', admin.create);
 app.get('/admin/users/:userID', admin.show);
 app.get('/admin/users/:userID/edit', admin.edit);
+app.get('/admin/users/:userID/enrollments', admin.list);
+app.get('/admin/users/:userID/enrollments/:enrollmentID', admin.show);
 
 // Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
@@ -165,6 +171,7 @@ app.post('/api/v1/events/:eventID', db.createEvent);
 app.post('/api/v1/events/:eventID/checkpoints', db.createCheckpoints);
 app.post('/api/v1/events/:eventID/checkpoints/:checkpointID', db.createCheckpoint);
 app.post('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins', db.createCheckin);
+app.post('/api/v1/events/:eventID/enrollments', db.createEnrollment);
 
 app.get('/api/v1/events', db.readEvents);
 app.get('/api/v1/events/:eventID', db.readEvent);
@@ -172,6 +179,8 @@ app.get('/api/v1/events/:eventID/checkpoints', db.readCheckpoints);
 app.get('/api/v1/events/:eventID/checkpoints/:checkpointID', db.readCheckpoint);
 app.get('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins', db.readCheckins);
 app.get('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.readCheckin);
+app.get('/api/v1/events/:eventID/enrollments', db.readEnrollments);
+app.get('/api/v1/events/:eventID/enrollments/:enrollmentID', db.readEnrollment);
 
 app.put('/api/v1/events', db.updateEvents);
 app.put('/api/v1/events/:eventID', db.updateEvent);
@@ -182,15 +191,24 @@ app.delete('/api/v1/events', db.deleteEvents);
 app.delete('/api/v1/events/:eventID', db.deleteEvent);
 app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
 app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
+app.delete('/api/v1/events/:eventID/enrollments/:enrollmentID', db.deleteEnrollment);
 
-// Calls that can be made to the User API
-app.post('/api/v1/users', db.createUser);
+//Calls that can be made to the User API
 app.get('/api/v1/users', db.readUsers);
 app.get('/api/v1/users/:userID', db.readUser);
+app.get('/api/v1/users/:userID/enrollments', db.readEnrollments);
+app.get('/api/v1/users/:userID/enrollments/:enrollmentID', db.readEnrollment);
+app.get('/api/v1/users/:userID/enrollments/:enrollmentID/checkins', db.readCheckins);
+app.get('/api/v1/users/:userID/enrollments/:enrollmentID/checkins/:checkinID', db.readCheckin);
+
+app.post('/api/v1/users', db.createUser);
+app.post('/api/v1/users/:userID/enrollments', db.createEnrollment);
+
 app.put('/api/v1/users/:userID', db.updateUser);
+app.post('/api/v1/users/:userID/enrollments', db.updateEnrollment);
+
 app.delete('/api/v1/users/:userID', db.deleteUser);
-
-
+app.delete('/api/v1/users/:userID/enrollments', db.deleteEnrollment);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
