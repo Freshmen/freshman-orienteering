@@ -18,6 +18,9 @@ var addDesignDocs = function() {
    				"Users": {
        				"map": "function(doc) {\n  if (doc.type === \"User\")\n    emit(doc, doc);\n}"
    				},
+   				"Enrollments": {
+       				"map": "function(doc) {\n  if (doc.type === \"Enrollment\")\n    emit(doc.user, doc);\n}"
+   				},
    				"Children" : {
    					"map" : "function(doc) {\n if (doc.type === \"Event\")\n  emit(doc.title, doc);\n  else if (doc.parent)\n   emit(doc.parent, doc);\n}"
    				},	
@@ -299,7 +302,7 @@ exports.deleteCheckpoint = function(req, res){
 };
 
 exports.readUsers = function(req, res) {
-	db.view('Users', 'Events', function(err, body) {
+	db.view('Lists', 'Users', function(err, body) {
   		if (!err) {
   			var response = {};
   			response.users = [];
@@ -346,11 +349,73 @@ exports.deleteUser = function(req, res) {
 	});
 };
 
-exports.readCheckin = function(req, res) {
+exports.readCheckin = function(req, res) {};
+
+exports.readCheckins = function(req, res) {};
+
+exports.createCheckin = function(req, res) {};
+
+exports.createEnrollment = function(req, res) {
+	if (req.body) {
+		var enrollment = req.body;
+		enrollment.type = 'Enrollment';
+		insert_doc(enrollment, 0, function(body){
+			res.json(body, 201);
+		});
+	}
+	else {
+		res.send('{"error" : "No body in request"}', 400);
+	}	
 };
 
-exports.readCheckins = function(req, res) {
+exports.readEnrollment = function(req, res) {
+	read_doc(req.params.enrollmentID, function(body) {
+		res.json(body);
+	});	
+};
+exports.readEnrollments = function(req, res) {
+	if (req.params.userID) {
+		var filter = {};
+		filter.keys = [];
+		filter.keys.push(req.params.userID);
+		db.view('Lists', 'Enrollments', filter, function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.enrollments = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.enrollments.push(doc.value);
+    			});
+  			}
+    		res.json(response);
+    	} else {
+    		res.send(err, 400);
+    	}
+	});
+	}
+	db.view('Lists', 'Enrollments', function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.enrollments = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.enrollments.push(doc.value);
+    			});
+  			}
+    		res.json(response);
+    	} else {
+    		res.send(err, 400);
+    	}
+	});
+};
+exports.deleteEnrollment = function(req, res) {
+	deleteItem(req.params.enrollmentID, function(body) {
+		res.json(body);
+	});
+};
+exports.updateEnrollment = function(req, res) {
+	updateItem(req.params.enrollmentID, req.body, function(body) {
+		res.json(body);
+	});	
 };
 
-exports.createCheckin = function(req, res) {
-};

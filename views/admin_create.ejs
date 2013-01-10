@@ -6,10 +6,10 @@
   <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
   <style>
     .clear { clear: both;}
-    .form-label { display: block; width: 100px; float: left; }
+    .form-label { display: block; width: 180px; float: left; }
     .form-input { display: block; width: 180px; float: left; }
     .form-button-area { text-align: right; padding: 5px 10px;}
-    #create-form { width: 300px; }
+    #create-form { width: 380px; }
   </style>
 </head>
 <body>
@@ -36,6 +36,7 @@
       <input class="form-input" id="endTime" type="text" />
       <div class="clear" />
     </div>
+    <h3>location</h3>
     <div class="form-row">
       <label class="form-label" for="longitude">Longitude</label>
       <input class="form-input" id="longitude" type="text" />
@@ -44,6 +45,27 @@
     <div class="form-row">
       <label class="form-label" for="latitude">Latitude</label>
       <input class="form-input" id="latitude" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="ordered">Ordered</label>
+      <input class="form-input" id="ordered" type="text" />
+      <div class="clear" />
+    </div>
+    <h3>Organizer</h3>
+    <div class="form-row">
+      <label class="form-label" for="organizer_id">Organizer ID</label>
+      <input class="form-input" id="organizer_id" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="organizer_name">Organizer Name</label>
+      <input class="form-input" id="organizer_name" type="text" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="type">Type</label>
+      <input class="form-input" id="type" type="text" value="Event" readonly />
       <div class="clear" />
     </div>
     <div class="form-button-area">
@@ -61,14 +83,10 @@
         <input class="form-input" id="title" type="text" />
         <div class="clear" />
       </div>
+      <h3>Location</h3>
       <div class="form-row">
-        <label class="form-label" for="description">Description</label>
-        <input class="form-input" id="description" type="text" />
-        <div class="clear" />
-      </div>
-      <div class="form-row">
-        <label class="form-label" for="order">Order</label>
-        <input class="form-input" id="order" type="number" />
+        <label class="form-label" for="latitude">Latitude</label>
+        <input class="form-input" id="latitude" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
@@ -77,10 +95,37 @@
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="latitude">Latitude</label>
-        <input class="form-input" id="latitude" type="text" />
+        <label class="form-label" for="order">Order</label>
+        <input class="form-input" id="order" type="number" />
         <div class="clear" />
       </div>
+      <div class="form-row">
+        <label class="form-label" for="type">Type</label>
+        <input class="form-input" id="type" type="text" value="Checkpoint" readonly />
+        <div class="clear" />
+      </div>
+      <h3>Task</h3>
+      <div class="form-row">
+        <label class="form-label" for="task_url">Task URL</label>
+        <input class="form-input" id="task_url" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="task_description">Task Description</label>
+        <input class="form-input" id="task_description" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="task_accepts">Task Accepts</label>
+        <input class="form-input" id="task_accepts" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="task_upload_url">Task Upload URL</label>
+        <input class="form-input" id="task_upload_url" type="text" />
+        <div class="clear" />
+      </div>
+
       <div class="form-button-area">
           <button id="submit-button" type="button">Save</button>
           <button id="cancel-button" type="button">Cancel</button>
@@ -93,43 +138,78 @@
     <h2>Create a new user</h2>
     <form id="create-form" action="<%= action %>">
       <div class="form-row">
-        <label class="form-label" for="role">Role</label>
-        <input class="form-input" id="role" type="text" />
+        <label class="form-label" for="id">ID</label>
+        <input class="form-input" id="id" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="provider">Provider</label>
-        <input class="form-input" id="provider" type="text" />
+        <label class="form-label" for="name">Name</label>
+        <input class="form-input" id="name" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="provider_id">ID</label>
-        <input class="form-input" id="provider_id" type="text" />
+        <label class="form-label" for="first_name">First Name</label>
+        <input class="form-input" id="first_name" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="displayName">Display Name</label>
-        <input class="form-input" id="displayName" type="text" />
+        <label class="form-label" for="last_name">Last Name</label>
+        <input class="form-input" id="last_name" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="familyName">Family Name</label>
-        <input class="form-input" id="familyName" type="text" />
+        <label class="form-label" for="link">Link</label>
+        <input class="form-input" id="link" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="givenName">Given Name</label>
-        <input class="form-input" id="givenName" type="text" />
+        <label class="form-label" for="username">Username</label>
+        <input class="form-input" id="username" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="middleName">Middle Name</label>
-        <input class="form-input" id="middleName" type="text" />
+        <label class="form-label" for="gender">Gender</label>
+        <input class="form-input" id="gender" type="text" />
         <div class="clear" />
       </div>
       <div class="form-row">
-        <label class="form-label" for="email">Email</label>
-        <input class="form-input" id="email" type="text" />
+        <label class="form-label" for="timezone">Timezone</label>
+        <input class="form-input" id="timezone" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="locale">Locale</label>
+        <input class="form-input" id="locale" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="verified">Verified</label>
+        <input class="form-input" id="verified" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="updated_time">Updated Time</label>
+        <input class="form-input" id="updated_time" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-button-area">
+          <button id="submit-button" type="button">Save</button>
+          <button id="cancel-button" type="button">Cancel</button>
+      </div>
+    </form>
+  <% } %>
+
+  <% if (type == 'Enrollment') { %>
+    <h2>Create a new enrollment</h2>
+    <form id="create-form" action="<%= action %>">
+      <div class="form-row">
+        <label class="form-label" for="user">User</label>
+        <input class="form-input" id="user" type="text" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="event">Event</label>
+        <input class="form-input" id="event" type="text" />
         <div class="clear" />
       </div>
       <div class="form-button-area">
