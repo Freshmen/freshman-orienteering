@@ -18,54 +18,61 @@
     <form id="create-form" action="<%= action %>">
     <div class="form-row">
       <label class="form-label" for="title">Title</label>
-      <input class="form-input" id="title" type="text" />
+      <input class="form-input" id="title" type="text" maxlength="128"/>
       <div class="clear" />
     </div>
     <div class="form-row">
       <label class="form-label" for="description">Description</label>
-      <input class="form-input" id="description" type="text" />
+      <input class="form-input" id="description" type="text" maxlength="512"/>
       <div class="clear" />
     </div>
     <div class="form-row">
       <label class="form-label" for="startTime">Start Time</label>
-      <input class="form-input" id="startTime" type="text" />
+      <input class="form-input" id="startTime" type="datetime" />
       <div class="clear" />
     </div>
     <div class="form-row">
       <label class="form-label" for="endTime">End Time</label>
-      <input class="form-input" id="endTime" type="text" />
+      <input class="form-input" id="endTime" type="datetime" />
       <div class="clear" />
     </div>
     <h3>location</h3>
     <div class="form-row">
       <label class="form-label" for="longitude">Longitude</label>
-      <input class="form-input" id="longitude" type="text" />
+      <input class="form-input" id="longitude" type="number" />
       <div class="clear" />
     </div>
     <div class="form-row">
       <label class="form-label" for="latitude">Latitude</label>
-      <input class="form-input" id="latitude" type="text" />
+      <input class="form-input" id="latitude" type="number" />
       <div class="clear" />
     </div>
     <div class="form-row">
       <label class="form-label" for="ordered">Ordered</label>
-      <input class="form-input" id="ordered" type="text" />
+      <input class="form-input" id="ordered" type="checkbox" />
       <div class="clear" />
     </div>
     <h3>Organizer</h3>
     <div class="form-row">
       <label class="form-label" for="organizer_id">Organizer ID</label>
-      <input class="form-input" id="organizer_id" type="text" />
-      <div class="clear" />
-    </div>
-    <div class="form-row">
-      <label class="form-label" for="organizer_name">Organizer Name</label>
-      <input class="form-input" id="organizer_name" type="text" />
+      <select class="form-input" id="organizer_id">
+        <% if (users && users.length) { %>
+          <% users.forEach(function(user){ %>
+            <option value="<%= user._id %>"><%= user.name %></option>
+          <% }) %>
+        <% } %>
+      </select>
       <div class="clear" />
     </div>
     <div class="form-row">
       <label class="form-label" for="type">Type</label>
-      <input class="form-input" id="type" type="text" value="Event" readonly />
+      <select class="form-input" id="type" disabled>
+        <option value="Event" selected>Event</option>
+        <option value="Checkpoint">Checkpoint</option>
+        <option value="User">User</option>
+        <option value="Enrollment">Enrollment</option>
+        <option value="Checkin">Checkin</option>
+      </select>
       <div class="clear" />
     </div>
     <div class="form-button-area">
@@ -80,18 +87,18 @@
     <form id="create-form" action="<%= action %>">
       <div class="form-row">
         <label class="form-label" for="title">Title</label>
-        <input class="form-input" id="title" type="text" />
+        <input class="form-input" id="title" type="text" maxlength="128" />
         <div class="clear" />
       </div>
       <h3>Location</h3>
       <div class="form-row">
         <label class="form-label" for="latitude">Latitude</label>
-        <input class="form-input" id="latitude" type="text" />
+        <input class="form-input" id="latitude" type="number" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="longitude">Longitude</label>
-        <input class="form-input" id="longitude" type="text" />
+        <input class="form-input" id="longitude" type="number" />
         <div class="clear" />
       </div>
       <div class="form-row">
@@ -101,28 +108,33 @@
       </div>
       <div class="form-row">
         <label class="form-label" for="type">Type</label>
-        <input class="form-input" id="type" type="text" value="Checkpoint" readonly />
-        <div class="clear" />
+        <select class="form-input" id="type" disabled>
+          <option value="Event">Event</option>
+          <option value="Checkpoint" selected>Checkpoint</option>
+          <option value="User">User</option>
+          <option value="Enrollment">Enrollment</option>
+          <option value="Checkin">Checkin</option>
+        </select>
       </div>
       <h3>Task</h3>
       <div class="form-row">
         <label class="form-label" for="task_url">Task URL</label>
-        <input class="form-input" id="task_url" type="text" />
+        <input class="form-input" id="task_url" type="url" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="task_description">Task Description</label>
-        <input class="form-input" id="task_description" type="text" />
+        <input class="form-input" id="task_description" type="text" maxlength="512"/>
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="task_accepts">Task Accepts</label>
-        <input class="form-input" id="task_accepts" type="text" />
+        <input class="form-input" id="task_accepts" type="text" maxlength="64"/>
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="task_upload_url">Task Upload URL</label>
-        <input class="form-input" id="task_upload_url" type="text" />
+        <input class="form-input" id="task_upload_url" type="url" />
         <div class="clear" />
       </div>
 
@@ -139,57 +151,65 @@
     <form id="create-form" action="<%= action %>">
       <div class="form-row">
         <label class="form-label" for="id">ID</label>
-        <input class="form-input" id="id" type="text" />
+        <input class="form-input" id="id" type="text" maxlength="32" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="name">Name</label>
-        <input class="form-input" id="name" type="text" />
+        <input class="form-input" id="name" type="text" maxlength="64" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="first_name">First Name</label>
-        <input class="form-input" id="first_name" type="text" />
+        <input class="form-input" id="first_name" type="text" maxlength="32"/>
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="last_name">Last Name</label>
-        <input class="form-input" id="last_name" type="text" />
+        <input class="form-input" id="last_name" type="text" maxlength="32"/>
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="link">Link</label>
-        <input class="form-input" id="link" type="text" />
+        <input class="form-input" id="link" type="url" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="username">Username</label>
-        <input class="form-input" id="username" type="text" />
+        <input class="form-input" id="username" type="text" maxlength="64" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="gender">Gender</label>
-        <input class="form-input" id="gender" type="text" />
+        <select class="form-input" id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="timezone">Timezone</label>
-        <input class="form-input" id="timezone" type="text" />
+        <input class="form-input" id="timezone" type="text" maxlength="32" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="locale">Locale</label>
-        <input class="form-input" id="locale" type="text" />
+        <input class="form-input" id="locale" type="text" maxlength="32" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="verified">Verified</label>
-        <input class="form-input" id="verified" type="text" />
+        <input class="form-input" id="verified" type="checkbox" />
         <div class="clear" />
       </div>
       <div class="form-row">
         <label class="form-label" for="updated_time">Updated Time</label>
-        <input class="form-input" id="updated_time" type="text" />
+        <input class="form-input" id="updated_time" type="datetime" />
+        <div class="clear" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="admin">Admin</label>
+        <input class="form-input" id="admin" type="checkbox" />
         <div class="clear" />
       </div>
       <div class="form-button-area">
@@ -203,13 +223,26 @@
     <h2>Create a new enrollment</h2>
     <form id="create-form" action="<%= action %>">
       <div class="form-row">
-        <label class="form-label" for="user">User</label>
-        <input class="form-input" id="user" type="text" />
+        <label class="form-label" for="event">Event</label>
+        <select class="form-input" id="event">
+          <% if (events && events.length) { %>
+            <% events.forEach(function(event){ %>
+              <option value="<%= event._id %>"><%= event.title %></option>
+            <% }) %>
+          <% } %>
+        </select>
         <div class="clear" />
       </div>
+
       <div class="form-row">
-        <label class="form-label" for="event">Event</label>
-        <input class="form-input" id="event" type="text" />
+        <label class="form-label" for="user">User</label>
+        <select class="form-input" id="user">
+          <% if (users && users.length) { %>
+            <% users.forEach(function(user){ %>
+              <option value="<%= user._id %>"><%= user.name %></option>
+            <% }) %>
+          <% } %>
+        </select>
         <div class="clear" />
       </div>
       <div class="form-button-area">

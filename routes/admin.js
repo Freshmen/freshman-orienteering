@@ -10,12 +10,12 @@ var getRequestType = function(req) {
 		type = 'Enrollment';
 	} else if (req.path.match(/\/enrollments/i)) {
 		type = 'Enrollment';
-	} else if (req.params.eventID) {
-		type = 'Event';
 	} else if (req.params.userID) {
 		type = 'User';
 	} else if (req.path.match(/\/users/i)) {
 		type = 'User';
+	} else if (req.params.eventID) {
+		type = 'Event';
 	} else {
 		type = 'Event';
 	}
@@ -26,12 +26,12 @@ var getRequestId = function(req){
 	var id;
 	if (req.params.checkpointID) {
 		id = req.params.checkpointID;
+	} else if (req.params.enrollmentID) {
+		id = req.params.enrollmentID;
 	} else if (req.params.eventID) {
 		id = req.params.eventID;
 	} else if (req.params.userID) {
 		id = req.params.userID;
-	} else if (req.params.enrollmentID) {
-		id = req.params.enrollmentID;
 	} else {
 		id = null;
 	}
@@ -41,16 +41,25 @@ var getRequestId = function(req){
 exports.list = function(req, res) {
 	var id = getRequestId(req);
 	var type = getRequestType(req);
-	if (type === "Checkpoints") {
-		db.getChildrenById(id, function(data) {
+	if (type === "Checkpoint") {
+		db.getCheckpoints(id, function(data) {
 			res.render('admin_list', {'type' : type, 'items' : data});
 		});
+	} else if (type === "Enrollment") {
+		if (req.params.userID) {
+			db.getEnrollmentsByUser(id, function(data) {
+				res.render('admin_list', {'type' : type, 'items' : data});
+			});
+		} else {
+			db.getEnrollments(id, function(data) {
+				res.render('admin_list', {'type' : type, 'items' : data});
+			});
+		}
 	} else {
 		db.getDocumentsByType(type, function(data) {
 			res.render('admin_list', {'type' : type, 'items' : data});
 		});
 	}
-
 }
 
 exports.show = function(req, res) {
@@ -91,9 +100,22 @@ exports.edit = function(req, res) {
 exports.create = function(req, res) {
 	var type = getRequestType(req);
 	var actionPath = req.path.replace('admin/', 'api/v1/').replace('/create', '');
-	res.render('admin_create', { 'type' : type, 'action' : actionPath });
+	if (type === "Enrollment") {
+		db.getDocumentsByType('User', function(users) {
+			db.getDocumentsByType('Event', function(events) {
+				res.render('admin_create', { 'type' : type, 'action' : actionPath, 'users' : users, 'events' : events });
+			});
+		});	
+	} else if (type === "Event") {
+		db.getDocumentsByType('User', function(users) {
+			res.render('admin_create', { 'type' : type, 'action' : actionPath, 'users' : users });
+		});	
+	} else {
+		res.render('admin_create', { 'type' : type, 'action' : actionPath });
+	}
+
 }
 
 exports.index = function(req, res) {
-	res.render('admin_index');
+	res.render('admin/index');
 }

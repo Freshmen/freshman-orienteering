@@ -26,7 +26,7 @@
       <% items.forEach(function(item){ %>
         <li><a href="<%= item._id %>/">
           <% if (type === 'User') { %>
-            <%= item.displayName %></a>
+            <%= item.name %></a>
           <% } %>
           <% if (type === 'Event' || type === 'Checkpoint') { %>
             <%= item.title %></a>

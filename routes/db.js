@@ -1,6 +1,6 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
-//var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
-var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
+var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
+//var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
 nano.db.create('fori-test-4');
 var db = nano.use('fori-test-4');
 
@@ -10,20 +10,26 @@ var addDesignDocs = function() {
 		{ "views": 
 			{
    				"Events": {
-       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.title, doc);\n}"
+       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.owner, doc);\n}"
    				},	
    				"Checkpoints": {
        				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
    				},
    				"Users": {
-       				"map": "function(doc) {\n  if (doc.type === \"User\")\n    emit(doc, doc);\n}"
+       				"map": "function(doc) {\n  if (doc.type === \"User\")\n    emit(doc.id, doc);\n}"
    				},
    				"Enrollments": {
+       				"map": "function(doc) {\n  if (doc.type === \"Enrollment\")\n    emit(doc.event, doc);\n}"
+   				},
+   				"EnrollmentsByUser": {
        				"map": "function(doc) {\n  if (doc.type === \"Enrollment\")\n    emit(doc.user, doc);\n}"
    				},
-   				"Children" : {
-   					"map" : "function(doc) {\n if (doc.type === \"Event\")\n  emit(doc.title, doc);\n  else if (doc.parent)\n   emit(doc.parent, doc);\n}"
-   				},	
+   				"Checkins": {
+       				"map": "function(doc) {\n  if (doc.type === \"Checkin\")\n    emit(doc.checkpoint, doc);\n}"
+   				},
+   				"CheckinsByUser": {
+       				"map": "function(doc) {\n  if (doc.type === \"Checkin\")\n    emit(doc.user, doc);\n}"
+   				},		
    				"byType": {
        				"map": "function(doc) {\n  if (doc.type)\n    emit(doc.type, doc);\n}"
    				}
@@ -114,17 +120,11 @@ exports.getDocumentsByType = function(type, callback){
 	});
 };
 
-
-exports.getChildrenById = function(id, callback) {
-	var filter;
-	if (id) {
-		filter = {};
-		filter.keys = [];
-		filter.keys.push(id);
-	} else {
-		filter = '';
-	}
-	db.view('Lists', 'Children', filter, function(err, body) {
+exports.getCheckpoints = function(eventID, callback) {
+	var filter = {};
+	filter.keys = [];
+	filter.keys.push(eventID);
+	db.view('Lists', 'Checkpoints', filter ,function(err, body) {
   		if (!err) {
   			var response = [];
   			if(body && body.rows) {
@@ -132,24 +132,38 @@ exports.getChildrenById = function(id, callback) {
       				response.push(doc.value);
     			});
   			}
-  			callback(response);
-    	} else {
-    		console.log(err);
+    		callback(response);
     	}
-	});
-}
+	}); 	
+};
 
-exports.getCheckpoints = function(eventID, callback) {
+exports.getEnrollments = function(eventID, callback) {
 	var filter = {};
 	filter.keys = [];
 	filter.keys.push(eventID);
-	db.view('Lists', 'Checkpoints', filter ,function(err, body) {
+	db.view('Lists', 'Enrollments', filter ,function(err, body) {
   		if (!err) {
-  			var response = {};
-  			response.checkpoints = [];
+  			var response = [];
   			if(body && body.rows) {
   				body.rows.forEach(function(doc) {
-      				response.checkpoints.push(doc.value);
+      				response.push(doc.value);
+    			});
+  			}
+    		callback(response);
+    	}
+	}); 	
+};
+
+exports.getEnrollmentsByUser = function(userID, callback) {
+	var filter = {};
+	filter.keys = [];
+	filter.keys.push(userID);
+	db.view('Lists', 'EnrollmentsByUser', filter ,function(err, body) {
+  		if (!err) {
+  			var response = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.push(doc.value);
     			});
   			}
     		callback(response);
@@ -374,26 +388,15 @@ exports.readEnrollment = function(req, res) {
 	});	
 };
 exports.readEnrollments = function(req, res) {
-	if (req.params.userID) {
-		var filter = {};
-		filter.keys = [];
-		filter.keys.push(req.params.userID);
-		db.view('Lists', 'Enrollments', filter, function(err, body) {
-  		if (!err) {
-  			var response = {};
-  			response.enrollments = [];
-  			if(body && body.rows) {
-  				body.rows.forEach(function(doc) {
-      				response.enrollments.push(doc.value);
-    			});
-  			}
-    		res.json(response);
-    	} else {
-    		res.send(err, 400);
-    	}
-	});
+	var filter = {};
+	filter.keys = [];
+	if (req.params.eventID) {
+		filter.keys.push(req.params.eventID);
 	}
-	db.view('Lists', 'Enrollments', function(err, body) {
+	if (req.params.userID) {
+		filter.keys.push(req.params.userID);
+	}
+	db.view('Lists', 'Enrollments', filter, function(err, body) {
   		if (!err) {
   			var response = {};
   			response.enrollments = [];
