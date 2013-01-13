@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Create view</title>
+  <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
+  <style>
+    .clear { clear: both;}
+    .form-label { display: block; width: 180px; float: left; }
+    .form-input { display: block; width: 180px; float: left; }
+    .form-button-area { text-align: right; padding: 5px 10px;}
+    #create-form { width: 380px; }
+  </style>
+</head>
+<body>
+  <h2>Create a new checkin</h2>
+  <form id="create-form" action="<%= action %>">
+    <div class="form-row">
+      <label class="form-label" for="checkpoint">Checkpoint</label>
+      <select class="form-input" id="checkpoint">
+        <% if (checkpoints && checkpoints.length) { %>
+          <% checkpoints.forEach(function(checkpoint){ %>
+            <option value="<%= checkpoint._id %>"><%= checkpoint.title %></option>
+          <% }) %>
+        <% } %>
+      </select>
+      <div class="clear" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="user">User</label>
+      <select class="form-input" id="user">
+        <% if (users && users.length) { %>
+          <% users.forEach(function(user){ %>
+            <option value="<%= user._id %>"><%= user.name %></option>
+          <% }) %>
+        <% } %>
+      </select>
+      <div class="clear" />
+    </div>
+    <div class="form-button-area">
+        <button id="submit-button" type="button">Save</button>
+        <button id="cancel-button" type="button">Cancel</button>
+    </div>
+  </form>
+
+  <script>
+    var back = function() { window.location='./'; }
+    var parseForm = function() {
+      var data = {};
+      var fields = document.getElementsByTagName('input');
+      for (var i = 0; i < fields.length; i++) {
+        data[fields[i].id] = fields[i].value; 
+      }
+      return data;
+    };
+    var submit = function(form, data, callback) {
+      $.ajax({
+        type: "POST",
+        url: form.action,
+        data: data
+      }).done(callback);
+    };
+    $('#cancel-button').bind('click', back );
+    $('#submit-button').bind('click', function() { 
+      var data = parseForm();
+      var form = document.getElementById('create-form'); 
+      submit(form, data, back); 
+    });
+  </script>
+</body>
+</html

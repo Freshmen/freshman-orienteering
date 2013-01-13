@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Show view</title>
+  <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
+  <style>
+    .clear { clear: both;}
+    .form-label { display: block; width: 75px; float: left; }
+    .form-input { display: block; width: 210px; float: left; }
+    .form-button-area { text-align: right; padding: 5px 10px;}
+    #edit-form { width: 300px; }
+  </style>
+</head>
+<body>
+	<h2>Edit an event</h2>
+  <form id="edit-form" action="/api/v1/events/<%= event._id %>">
+    <% if (items && items.length) { %>
+      <% items.forEach(function(item){ %>
+        <div class="form-row">
+          <label class="form-label" for="<%= item.key %>">
+            <%= item.key %>:
+          </label>
+          <input class="form-input"
+                 type="text" 
+                 id="<%= item.key %>"
+                 value="<%= item.value %>" />
+          <div class="clear" />
+        </div>
+      <% }) %>
+    <% } %>
+    <div class="form-button-area">
+      <button id="delete-button" type="button">Delete</button>
+      <button id="submit-button" type="button">Save</button>
+      <button id="cancel-button" type="button">Cancel</button>
+    </div>
+  </form>
+  <script>
+    var back = function() { window.location='./'; }
+    var backback = function() { window.location='../'; }
+    var parseForm = function(form) {
+      var data = {};
+      var fields = form.getElementsByTagName('input');
+      for (var i = 0; i < fields.length; i++) {
+        data[fields[i].id] = fields[i].value; 
+      }
+      return data;
+    };
+    var submit = function(form, data, callback) {
+      $.ajax({
+        type: "PUT",
+        url: form.action,
+        data: data
+      }).done(callback);
+    };
+    var deleteItem = function(form, callback) {
+      $.ajax({
+        type: "DELETE",
+        url: form.action,
+      }).done(callback);
+    };
+    $('#delete-button').bind('click', function() { 
+      var form = document.getElementById('edit-form');
+      deleteItem(form, backback); 
+    });
+    $('#cancel-button').bind('click', back);
+    $('#submit-button').bind('click', function() { 
+      var form = document.getElementById('edit-form');
+      var data = parseForm(form);
+      submit(form, data, back); 
+    });
+  </script>
+</body>
+</html

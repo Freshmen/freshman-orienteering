@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Create view</title>
+  <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
+  <style>
+    .clear { clear: both;}
+    .form-label { display: block; width: 180px; float: left; }
+    .form-input { display: block; width: 180px; float: left; }
+    .form-button-area { text-align: right; padding: 5px 10px;}
+    #create-form { width: 380px; }
+  </style>
+</head>
+<body>
+    <h2>Create a new event</h2>
+    <form id="create-form" action="/api/v1/events">
+    <div class="form-row">
+      <label class="form-label" for="title">Title</label>
+      <input class="form-input" id="title" type="text" maxlength="128"/>
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="description">Description</label>
+      <input class="form-input" id="description" type="text" maxlength="512"/>
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="startTime">Start Time</label>
+      <input class="form-input" id="startTime" type="datetime" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="endTime">End Time</label>
+      <input class="form-input" id="endTime" type="datetime" />
+      <div class="clear" />
+    </div>
+    <h3>location</h3>
+    <div class="form-row">
+      <label class="form-label" for="longitude">Longitude</label>
+      <input class="form-input" id="longitude" type="number" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="latitude">Latitude</label>
+      <input class="form-input" id="latitude" type="number" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="ordered">Ordered</label>
+      <input class="form-input" id="ordered" type="checkbox" />
+      <div class="clear" />
+    </div>
+    <h3>Organizer</h3>
+    <div class="form-row">
+      <label class="form-label" for="organizer_id">Organizer ID</label>
+      <select class="form-input" id="organizer_id">
+        <% if (users && users.length) { %>
+          <% users.forEach(function(user){ %>
+            <option value="<%= user._id %>"><%= user.name %></option>
+          <% }) %>
+        <% } %>
+      </select>
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="type">Type</label>
+      <select class="form-input" id="type" disabled>
+        <option value="Event" selected>Event</option>
+        <option value="Checkpoint">Checkpoint</option>
+        <option value="User">User</option>
+        <option value="Enrollment">Enrollment</option>
+        <option value="Checkin">Checkin</option>
+      </select>
+      <div class="clear" />
+    </div>
+    <div class="form-button-area">
+        <button id="submit-button" type="button">Save</button>
+        <button id="cancel-button" type="button">Cancel</button>
+    </div>
+  </form>
+  <script>
+    var back = function() { window.location='./'; }
+    var parseForm = function() {
+      var data = {};
+      var fields = document.getElementsByTagName('input');
+      for (var i = 0; i < fields.length; i++) {
+        data[fields[i].id] = fields[i].value; 
+      }
+      return data;
+    };
+    var submit = function(form, data, callback) {
+      $.ajax({
+        type: "POST",
+        url: form.action,
+        data: data
+      }).done(callback);
+    };
+    $('#cancel-button').bind('click', back );
+    $('#submit-button').bind('click', function() { 
+      var data = parseForm();
+      var form = document.getElementById('create-form'); 
+      submit(form, data, back); 
+    });
+  </script>
+</body>
+</html
