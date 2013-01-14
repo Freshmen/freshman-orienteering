@@ -7,9 +7,6 @@ describe('Database', function() {
         db.getDocumentById.should.be.a["function"];
       });
       it('should return a document', function() {
-        var mockReq = null;
-        var mockRes = {};
-        db.getDocumentById();
         //TODO: Add asyncronous test that it really returns an Array.
       });
     });
