@@ -1,8 +1,8 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
-var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
-//var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
-nano.db.create('fori-test-5');
-var db = nano.use('fori-test-5');
+//var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
+var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
+nano.db.create('fori-test-6');
+var db = nano.use('fori-test-6');
 
 
 var addDesignDocs = function() {
