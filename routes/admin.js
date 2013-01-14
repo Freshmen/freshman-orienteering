@@ -1,119 +1,157 @@
 var db = require('./db.js');
 
-var getRequestType = function(req) {
-	var type;
-	if (req.params.checkpointID) {
-		type = 'Checkpoint';
-	} else if (req.path.match(/\/checkpoints/i)) {
-		type = 'Checkpoint';
-	} else if (req.params.enrollmentID) {
-		type = 'Enrollment';
-	} else if (req.path.match(/\/enrollments/i)) {
-		type = 'Enrollment';
-	} else if (req.params.userID) {
-		type = 'User';
-	} else if (req.path.match(/\/users/i)) {
-		type = 'User';
-	} else if (req.params.eventID) {
-		type = 'Event';
-	} else {
-		type = 'Event';
-	}
-	return type;
+exports.events = {};
+exports.checkpoints = {};
+exports.enrollments = {};
+exports.checkins = {};
+exports.users = {};
+
+exports.events.list = function(req, res) {
+	db.getDocumentsByType('Event', function(data) {
+		res.render('admin/events/list', { 'items' : data });
+	});
 }
 
-var getRequestId = function(req){
-	var id;
-	if (req.params.checkpointID) {
-		id = req.params.checkpointID;
-	} else if (req.params.enrollmentID) {
-		id = req.params.enrollmentID;
-	} else if (req.params.eventID) {
-		id = req.params.eventID;
-	} else if (req.params.userID) {
-		id = req.params.userID;
-	} else {
-		id = null;
-	}
-	return id;
+exports.checkpoints.list = function(req, res) {
+	db.getCheckpoints(req.params.eventID, function(data) {
+		res.render('admin/checkpoints/list', { 'items' : data});
+	});
 }
 
-exports.list = function(req, res) {
-	var id = getRequestId(req);
-	var type = getRequestType(req);
-	if (type === "Checkpoint") {
-		db.getCheckpoints(id, function(data) {
-			res.render('admin_list', {'type' : type, 'items' : data});
+exports.users.list = function(req, res) {
+	db.getDocumentsByType('User', function(data) {
+		res.render('admin/users/list', { 'items' : data});
+	});
+}
+
+exports.enrollments.list = function(req, res) {
+	if (req.params.userID) {
+		db.getEnrollmentsByUser(req.params.userID, function(data) {
+			res.render('admin/enrollments/list', { 'items' : data });
 		});
-	} else if (type === "Enrollment") {
-		if (req.params.userID) {
-			db.getEnrollmentsByUser(id, function(data) {
-				res.render('admin_list', {'type' : type, 'items' : data});
-			});
-		} else {
-			db.getEnrollments(id, function(data) {
-				res.render('admin_list', {'type' : type, 'items' : data});
-			});
-		}
 	} else {
-		db.getDocumentsByType(type, function(data) {
-			res.render('admin_list', {'type' : type, 'items' : data});
+		db.getEnrollments(req.params.eventID, function(data) {
+			res.render('admin/enrollments/list', { 'items' : data});
 		});
 	}
 }
 
-exports.show = function(req, res) {
-	var id = getRequestId(req);
-	var type = getRequestType(req);
-	db.getDocumentById(id, function(data) {
-		var items = [];
-		for (var prop in data) {
-			if (data.hasOwnProperty(prop) && prop.charAt(0) !== '_') {
-				var item = {};
-				item.key = prop;
-				item.value = data[prop];
-				items.push(item);
-			}
-		}
-		res.render('admin_show', { 'type' : type, 'items' : items });
+exports.checkins.list = function(req, res) {
+	db.getCheckins(req.params.checkpointID, function(data) {
+		res.render('admin/checkins/list', { 'items' : data});
 	});
 }
 
-exports.edit = function(req, res) {
-	var id = getRequestId(req);
-	var type = getRequestType(req);
-	var actionPath = req.path.replace('admin/', 'api/v1/').replace('/edit', '');
-	db.getDocumentById(id, function(data) {
-		var items = [];
-		for (var prop in data) {
-			if (data.hasOwnProperty(prop) && prop.charAt(0) !== '_') {
-				var item = {};
-				item.key = prop;
-				item.value = data[prop];
-				items.push(item);
-			}
-		}
-		res.render('admin_edit', { 'type' : type, 'items' : items, 'action' : actionPath });
-	});
-}
-
-exports.create = function(req, res) {
-	var type = getRequestType(req);
-	var actionPath = req.path.replace('admin/', 'api/v1/').replace('/create', '');
-	if (type === "Enrollment") {
+exports.events.show = function(req, res) {
+	db.getDocumentById(req.params.eventID, function(data) {
 		db.getDocumentsByType('User', function(users) {
 			db.getDocumentsByType('Event', function(events) {
-				res.render('admin_create', { 'type' : type, 'action' : actionPath, 'users' : users, 'events' : events });
+				res.render('admin/events/show', { 'event' : data, 'users' : users, 'events' : events });
 			});
 		});	
-	} else if (type === "Event") {
-		db.getDocumentsByType('User', function(users) {
-			res.render('admin_create', { 'type' : type, 'action' : actionPath, 'users' : users });
-		});	
-	} else {
-		res.render('admin_create', { 'type' : type, 'action' : actionPath });
-	}
+	});
+}
 
+exports.checkpoints.show = function(req, res) {
+	db.getDocumentById(req.params.checkpointID, function(data) {
+		res.render('admin/checkpoints/show', { 'checkpoint' : data });
+	});
+}
+
+exports.enrollments.show = function(req, res) {
+	db.getDocumentById(req.params.enrollmentID, function(data) {
+		db.getDocumentsByType('User', function(users) {
+			db.getDocumentsByType('Event', function(events) {
+				res.render('admin/enrollments/show', { 'enrollment' : data, 'users' : users, 'events' : events  });
+			});
+		});
+	});
+}
+
+exports.checkins.show = function(req, res) {
+	db.getDocumentById(req.params.checkinID, function(data) {
+		db.getDocumentsByType('User', function(users) {
+			db.getCheckpoints(req.params.eventID, function(checkpoints) {
+				res.render('admin/checkins/show', { 'checkin' : data, 'users' : users, 'checkpoints' : checkpoints });
+			});
+		});
+	});
+}
+
+exports.users.show = function(req, res) {
+	db.getDocumentById(req.params.userID, function(data) {
+		res.render('admin/users/show', { 'user' : data });
+	});
+}
+
+exports.events.edit = function(req, res) {
+	db.getDocumentById(req.params.eventID, function(data) {
+		db.getDocumentsByType('User', function(users) {
+			res.render('admin/events/edit', { 'event' : data, 'users' : users });
+		});
+	});
+}
+
+exports.checkpoints.edit = function(req, res) {
+	db.getDocumentById(req.params.checkpointID, function(data) {
+		res.render('admin/checkpoints/edit', { 'checkpoint' : data, 'eventID' : req.params.eventID });
+	});
+}
+
+exports.enrollments.edit = function(req, res) {
+	db.getDocumentById(req.params.enrollmentID, function(data) {
+		db.getDocumentsByType('User', function(users) {
+			db.getDocumentsByType('Event', function(events) {
+				res.render('admin/enrollments/edit', { 'enrollment' : data, 'users' : users, 'events' : events, 'eventID' : req.params.eventID });
+			});
+		});
+	});
+}
+
+exports.checkins.edit = function(req, res) {
+	db.getDocumentById(req.params.checkinID, function(data) {
+		db.getDocumentsByType('User', function(users) {
+			db.getCheckpoints(req.params.eventID, function(checkpoints) {
+				res.render('admin/checkins/edit', { 'checkin' : data, 'checkpoints' : checkpoints, 'users' : users, 'eventID' : req.params.eventID, 'checkpointID' : req.params.checkpointID });
+			});
+		});
+	});
+}
+
+exports.users.edit = function(req, res) {
+	db.getDocumentById(req.params.userID, function(data) {
+		res.render('admin/users/edit', { 'user' : data });
+	});
+}
+
+exports.events.create = function(req, res) {
+	db.getDocumentsByType('User', function(users) {
+		res.render('admin/events/create', { 'users' : users });
+	});	
+}
+
+exports.checkpoints.create = function(req, res) {
+	res.render('admin/checkpoints/create', { 'eventID' : req.params.eventID });
+}
+
+exports.enrollments.create = function(req, res) {
+	db.getDocumentsByType('User', function(users) {
+		db.getDocumentsByType('Event', function(events) {
+			res.render('admin/enrollments/create', { 'users' : users, 'events' : events, 'eventID' : req.params.eventID });
+		});
+	});	
+}
+
+exports.checkins.create = function(req, res) {
+	db.getDocumentsByType('User', function(users) {
+		db.getCheckpoints(req.params.eventID, function(checkpoints) {
+			res.render('admin/checkins/create', { 'checkpoints' : checkpoints, 'users' : users, 'eventID' : req.params.eventID, 'checkpointID' : req.params.checkpointID });
+		});
+	});
+}
+
+exports.users.create = function(req, res) {
+	res.render('admin/users/create', { });
 }
 
 exports.index = function(req, res) {

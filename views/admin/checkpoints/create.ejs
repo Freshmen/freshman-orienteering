@@ -14,7 +14,7 @@
 </head>
 <body>
   <h2>Create a new checkpoint</h2>
-  <form id="create-form" action="<%= action %>">
+  <form id="create-form" action="/api/v1/events/<%= eventID %>/checkpoints">
     <div class="form-row">
       <label class="form-label" for="title">Title</label>
       <input class="form-input" id="title" type="text" maxlength="128" />
@@ -77,12 +77,18 @@
   <script>
     var back = function() { window.location='./'; }
     var parseForm = function() {
-      var data = {};
-      var fields = document.getElementsByTagName('input');
-      for (var i = 0; i < fields.length; i++) {
-        data[fields[i].id] = fields[i].value; 
-      }
-      return data;
+      var item = {};
+      item.title = document.getElementById('title').value;
+      item.location = {};
+      item.location.latitude = document.getElementById('latitude').value;
+      item.location.longitude = document.getElementById('longitude').value;
+      item.order = document.getElementById('order').value;
+      item.task = {};
+      item.task.url = document.getElementById('task_url').value;
+      item.task.description = document.getElementById('task_description').value;
+      item.task.accepts = document.getElementById('task_accepts').value;
+      item.task.upload = document.getElementById('task_upload_url').value;
+      return item;
     };
     var submit = function(form, data, callback) {
       $.ajax({
@@ -99,4 +105,4 @@
     });
   </script>
 </body>
-</html
+</html>

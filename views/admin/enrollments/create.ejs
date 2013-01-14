@@ -14,7 +14,7 @@
 </head>
 <body>
   <h2>Create a new enrollment</h2>
-  <form id="create-form" action="<%= action %>">
+  <form id="create-form" action="/api/v1/events/<%= eventID %>/enrollments/">
     <div class="form-row">
       <label class="form-label" for="event">Event</label>
       <select class="form-input" id="event">
@@ -47,12 +47,10 @@
   <script>
     var back = function() { window.location='./'; }
     var parseForm = function() {
-      var data = {};
-      var fields = document.getElementsByTagName('input');
-      for (var i = 0; i < fields.length; i++) {
-        data[fields[i].id] = fields[i].value; 
-      }
-      return data;
+      var item = {};
+      item.event = document.getElementById('event').value;
+      item.user = document.getElementById('user').value;
+      return item;
     };
     var submit = function(form, data, callback) {
       $.ajax({
@@ -69,4 +67,4 @@
     });
   </script>
 </body>
-</html
+</html>

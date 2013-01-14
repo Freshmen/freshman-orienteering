@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Show view</title>
+  <title>Edit view</title>
   <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
   <style>
     .clear { clear: both;}
@@ -13,22 +13,60 @@
   </style>
 </head>
 <body>
-	<h2>Edit a Checkin</h2>
-  <form id="edit-form" action="<%= action %>">
-    <% if (items && items.length) { %>
-      <% items.forEach(function(item){ %>
-        <div class="form-row">
-          <label class="form-label" for="<%= item.key %>">
-            <%= item.key %>:
-          </label>
-          <input class="form-input"
-                 type="text" 
-                 id="<%= item.key %>"
-                 value="<%= item.value %>" />
-          <div class="clear" />
-        </div>
-      <% }) %>
-    <% } %>
+	<h2>Edit a Checkpoint</h2>
+  <form id="edit-form" action="/api/v1/events/<%= eventID %>/checkpoints/<%= checkpoint._id %>">
+    <div class="form-row">
+      <label class="form-label" for="title">Title</label>
+      <input class="form-input" id="title" value="<%= checkpoint.title %>" type="text" maxlength="128" />
+      <div class="clear" />
+    </div>
+    <h3>Location</h3>
+    <div class="form-row">
+      <label class="form-label" for="latitude">Latitude</label>
+      <input class="form-input" id="latitude" value="<%= checkpoint.location.latitude %>" type="number" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="longitude">Longitude</label>
+      <input class="form-input" id="longitude" value="<%= checkpoint.location.longitude %>" type="number" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="order">Order</label>
+      <input class="form-input" id="order" value="<%= checkpoint.order %>" type="number" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="type">Type</label>
+      <select class="form-input" id="type" disabled>
+        <option value="Event">Event</option>
+        <option value="Checkpoint" selected>Checkpoint</option>
+        <option value="User">User</option>
+        <option value="Enrollment">Enrollment</option>
+        <option value="Checkin">Checkin</option>
+      </select>
+    </div>
+    <h3>Task</h3>
+    <div class="form-row">
+      <label class="form-label" for="task_url">Task URL</label>
+      <input class="form-input" id="task_url" value="<%= checkpoint.task.url %>" type="url" />
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="task_description">Task Description</label>
+      <input class="form-input" id="task_description" value="<%= checkpoint.task.description %>" type="text" maxlength="512"/>
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="task_accepts">Task Accepts</label>
+      <input class="form-input" id="task_accepts" value="<%= checkpoint.task.accepts %>" type="text" maxlength="64"/>
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="task_upload_url">Task Upload URL</label>
+      <input class="form-input" id="task_upload_url" value="<%= checkpoint.task.upload %>" type="url" />
+      <div class="clear" />
+    </div>
     <div class="form-button-area">
       <button id="delete-button" type="button">Delete</button>
       <button id="submit-button" type="button">Save</button>
@@ -39,12 +77,18 @@
     var back = function() { window.location='./'; }
     var backback = function() { window.location='../'; }
     var parseForm = function(form) {
-      var data = {};
-      var fields = form.getElementsByTagName('input');
-      for (var i = 0; i < fields.length; i++) {
-        data[fields[i].id] = fields[i].value; 
-      }
-      return data;
+      var item = {};
+      item.title = document.getElementById('title').value;
+      item.location = {};
+      item.location.latitude = document.getElementById('latitude').value;
+      item.location.longitude = document.getElementById('longitude').value;
+      item.order = document.getElementById('order').value;
+      item.task = {};
+      item.task.url = document.getElementById('task_url').value;
+      item.task.description = document.getElementById('task_description').value;
+      item.task.accepts = document.getElementById('task_accepts').value;
+      item.task.upload = document.getElementById('task_upload_url').value;
+      return item;
     };
     var submit = function(form, data, callback) {
       $.ajax({
@@ -71,4 +115,4 @@
     });
   </script>
 </body>
-</html
+</html>

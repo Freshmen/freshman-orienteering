@@ -4,29 +4,95 @@
   <meta charset="utf-8" />
   <title>Show view</title>
   <style>
-    .form-button-area { text-align: right; width: 400px; }
+    .display-button-area { text-align: right; width: 400px; }
+    .clear { clear: both;}
+    .display-label { display: block; width: 180px; float: left; }
+    .display-input { display: block; width: 180px; float: left; }
   </style>
 </head>
 <body>
 
 	<h2>Details for a User</h2>
 
-  <div class="form-button-area">
+  <div class="display-button-area">
     <button id="edit-button" type="button" onClick="window.location='./edit'">Edit</button>
     <button id="cancel-button" type="button" onClick="window.location='../'">Cancel</button>
   </div>
 
-	<% if (items && items.length) { %>
-      <ul>
-          <% items.forEach(function(item){ %>
-            <li><label><%= item.key %>: </label><span><%= item.value %></span></li>
-          <% }) %>
-      </ul>
-  <% } %>
+    <div class="display-row">
+      <label class="display-label" for="id">ID</label>
+      <span class="display-input" id="id"><%= user.id %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="name">Name</label>
+      <span class="display-input" id="name"><%= user.name %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="first_name">First Name</label>
+      <span class="display-input" id="first_name"><%= user.first_name %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="last_name">Last Name</label>
+      <span class="display-input" id="last_name"><%= user.last_name %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="link">Link</label>
+      <span class="display-input" id="link"><%= user.link %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="username">Username</label>
+      <span class="display-input" id="username"><%= user.username %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="gender">Gender</label>
+      <span class="display-input" id="gender"><%= user.gender %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="timezone">Timezone</label>
+      <span class="display-input" id="timezone" ><%= user.timezone %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="locale">Locale</label>
+      <span class="display-input" id="locale"><%= user.locale %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="verified">Verified</label>
+      <% if(user.verified) { %>
+        <input class="display-input" id="verified" type="checkbox" checked disabled />
+      <% } %>
+      <% if(!user.verified) { %>
+        <input class="display-input" id="verified" type="checkbox" disabled />
+      <% } %>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="updated_time">Updated Time</label>
+      <span class="display-input" id="updated_time"><%= user.updated_time %></span>
+      <div class="clear" />
+    </div>
+    <div class="display-row">
+      <label class="display-label" for="admin">Admin</label>
+      <% if(user.admin) { %>
+        <input class="display-input" id="admin" type="checkbox" checked disabled />
+      <% } %>
+      <% if(!user.admin) { %>
+        <input class="display-input" id="admin" type="checkbox" disabled />
+      <% } %>
+      <div class="clear" />
+    </div>
 
   <ul>
     <li><a href="enrollments/">Enrollments</a></li>
   </ul>
 
 </body>
-</html
+</html>

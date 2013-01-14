@@ -146,24 +146,28 @@ app.get('/logout', function(req, res){
 
 // Pages for admin view
 app.get('/admin', admin.index);
-app.get('/admin/events', admin.list);
-app.get('/admin/events/create', admin.create);
-app.get('/admin/events/:eventID/checkpoints', admin.list);
-app.get('/admin/events/:eventID/enrollments', admin.list);
-app.get('/admin/events/:eventID/edit', admin.edit);
-app.get('/admin/events/:eventID', admin.show);
-app.get('/admin/events/:eventID/checkpoints/create', admin.create);
-app.get('/admin/events/:eventID/checkpoints/:checkpointID', admin.show);
-app.get('/admin/events/:eventID/checkpoints/:checkpointID/edit', admin.edit);
-app.get('/admin/events/:eventID/enrollments/create', admin.create);
-app.get('/admin/events/:eventID/enrollments/:enrollmentID', admin.show);
-app.get('/admin/events/:eventID/enrollments/:enrollmentID/edit', admin.edit);
-app.get('/admin/users', admin.list);
-app.get('/admin/users/create', admin.create);
-app.get('/admin/users/:userID', admin.show);
-app.get('/admin/users/:userID/edit', admin.edit);
-app.get('/admin/users/:userID/enrollments', admin.list);
-app.get('/admin/users/:userID/enrollments/:enrollmentID', admin.show);
+app.get('/admin/events', admin.events.list);
+app.get('/admin/events/create', admin.events.create);
+app.get('/admin/events/:eventID/checkpoints', admin.checkpoints.list);
+app.get('/admin/events/:eventID/enrollments', admin.enrollments.list);
+app.get('/admin/events/:eventID/edit', admin.events.edit);
+app.get('/admin/events/:eventID', admin.events.show);
+app.get('/admin/events/:eventID/checkpoints/create', admin.checkpoints.create);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID', admin.checkpoints.show);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID/edit', admin.checkpoints.edit);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID/checkins', admin.checkins.list);
+app.get('/admin/events/:eventID/enrollments/create', admin.enrollments.create);
+app.get('/admin/events/:eventID/enrollments/:enrollmentID', admin.enrollments.show);
+app.get('/admin/events/:eventID/enrollments/:enrollmentID/edit', admin.enrollments.edit);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID/checkins/create', admin.checkins.create);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', admin.checkins.show);
+app.get('/admin/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID/edit', admin.checkins.edit);
+app.get('/admin/users', admin.users.list);
+app.get('/admin/users/create', admin.users.create);
+app.get('/admin/users/:userID', admin.users.show);
+app.get('/admin/users/:userID/edit', admin.users.edit);
+app.get('/admin/users/:userID/enrollments', admin.enrollments.list);
+app.get('/admin/users/:userID/enrollments/:enrollmentID', admin.enrollments.show);
 
 // Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
@@ -186,12 +190,15 @@ app.put('/api/v1/events', db.updateEvents);
 app.put('/api/v1/events/:eventID', db.updateEvent);
 app.put('/api/v1/events/:eventID/checkpoints', db.updateCheckpoints);
 app.put('/api/v1/events/:eventID/checkpoints/:checkpointID', db.updateCheckpoint);
+app.put('/api/v1/events/:eventID/enrollments/:enrollmentID', db.updateEnrollment);
+app.put('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.updateCheckin);
 
 app.delete('/api/v1/events', db.deleteEvents);
 app.delete('/api/v1/events/:eventID', db.deleteEvent);
 app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
 app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
 app.delete('/api/v1/events/:eventID/enrollments/:enrollmentID', db.deleteEnrollment);
+app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.deleteCheckin);
 
 //Calls that can be made to the User API
 app.get('/api/v1/users', db.readUsers);

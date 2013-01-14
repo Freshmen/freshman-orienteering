@@ -4,7 +4,10 @@
   <meta charset="utf-8" />
   <title>Show view</title>
   <style>
-    .form-button-area { text-align: right; width: 400px; }
+    .display-button-area { text-align: right; width: 400px; }
+    .clear { clear: both;}
+    .display-label { display: block; width: 180px; float: left; }
+    .display-input { display: block; width: 180px; float: left; }
   </style>
 </head>
 <body>
@@ -16,17 +19,63 @@
     <button id="cancel-button" type="button" onClick="window.location='../'">Cancel</button>
   </div>
 
-	<% if (items && items.length) { %>
-      <ul>
-          <% items.forEach(function(item){ %>
-            <li><label><%= item.key %>: </label><span><%= item.value %></span></li>
-          <% }) %>
-      </ul>
-  <% } %>
+  <div class="display-row">
+    <label class="display-label" for="title">Title</label>
+    <span class="display-input" id="title"><%= event.title %></span>
+    <div class="clear" />
+  </div>
+  <div class="display-row">
+    <label class="display-label" for="description">Description</label>
+    <span class="display-input" id="description" ><%= event.description %></span>
+    <div class="clear" />
+  </div>
+  <div class="display-row">
+    <label class="display-label" for="startTime">Start Time</label>
+    <span class="display-input" id="startTime" ><%= event.startTime %></span>
+    <div class="clear" />
+  </div>
+  <div class="display-row">
+    <label class="display-label" for="endTime">End Time</label>
+    <span class="display-input" id="endTime"><%= event.endTime %></span>
+    <div class="clear" />
+  </div>
+  <h3>Location</h3>
+  <div class="display-row">
+    <label class="display-label" for="longitude">Longitude</label>
+    <span class="display-input" id="longitude"><%= event.location.longitude %></span>
+    <div class="clear" />
+  </div>
+  <div class="display-row">
+    <label class="display-label" for="latitude">Latitude</label>
+    <span class="display-input" id="latitude"><%= event.location.latitude %></span>
+    <div class="clear" />
+  </div>
+  <div class="display-row">
+    <label class="display-label" for="ordered">Ordered</label>
+    <% if (event.ordered) { %>
+      <input class="display-input" id="ordered" type="checkbox" checked disabled />
+    <% } %>
+    <% if (!event.ordered) { %>
+      <input class="display-input" id="ordered" type="checkbox" disabled />
+    <% } %>
+
+    <div class="clear" />
+  </div>
+  <h3>Organizer</h3>
+  <div class="display-row">
+    <label class="display-label" for="organizer_id">Organizer ID</label>
+    <span class="display-input" id="organizer_id"><%= event.organizer.id %></span>
+    <div class="clear" />
+  </div>
+  <div class="display-row">
+    <label class="display-label" for="type">Type</label>
+    <span class="display-input" id="type"><%= event.type %></span>
+    <div class="clear" />
+  </div>
 
   <ul>
     <li><a href="checkpoints/">Checkpoints</a></li>
     <li><a href="enrollments/">Enrollments</a></li>
   </ul>
 </body>
-</html
+</html>

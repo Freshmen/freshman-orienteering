@@ -1,8 +1,8 @@
 //create a couch, this will only create once and all the rest will be blocked by CouchDB
 var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
 //var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
-nano.db.create('fori-test-4');
-var db = nano.use('fori-test-4');
+nano.db.create('fori-test-5');
+var db = nano.use('fori-test-5');
 
 
 var addDesignDocs = function() {
@@ -170,6 +170,24 @@ exports.getEnrollmentsByUser = function(userID, callback) {
     	}
 	}); 	
 }
+
+exports.getCheckins = function(checkpointID, callback) {
+	var filter = {};
+	filter.keys = [];
+	filter.keys.push(checkpointID);
+	db.view('Lists', 'Checkins', filter ,function(err, body) {
+  		if (!err) {
+  			var response = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.push(doc.value);
+    			});
+  			}
+    		callback(response);
+    	}
+	}); 	
+};
+
 
 exports.createEvents = function(req, res){
 	if (req.body) {
@@ -363,11 +381,61 @@ exports.deleteUser = function(req, res) {
 	});
 };
 
-exports.readCheckin = function(req, res) {};
+exports.readCheckin = function(req, res) {
+	read_doc(req.params.checkinID, function(body) {
+		res.json(body);
+	});	
+};
 
-exports.readCheckins = function(req, res) {};
+exports.readCheckins = function(req, res) {
+	var filter = {};
+	filter.keys = [];
+	if (req.params.checkpointID) {
+		filter.keys.push(req.params.checkpointID);
+	}
+	if (req.params.userID) {
+		filter.keys.push(req.params.userID);
+	}
+	db.view('Lists', 'Checkins', filter, function(err, body) {
+  		if (!err) {
+  			var response = {};
+  			response.checkins = [];
+  			if(body && body.rows) {
+  				body.rows.forEach(function(doc) {
+      				response.checkins.push(doc.value);
+    			});
+  			}
+    		res.json(response);
+    	} else {
+    		res.send(err, 400);
+    	}
+	});
+};
 
-exports.createCheckin = function(req, res) {};
+exports.createCheckin = function(req, res) {
+	if (req.body) {
+		var checkin = req.body;
+		checkin.type = 'Checkin';
+		insert_doc(checkin, 0, function(body){
+			res.json(body, 201);
+		});
+	}
+	else {
+		res.send('{"error" : "No body in request"}', 400);
+	}	
+};
+
+exports.deleteCheckin = function(req, res) {
+	deleteItem(req.params.checkinID, function(body) {
+		res.json(body);
+	});
+};
+
+exports.updateCheckin = function(req, res) {
+	updateItem(req.params.checkinID, req.body, function(body) {
+		res.json(body);
+	});	
+};
 
 exports.createEnrollment = function(req, res) {
 	if (req.body) {
@@ -387,6 +455,7 @@ exports.readEnrollment = function(req, res) {
 		res.json(body);
 	});	
 };
+
 exports.readEnrollments = function(req, res) {
 	var filter = {};
 	filter.keys = [];
@@ -411,11 +480,13 @@ exports.readEnrollments = function(req, res) {
     	}
 	});
 };
+
 exports.deleteEnrollment = function(req, res) {
 	deleteItem(req.params.enrollmentID, function(body) {
 		res.json(body);
 	});
 };
+
 exports.updateEnrollment = function(req, res) {
 	updateItem(req.params.enrollmentID, req.body, function(body) {
 		res.json(body);

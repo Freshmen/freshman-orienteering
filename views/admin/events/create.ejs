@@ -82,12 +82,17 @@
   <script>
     var back = function() { window.location='./'; }
     var parseForm = function() {
-      var data = {};
-      var fields = document.getElementsByTagName('input');
-      for (var i = 0; i < fields.length; i++) {
-        data[fields[i].id] = fields[i].value; 
-      }
-      return data;
+      var item = {};
+      item.title = document.getElementById('title').value;
+      item.description = document.getElementById('description').value;
+      item.startTime = document.getElementById('startTime').value;
+      item.endTime = document.getElementById('endTime').value;
+      item.location = {};
+      item.location.longitude = document.getElementById('longitude').value;
+      item.location.latitude = document.getElementById('latitude').value; 
+      item.ordered = document.getElementById('ordered').checked;
+      item.organizer = document.getElementById('organizer_id').value;
+      return item;
     };
     var submit = function(form, data, callback) {
       $.ajax({

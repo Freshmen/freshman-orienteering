@@ -14,7 +14,7 @@
 </head>
 <body>
   <h2>Create a new user</h2>
-  <form id="create-form" action="<%= action %>">
+  <form id="create-form" action="/api/v1/users/">
     <div class="form-row">
       <label class="form-label" for="id">ID</label>
       <input class="form-input" id="id" type="text" maxlength="32" />
@@ -86,12 +86,20 @@
   <script>
     var back = function() { window.location='./'; }
     var parseForm = function() {
-      var data = {};
-      var fields = document.getElementsByTagName('input');
-      for (var i = 0; i < fields.length; i++) {
-        data[fields[i].id] = fields[i].value; 
-      }
-      return data;
+      var item = {};
+      item.id = document.getElementById('id').value;
+      item.name = document.getElementById('name').value;
+      item.first_name = document.getElementById('first_name').value;
+      item.last_name = document.getElementById('last_name').value;
+      item.link = document.getElementById('link').value;
+      item.username = document.getElementById('username').value;
+      item.genred = document.getElementById('gender').value;
+      item.timezone = document.getElementById('timezone').value;
+      item.locale = document.getElementById('locale').value;
+      item.verified = document.getElementById('verified').checked;
+      item.updated_time = document.getElementById('updated_time').value;
+      item.admin = document.getElementById('admin').checked;
+      return item;
     };
     var submit = function(form, data, callback) {
       $.ajax({
@@ -108,4 +116,4 @@
     });
   </script>
 </body>
-</html
+</html>

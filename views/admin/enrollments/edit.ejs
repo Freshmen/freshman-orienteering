@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Show view</title>
+  <title>Edit view</title>
   <script type="text/javascript" src="/dependencies/jquery-1.7.2.min.js"></script> 
   <style>
     .clear { clear: both;}
@@ -14,21 +14,40 @@
 </head>
 <body>
 	<h2>Edit an Enrollment</h2>
-  <form id="edit-form" action="<%= action %>">
-    <% if (items && items.length) { %>
-      <% items.forEach(function(item){ %>
-        <div class="form-row">
-          <label class="form-label" for="<%= item.key %>">
-            <%= item.key %>:
-          </label>
-          <input class="form-input"
-                 type="text" 
-                 id="<%= item.key %>"
-                 value="<%= item.value %>" />
-          <div class="clear" />
-        </div>
-      <% }) %>
-    <% } %>
+  <form id="edit-form" action="/api/v1/events/<%= eventID %>/enrollments/<%= enrollment._id %>/">
+    <div class="form-row">
+      <label class="form-label" for="event">Event</label>
+      <select class="form-input" id="event">
+        <% if (events && events.length) { %>
+          <% events.forEach(function(event){ %>
+            <% if (event._id == enrollment.event) { %>
+              <option value="<%= event._id %>" selected><%= event.title %></option>
+            <% } %>
+            <% if (event._id != enrollment.event) { %>
+              <option value="<%= event._id %>"><%= event.title %></option>
+            <% } %>
+          <% }) %>
+        <% } %>
+      </select>
+      <div class="clear" />
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="user">User</label>
+      <select class="form-input" id="user">
+        <% if (users && users.length) { %>
+          <% users.forEach(function(user){ %>
+            <% if (user._id == enrollment.user) { %>
+              <option value="<%= user._id %>" selected><%= user.name %></option>
+            <% } %>
+            <% if (user._id != enrollment.user) { %>
+              <option value="<%= user._id %>"><%= user.name %></option>
+            <% } %>
+          <% }) %>
+        <% } %>
+      </select>
+      <div class="clear" />
+    </div>
+ 
     <div class="form-button-area">
       <button id="delete-button" type="button">Delete</button>
       <button id="submit-button" type="button">Save</button>
@@ -39,12 +58,10 @@
     var back = function() { window.location='./'; }
     var backback = function() { window.location='../'; }
     var parseForm = function(form) {
-      var data = {};
-      var fields = form.getElementsByTagName('input');
-      for (var i = 0; i < fields.length; i++) {
-        data[fields[i].id] = fields[i].value; 
-      }
-      return data;
+      var item = {};
+      item.event = document.getElementById('event').value;
+      item.user = document.getElementById('user').value;
+      return item;
     };
     var submit = function(form, data, callback) {
       $.ajax({
@@ -71,4 +88,4 @@
     });
   </script>
 </body>
-</html
+</html>
