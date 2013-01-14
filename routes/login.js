@@ -1,6 +1,6 @@
 exports.show = function(req, res){
 	//res.render('mobile', { 'selection' : events[req.query.selection] || data['Index']})
-	console.log(res.user);
+	//console.log(res.user);
 //	if(res.user == "undefined"){
 		res.render('login', { 'title' : 'Welcome'});
 //	}else{
