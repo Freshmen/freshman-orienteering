@@ -1,3 +1,3 @@
 #!/bin/bash
-npm install -dev
+npm install
 node_modules/mocha/bin/mocha -R xunit > build/xunit.xml
