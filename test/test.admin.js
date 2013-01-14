@@ -2,9 +2,9 @@ var admin = require('../routes/admin.js');
 var should = require('should');
 
 describe('routes/admin', function() {
-    describe('#show', function() {
+    describe('#index', function() {
       it('should be a function', function() {
-        admin.show.should.be.a["function"];
+        admin.index.should.be.a["function"];
       });
     });
   });
