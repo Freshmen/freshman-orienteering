@@ -50,6 +50,15 @@ var insert_doc = function(doc, tried, callback) {
     });
 }
 
+var read_rev = function(id, callback) {
+	db.get(id, function(err, body) {
+		if (!err) {
+			callback(body._rev);
+		} 
+		else { return console.log(err); }
+	});
+}
+
 var read_doc = function(id, callback) {
 	db.get(id, function(err, body) {
 		if (!err) {
@@ -61,8 +70,8 @@ var read_doc = function(id, callback) {
 }
 
 var delete_doc = function(id, callback) {
-	read_doc(id, function(item){
-		db.destroy(item._id, item._rev, function(err, body) {
+	read_rev(id, function(rev) {
+		db.destroy(id, rev, function(err, body) {
 			if (err) {
 				callback(err);
 			}
@@ -242,7 +251,7 @@ exports.users = {
 		});
 	},
 	'show' : function(req, res) {
-		read_doc(req.params.userdID, function(body) {
+		read_doc(req.params.userID, function(body) {
 			res.json(body, 200);
 		});
 	},
@@ -255,5 +264,17 @@ exports.users = {
 		delete_doc(req.params.userID, function(body) {
 			res.json(body, 200);
 		});
+	},
+	'facebook_login' : function(user, callback) {
+		read_view('Users', user.id, function(body) {
+			if (body && body.length) {
+				callback(body[0]._id);
+			} else {
+				user._json.type = 'User';
+				insert_doc(user._json, 0, function(body){
+					callback(body.id);
+				});
+			}
+		});	
 	}
 };
