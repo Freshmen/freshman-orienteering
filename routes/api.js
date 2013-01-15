@@ -107,6 +107,11 @@ var read_view = function(view, filter, callback) {
 exports.events = {
 	'create' : function(req, res) {
 		req.body.type = 'Event';
+		if (req.session && req.session.passport && req.session.passport.user) {
+			req.body.organizer = req.session.passport.user;
+		} else {
+			req.body.organizer = "Vidhuran";
+		}
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
@@ -231,7 +236,8 @@ exports.users = {
 		});
 	},
 	'list' : function(req, res) {
-		read_view('Users', '', function(body) {
+		var id = req.query['id'];
+		read_view('Users', id?id:false, function(body) {
 			res.json(body, 200);
 		});
 	},

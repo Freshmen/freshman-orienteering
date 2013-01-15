@@ -36,11 +36,15 @@ var express = require('express')
 	// serialized
 	// and deserialized.
 	passport.serializeUser(function(user, done) {
-		done(null, user); // need to change
+		// modify the user object here to include stuff that goes in the session
+		// check user in database. store if needed.
+		done(null, user); //
 	});
 	
+
 	passport.deserializeUser(function(obj, done) {
 		done(null, obj); // need to change
+
 	});
 	
 	
@@ -116,10 +120,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
 app.get('/', routes.show);
-app.get('/desktop', desktop.show);
-app.get('/desktop_create', create.show);
-app.get('/mobile', ensureAuthenticated, mobile.show);
+app.get('/desktop', ensureAuthenticated, desktop.show);
+app.get('/desktop_create', ensureAuthenticated, create.show);
+app.get('/mobile',ensureAuthenticated, mobile.show);
 app.get('/login', login.show);
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the

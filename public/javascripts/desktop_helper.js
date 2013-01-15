@@ -63,7 +63,7 @@ function saveEvent(){
 	event_details["description"] = $('#description').val();
 	event_details["ordered"] = $('#ordered').attr('checked')?true:false;
 	console.log(event_details);
-	$.post("/api/v1/events/",event_details,function(){});
+	$.post("/api/v2/events/",event_details,function(){});
 
 	eventCreated = true;
 			
