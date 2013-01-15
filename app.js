@@ -167,7 +167,9 @@ app.get('/admin/users/create', admin.users.create);
 app.get('/admin/users/:userID', admin.users.show);
 app.get('/admin/users/:userID/edit', admin.users.edit);
 app.get('/admin/users/:userID/enrollments', admin.enrollments.list);
+app.get('/admin/users/:userID/enrollments/create', admin.enrollments.create);
 app.get('/admin/users/:userID/enrollments/:enrollmentID', admin.enrollments.show);
+app.get('/admin/users/:userID/enrollments/:enrollmentID/edit', admin.enrollments.edit);
 
 // Calls that can be made to the API
 app.post('/api/v1/events', db.createEvents);
