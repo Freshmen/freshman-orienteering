@@ -9,7 +9,7 @@ var add_design_docs = function() {
 		{ "views": 
 			{
    				"Events": {
-       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.owner, doc);\n}"
+       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.organizer, doc);\n}"
    				},	
    				"Checkpoints": {
        				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
@@ -112,7 +112,9 @@ exports.events = {
 		});
 	},
 	'list' : function(req, res) {
-		read_view('Events', '', function(body) {
+		var organizer = req.query['organizer'];
+		var filter = organizer?organizer:false;
+		read_view('Events', filter, function(body) {
 			res.json(body, 200);
 		});
 	},
