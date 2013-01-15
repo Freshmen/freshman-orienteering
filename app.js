@@ -10,6 +10,7 @@ var express = require('express')
   , mobile = require('./routes/mobile.js')
   , login = require('./routes/login.js')
   , db = require('./routes/db.js')
+  , api = require('./routes/api.js')
   , admin = require('./routes/admin.js')
   , http = require('http')
   , path = require('path')
@@ -187,22 +188,6 @@ app.get('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins', db.readChe
 app.get('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.readCheckin);
 app.get('/api/v1/events/:eventID/enrollments', db.readEnrollments);
 app.get('/api/v1/events/:eventID/enrollments/:enrollmentID', db.readEnrollment);
-
-app.put('/api/v1/events', db.updateEvents);
-app.put('/api/v1/events/:eventID', db.updateEvent);
-app.put('/api/v1/events/:eventID/checkpoints', db.updateCheckpoints);
-app.put('/api/v1/events/:eventID/checkpoints/:checkpointID', db.updateCheckpoint);
-app.put('/api/v1/events/:eventID/enrollments/:enrollmentID', db.updateEnrollment);
-app.put('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.updateCheckin);
-
-app.delete('/api/v1/events', db.deleteEvents);
-app.delete('/api/v1/events/:eventID', db.deleteEvent);
-app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
-app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
-app.delete('/api/v1/events/:eventID/enrollments/:enrollmentID', db.deleteEnrollment);
-app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.deleteCheckin);
-
-//Calls that can be made to the User API
 app.get('/api/v1/users', db.readUsers);
 app.get('/api/v1/users/:userID', db.readUser);
 app.get('/api/v1/users/:userID/enrollments', db.readEnrollments);
@@ -210,14 +195,56 @@ app.get('/api/v1/users/:userID/enrollments/:enrollmentID', db.readEnrollment);
 app.get('/api/v1/users/:userID/enrollments/:enrollmentID/checkins', db.readCheckins);
 app.get('/api/v1/users/:userID/enrollments/:enrollmentID/checkins/:checkinID', db.readCheckin);
 
-app.post('/api/v1/users', db.createUser);
-app.post('/api/v1/users/:userID/enrollments', db.createEnrollment);
-
+app.put('/api/v1/events', db.updateEvents);
+app.put('/api/v1/events/:eventID', db.updateEvent);
+app.put('/api/v1/events/:eventID/checkpoints', db.updateCheckpoints);
+app.put('/api/v1/events/:eventID/checkpoints/:checkpointID', db.updateCheckpoint);
+app.put('/api/v1/events/:eventID/enrollments/:enrollmentID', db.updateEnrollment);
+app.put('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.updateCheckin);
 app.put('/api/v1/users/:userID', db.updateUser);
-app.post('/api/v1/users/:userID/enrollments', db.updateEnrollment);
 
+app.delete('/api/v1/events', db.deleteEvents);
+app.delete('/api/v1/events/:eventID', db.deleteEvent);
+app.delete('/api/v1/events/:eventID/checkpoints', db.deleteCheckpoints);
+app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID', db.deleteCheckpoint);
+app.delete('/api/v1/events/:eventID/enrollments/:enrollmentID', db.deleteEnrollment);
+app.delete('/api/v1/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', db.deleteCheckin);
 app.delete('/api/v1/users/:userID', db.deleteUser);
 app.delete('/api/v1/users/:userID/enrollments', db.deleteEnrollment);
+
+app.post('/api/v1/users', db.createUser);
+app.post('/api/v1/users/:userID/enrollments', db.createEnrollment);
+app.post('/api/v1/users/:userID/enrollments', db.updateEnrollment);
+
+// Calls that can be made to the API v2
+app.get('/api/v2/events', api.events.list);
+app.get('/api/v2/events/:eventID', api.events.show);
+app.get('/api/v2/events/:eventID/checkpoints', api.checkpoints.list);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.show);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins', api.checkins.list);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.show);
+app.get('/api/v2/events/:eventID/enrollments', api.enrollments.list);
+app.get('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.show);
+app.get('/api/v2/users', api.users.list);
+app.get('/api/v2/users/:userID', api.users.show);
+
+app.post('/api/v2/events', api.events.create);
+app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);
+app.post('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins', api.checkins.create);
+app.post('/api/v2/events/:eventID/enrollments', api.enrollments.create);
+app.post('/api/v2/users', api.users.create);
+
+app.put('/api/v2/events/:eventID', api.events.edit);
+app.put('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.edit);
+app.put('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.edit);
+app.put('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.edit);
+app.put('/api/v2/users/:userID', api.users.edit);
+
+app.delete('/api/v2/events/:eventID', api.events.remove);
+app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.remove);
+app.delete('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.remove);
+app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.remove);
+app.delete('/api/v2/users/:userID', api.users.remove);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
