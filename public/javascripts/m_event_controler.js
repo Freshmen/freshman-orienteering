@@ -122,8 +122,8 @@ $().ready(function(){
 	function getEvents(){
 		// new data
 		$.ajax({
-			  url: '/mockData/eventExample.json',
-//			  url: '/api/v1/events',
+//			  url: '/mockData/eventExample.json',
+			  url: '/api/v1/events',
 			  success: function(data) {
 				// inject
 				if(typeof(Storage)!=="undefined")
@@ -134,7 +134,6 @@ $().ready(function(){
 			    else
 			    {
 			    	/* NEED TO IMPROVE - No web storage support */
-			    	/* 1, How to solve "links" changed by "delete_me" function in "Social_Rational_View" */
 			    }
 				injectEvents.call(data);
 			  },
