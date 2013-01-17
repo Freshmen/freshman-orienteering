@@ -14,11 +14,15 @@ function createCheckpoint(marker){
 	$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" autocomplete="off" style="margin-right: 20px" required>');
 	$('#checkpoint').append('Longitude: ');
 	$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" autocomplete="off" style="margin-right: 20px" required>');
-	$('#checkpoint').append('<input type="button" id="addTask" value="Add a task" class="button">');
+	$('#checkpoint').append('<input type="button" id="addTask" onclick=addTaskPopup(hashkey) value="Add a task" class="button">');
+	$('#checkpoint').append('<input type="hidden" id="taskDescription">');
+	$('#checkpoint').append('<input type="hidden" id="taskURL">');
 	$('#checkpoint').attr("id","checkpoint_" + i);
 	$('#title').attr("id","title_" + hashkey);
 	$('#latitude').attr("id","latitude_" + hashkey);
 	$('#longitude').attr("id","longitude_" + hashkey);
+	$('#taskDescription').attr("id","taskDescription_" + hashkey);
+	$('#taskURL').attr("id","taskURL_" + hashkey);
 	$('#latitude_' + hashkey).val(marker.coordinate.latitude);
 	$('#longitude_' + hashkey).val(marker.coordinate.longitude);
 	<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
@@ -120,3 +124,21 @@ function displayNotifier() {
 	});
 }
 
+function addTaskPopup(key) {
+	var notifier = new Backbone.Notifier({
+		theme: 'plastic',
+		type: 'info',
+		dialog: false,
+		modal: true,
+		position: 'center',
+		zIndex: 10000,
+		screenOpacity: 0.7,
+	});
+	notifier.notify({
+		title: "Task",
+		message: "Enter a task description and URL (optional).",
+		hideOnClick: true,
+		fadeInMs: 80,
+		fadeOutMs: 80,
+	});
+}
