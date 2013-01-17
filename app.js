@@ -34,8 +34,6 @@ nconf.defaults({
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
 });
 
-console.log(nconf.get('FACEBOOK_APP_ID'));
-
 //--------- Facebook Login ------------
 
 // Passport session setup.
@@ -52,7 +50,6 @@ passport.serializeUser(function(user, done) {
 		done(null, id);
 	});
 });
-
 
 passport.deserializeUser(function(obj, done) {
 	done(null, obj); // need to change

@@ -7,7 +7,10 @@ describe('routes/login', function() {
     	  login.show.should.be.a["function"];
       });
       it('should return a webpage', function() {
-        var mockReq = null;
+        var mockReq = {};
+        mockReq.session = {};
+        mockReq.session.passport = {};
+        mockReq.session.passport.user = "testuser";
         var mockRes = {
           render: function(viewName) {
             viewName.should.exist;

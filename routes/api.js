@@ -58,6 +58,7 @@ var read_rev = function(id, callback) {
 	});
 }
 
+// gets document from database
 var read_doc = function(id, callback) {
 	db.get(id, function(err, body) {
 		if (!err) {
