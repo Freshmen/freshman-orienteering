@@ -19,12 +19,22 @@ var express = require('express')
   , util = require('util') // Facebook login
   , FacebookStrategy = require('passport-facebook').Strategy; // Facebook login
 
-//--------- Facebook Login ------------
+// Setup nconf to use (in-order):
+// 1. Command-line arguments
+// 2. Environment variables
+// 3. A file located at 'path/to/config.json'
+nconf.argv().env().file({file: './config.json'});
+nconf.defaults({
+  'PORT':3000,
+  'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
+  'couchdb_url' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
+  'couchcb_db' : 'fori-test-6',
+  'FACEBOOK_APP_ID' : '449519988438382',
+  'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
+  'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
+});
 
-// Facebook Constant
-var FACEBOOK_APP_ID = "449519988438382"
-var FACEBOOK_APP_SECRET = "6b878512fa91d329803d933a9ac286de";
-var CALLBACK_URL = "/auth/facebook/callback";
+//--------- Facebook Login ------------
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -46,31 +56,28 @@ passport.deserializeUser(function(obj, done) {
 	done(null, obj); // need to change
 });
 
-
 // Use the FacebookStrategy within Passport.
 // Strategies in Passport require a `verify` function, which accept
 // credentials (in this case, an accessToken, refreshToken, and Facebook
 // profile), and invoke a callback with a user object.
-passport.use(new FacebookStrategy({
-   clientID: FACEBOOK_APP_ID,
-   clientSecret: FACEBOOK_APP_SECRET,
-   callbackURL: CALLBACK_URL
- },
-function(accessToken, refreshToken, profile, done) {
-   // asynchronous verification, for effect...
-   process.nextTick(function () {
+passport.use(new FacebookStrategy(
+	{	
+		clientID: nconf.get('FACEBOOK_APP_ID'),
+		clientSecret: nconf.get('FACEBOOK_APP_SECRET'),
+		callbackURL: nconf.get('FACEBOOK_CALLBACK_URL')
+ 	}, 
+ 	function(accessToken, refreshToken, profile, done) {
+		// asynchronous verification, for effect...
+   		process.nextTick(function () {
      
-     // To keep the example simple, the user's Facebook profile is returned
-		// to
-     // represent the logged-in user. In a typical application, you would
-		// want
-     // to associate the Facebook account with a user record in your
-		// database,
-     // and return that user instead.
-     return done(null, profile);
-   });
- }
-));
+		// To keep the example simple, the user's Facebook profile is returned to
+		// represent the logged-in user. In a typical application, you would want
+		// to associate the Facebook account with a user record in your
+		// database, and return that user instead.
+     		return done(null, profile);
+   		});
+ 	})
+);
 
 //Simple route middleware to ensure user is authenticated.
 //Use this route middleware on any resource that needs to be protected.  If
@@ -84,16 +91,6 @@ function ensureAuthenticated(req, res, next) {
 //--------- End Facebook Login ---------
 
 var app = express();
-
-  // Setup nconf to use (in-order):
-  // 1. Command-line arguments
-  // 2. Environment variables
-  // 3. A file located at 'path/to/config.json'
-nconf.argv().env().file({file: './config.json'});
-nconf.defaults({
-  'PORT':3000,
-  'sessionSecret':'your secret here'
-});
 
 // no need to configured by developers
 app.configure(function(){

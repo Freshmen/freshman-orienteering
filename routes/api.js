@@ -3,7 +3,6 @@ var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
 nano.db.create('fori-test-6');
 var db = nano.use('fori-test-6');
 
-
 var add_design_docs = function() {
 	db.insert(
 		{ "views": 
@@ -114,7 +113,7 @@ var read_view = function(view, filter, callback) {
 }
 
 exports.events = {
-	'create' : function(req, res) {
+	create : function(req, res) {
 		req.body.type = 'Event';
 		if (req.session && req.session.passport && req.session.passport.user) {
 			req.body.organizer = req.session.passport.user;
@@ -125,24 +124,24 @@ exports.events = {
 			res.json(body, 201);
 		});
 	},
-	'list' : function(req, res) {
+	list : function(req, res) {
 		var organizer = req.query['organizer'];
 		var filter = organizer?organizer:false;
 		read_view('Events', filter, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'show' : function(req, res) {
+	show : function(req, res) {
 		read_doc(req.params.eventID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'edit' : function(req, res) {
+	edit : function(req, res) {
 		update_doc(req.params.eventID, req.body, function(body){
 			res.json(body, 200);
 		});
 	},
-	'remove' : function(req, res) {
+	remove : function(req, res) {
 		delete_doc(req.params.eventID, function(body) {
 			res.json(body, 200);
 		});
@@ -151,28 +150,28 @@ exports.events = {
 
 
 exports.checkpoints = {
-	'create' : function(req, res) {
+	create : function(req, res) {
 		req.body.type = 'Checkpoint';
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
 	},
-	'list' : function(req, res) {
+	list : function(req, res) {
 		read_view('Checkpoints', req.params.eventID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'show' : function(req, res) {
+	show : function(req, res) {
 		read_doc(req.params.checkpointID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'edit' : function(req, res) {
+	edit : function(req, res) {
 		update_doc(req.params.checkpointID, req.body, function(body){
 			res.json(body, 200);
 		});
 	},
-	'remove' : function(req, res) {
+	remove : function(req, res) {
 		delete_doc(req.params.checkpointID, function(body) {
 			res.json(body, 200);
 		});
@@ -180,28 +179,28 @@ exports.checkpoints = {
 };
 
 exports.enrollments = {
-	'create' : function(req, res) {
+	create : function(req, res) {
 		req.body.type = 'Enrollment';
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
 	},
-	'list' : function(req, res) {
+	list : function(req, res) {
 		read_view('Enrollments', req.params.eventID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'show' : function(req, res) {
+	show : function(req, res) {
 		read_doc(req.params.enrollmentID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'edit' : function(req, res) {
+	edit : function(req, res) {
 		update_doc(req.params.enrollmentID, req.body, function(body){
 			res.json(body, 200);
 		});
 	},
-	'remove' : function(req, res) {
+	remove : function(req, res) {
 		delete_doc(req.params.enrollmentID, function(body) {
 			res.json(body, 200);
 		});
@@ -209,28 +208,28 @@ exports.enrollments = {
 };
 
 exports.checkins = {
-	'create' : function(req, res) {
+	create : function(req, res) {
 		req.body.type = 'Checkin';
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
 	},
-	'list' : function(req, res) {
+	list : function(req, res) {
 		read_view('Checkins', req.params.checkpointID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'show' : function(req, res) {
+	show : function(req, res) {
 		read_doc(req.params.checkinID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'edit' : function(req, res) {
+	edit : function(req, res) {
 		update_doc(req.params.checkinID, req.body, function(body){
 			res.json(body, 200);
 		});
 	},
-	'remove' : function(req, res) {
+	remove : function(req, res) {
 		delete_doc(req.params.checkinID, function(body) {
 			res.json(body, 200);
 		});
@@ -238,34 +237,34 @@ exports.checkins = {
 };
 
 exports.users = {
-	'create' : function(req, res) {
+	create : function(req, res) {
 		req.body.type = 'User';
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
 	},
-	'list' : function(req, res) {
+	list : function(req, res) {
 		var id = req.query['id'];
 		read_view('Users', id?id:false, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'show' : function(req, res) {
+	show : function(req, res) {
 		read_doc(req.params.userID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'edit' : function(req, res) {
+	edit : function(req, res) {
 		update_doc(req.params.userID, req.body, function(body){
 			res.json(body, 200);
 		});
 	},
-	'remove' : function(req, res) {
+	remove : function(req, res) {
 		delete_doc(req.params.userID, function(body) {
 			res.json(body, 200);
 		});
 	},
-	'facebook_login' : function(user, callback) {
+	facebook_login : function(user, callback) {
 		read_view('Users', user.id, function(body) {
 			if (body && body.length) {
 				callback(body[0]._id);
