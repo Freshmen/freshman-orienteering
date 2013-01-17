@@ -34,6 +34,8 @@ nconf.defaults({
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
 });
 
+console.log(nconf.get('FACEBOOK_APP_ID'));
+
 //--------- Facebook Login ------------
 
 // Passport session setup.
