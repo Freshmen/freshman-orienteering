@@ -29,7 +29,7 @@ nconf.defaults({
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
   'couchdb_url' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
   'couchcb_db' : 'fori-test-6',
-  'FACEBOOK_APP_ID' : '449519988438382',
+  //'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
 });
