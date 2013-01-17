@@ -1,6 +1,7 @@
 var checkpoint_hash = {};
 var hashkey = 0;
 var eventCoord;
+var i = 0;
 
 function createCheckpoint(marker){
 	$('<div class="drag-container"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
@@ -8,11 +9,18 @@ function createCheckpoint(marker){
 	i++;
 	hashkey++;
 	$('#checkpoint').append('<img src="images/trash.jpg" class="trash" onclick=removeCheckpoint(this) style="float:right; margin:0 5px 0 0; height: auto; width: 20px;"><label id="hidden">' + hashkey + '</label><h2>Checkpoint ' + i + '</h2>');
-	$('#checkpoint').append('<input type="text" id="title" placeholder="Title" autocomplete="off" required>');
-	$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" autocomplete="off" required>');
-	$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" autocomplete="off" required>');
-	$('#checkpoint').append('<input type="text" id="taskURL" placeholder="Task URL" autocomplete="off" required>');
+	$('#checkpoint').append('<input type="text" id="title" placeholder="Title" autocomplete="off" style="margin-right: 20px; font-size: 16px" required>');
+	$('#checkpoint').append('Latitude: ');
+	$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" autocomplete="off" style="margin-right: 20px" required>');
+	$('#checkpoint').append('Longitude: ');
+	$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" autocomplete="off" style="margin-right: 20px" required>');
+	$('#checkpoint').append('<input type="button" id="addTask" value="Add a task" class="button">');
 	$('#checkpoint').attr("id","checkpoint_" + i);
+	$('#title').attr("id","title_" + hashkey);
+	$('#latitude').attr("id","latitude_" + hashkey);
+	$('#longitude').attr("id","longitude_" + hashkey);
+	$('#latitude_' + hashkey).val(marker.coordinate.latitude);
+	$('#longitude_' + hashkey).val(marker.coordinate.longitude);
 	<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
 	checkpoint_hash[hashkey] = marker;
 	fixIds();
