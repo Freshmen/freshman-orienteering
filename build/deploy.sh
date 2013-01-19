@@ -1,4 +1,4 @@
 #!/bin/bash
 npm install
-./node_modules/forever/bin/forever restart app.js
-./node_modules/forever/bin/forever list
+./node_modules/forever/bin/forever stop app.js
+./node_modules/forever/bin/forever start app.js
