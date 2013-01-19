@@ -8,14 +8,12 @@ fs.readFile('./temp/eventExample.json', 'utf8', function(err, data){
 		return console.log(err);
 	}
 	content = JSON.parse(data);
-	//console.log(content.events[0]);
 })
 //////////////////
 
 exports.show = function(req, res){
-	//res.render('mobile', { 'selection' : events[req.query.selection] || data['Index']})
 	res.render('mobile', { 'title' : 'Freshman Orienteering',
-							'signinStatus' : 'Sign In',
+							'user' : req.user,
 							'content' : content.db});
 }
 

@@ -50,9 +50,7 @@ nconf.defaults({
 // serialized
 // and deserialized.
 passport.serializeUser(function(user, done) {
-	api.users.facebook_login(user, function(id) {
-		done(null, id);
-	});
+  done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -74,12 +72,9 @@ passport.use(new FacebookStrategy(
  	function(accessToken, refreshToken, profile, done) {
 		// asynchronous verification, for effect...
    		process.nextTick(function () {
-     
-		// To keep the example simple, the user's Facebook profile is returned to
-		// represent the logged-in user. In a typical application, you would want
-		// to associate the Facebook account with a user record in your
-		// database, and return that user instead.
-     		return done(null, profile);
+        api.users.facebook_login(profile, function(id) {
+          return done(null, id);
+        });
    		});
  	})
 );
