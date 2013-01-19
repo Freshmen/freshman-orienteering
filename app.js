@@ -19,6 +19,7 @@ var express = require('express')
   , util = require('util') // Facebook login
   , FacebookStrategy = require('passport-facebook').Strategy; // Facebook login
 
+
 // Setup nconf to use (in-order):
 // 1. Command-line arguments
 // 2. Environment variables
@@ -27,8 +28,11 @@ nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
   'PORT':3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
-  'couchdb_url' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
-  'couchcb_db' : 'fori-test-6',
+  'database:host' : 'http://fori.uni.me/',
+  'database:port' : 8124,
+  'database:username' : 'couch',
+  'database:username' : 'zu5r8ZcL',
+  'database:name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
@@ -46,13 +50,13 @@ nconf.defaults({
 // serialized
 // and deserialized.
 passport.serializeUser(function(user, done) {
-	api.users.facebook_login(user, function(id) {
-		done(null, id);
-	});
+  done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-	done(null, obj); // need to change
+  api.users.get(obj, function(user) { 
+    done(null, user); // need to change
+  });
 });
 
 // Use the FacebookStrategy within Passport.
@@ -68,12 +72,9 @@ passport.use(new FacebookStrategy(
  	function(accessToken, refreshToken, profile, done) {
 		// asynchronous verification, for effect...
    		process.nextTick(function () {
-     
-		// To keep the example simple, the user's Facebook profile is returned to
-		// represent the logged-in user. In a typical application, you would want
-		// to associate the Facebook account with a user record in your
-		// database, and return that user instead.
-     		return done(null, profile);
+        api.users.facebook_login(profile, function(id) {
+          return done(null, id);
+        });
    		});
  	})
 );
@@ -85,6 +86,8 @@ passport.use(new FacebookStrategy(
 //login page.
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) { return next(); }
+  req.session.redirect_url = req.path;
+  console.log(req.path);
 	res.redirect('/login')
 }
 //--------- End Facebook Login ---------
@@ -137,7 +140,13 @@ app.get('/auth/facebook',passport.authenticate('facebook'),function(req, res){
 //login page.  Otherwise, the primary route function will be called,
 //which, in this example, will redirect the user to the home page.
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }),function(req, res) {
-	res.redirect('/mobile');
+  var redirect_url = req.session.redirect_url;
+  if (redirect_url) {
+    delete req.session.redirect_url;
+    res.redirect(redirect_url); 
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/logout', function(req, res){

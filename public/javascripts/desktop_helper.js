@@ -14,7 +14,7 @@ function createCheckpoint(marker){
 	$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" autocomplete="off" style="margin-right: 20px" required>');
 	$('#checkpoint').append('Longitude: ');
 	$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" autocomplete="off" style="margin-right: 20px" required>');
-	$('#checkpoint').append('<input type="button" id="addTask" onclick=addTaskPopup(hashkey) value="Add a task" class="button">');
+	$('#checkpoint').append('<input type="button" id="addTask" value="Add a task" class="button">');
 	$('#checkpoint').append('<input type="hidden" id="taskDescription">');
 	$('#checkpoint').append('<input type="hidden" id="taskURL">');
 	$('#checkpoint').attr("id","checkpoint_" + i);
@@ -79,7 +79,7 @@ function saveEvent(){
 
 	eventCreated = true;
 			
-	displayNotifier();
+	displayNotifier("Your event has been created!","Start adding checkpoints by double-clicking on the map.");
 
 			
 	<!-- Display add checkpoint button -->	
@@ -103,7 +103,7 @@ function saveEvent(){
 	return false;
 }
 
-function displayNotifier() {
+function displayNotifier(title_msg, body_msg) {
 	<!-- Display info dialog -->
 	var notifier = new Backbone.Notifier({
 		theme: 'plastic',
@@ -115,30 +115,11 @@ function displayNotifier() {
 		screenOpacity: 0.7,
 	});
 	notifier.notify({
-		title: "Your event has been created!",
-		message: "Start adding checkpoints by double-clicking on the map.",
+		title: title_msg,
+		message: body_msg,
 		hideOnClick: true,
 		fadeInMs: 800,
 		fadeOutMs: 800,
 		ms: 6000,
-	});
-}
-
-function addTaskPopup(key) {
-	var notifier = new Backbone.Notifier({
-		theme: 'plastic',
-		type: 'info',
-		dialog: false,
-		modal: true,
-		position: 'center',
-		zIndex: 10000,
-		screenOpacity: 0.7,
-	});
-	notifier.notify({
-		title: "Task",
-		message: "Enter a task description and URL (optional).",
-		hideOnClick: true,
-		fadeInMs: 80,
-		fadeOutMs: 80,
 	});
 }

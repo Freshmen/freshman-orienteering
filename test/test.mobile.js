@@ -7,7 +7,8 @@ describe('routes/mobile', function() {
         mobile.show.should.be.a["function"];
       });
       it('should return a webpage', function() {
-        var mockReq = null;
+        var user = { name : "testUser" }
+        var mockReq = { 'user' : user };        
         var mockRes = {
           render: function(viewName) {
             viewName.should.exist;

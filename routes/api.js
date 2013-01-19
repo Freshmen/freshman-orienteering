@@ -1,4 +1,5 @@
 //var nano = require('nano')('http://Fori:P0r1na@127.0.0.1:5984/');
+
 var nano = require('nano')('http://couch:zu5r8ZcL@fori.uni.me:8124/');
 nano.db.create('fori-test-6');
 var db = nano.use('fori-test-6');
@@ -116,10 +117,8 @@ var read_view = function(view, filter, callback) {
 exports.events = {
 	create : function(req, res) {
 		req.body.type = 'Event';
-		if (req.session && req.session.passport && req.session.passport.user) {
-			req.body.organizer = req.session.passport.user;
-		} else {
-			req.body.organizer = "Vidhuran";
+		if (req.user && !req.body.organizer) {
+			req.body.organizer = req.user;
 		}
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
@@ -182,6 +181,9 @@ exports.checkpoints = {
 exports.enrollments = {
 	create : function(req, res) {
 		req.body.type = 'Enrollment';
+		if (!req.body.user && req.user) {
+			req.body.user = req.user;
+		}		
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
@@ -211,6 +213,9 @@ exports.enrollments = {
 exports.checkins = {
 	create : function(req, res) {
 		req.body.type = 'Checkin';
+		if (!req.body.user && req.user) {
+			req.body.user = req.user;
+		}
 		insert_doc(req.body, 0, function(body){
 			res.json(body, 201);
 		});
@@ -264,6 +269,11 @@ exports.users = {
 		delete_doc(req.params.userID, function(body) {
 			res.json(body, 200);
 		});
+	},
+	get : function(userID, callback) {
+		read_doc(userID, function(body) {
+			callback(body);
+		});		
 	},
 	facebook_login : function(user, callback) {
 		read_view('Users', user.id, function(body) {
