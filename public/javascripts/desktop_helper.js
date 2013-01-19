@@ -138,5 +138,6 @@ function displayNotifier(title_msg, body_msg) {
 
 function taskDialog(taskButton){
 	temp = $(taskButton).next().text()
+	taskButton.value = "Edit Task";
 	$("#dialog_" + temp).dialog("open");
 }
