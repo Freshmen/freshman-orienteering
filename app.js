@@ -112,6 +112,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(routes.display404);
 });
 
 app.configure('development', function(){
@@ -254,6 +255,8 @@ app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.
 app.delete('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.remove);
 app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.remove);
 app.delete('/api/v2/users/:userID', api.users.remove);
+
+// 404 page if nothing else matched
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
