@@ -218,7 +218,7 @@ $().ready(function(){
 		self.injectCheckpoints = function injectCheckpoints(){
 			var o = {};
 			if (!$.isEmptyObject(this.checkpoints)){
-				o = this;
+				o = this.checkpoints;
 			}else{
 				if (self.checkpoints.length != 0){
 					o = self.checkpoints;
@@ -226,11 +226,11 @@ $().ready(function(){
 					return false;
 				}
 			}
-			var callback = new EJS({url: '/templates/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o.checkpoints});
+			var callback = new EJS({url: '/templates/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o});
 			checkPoints.isShown = true;
 			// place all markers that in that event onto the map
-			self.displayMaker(o.checkpoints);
-			self.centerScreenWithCheckpoints(o.checkpoints);
+//			self.displayMaker(o);
+//			self.centerScreenWithCheckpoints(o);
 		}
 		
 		self.getCheckpoints = function getCheckpoints(event_id,callback){
