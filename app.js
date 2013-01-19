@@ -10,7 +10,7 @@ var express = require('express')
   , mobile = require('./routes/mobile.js')
   , login = require('./routes/login.js')
   , db = require('./routes/db.js')
-  , api = require('./routes/api.js')
+  , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
   , http = require('http')
   , path = require('path')
@@ -28,14 +28,18 @@ nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
   'PORT':3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
-  'database:host' : 'http://fori.uni.me/',
-  'database:port' : 8124,
-  'database:username' : 'couch',
-  'database:username' : 'zu5r8ZcL',
-  'database:name' : 'fori-test-6',
+  'database_host' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
+  'database_name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
+});
+
+// API initialization
+
+api.configure({ 
+  'url' : nconf.get('database_host'),
+  'name': nconf.get('database_name')  
 });
 
 //--------- Facebook Login ------------
