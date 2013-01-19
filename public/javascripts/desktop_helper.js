@@ -103,13 +103,13 @@ function saveEvent(){
 	$("#starttime").attr("disabled","true");
 	$("#endtime").attr("disabled","true");
 	$("#ordered").attr("disabled","true");
-	$("#submit").attr("disabled","true");
+	$("#submitEvent").attr("disabled","true");
 	$("#description").attr("disabled","true");
-	$("#submit").attr('style', 'background-color:silver');
+	$("#submitEvent").attr('style', 'background-color:silver');
 
 	<!-- Add save event button -->
-
-	//$("#event_form").append("<input type="submit" id="save" value="Save Event" class="button" style="float:right">")
+	document.getElementById('submitCheckpoints').style.visibility = 'visible';
+	//$("#event_form").append('<input type="submit" id="saveEvent" value="Save Event" class="button" style="float:right">')
 
 
 	return false;
