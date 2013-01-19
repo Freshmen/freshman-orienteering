@@ -38,33 +38,61 @@ http://maxvoltar.com/sandbox/fontsmoothing/
 
 
 html{
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  -webkit-font-smoothing:antialiased;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	-webkit-font-smoothing:antialiased;
 }
 
 body{
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  color: blue;
-  background-color: siteBackgroundColor;
-  font-family:fontFamily;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	color: #424242;
+	background-color: siteBackgroundColor;
+	font-family:fontFamily;
 }
 
 a{
-  color:navFontStaticColor;
-  text-decoration:none;
+	color:navFontStaticColor;
+	text-decoration:none;
 }
 
 a:hover{
-  color:navFontHoverColor;
-  text-decoration:none;
+	/*color:navFontHoverColor;*/
+	background:#EEE;
+	text-decoration:none;
 }
 
+/* originally ui.css from http://iqonicdesign.com/ui/
+ This code is free. */ 
+a.tagbtn3 {
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+	background-image: -webkit-linear-gradient(#2da1ec, #0191d9);
+	background-image: -moz-linear-gradient(#2da1ec, #0191d9);
+	background-image: -ms-linear-gradient(#2da1ec, #0191d9);
+	background-image: linear-gradient(#2da1ec, #0191d9);
+	border: 1px solid #0191d9;
+}
+
+a.tagbtn3:hover {
+	background-image: -webkit-linear-gradient(#2eacff, #0191d9);
+	background-image: -moz-linear-gradient(#2eacff, #0191d9);
+	background-image: -ms-linear-gradient(#2eacff, #0191d9);
+	background-image: linear-gradient(#2eacff, #0191d9);
+}
+
+a.tagbtn3:active {
+	top: 1px;
+}
+/* end of ui.css*/
+
 ul{
-  list-style:none;
+  	list-style:none;
 }
 
 #mapArea{
@@ -115,9 +143,9 @@ h1, h2, h3 {
 }
 
 .listbox{
-	background:navBackgroundColor;
-	*zoom:1;
-	-webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
+  background:navBackgroundColor;
+  *zoom:1;
+-webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
 	-moz-box-shadow:0 2px 4px rgba(0,0,0,.15);
 	box-shadow:0 1px 3px rgba(0,0,0,.15);
 }
@@ -129,15 +157,15 @@ h1, h2, h3 {
 }
 
 #taskContent{
-  margin-right: auto;
-	width:300px;
+  	margin-right: auto;
+	width:300px; 
 	text-align: center;
 }
 
 #header header:before,#header header:after{
-display:table;
-content:"";
-line-height:0
+	display:table;
+	content:"";
+	line-height:0
 }
 
 #header header:after{
@@ -311,7 +339,7 @@ span.expand {
 }
 span.delete:hover{
 	color: #ffffff;
-	background: #000000;
+	background: #000;
 }
 .thumb {
     height: 75px;
@@ -327,6 +355,7 @@ span.delete:hover{
       font-size:fontBig*mobileScaling;
       line-height:navBarHeight*mobileScaling; 
       min-height: navBarHeight*mobileScaling;
+      width:150px*mobileScaling; /* this will twist F-Orienteering is position to left*/
     }
 
     #header header #control { 
@@ -362,11 +391,7 @@ span.delete:hover{
     }
 
     #content{
-      /*min-width: 250px*mobileScaling;*/
-      /*
-      width:93.6%;
-      height: 83%;
-      */
+
     }
 
     #contentNav ul li{
@@ -384,8 +409,12 @@ span.delete:hover{
       font-size: fontSmall*mobileScaling;
       line-height: listBarSmallHeight*mobileScaling;
       margin-left 20px*mobileScaling;
-  }
-
+  	}
+	
+	#contentWrap, #taskWrap{
+		top: ( navBarHeight ) * mobileScaling;
+	}
+	
     #taskWrap{
       top: navBarHeight*mobileScaling+10;
     }
@@ -397,6 +426,11 @@ span.delete:hover{
       width:400px*0.5;
       text-align: center;
     }
+    
+    a.tagbtn3 {
+		font-size: 15px*mobileScaling;
+		padding: 5px*mobileScaling;
+	}
 }
 
 @media (min-width: 400px) and (max-width: 600px) {

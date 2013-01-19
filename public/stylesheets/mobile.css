@@ -18,7 +18,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  color: #00f;
+  color: #424242;
   background-color: #eee;
   font-family: "AvantGardeGothicITCW01B 731063", "Helvetica Neue", Arial, sans-serif;
 }
@@ -27,9 +27,34 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #44e;
+/*color:navFontHoverColor;*/
+  background: #eee;
   text-decoration: none;
 }
+/* originally ui.css from http://iqonicdesign.com/ui/
+ This code is free. */
+a.tagbtn3 {
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  background-image: -webkit-linear-gradient(#2da1ec, #0191d9);
+  background-image: -moz-linear-gradient(#2da1ec, #0191d9);
+  background-image: -ms-linear-gradient(#2da1ec, #0191d9);
+  background-image: linear-gradient(#2da1ec, #0191d9);
+  border: 1px solid #0191d9;
+}
+a.tagbtn3:hover {
+  background-image: -webkit-linear-gradient(#2eacff, #0191d9);
+  background-image: -moz-linear-gradient(#2eacff, #0191d9);
+  background-image: -ms-linear-gradient(#2eacff, #0191d9);
+  background-image: linear-gradient(#2eacff, #0191d9);
+}
+a.tagbtn3:active {
+  top: 1px;
+}
+/* end of ui.css*/
 ul {
   list-style: none;
 }
@@ -263,6 +288,8 @@ span.delete:hover {
     font-size: 12.6px;
     line-height: 35px;
     min-height: 35px;
+    width: 105px;
+/* this will twist F-Orienteering is position to left*/
   }
   #header header #control {
     font-size: 9.799999999999999px;
@@ -302,6 +329,10 @@ span.delete:hover {
     line-height: 14px;
     margin-left: 14px;
   }
+  #contentWrap,
+  #taskWrap {
+    top: 35px;
+  }
   #taskWrap {
     top: 45px;
   }
@@ -311,6 +342,10 @@ span.delete:hover {
     margin-right: auto;
     width: 200px;
     text-align: center;
+  }
+  a.tagbtn3 {
+    font-size: 10.5px;
+    padding: 3.5px;
   }
 }
 @media (min-width: 400px) and (max-width: 600px) {

@@ -1,15 +1,13 @@
 $().ready(function(){
 	var isDisplay = false;
-	var defaultColor = '#333';
+	var defaultColour = '#fff';
+	//a:visited has been restricted for security reason
+	var visitedColour = '#000'; 
 	/* ***********************
 	 * Initialisation
 	 *
 	 * ***********************/
-	
-	// Facebook sign in addition, worked on local machine on this, not sure how it will function online
-	$('#fbSignIn').click(function(){
-		fbLogin();
-	});	
+		
 	$('#taskListClose').die();
 	$('#taskListClose').live('click',function(){
 		undisplayTaskList();
@@ -18,11 +16,8 @@ $().ready(function(){
 	$('#contentListClose').live('click',function(e){
 		undisplayEventList();
 	});	
-	$("#expand").die();
-	$("#expand").live('click',function(){
-		explandContent();
-	});
-	$("#status").die();
+	
+//	$("#status").die();
 	$("#status").live('click',function(){
 		$.ajax({
 	    	  url: "/mockData/",
@@ -40,11 +35,6 @@ $().ready(function(){
 	});
 	$('#goBack').live('click',function(){
 		injectEvents.call();
-	});
-	
-	$("#uploadButton").die();
-	$("#uploadButton").live('click',function(){
-		
 	});
 	
 	$('#eventList').click(function(){
@@ -86,7 +76,6 @@ $().ready(function(){
 
 	// End Initialisation
 	
-	
 	/* ***********************
 	 * functions
 	 *
@@ -99,12 +88,12 @@ $().ready(function(){
 	function displayEventList(){
 		getEvents();
 		$('#content').css('display','block');
-		$('#eventList a').css('color','#44e');
+		$('#eventList a').css('color',visitedColour);
 		isDisplay = true;
 	}
 	function undisplayEventList(){
 		$('#content').css('display','none');
-		$('#eventList a').css('color',defaultColor);
+		$('#eventList a').css('color',defaultColour);
 		isDisplay = false;
 	}
 
@@ -115,15 +104,11 @@ $().ready(function(){
 	function undisplayTaskList(){
 		$('#taskContent').css('display','none');
 	}
-	function explandContent(){
-		$('#expandWrap').append('<input type="file" id="files" name="files[]"/><output id="list"></output>');
-		document.getElementById('files').addEventListener('change', handleFileSelect, false);
-	}
+
 	function getEvents(){
 		// new data
 		$.ajax({
-//			  url: '/mockData/eventExample.json',
-			  url: '/api/v1/events',
+			  url: '/api/v2/events',
 			  success: function(data) {
 				// inject
 				if(typeof(Storage)!=="undefined")
@@ -169,14 +154,12 @@ $().ready(function(){
 	}
 	
 	function getEventByIndex() {
-//		var eventName = $(this).children().text().replace(/ /,"");
 		var o = this;
 		var event_id = null;
 		var eventArray = JSON.parse(sessionStorage.eventArray);
 		if(eventArray != null && typeof eventArray != 'undefined'){
 			var index = $(o).attr('data-index');
-//			event_id = eventArray['events'][index]._id;
-			return eventArray['events'][index];
+			return eventArray[index];
 		}else{
 //			TO-DO
 			return false;
@@ -195,8 +178,7 @@ $().ready(function(){
 				return false;
 			}
 		}
-		//new EJS({url: '/mockData/mobileList.ejs'}).update('contentWrap', {content: data});
-	  	new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o.events});
+	  	new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
 	}
 
 	function showEventDescription(event){
@@ -244,9 +226,6 @@ $().ready(function(){
 					return false;
 				}
 			}
-			if (o.checkpoints.event){
-				o.checkpoints = o.checkpoints.checkpoints;
-			}
 			var callback = new EJS({url: '/templates/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o.checkpoints});
 			checkPoints.isShown = true;
 			// place all markers that in that event onto the map
@@ -257,11 +236,10 @@ $().ready(function(){
 		self.getCheckpoints = function getCheckpoints(event_id,callback){
 			// new checkpoints in events
 			$.ajax({
-//				  url: '/api/v1/events/' + event_id + '/checkpoints',
-				  url: 'mockData/cityOrienteering.json',
+				  url: '/api/v2/events/' + event_id + '/checkpoints',
 				  success: function(data) {
 					// inject
-					  if (data.checkpoints.length == 0){
+					  if (data.length == 0){
 						  var marker_notifier = initialiseNotification();
 						  marker_notifier.warning('Sorry, no checkpoints');
 						  return false;
@@ -288,17 +266,11 @@ $().ready(function(){
 				});
 		}
 		self.displayMaker = function displayMaker(checkpoints){
-			if (checkpoints.event){
-				checkpoints = checkpoints.checkpoints;
-			}
 			$.each(checkpoints,function(index,values){
 				mobileAddCheckpointMarker(map, values);
 			});
 		}
 		self.centerScreenWithCheckpoints = function centerScreenWithCheckpoints(checkpoints){
-			if (checkpoints.event){
-				checkpoints = checkpoints.checkpoints;
-			}
 			var len = checkpoints.length;
 			var meanLon = 0.0;
 			var meanLat = 0.0;
