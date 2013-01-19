@@ -48,11 +48,13 @@ textarea {
 }
 #submitEvent {
   font-size: 150%;
+  width: 44%;
   margin: 0 auto;
   float: left;
 }
 #submitCheckpoints {
   font-size: 150%;
+  width: 44%;
   float: right;
   visibility: hidden;
 }
