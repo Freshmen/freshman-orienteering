@@ -19,6 +19,7 @@ var express = require('express')
   , util = require('util') // Facebook login
   , FacebookStrategy = require('passport-facebook').Strategy; // Facebook login
 
+
 // Setup nconf to use (in-order):
 // 1. Command-line arguments
 // 2. Environment variables
@@ -27,8 +28,11 @@ nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
   'PORT':3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
-  'couchdb_url' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
-  'couchcb_db' : 'fori-test-6',
+  'database:host' : 'http://fori.uni.me:/',
+  'database:port' : 8124,
+  'database:username' : 'couch',
+  'database:username' : 'zu5r8ZcL',
+  'database:name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
@@ -52,7 +56,9 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(obj, done) {
-	done(null, obj); // need to change
+  api.users.get(obj, function(user) { 
+    done(null, user); // need to change
+  });
 });
 
 // Use the FacebookStrategy within Passport.
