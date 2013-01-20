@@ -126,8 +126,7 @@ module.exports = exports = function api_module(cfg) {
 		var filter = {};
 		if (key) {
 			isFiltered = true;
-			filter.keys = [];
-			filter.keys.push(key);
+			filter.key = key;
 		}
 		if (req.query['limit'] && !isNaN(req.query['limit'])) {
 			isFiltered = true;
@@ -136,6 +135,10 @@ module.exports = exports = function api_module(cfg) {
 		if (req.query['offset'] && !isNaN(req.query['offset'])) {
 			isFiltered = true;
 			filter.skip = req.query['offset'];
+		}
+		if (req.query['descending'] && req.query['descending'] == 'true') {
+			isFiltered = true;
+			filter.descending = true;
 		}
 		return isFiltered?filter:'';
 	}
