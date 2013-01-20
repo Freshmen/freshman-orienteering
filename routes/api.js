@@ -137,7 +137,7 @@ module.exports = exports = function api_module(cfg) {
 			isFiltered = true;
 			filter.skip = req.query['offset'];
 		}
-		return isFiltered?filter:null;
+		return isFiltered?filter:'';
 	}
 
 	return {
