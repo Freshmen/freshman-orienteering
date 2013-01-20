@@ -104,7 +104,8 @@ module.exports = exports = function api_module(cfg) {
 	}
 
 	var read_view = function(view, filter, callback) {
-		db.view('Lists', view, filter?{ 'keys' : [filter] }:'', function(err, body) {
+		filter == filter?filter:'';
+		db.view('Lists', view, filter, function(err, body) {
 	  		if (!err) {
 	  			var response = [];
 	  			if(body && body.rows) {
@@ -120,6 +121,25 @@ module.exports = exports = function api_module(cfg) {
 		});
 	}
 
+	var parseFilters = function(req, key) {
+		var isFiltered = false;
+		var filter = {};
+		if (key) {
+			isFiltered = true;
+			filter.keys = [];
+			filter.keys.push(key);
+		}
+		if (req.query['limit'] && !isNaN(req.query['limit'])) {
+			isFiltered = true;
+			filter.limit = req.query['limit'];
+		}
+		if (req.query['offset'] && !isNaN(req.query['offset'])) {
+			isFiltered = true;
+			filter.skip = req.query['offset'];
+		}
+		return isFiltered?filter:null;
+	}
+
 	return {
 		configure : init,
 		events : {
@@ -133,9 +153,7 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				var organizer = req.query['organizer'];
-				var filter = organizer?organizer:false;
-				read_view('Events', filter, function(body) {
+				read_view('Events', parseFilters(req, req.query['organizer']), function(body) {
 					res.json(body, 200);
 				});
 			},
@@ -164,7 +182,7 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				read_view('Checkpoints', req.params.eventID, function(body) {
+				read_view('Checkpoints', parseFilters(req, req.params.eventID), function(body) {
 					res.json(body, 200);
 				});
 			},
@@ -196,7 +214,7 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				read_view('Enrollments', req.params.eventID, function(body) {
+				read_view('Enrollments', parseFilters(req, req.params.eventID), function(body) {
 					res.json(body, 200);
 				});
 			},
@@ -228,7 +246,7 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				read_view('Checkins', req.params.checkpointID, function(body) {
+				read_view('Checkins', parseFilters(req, req.params.checkpointID), function(body) {
 					res.json(body, 200);
 				});
 			},
@@ -257,8 +275,7 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				var id = req.query['id'];
-				read_view('Users', id?id:false, function(body) {
+				read_view('Users', parseFilters(req, req.query['id']), function(body) {
 					res.json(body, 200);
 				});
 			},
