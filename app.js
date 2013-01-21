@@ -12,6 +12,7 @@ var express = require('express')
   , db = require('./routes/db.js')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
+  , backbone = require('./routes/backbone.js')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf')
@@ -158,6 +159,9 @@ app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
+
+// Pages for backbone admin view
+app.get('/backbone', ensureAuthenticated, backbone.show);
 
 // Pages for admin view
 app.get('/admin', admin.index);

@@ -303,7 +303,7 @@ module.exports = exports = function api_module(cfg) {
 				});		
 			},
 			facebook_login : function(user, callback) {
-				read_view('Users', user.id, function(body) {
+				read_view('Users', { 'key' : user.id }, function(body) {
 					if (body && body.length) {
 						callback(body[0]._id);
 					} else {

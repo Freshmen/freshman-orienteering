@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8" />
+	<title>Admin view with Backbone.js</title>
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="navbar navbar-static-top" id="topbar">
+			<div class="navbar-inner">
+				<ul class="nav" id="top-nav">
+					<a class="brand" href="#">Admin Console</a>
+					<li id="top-nav-events"><a href="#/events">Events</a></li>
+					<li id="top-nav-users"><a href="#/users">Users</a></li>
+				</ul>
+				<ul class="nav pull-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<% if(user && user.name) { %>
+								<%= user.name %>
+							<% } else { %>
+								Account
+							<% } %>
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/logout">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="page"></div>
+	</div>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+	<script src="/javascripts/admin.js"></script>
+</body>
+</html>
