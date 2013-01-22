@@ -209,8 +209,9 @@ module.exports = exports = function api_module(cfg) {
 		enrollments : {
 			create : function(req, res) {
 				req.body.type = 'Enrollment';
+				req.body.event = req.params.eventID;
 				if (!req.body.user && req.user) {
-					req.body.user = req.user;
+					req.body.user = req.user._id;
 				}		
 				insert_doc(req.body, 0, function(body){
 					res.json(body, 201);
@@ -227,6 +228,8 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			edit : function(req, res) {
+				req.body.type = 'Enrollment';
+				req.body.event = req.params.eventID;
 				update_doc(req.params.enrollmentID, req.body, function(body){
 					res.json(body, 200);
 				});
