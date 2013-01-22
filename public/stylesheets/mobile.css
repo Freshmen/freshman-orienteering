@@ -96,6 +96,8 @@ h3 {
   box-sizing: border-box;
 }
 #content {
+  height: 600px;
+  overflow: auto;
   position: relative;
   margin-right: auto;
   margin-left: auto;
@@ -316,6 +318,9 @@ span.delete:hover {
   #contentWrap {
     top: 45px;
   }
+  #content {
+    height: 400px;
+  }
   #contentNav ul li {
     font-size: 9.799999999999999px;
     line-height: 21px;
@@ -381,6 +386,14 @@ span.delete:hover {
   }
   #contentWrap {
     top: 45px;
+  }
+  #content {
+    height: 500px;
+/*min-width: 250px*mobileScalingMedium;
+      /*
+      width:95.8%;
+      height: 84%;
+      */
   }
   #contentNav ul li {
     font-size: 11.200000000000001px;
