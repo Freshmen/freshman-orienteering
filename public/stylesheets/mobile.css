@@ -96,12 +96,14 @@ h3 {
   box-sizing: border-box;
 }
 #content {
-  height: 600px;
+  height: 590px;
   overflow: auto;
   position: relative;
   margin-right: auto;
   margin-left: auto;
   *zoom: 1;
+  overflow: auto;
+  top: 10px;
 }
 .listbox {
   background: #fff;
@@ -297,6 +299,8 @@ span.delete:hover {
     font-size: 9.799999999999999px;
     line-height: 35px;
     height: 35px;
+    min-height: 35px;
+    right: 9.799999999999999px;
   }
   #control ul {
     line-height: 35px;
@@ -314,18 +318,20 @@ span.delete:hover {
   #footer footer #control {
     line-height: 35px;
     font-size: 11.899999999999999px;
+    right: 9.799999999999999px;
   }
   #contentWrap {
     top: 45px;
   }
   #content {
-    height: 400px;
+    height: 390px;
+    top: 10px;
   }
   #contentNav ul li {
     font-size: 9.799999999999999px;
     line-height: 21px;
   }
-  #contentList {
+  .contentList {
     padding-right: 14px;
     padding-left: 14px;
   }
@@ -399,7 +405,7 @@ span.delete:hover {
     font-size: 11.200000000000001px;
     line-height: 24px;
   }
-  #contentList {
+  .contentList {
     padding-right: 16px;
     padding-left: 16px;
   }

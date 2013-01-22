@@ -49,7 +49,7 @@ $().ready(function(){
 
 	});
 
-	$('#contentList li').live('click',getEventByIndexHelper);
+	$(document).on('click','#events li',getEventByIndexHelper);
 	
 	displayEventList();
 	
@@ -78,21 +78,18 @@ $().ready(function(){
 		}
 		
 	});
-
 	
 	// initialise a task object
 	var task = new Task();
 	$(document).on('click','#checkPointWrap li',function(e){
 		console.log(this);
 	});
-	
 
 	// Enroll button in the even template
 	$('#enrol').live('click',function(){
 		var index = parseInt(sessionStorage.currentEvent);
 		setEnrollment(index);
 	});
-
 
 	// End Initialisation
 	
@@ -149,8 +146,11 @@ $().ready(function(){
 			
 	}
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ab366d88d79972bc0ba1f5fa4ab87ba856aff556
 	function setEnrollment(index){
 		var events = JSON.parse(sessionStorage.eventArray);
 		var eventId = events[index]._id;
@@ -181,7 +181,6 @@ $().ready(function(){
 		});
 	}
 
-	
 	function getEventByIndexHelper(){
 		var self = this;
 
