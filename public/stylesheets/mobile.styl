@@ -22,6 +22,7 @@ mobileScaling = 0.7;
 navBarHeight = 50px;
 listBarHeight = 30px;
 listBarSmallHeight = 20px;
+eventTopPosition = 10px;
 
 /* Style functions, not working, seems handy */
 linkHover()
@@ -135,27 +136,28 @@ h1, h2, h3 {
 }
 
 #content {
-  height: 600px;
-  overflow: auto;
-  position: relative;
-  margin-right:auto;
-  margin-left:auto;
-  *zoom:1;
-  overflow:auto;
+	  height: 600px - eventTopPosition;
+	  overflow: auto;
+	  position: relative;
+	  margin-right:auto;
+	  margin-left:auto;
+	  *zoom:1;
+	  overflow:auto;
+	  top: eventTopPosition;
 }
 
 .listbox{
-  background:navBackgroundColor;
-  *zoom:1;
--webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
+  	background:navBackgroundColor;
+  	*zoom:1;
+  	-webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
 	-moz-box-shadow:0 2px 4px rgba(0,0,0,.15);
 	box-shadow:0 1px 3px rgba(0,0,0,.15);
 }
 
 #taskWrap{
-  padding-right: 10px;
-  padding-left: 10px;
-  z-index:99;
+  	padding-right: 10px;
+  	padding-left: 10px;
+  	z-index:99;
 }
 
 #taskContent{
@@ -171,45 +173,45 @@ h1, h2, h3 {
 }
 
 #header header:after{
-clear:both
+	clear:both
 }
 
 #header{
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:100;
-  width:100%;
-  padding-right: 10px;
-  padding-left: 10px;
-  -webkit-box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  box-sizing:border-box
+  	position:fixed;
+  	top:0;
+  	left:0;
+  	z-index:100;
+  	width:100%;
+  	padding-right: 10px;
+  	padding-left: 10px;
+  	-webkit-box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+  	box-sizing:border-box
 }
 
 #header header{
-  position:relative;
-  margin-right:auto;
-  margin-left:auto;
-  min-height: navBarHeight;
-  background:navBackgroundColor;
-  *zoom:1;
-  -webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
-  -moz-box-shadow:0 2px 4px rgba(0,0,0,.15);
-  box-shadow:0 1px 3px rgba(0,0,0,.15)
+  	position:relative;
+ 	margin-right:auto;
+ 	margin-left:auto;
+  	min-height: navBarHeight;
+  	background:navBackgroundColor;
+  	*zoom:1;
+  	-webkit-box-shadow:0 2px 4px rgba(0,0,0,.15);
+  	-moz-box-shadow:0 2px 4px rgba(0,0,0,.15);
+  	box-shadow:0 1px 3px rgba(0,0,0,.15)
 }
 
 #header header h1{
-  display:block;
-  float:left;
-  width:150px;
-  margin:0;
-  min-height: navBarHeight;
-  border-right:1px solid #f4f4f4;
-  font-size:fontBig;
-  line-height:navBarHeight;
-  text-align:center;
-  letter-spacing:0
+  	display:block;
+  	float:left;
+  	width:150px;
+  	margin:0;
+  	min-height: navBarHeight;
+  	border-right:1px solid #f4f4f4;
+  	font-size:fontBig;
+  	line-height:navBarHeight;
+  	text-align:center;
+  	letter-spacing:0
 }
 
 
@@ -393,7 +395,8 @@ span.delete:hover{
     }
 
     #content{
-      height: 400px;
+      height: 400px - eventTopPosition;
+      top:eventTopPosition;
     }
 
     #contentNav ul li{
@@ -401,7 +404,7 @@ span.delete:hover{
       line-height: listBarHeight*mobileScaling;
     }
 
-    #contentList {
+    .contentList {
       padding-right: 20px*mobileScaling;
       padding-left: 20px*mobileScaling;
 
@@ -491,7 +494,7 @@ span.delete:hover{
       line-height: listBarHeight*mobileScalingMedium;
     }
 
-    #contentList {
+    .contentList {
       padding-right: 20px*mobileScalingMedium;
       padding-left: 20px*mobileScalingMedium;
 

@@ -41,7 +41,7 @@ $().ready(function(){
 		}	
 	});
 
-	$('#contentList li').live('click',getEventByIndexHelper);
+	$(document).on('click','#events li',getEventByIndexHelper);
 	
 	displayEventList();
 	
