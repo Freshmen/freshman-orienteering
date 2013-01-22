@@ -299,6 +299,7 @@ span.delete:hover {
     font-size: 9.799999999999999px;
     line-height: 35px;
     min-height: 35px;
+    right: 9.799999999999999px;
   }
   #control ul {
     line-height: 35px;
@@ -316,6 +317,7 @@ span.delete:hover {
   #footer footer #control {
     line-height: 35px;
     font-size: 11.899999999999999px;
+    right: 9.799999999999999px;
   }
   #contentWrap {
     top: 45px;

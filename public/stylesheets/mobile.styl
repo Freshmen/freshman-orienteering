@@ -23,6 +23,7 @@ navBarHeight = 50px;
 listBarHeight = 30px;
 listBarSmallHeight = 20px;
 eventTopPosition = 10px;
+headerRightPosition = 20px;
 
 /* Style functions, not working, seems handy */
 linkHover()
@@ -228,7 +229,7 @@ h1, h2, h3 {
 #header header #control{
   position:absolute;
   top:0px;
-  right:20px;
+  right:headerRightPosition;
   font-size:fontNav;
 }
 
@@ -284,7 +285,7 @@ clear:both
 #footer footer #control{
   position:absolute;
   bottom:0px;
-  right:20px;
+  right:headerRightPosition;
   margin: 0, auto;
   font-size:fontNav+3;
 }
@@ -366,6 +367,7 @@ span.delete:hover{
       font-size:fontNav*mobileScaling; 
       line-height:navBarHeight*mobileScaling; 
       min-height: navBarHeight*mobileScaling;
+      right: headerRightPosition*mobileScaling*mobileScaling;
     }
 
     #control ul{
@@ -388,6 +390,7 @@ span.delete:hover{
     #footer footer #control {
       line-height:navBarHeight*mobileScaling; 
       font-size:(fontNav+3)*mobileScaling;
+      right:headerRightPosition*mobileScaling*mobileScaling;
     }
 
     #contentWrap{
