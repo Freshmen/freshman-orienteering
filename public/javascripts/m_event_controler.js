@@ -33,12 +33,20 @@ $().ready(function(){
 		injectEvents.call();
 	});
 	
+	// initialize an event object
+	var events = new Events();
+
 	$('#eventList').click(function(){
+		events.getEvents(events.injectEvents);
+
+		/*
 		if(!isDisplay){
 			displayEventList();
 		}else{
 			undisplayEventList();
 		}	
+		*/
+
 	});
 
 	$('#contentList li').live('click',getEventByIndexHelper);
@@ -98,7 +106,7 @@ $().ready(function(){
 	}
 	
 	function displayEventList(){
-		getEvents();
+		events.getEvents();
 		$('#content').css('display','block');
 		$('#eventList a').css('color',visitedColour);
 		isDisplay = true;
@@ -130,7 +138,7 @@ $().ready(function(){
 			    }
 			    else
 			    {
-			    	/* NEED TO IMPROVE - No web storage support */
+			    	// NEED TO IMPROVE - No web storage support 
 			    }
 				injectEvents.call(data);
 			  },
@@ -140,6 +148,7 @@ $().ready(function(){
 			});
 			
 	}
+
 
 
 	function setEnrollment(index){
@@ -210,6 +219,7 @@ $().ready(function(){
 		}		
 	}
 
+
 	function injectEvents(){
 		var o = {};
 		if (this.events){
@@ -228,6 +238,42 @@ $().ready(function(){
 		var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
 	}
 	
+
+	/// Event enclosure
+
+	function Events() {
+		var self = this;
+		self.events = {};
+
+		self.getEvents = function getEvents(){
+			$.ajax({
+			  url: '/api/v2/events',
+			  success: function(data) {		    	
+			    	self.events = data;
+			    	self.injectEvents();
+			  },
+			  error : function(data){
+				  console.log(data);//return error if the JSON is not valid
+			  }
+			});
+		}
+
+		self.injectEvents = function injectEvents(){
+			var o = {};
+			if (!$.isEmptyObject(this.events)){
+				o = this.events;
+			}else{
+				if (self.events.length != 0){
+					o = self.events;
+				}else{
+					return false;
+				}
+			}
+			new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
+		}
+	}
+
+
 	function Checkpoints(){
 		var self = this;
 		self.isShown = false;

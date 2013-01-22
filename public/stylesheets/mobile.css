@@ -296,7 +296,7 @@ span.delete:hover {
   #header header #control {
     font-size: 9.799999999999999px;
     line-height: 35px;
-    min-height: 35px;
+    height: 35px;
   }
   #control ul {
     line-height: 35px;
@@ -350,7 +350,7 @@ span.delete:hover {
   }
   a.tagbtn3 {
     font-size: 10.5px;
-    padding: 3.5px;
+/*padding: 5px*mobileScaling;*/
   }
 }
 @media (min-width: 400px) and (max-width: 600px) {
