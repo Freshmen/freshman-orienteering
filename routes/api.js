@@ -136,6 +136,10 @@ module.exports = exports = function api_module(cfg) {
 			isFiltered = true;
 			filter.skip = req.query['offset'];
 		}
+		if (req.query['skip'] && !isNaN(req.query['skip'])) {
+			isFiltered = true;
+			filter.skip = req.query['skip'];
+		}
 		if (req.query['descending'] && req.query['descending'] == 'true') {
 			isFiltered = true;
 			filter.descending = true;
