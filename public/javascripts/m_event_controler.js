@@ -74,6 +74,12 @@ $().ready(function(){
 		
 	});
 
+	// Enroll button in the even template
+	$('#enrol').live('click',function(){
+		var index = parseInt(sessionStorage.currentEvent);
+		setEnrollment(index);
+	});
+
 	// End Initialisation
 	
 	/* ***********************
@@ -129,6 +135,27 @@ $().ready(function(){
 			
 	}
 
+	function setEnrollment(index){
+		var events = JSON.parse(sessionStorage.eventArray);
+		var eventId = events[index]._id;
+
+		$.ajax({
+			type: "POST",
+			url: '/api/v2/events/' + eventId + "/enrollments",
+			  success: function(data) {
+				// inject
+				console.log(data)
+			  },
+
+			  error : function(data){
+			  	console.log("Error")
+				console.log(data);//return error if the JSON is not valid
+			  }
+			});
+
+
+	}
+
 	function injectTask(){
 		$.ajax({
 			 url: '/mockData/taskExample.json', success: function(data){
@@ -140,6 +167,13 @@ $().ready(function(){
 	
 	function getEventByIndexHelper(){
 		var self = this;
+
+		// Hack to make the Enrollment work by: Jukka
+		if($(this).attr("id") == "enrol" ){
+			return
+		}
+		//////
+
 		if ($(this).parent().attr("data-tag") == "events"){
 			var o = self;
 			var event = getEventByIndex.call(o);
@@ -159,6 +193,8 @@ $().ready(function(){
 		var eventArray = JSON.parse(sessionStorage.eventArray);
 		if(eventArray != null && typeof eventArray != 'undefined'){
 			var index = $(o).attr('data-index');
+			/// Added by Jukka
+			sessionStorage.currentEvent = index;
 			return eventArray[index];
 		}else{
 //			TO-DO

@@ -128,7 +128,7 @@ app.get('/', routes.show);
 app.get('/desktop', desktop.show);
 app.get('/desktop_create', create.show);
 //app.get('/mobile',ensureAuthenticated, mobile.show);
-app.get('/mobile', mobile.show);
+app.get('/mobile', ensureAuthenticated, mobile.show);
 app.get('/login', login.show);
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the
