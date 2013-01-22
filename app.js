@@ -10,8 +10,9 @@ var express = require('express')
   , mobile = require('./routes/mobile.js')
   , login = require('./routes/login.js')
   , db = require('./routes/db.js')
-  , api = require('./routes/api.js')
+  , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
+  , backbone = require('./routes/backbone.js')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf')
@@ -28,14 +29,18 @@ nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
   'PORT':3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
-  'database:host' : 'http://fori.uni.me/',
-  'database:port' : 8124,
-  'database:username' : 'couch',
-  'database:username' : 'zu5r8ZcL',
-  'database:name' : 'fori-test-6',
+  'database_host' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
+  'database_name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
+});
+
+// API initialization
+
+api.configure({ 
+  'url' : nconf.get('database_host'),
+  'name': nconf.get('database_name')  
 });
 
 //--------- Facebook Login ------------
@@ -112,6 +117,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(routes.display404);
 });
 
 app.configure('development', function(){
@@ -122,7 +128,7 @@ app.get('/', routes.show);
 app.get('/desktop', desktop.show);
 app.get('/desktop_create', create.show);
 //app.get('/mobile',ensureAuthenticated, mobile.show);
-app.get('/mobile', mobile.show);
+app.get('/mobile', ensureAuthenticated, mobile.show);
 app.get('/login', login.show);
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the
@@ -153,6 +159,9 @@ app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
+
+// Pages for backbone admin view
+app.get('/backbone', ensureAuthenticated, backbone.show);
 
 // Pages for admin view
 app.get('/admin', admin.index);
@@ -254,6 +263,8 @@ app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.
 app.delete('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.remove);
 app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.remove);
 app.delete('/api/v2/users/:userID', api.users.remove);
+
+// 404 page if nothing else matched
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
