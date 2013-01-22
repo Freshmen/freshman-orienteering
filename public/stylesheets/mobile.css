@@ -100,6 +100,7 @@ h3 {
   margin-right: auto;
   margin-left: auto;
   *zoom: 1;
+  overflow: auto;
 }
 .listbox {
   background: #fff;

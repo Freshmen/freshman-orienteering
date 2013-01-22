@@ -70,15 +70,12 @@ $().ready(function(){
 		}
 		
 	});
-<<<<<<< HEAD
 	
 	// initialise a task object
 	var task = new Task();
 	$(document).on('click','#checkPointWrap li',function(e){
 		console.log(this);
 	});
-	
-=======
 
 	// Enroll button in the even template
 	$('#enrol').live('click',function(){
@@ -86,7 +83,6 @@ $().ready(function(){
 		setEnrollment(index);
 	});
 
->>>>>>> ac55265b37b0bc264d7d5b3abf2e62f84a569332
 	// End Initialisation
 	
 	/* ***********************
@@ -141,8 +137,6 @@ $().ready(function(){
 			});
 			
 	}
-<<<<<<< HEAD
-=======
 
 	function setEnrollment(index){
 		var events = JSON.parse(sessionStorage.eventArray);
@@ -173,7 +167,6 @@ $().ready(function(){
 		}
 		});
 	}
->>>>>>> ac55265b37b0bc264d7d5b3abf2e62f84a569332
 	
 	function getEventByIndexHelper(){
 		var self = this;
