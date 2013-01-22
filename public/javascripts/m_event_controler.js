@@ -8,16 +8,12 @@ $().ready(function(){
 	 *
 	 * ***********************/
 		
-	$('#taskListClose').die();
 	$('#taskListClose').live('click',function(){
 		undisplayTaskList();
 	});
-	$('#contentListClose').die();
 	$('#contentListClose').live('click',function(e){
 		undisplayEventList();
 	});	
-	
-//	$("#status").die();
 	$("#status").live('click',function(){
 		$.ajax({
 	    	  url: "/mockData/",
@@ -49,6 +45,7 @@ $().ready(function(){
 	
 	displayEventList();
 	
+	// initialise a checkpoint object
 	var checkPoints = new Checkpoints();
 	
 	$('#showCheckpoints').live('click',function(){
@@ -73,7 +70,13 @@ $().ready(function(){
 		}
 		
 	});
-
+	
+	// initialise a task object
+	var task = new Task();
+	$(document).on('click','#checkPointWrap li',function(e){
+		console.log(this);
+	});
+	
 	// End Initialisation
 	
 	/* ***********************
@@ -128,15 +131,6 @@ $().ready(function(){
 			});
 			
 	}
-
-	function injectTask(){
-		$.ajax({
-			 url: '/mockData/taskExample.json', success: function(data){
-
-			 new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
-		}
-		});
-	}
 	
 	function getEventByIndexHelper(){
 		var self = this;
@@ -161,7 +155,7 @@ $().ready(function(){
 			var index = $(o).attr('data-index');
 			return eventArray[index];
 		}else{
-//			TO-DO
+			// TO-DO
 			return false;
 		}
 		
@@ -229,7 +223,7 @@ $().ready(function(){
 			var callback = new EJS({url: '/templates/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o});
 			checkPoints.isShown = true;
 			// place all markers that in that event onto the map
-//			self.displayMaker(o);
+//			self.displayMaker(o); having error
 //			self.centerScreenWithCheckpoints(o);
 		}
 		
@@ -287,20 +281,57 @@ $().ready(function(){
 			  
 		}
 	}
-	
-	function getTask(){
-		$.ajax({
-			url: '/mockData/taskExample.json',
-			success : function(data){
-				//task data is coming here
-				 var callback = new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap',{content:data.task});
-			},
-			error : function(data){
-				// get an instance from notification centre
-				var marker_notifier = initialiseNotification();
-				marker_notifier.error('Sorry, your request cannot be made.');
+
+	function Task(){
+		var self = this;
+		self.checkpoint_id = null;
+		self.event_id = null;
+		self.task = {};
+		self.taskAlarm = false;
+		
+		self.getTaskHelper = function getTaskHelper(event_id,checkpoint_id,callback){
+			if ($.isEmptyObject(self.task)){
+				if (callback && typeof(callback) === "function"){
+					self.getTask(self.event_id,self.checkpoint_id,callback);
+				}else{
+					self.getCheckpoints(self.event_id,self.injectTask);
+				}
+			}else{
+				self.injectTask();
 			}
-		});
+		}
+		
+		self.getTask = function getTask(event_id,checkpoint_id,callback){
+			$.ajax({
+				url: '/api/v2/events/' + event_id + '/checkpoints/' + checkpoint_id,
+				success : function(data){
+					//task data is coming here
+					self.task = data;
+					if (callback && typeof(callback) === "function"){
+						  callback.call(data);
+					}
+				},
+				error : function(data){
+					// get an instance from notification centre
+					var marker_notifier = initialiseNotification();
+					marker_notifier.error('Sorry, your request cannot be made.');
+				}
+			});
+		}
+		
+		self.injectTask = function injectTask(){
+			var o = {};
+			if (!$.isEmptyObject(this.task)){
+				o = this.task;
+			}else{
+				if (self.task.length != 0){
+					o = self.task;
+				}else{
+					return false;
+				}
+			}
+			new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
+		}
 	}
 	
 	/* ***********************
