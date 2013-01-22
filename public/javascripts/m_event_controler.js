@@ -167,7 +167,7 @@ $().ready(function(){
 		}
 		});
 	}
-	
+
 	function getEventByIndexHelper(){
 		var self = this;
 
@@ -202,8 +202,7 @@ $().ready(function(){
 		}else{
 			// TO-DO
 			return false;
-		}
-		
+		}		
 	}
 
 	function injectEvents(){
