@@ -313,6 +313,15 @@ module.exports = exports = function api_module(cfg) {
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
+			getCheckins : function(req, res) {
+				if (req.user && req.user._id) {
+					read_view('CheckinsByUser', parseFilters(req, req.user._id), function(body) {
+						res.json(200, body);
+					});	
+				} else {
+					res.json(403, { 'error' : 'user not logged in' });
+				}
+			},
 			getCurrentUser : function(req, res) {
 				if (req.user && req.user._id) {
 					read_doc(req.user._id, function(body) {

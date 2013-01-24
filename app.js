@@ -28,7 +28,7 @@ var express = require('express')
 // 3. A file located at 'path/to/config.json'
 nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
-  'PORT':3000,
+  'PORT' : 3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
   'database_host' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
   'database_name' : 'fori-test-6',
@@ -250,6 +250,7 @@ app.get('/api/v2/users', api.users.list);
 app.get('/api/v2/users/:userID', api.users.show);
 app.get('/api/v2/me', api.users.getCurrentUser);
 app.get('/api/v2/me/enrollments', api.users.getEnrollments);
+app.get('/api/v2/me/checkins', api.users.getCheckins);
 
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);
