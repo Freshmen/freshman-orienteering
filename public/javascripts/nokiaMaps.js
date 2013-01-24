@@ -14,9 +14,7 @@ $().ready(function() {
 	      	components: [ 
 	      	             // Behavior collection
 	      	             new nokia.maps.map.component.Behavior(),
-	      	             new nokia.maps.map.component.ZoomBar(),
-	      	             new nokia.maps.map.component.ScaleBar(),
-	      	             new nokia.maps.positioning.component.Positioning()],
+	      	             new nokia.maps.map.component.ScaleBar()],
 	            // Zoom level for the map
 	            'zoomLevel': 10,
 	            // Map center coordinates
@@ -36,19 +34,17 @@ $().ready(function() {
 	map.objects.add(marker);
 
     var watchPositionSuccess = function(data) {
-        
         var evt = document.createEvent('Event');
         evt.initEvent('locationUpdated', true, true);
         evt.position = data;
         document.dispatchEvent(evt);
+        console.log("Watch");
     };
 
-    var getCurrentPositionSuccess = function(data) {
-        alert("nothing here");
-    };
+     _Geolocation.initialize(watchPositionSuccess);
 
-    Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);
-    Geolocation.watchPosition();
+    //_Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);
+    //_Geolocation.watchPosition();
 
     var infoBubbles = null;
     var updatePosition = function(position) {
@@ -268,10 +264,15 @@ $().ready(function() {
         infoBubbles = null;        
     }
 
-	document.addEventListener('locationUpdated', function(evt){
+
+    // Callback for location update from geolocation.watchPosition
+    document.addEventListener('locationUpdated', function(evt){
 	  updatePosition(evt.position);
+	  _Geolocation.watchPositionAction(evt.position);
 	}, false);
+
 });
+
 
 
 function getCoord(map, lat, long){
@@ -302,9 +303,6 @@ function addCheckpointMarker(map, new_coord){
 	return new_marker;
 }
 
-
-
-
 // Function to set the zoom level of the map
 function setZoom(map, zoomLevel){
 	if(map.minZoomLevel > zoomLevel || map.maxZoomLevel < zoomLevel){
@@ -313,10 +311,8 @@ function setZoom(map, zoomLevel){
 		console.log("Min: " +  map.minZoomLevel);
 		return;
 	}
-
 	map.setZoomLevel(zoomLevel);
 }
-
 
 function centerMapToCoordinate(map, lat, lon){
 	map.setCenter([lat, lon]);
