@@ -23,6 +23,7 @@ function createCheckpoint(marker){
 	$('#dialog').append('<select id="submissionType" class="wide"><option value="" disabled="disabled" selected>Select submission file type</option><option value="video/*">Video</option><option value = "image/*">Image</option><option value = "audio/*">Audio</option><option value = "*">Any</option></select>');
 
 	$('#checkpoint').attr("id","checkpoint_" + i);
+	$('#title').attr("id","title_" + hashkey);
 	$('#dialog').attr("id","dialog_" + hashkey);
 	$('#latitude').attr("id","latitude_" + hashkey);
 	$('#longitude').attr("id","longitude_" + hashkey);
@@ -123,29 +124,29 @@ function saveEvent(){
 }
 
 function saveCheckpoints() {
-	//var forms = document.getElementsByTagName("form");
-	///forms.children().each(function() {
-		//if (/checkpoint_./.test($(this).attr("id"))){
+	$("form").each(function() {
+		if (/checkpoint_./.test($(this).attr("id"))){
 			//console.log($(this).attr("id"));
-			//checkpointJSON = parseCheckpoint(this);
-			//$.post("/api/v2/events/" + eventDBID,checkpointJSON,function(){});
+			checkpointJSON = parseCheckpoint($(this).attr("id"));
+			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(){});
 		}
 	});
 }
 
-function parseCheckpoint(checkpointForm) {
+function parseCheckpoint(checkpointFormID) {
 	var checkpoint_details = {};
 	var location = {};
 	var task = {};
 	var order;
-	if (event_details["ordered"] == true) {
-		order = checkpointForm.attr("id");
-		order.replace('checkpoint_','');
+	var key = $("#" + checkpointFormID).children("#hidden");
+	if ($('#ordered').attr('checked')?true:false) {
+		order = checkpointFormID.replace("checkpoint_","");
 	}
 	else {
 		order = '0';
 	}
-	checkpointForm.children().each(function() {
+	console.log(checkpointFormID);
+	$("#" + checkpointFormID).children().each(function() {
 		if (/title_./.test($(this).attr("id"))){
 			checkpoint_details['title'] = $(this).val();
 		}
@@ -155,12 +156,10 @@ function parseCheckpoint(checkpointForm) {
 		else if (/longitude_./.test($(this).attr("id"))){
 			location["longitude"] = $(this).val();
 		}
-		else if (/dialog_./.test($(this).attr("id"))){
-			task["description"] = $(this).getElementsByTagName("textarea")[0].val();
-			task["URL"] = $(this).getElementsByTagName("input")[0].val();
-			task["accepts"] = $(this).getElementsByTagName("select")[0].val();
-		}
 	});
+	task["description"] = $("#task_" + key).children("textarea").val();
+	task["URL"] = $("#task_" + key).children("input").val();
+	task["accepts"] = $("#task_" + key).children("select").val();
 	checkpoint_details['order'] = order;
 	checkpoint_details['location'] = location;
 	checkpoint_details['task'] = task;
