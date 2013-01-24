@@ -1,5 +1,4 @@
 $().ready(function(){
-	var isDisplay = false;
 	var defaultColour = '#fff';
 	//a:visited has been restricted for security reason
 	var visitedColour = '#000'; 
@@ -7,12 +6,14 @@ $().ready(function(){
 	 * Initialisation
 	 *
 	 * ***********************/
-		
+	// initialize an event object
+	var events = new Events();
+
 	$('#taskListClose').live('click',function(){
 		undisplayTaskList();
 	});
-	$('#contentListClose').live('click',function(e){
-		undisplayEventList();
+	$(document).on('click','#contentListClose',function(e){
+		events.undisplayEventList();
 	});	
 	$("#status").live('click',function(){
 		$.ajax({
@@ -30,12 +31,10 @@ $().ready(function(){
 	    	});
 	});
 	$('#goBack').live('click',function(){
-		injectEvents.call();
+		events.injectEvents.call();
 	});
 	
-	// initialize an event object
-	var events = new Events();
-
+	
 	$('#eventList').click(function(){
 		events.getEvents(events.injectEvents);
 
@@ -49,9 +48,13 @@ $().ready(function(){
 
 	});
 
-	$(document).on('click','#events li',getEventByIndexHelper);
-	
-	displayEventList();
+//	$(document).on('click','#events li',getEventByIndexHelper);
+	$(document).on('click','#events li',function(){
+		var el = $(this);
+		events.getEventByIndexHelper.call(el);
+	});
+	events.displayEventList();
+//	displayEventList();
 	
 	// initialise a checkpoint object
 	var checkPoints = new Checkpoints();
@@ -86,9 +89,9 @@ $().ready(function(){
 	});
 
 	// Enroll button in the even template
-	$('#enrol').live('click',function(){
-		var index = parseInt(sessionStorage.currentEvent);
-		setEnrollment(index);
+	$(document).on('click','#enrol',function(){
+//		var index = parseInt(sessionStorage.currentEvent);
+		events.setEnrollment();
 	});
 
 	// End Initialisation
@@ -102,18 +105,7 @@ $().ready(function(){
 		$("#checkPointWrap").children().remove();
 	}
 	
-	function displayEventList(){
-		events.getEvents();
-		$('#content').css('display','block');
-		$('#eventList a').css('color',visitedColour);
-		isDisplay = true;
-	}
-	function undisplayEventList(){
-		$('#content').css('display','none');
-		$('#eventList a').css('color',defaultColour);
-		isDisplay = false;
-	}
-
+	
 	function displayTaskList(){
 		/* -- Nothing to do yet-- */
 	}
@@ -122,55 +114,48 @@ $().ready(function(){
 		$('#taskContent').css('display','none');
 	}
 
-	function getEvents(){
-		// new data
-		$.ajax({
-			  url: '/api/v2/events',
-			  success: function(data) {
-				// inject
-				if(typeof(Storage)!=="undefined")
-			    {
-			    	//sessionStorage.eventArray = JSON.stringify(data.db);
-			    	sessionStorage.eventArray = JSON.stringify(data); // mock data version
-			    }
-			    else
-			    {
-			    	// NEED TO IMPROVE - No web storage support 
-			    }
-				injectEvents.call(data);
-			  },
-			  error : function(data){
-				  console.log(data);//return error if the JSON is not valid
-			  }
-			});
-			
-	}
+//	function getEvents(){
+//		// new data
+//		$.ajax({
+//			  url: '/api/v2/events',
+//			  success: function(data) {
+//				// inject
+//				if(typeof(Storage)!=="undefined")
+//			    {
+//			    	//sessionStorage.eventArray = JSON.stringify(data.db);
+//			    	sessionStorage.eventArray = JSON.stringify(data); // mock data version
+//			    }
+//			    else
+//			    {
+//			    	// NEED TO IMPROVE - No web storage support 
+//			    }
+//				injectEvents.call(data);
+//			  },
+//			  error : function(data){
+//				  console.log(data);//return error if the JSON is not valid
+//			  }
+//			});
+//			
+//	}
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ab366d88d79972bc0ba1f5fa4ab87ba856aff556
-	function setEnrollment(index){
-		var events = JSON.parse(sessionStorage.eventArray);
-		var eventId = events[index]._id;
-
-		$.ajax({
-			type: "POST",
-			url: '/api/v2/events/' + eventId + "/enrollments",
-			  success: function(data) {
-				// inject
-				console.log(data)
-			  },
-
-			  error : function(data){
-			  	console.log("Error")
-				console.log(data);//return error if the JSON is not valid
-			  }
-			});
-
-
-	}
+//	function setEnrollment(index){
+//		var events = JSON.parse(sessionStorage.eventArray);
+//		var eventId = events[index]._id;
+//
+//		$.ajax({
+//			type: "POST",
+//			url: '/api/v2/events/' + eventId + "/enrollments",
+//			  success: function(data) {
+//				// inject
+//				console.log(data)
+//			  },
+//
+//			  error : function(data){
+//			  	console.log("Error")
+//				console.log(data);//return error if the JSON is not valid
+//			  }
+//			});
+//	}
 
 	function injectTask(){
 		$.ajax({
@@ -181,69 +166,88 @@ $().ready(function(){
 		});
 	}
 
-	function getEventByIndexHelper(){
-		var self = this;
-
-		// Hack to make the Enrollment work by: Jukka
-		if($(this).attr("id") == "enrol" ){
-			return
-		}
-		//////
-
-		if ($(this).parent().attr("data-tag") == "events"){
-			var o = self;
-			var event = getEventByIndex.call(o);
-			// show Event's description
-			showEventDescription(event);
-		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
-			getTask();
-		}else if ($(this).parent().attr("data-tag") == "event_description"){
-			var o = self;
-			var event = getEventByIndex.call(o);
-		}
-	}
+//	function getEventByIndexHelper(){
+//		var self = this;
+//
+//		// Hack to make the Enrollment work by: Jukka
+//		if($(this).attr("id") == "enrol" ){
+//			return
+//		}
+//		//////
+//
+//		if ($(this).parent().attr("data-tag") == "events"){
+//			var o = self;
+//			var event = getEventByIndex.call(o);
+//			// show Event's description
+//			showEventDescription(event);
+//		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
+//			getTask();
+//		}else if ($(this).parent().attr("data-tag") == "event_description"){
+//			var o = self;
+//			var event = getEventByIndex.call(o);
+//		}
+//	}
 	
-	function getEventByIndex() {
-		var o = this;
-		var event_id = null;
-		var eventArray = JSON.parse(sessionStorage.eventArray);
-		if(eventArray != null && typeof eventArray != 'undefined'){
-			var index = $(o).attr('data-index');
-			/// Added by Jukka
-			sessionStorage.currentEvent = index;
-			return eventArray[index];
-		}else{
-			// TO-DO
-			return false;
-		}		
-	}
+//	function getEventByIndex() {
+//		var o = this;
+//		var event_id = null;
+//		var eventArray = JSON.parse(sessionStorage.eventArray);
+//		if(eventArray != null && typeof eventArray != 'undefined'){
+//			var index = $(o).attr('data-index');
+//			/// Added by Jukka
+//			sessionStorage.currentEvent = index;
+//			return eventArray[index];
+//		}else{
+//			// TO-DO
+//			return false;
+//		}		
+//	}
 
 
-	function injectEvents(){
-		var o = {};
-		if (this.events){
-			o = this;
-		}else{
-			if (sessionStorage.eventArray){
-				o = JSON.parse(sessionStorage.eventArray);
-			}else{
-				return false;
-			}
-		}
-	  	new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
-	}
+//	function injectEvents(){
+//		var o = {};
+//		if (this.events){
+//			o = this;
+//		}else{
+//			if (sessionStorage.eventArray){
+//				o = JSON.parse(sessionStorage.eventArray);
+//			}else{
+//				return false;
+//			}
+//		}
+//	  	new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
+//	}
 
-	function showEventDescription(event){
-		var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
-	}
+//	function showEventDescription(event){
+//		var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
+//	}
 	
-
 	/// Event enclosure
 
 	function Events() {
 		var self = this;
-		self.events = {};
-
+		// a list of events from the server
+		self.events = [];
+		// a list of enrolled events
+		self.enrolEvents = [];
+		// is the event list shown to user or not
+		self.isDisplay = false;
+		// create an instance of one event
+		self.event = new Event();
+		
+		// one event
+		function Event(){
+			var _self = this;
+			// current event
+			_self.currentEvent = {};
+			
+			// show current event description 
+			_self.showEventDescription = function showEventDescription(event){
+				var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
+			}
+		}
+		
+		// get event list from the server
 		self.getEvents = function getEvents(){
 			$.ajax({
 			  url: '/api/v2/events',
@@ -256,20 +260,84 @@ $().ready(function(){
 			  }
 			});
 		}
-
+		
+		// update the event list to the template which will then show to the user 
 		self.injectEvents = function injectEvents(){
 			var o = {};
-			if (!$.isEmptyObject(this.events)){
-				o = this.events;
+			if (!$.isEmptyObject(self.events)){
+				o = self.events;
 			}else{
-				if (self.events.length != 0){
-					o = self.events;
-				}else{
-					return false;
-				}
+				return false;
 			}
 			new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
 		}
+		
+		// get the event index where user tap on
+		self.getEventByIndex = function getEventByIndex() {
+			var o = this;
+			var event_id = null;
+//			var eventArray = JSON.parse(sessionStorage.eventArray);
+			var eventArray = self.events;
+			if(eventArray != null && typeof eventArray != 'undefined'){
+				var index = $(o).attr('data-index');
+				/// Added by Jukka
+//				sessionStorage.currentEvent = index;
+				return eventArray[index];
+			}else{
+				// TO-DO
+				return false;
+			}		
+		}
+		
+		self.getEventByIndexHelper = function getEventByIndexHelper(){
+			var _self = this;
+
+			if ($(this).parent().attr("data-tag") == "events"){
+				var o = _self;
+//				var event = self.getEventByIndex.call(o);
+				self.event.currentEvent = self.getEventByIndex.call(o);
+				// show Event's description
+				self.event.showEventDescription(self.event.currentEvent);
+			}else if ($(this).parent().attr("data-tag") == "checkpoints"){
+				getTask();
+			}else if ($(this).parent().attr("data-tag") == "event_description"){
+				var o = _self;
+				var event = self.getEventByIndex.call(o);
+			}
+		}
+		
+		self.setEnrollment = function setEnrollment(){
+//			var events = JSON.parse(sessionStorage.eventArray);
+			var event_id = self.event.currentEvent._id;
+
+			$.ajax({
+				type: "POST",
+				url: '/api/v2/events/' + event_id + "/enrollments",
+				  success: function(data) {
+					// inject
+					console.log(data)
+				  },
+
+				  error : function(data){
+				  	console.log("Error")
+					console.log(data);//return error if the JSON is not valid
+				  }
+				});
+		}
+		
+		self.displayEventList = function displayEventList(){
+			self.getEvents();
+			$('#content').css('display','block');
+			$('#eventList a').css('color',visitedColour);
+			self.isDisplay = true;
+		}
+		
+		self.undisplayEventList = function undisplayEventList(){
+			$('#content').css('display','none');
+			$('#eventList a').css('color',defaultColour);
+			self.isDisplay = false;
+		}
+
 	}
 
 
