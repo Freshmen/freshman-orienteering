@@ -305,7 +305,7 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			getEnrollments : function(req, res) {
-				if (req.user && req.user_id) {}
+				if (req.user && req.user_id) {
 					read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
 						res.json(200, body);
 					});	
