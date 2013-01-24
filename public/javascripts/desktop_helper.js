@@ -16,8 +16,11 @@ function createCheckpoint(marker){
 	$('#checkpoint').append('<input type="text" id="longitude" placeholder="Longitude" autocomplete="off" class="CHPformfield" required disabled>');
 	$('#checkpoint').append('<input type="button" id="addTask" onclick=taskDialog(this) value="Add a task" class="button"><label id="hidden">' + hashkey + '</label>');
 	
-	$('#checkpoint').append('<div id="dialog" title="Task" ><textarea id="taskDescription" rows="15" placeholder="Enter a task for the participants" class="wide"></textarea><br /><input type="text" id="taskURL" placeholder="Task media URL" class="wide"></div>');
-	
+	$('#checkpoint').append('<div id="dialog" title="Task" ></div>');
+	$('#dialog').append('<textarea id="taskDescription" rows="15" placeholder="Enter a task for the participants" class="wide"></textarea>');
+	$('#dialog').append('<input type="text" id="taskURL" placeholder="Task media URL" class="wide">');
+	$('#dialog').append('<select id="submissionType" class="wide"><option value="" disabled="disabled" selected>Select submission file type</option><option value="video/*">Video</option><option value = "image/*">Image</option><option value = "audio/*">Audio</option><option value = "*">Any</option></select>');
+
 	$('#checkpoint').attr("id","checkpoint_" + i);
 	$('#dialog').attr("id","dialog_" + hashkey);
 	$('#latitude').attr("id","latitude_" + hashkey);
@@ -25,6 +28,7 @@ function createCheckpoint(marker){
 	$('#task').attr("id","task_" + hashkey);
 	$('#taskDescription').attr("id","taskDescription_" + hashkey);
 	$('#taskURL').attr("id","taskURL_" + hashkey);
+	$('#submissionType').attr("id","submissionType_" + hashkey);
 	$('#latitude_' + hashkey).val(marker.coordinate.latitude);
 	$('#longitude_' + hashkey).val(marker.coordinate.longitude);
 
@@ -114,6 +118,39 @@ function saveEvent(){
 
 	return false;
 }
+
+function saveCheckpoints() {
+	
+}
+
+function parseCheckpoint(checkpointForm) {
+	var checkpoint_details = {};
+	var location = {};
+	var order = $(this).attr("id");
+	order.replace('checkpoint_','');
+	var task = {};
+	checkpointForm.children().each(function() {
+		if (/title_./.test($(this).attr("id"))){
+			checkpoint_details['title'] = $(this).val();
+		}
+		else if (/latitude_./.test($(this).attr("id"))){
+			location["latitude"] = $(this).val();
+		}
+		else if (/longitude_./.test($(this).attr("id"))){
+			location["longitude"] = $(this).val();
+		}
+		else if (/dialog_./.test($(this).attr("id"))){
+			task["description"] = $(this).getElementsByTagName("textarea")[0].val();
+			task["URL"] = $(this).getElementsByTagName("input")[0].val();
+			task["accepts"] = $(this).getElementsByTagName("select")[0].val();
+		}
+	});
+	checkpoint_details['order'] = order;
+	checkpoint_details['location'] = location;
+	checkpoint_details['task'] = task;
+	return checkpoint_details;
+}
+
 
 function displayNotifier(title_msg, body_msg) {
 	<!-- Display info dialog -->

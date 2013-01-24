@@ -28,7 +28,8 @@ body {
   background-color: #1b7ae0;
 }
 input,
-textarea {
+textarea,
+select {
   font-family: 'Arvo', serif;
   border-radius: 5px;
   -moz-border-radius: 5px;
