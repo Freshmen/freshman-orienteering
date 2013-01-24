@@ -248,7 +248,7 @@ app.get('/api/v2/events/:eventID/enrollments', api.enrollments.list);
 app.get('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.show);
 app.get('/api/v2/users', api.users.list);
 app.get('/api/v2/users/:userID', api.users.show);
-app.get('/api/v1/me/', api.users.getCurrentUser);
+app.get('/api/v2/me/', api.users.getCurrentUser);
 app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 
 app.post('/api/v2/events', api.events.create);
