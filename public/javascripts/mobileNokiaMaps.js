@@ -1,6 +1,9 @@
 function mobileAddCheckpointMarker(map,checkpoint){
 	// Create a marker and add it to the map
-	var new_coord = [checkpoint.location.latitude, checkpoint.location.longitude];
+	var lon = parseFloat(checkpoint.location.longitude);
+	var lat = parseFloat(checkpoint.location.latitude);
+
+	var new_coord = [lat, lon];
 
 	var new_marker = new nokia.maps.map.StandardMarker(new_coord, {
 	    text: "CHP", // Small label

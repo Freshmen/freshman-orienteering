@@ -385,8 +385,8 @@ $().ready(function(){
 			var callback = new EJS({url: '/templates/checkpointTemplate.ejs'}).update('checkPointWrap',{content:o});
 			checkPoints.isShown = true;
 			// place all markers that in that event onto the map
-//			self.displayMaker(o); having error
-//			self.centerScreenWithCheckpoints(o);
+			self.displayMaker(o); 
+			self.centerScreenWithCheckpoints(o);
 		}
 		
 		self.getCheckpoints = function getCheckpoints(event_id,callback){

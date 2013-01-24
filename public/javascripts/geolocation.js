@@ -5,7 +5,6 @@ var _Geolocation = {};
 _Geolocation.currentRoute = [];
 _Geolocation.currentPosition = [];
 
-
 _Geolocation.initialize = function(watchCallback) {
     _Geolocation.watchPosition(watchCallback);
     _Geolocation.getCurrentPosition();
@@ -40,7 +39,7 @@ _Geolocation.clearWatch = function() {
 _Geolocation.watchPositionAction = function(position){
   _Geolocation.currentPosition = position;
   _Geolocation.currentRoute.push(position);
-  $("header h1").text(position.coords.latitude);
+  //$("header h1").text(position.coords.latitude);
 
 }
 
