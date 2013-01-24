@@ -314,7 +314,7 @@ module.exports = exports = function api_module(cfg) {
 				}
 			},
 			getCurrentUser : function(req, res) {
-				if (req.user && req.user_id) {}
+				if (req.user && req.user_id) {
 					read_doc(req.user._id, function(body) {
 						res.json(200, body);
 					});	
