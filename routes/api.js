@@ -156,27 +156,27 @@ module.exports = exports = function api_module(cfg) {
 					req.body.organizer = req.user;
 				}
 				insert_doc(req.body, 0, function(body){
-					res.json(body, 201);
+					res.json(201, body);
 				});
 			},
 			list : function(req, res) {
 				read_view('Events', parseFilters(req, req.query['organizer']), function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			show : function(req, res) {
 				read_doc(req.params.eventID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			edit : function(req, res) {
 				update_doc(req.params.eventID, req.body, function(body){
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			remove : function(req, res) {
 				delete_doc(req.params.eventID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			}
 		},
@@ -185,27 +185,27 @@ module.exports = exports = function api_module(cfg) {
 			create : function(req, res) {
 				req.body.type = 'Checkpoint';
 				insert_doc(req.body, 0, function(body){
-					res.json(body, 201);
+					res.json(201, body);
 				});
 			},
 			list : function(req, res) {
 				read_view('Checkpoints', parseFilters(req, req.params.eventID), function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			show : function(req, res) {
 				read_doc(req.params.checkpointID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			edit : function(req, res) {
 				update_doc(req.params.checkpointID, req.body, function(body){
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			remove : function(req, res) {
 				delete_doc(req.params.checkpointID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			}
 		},
@@ -218,29 +218,29 @@ module.exports = exports = function api_module(cfg) {
 					req.body.user = req.user._id;
 				}		
 				insert_doc(req.body, 0, function(body){
-					res.json(body, 201);
+					res.json(201, body);
 				});
 			},
 			list : function(req, res) {
 				read_view('Enrollments', parseFilters(req, req.params.eventID), function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			show : function(req, res) {
 				read_doc(req.params.enrollmentID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			edit : function(req, res) {
 				req.body.type = 'Enrollment';
 				req.body.event = req.params.eventID;
 				update_doc(req.params.enrollmentID, req.body, function(body){
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			remove : function(req, res) {
 				delete_doc(req.params.enrollmentID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			}
 		},
@@ -252,27 +252,27 @@ module.exports = exports = function api_module(cfg) {
 					req.body.user = req.user;
 				}
 				insert_doc(req.body, 0, function(body){
-					res.json(body, 201);
+					res.json(201, body);
 				});
 			},
 			list : function(req, res) {
 				read_view('Checkins', parseFilters(req, req.params.checkpointID), function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			show : function(req, res) {
 				read_doc(req.params.checkinID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			edit : function(req, res) {
 				update_doc(req.params.checkinID, req.body, function(body){
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			remove : function(req, res) {
 				delete_doc(req.params.checkinID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			}
 		},
@@ -281,33 +281,46 @@ module.exports = exports = function api_module(cfg) {
 			create : function(req, res) {
 				req.body.type = 'User';
 				insert_doc(req.body, 0, function(body){
-					res.json(body, 201);
+					res.json(201, body);
 				});
 			},
 			list : function(req, res) {
 				read_view('Users', parseFilters(req, req.query['id']), function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			show : function(req, res) {
 				read_doc(req.params.userID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			edit : function(req, res) {
 				update_doc(req.params.userID, req.body, function(body){
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			remove : function(req, res) {
 				delete_doc(req.params.userID, function(body) {
-					res.json(body, 200);
+					res.json(200, body);
 				});
 			},
 			getEnrollments : function(req, res) {
-				read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
-					res.json(body, 200);
-				});	
+				if (req.user && req.user_id) {}
+					read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
+						res.json(200, body);
+					});	
+				} else {
+					res.json(403, { 'error' : 'user not logged in' });
+				}
+			},
+			getCurrentUser : function(req, res) {
+				if (req.user && req.user_id) {}
+					read_doc(req.user._id, function(body) {
+						res.json(200, body);
+					});	
+				} else {
+					res.json(403, { 'error' : 'user not logged in' });
+				}
 			},
 			get : function(userID, callback) {
 				read_doc(userID, function(body) {
