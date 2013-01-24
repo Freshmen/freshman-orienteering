@@ -146,7 +146,6 @@ $().ready(function(){
 			
 	}
 
-
 	function setEnrollment(index){
 		var events = JSON.parse(sessionStorage.eventArray);
 		var eventId = events[index]._id;
@@ -177,6 +176,7 @@ $().ready(function(){
 		});
 	}
 
+
 	function getEventByIndexHelper(){
 		var self = this;
 
@@ -202,7 +202,7 @@ $().ready(function(){
 	function getEventByIndex() {
 		var o = this;
 		var event_id = null;
-		var eventArray = JSON.parse(sessionStorage.eventArray);
+		var eventArray = JSON.parse(events.getEvents());
 		if(eventArray != null && typeof eventArray != 'undefined'){
 			var index = $(o).attr('data-index');
 			/// Added by Jukka
