@@ -1,25 +1,25 @@
-var Geolocation = {};
+var _Geolocation = {};
 
-Geolocation.watchPositionSuccess = function(data) {
+_Geolocation.watchPositionSuccess = function(data) {
     alert("default watchPositionSuccess");
 };
 
-Geolocation.getCurrentPositionSuccess = function(data){
+_Geolocation.getCurrentPositionSuccess = function(data){
     alert("default getCurrentPositionSuccess");
 };
 
-Geolocation.initialize = function(watchPositionSuccess, getCurrentPositionSuccess) {
-    Geolocation.watchPositionSuccess = watchPositionSuccess;
-    Geolocation.getCurrentPositionSuccess = getCurrentPositionSuccess;
+_Geolocation.initialize = function(watchPositionSuccess, getCurrentPositionSuccess) {
+    _Geolocation.watchPositionSuccess = watchPositionSuccess;
+    _Geolocation.getCurrentPositionSuccess = getCurrentPositionSuccess;
 };
 
-Geolocation.watchPosition = function() {
+_Geolocation.watchPosition = function() {
 	if(navigator.geolocation) { 
 	 //	navigator.geolocation.getCurrentPosition(Geolocation.updatePosition, function(data){ console.log(data)});
    	var timeoutVal = 10 * 1000;
 	    navigator.geolocation.watchPosition(
-			Geolocation.watchPositionSuccess, 
-			Geolocation.showError,
+			_Geolocation.watchPositionSuccess, 
+			_Geolocation.showError,
 			{ enableHighAccuracy: true, timeout: timeoutVal }
 		);
 	}
@@ -28,7 +28,7 @@ Geolocation.watchPosition = function() {
 	} 
 };
 
-Geolocation.getCurrentPosition = function() {
+_Geolocation.getCurrentPosition = function() {
     if(navigator.geolocation) { 
         navigator.getCurrentPosition(Geolocation.getCurrentPositionSuccess);
 	}
@@ -37,7 +37,7 @@ Geolocation.getCurrentPosition = function() {
 	} 
 };
 
-Geolocation.showError = function(error) {
+_Geolocation.showError = function(error) {
   switch(error.code) 
     {
     case error.PERMISSION_DENIED:

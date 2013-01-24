@@ -14,9 +14,7 @@ $().ready(function() {
 	      	components: [ 
 	      	             // Behavior collection
 	      	             new nokia.maps.map.component.Behavior(),
-	      	             new nokia.maps.map.component.ZoomBar(),
-	      	             new nokia.maps.map.component.ScaleBar(),
-	      	             new nokia.maps.positioning.component.Positioning()],
+	      	             new nokia.maps.map.component.ScaleBar()],
 	            // Zoom level for the map
 	            'zoomLevel': 10,
 	            // Map center coordinates
@@ -47,8 +45,8 @@ $().ready(function() {
         alert("nothing here");
     };
 
-    Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);
-    Geolocation.watchPosition();
+    _Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);
+    _Geolocation.watchPosition();
 
     var infoBubbles = null;
     var updatePosition = function(position) {

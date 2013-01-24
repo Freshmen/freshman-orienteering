@@ -146,11 +146,7 @@ $().ready(function(){
 			
 	}
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> ab366d88d79972bc0ba1f5fa4ab87ba856aff556
 	function setEnrollment(index){
 		var events = JSON.parse(sessionStorage.eventArray);
 		var eventId = events[index]._id;
