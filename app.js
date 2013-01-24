@@ -9,6 +9,7 @@ var express = require('express')
   , create = require('./routes/desktop_create.js')
   , mobile = require('./routes/mobile.js')
   , login = require('./routes/login.js')
+  , organizer = require('./routes/organizer.js')
   , db = require('./routes/db.js')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
@@ -124,10 +125,13 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.show);
-app.get('/desktop', desktop.show);
-app.get('/desktop_create', create.show);
-//app.get('/mobile', mobile.show);
+
+app.get('/desktop', ensureAuthenticated, desktop.show);
+app.get('/desktop_create', ensureAuthenticated, create.show);
 app.get('/mobile', ensureAuthenticated, mobile.show);
+
+app.get('/organizer/login', ensureAuthenticated, organizer.login);
+
 app.get('/login', login.show);
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the
@@ -244,6 +248,7 @@ app.get('/api/v2/events/:eventID/enrollments', api.enrollments.list);
 app.get('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.show);
 app.get('/api/v2/users', api.users.list);
 app.get('/api/v2/users/:userID', api.users.show);
+app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);

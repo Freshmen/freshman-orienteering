@@ -2,6 +2,7 @@ var checkpoint_hash = {};
 var hashkey = 0;
 var eventCoord;
 var i = 0;
+var eventDBID;
 
 function createCheckpoint(marker){
 	$('<div class="drag-container"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
@@ -91,8 +92,10 @@ function saveEvent(){
 	});
 	event_details["description"] = $('#description').val();
 	event_details["ordered"] = $('#ordered').attr('checked')?true:false;
-	console.log(event_details);
-	$.post("/api/v2/events/",event_details,function(){});
+	$.post("/api/v2/events/",event_details,function(data){
+		jQuery.parseJSON(data);
+		eventDBID = data.id;
+	},"json");
 
 	eventCreated = true;
 			
@@ -114,21 +117,34 @@ function saveEvent(){
 	<!-- Add save event button -->
 	document.getElementById('submitCheckpoints').style.visibility = 'visible';
 	//$("#event_form").append('<input type="submit" id="saveEvent" value="Save Event" class="button" style="float:right">')
-
+	
 
 	return false;
 }
 
 function saveCheckpoints() {
-	
+	//var forms = document.getElementsByTagName("form");
+	///forms.children().each(function() {
+		//if (/checkpoint_./.test($(this).attr("id"))){
+			//console.log($(this).attr("id"));
+			//checkpointJSON = parseCheckpoint(this);
+			//$.post("/api/v2/events/" + eventDBID,checkpointJSON,function(){});
+		}
+	});
 }
 
 function parseCheckpoint(checkpointForm) {
 	var checkpoint_details = {};
 	var location = {};
-	var order = $(this).attr("id");
-	order.replace('checkpoint_','');
 	var task = {};
+	var order;
+	if (event_details["ordered"] == true) {
+		order = checkpointForm.attr("id");
+		order.replace('checkpoint_','');
+	}
+	else {
+		order = '0';
+	}
 	checkpointForm.children().each(function() {
 		if (/title_./.test($(this).attr("id"))){
 			checkpoint_details['title'] = $(this).val();
