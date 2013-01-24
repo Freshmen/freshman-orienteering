@@ -240,7 +240,6 @@ $().ready(function(){
 			var _self = this;
 			// current event
 			_self.currentEvent = {};
-			
 			// show current event description 
 			_self.showEventDescription = function showEventDescription(event){
 				var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
@@ -276,12 +275,9 @@ $().ready(function(){
 		self.getEventByIndex = function getEventByIndex() {
 			var o = this;
 			var event_id = null;
-//			var eventArray = JSON.parse(sessionStorage.eventArray);
 			var eventArray = self.events;
 			if(eventArray != null && typeof eventArray != 'undefined'){
 				var index = $(o).attr('data-index');
-				/// Added by Jukka
-//				sessionStorage.currentEvent = index;
 				return eventArray[index];
 			}else{
 				// TO-DO
