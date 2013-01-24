@@ -127,7 +127,6 @@ app.configure('development', function(){
 app.get('/', routes.show);
 app.get('/desktop', ensureAuthenticated, desktop.show);
 app.get('/desktop_create', ensureAuthenticated, create.show);
-//app.get('/mobile',ensureAuthenticated, mobile.show);
 app.get('/mobile', ensureAuthenticated, mobile.show);
 
 app.get('/organizer/login', ensureAuthenticated, organizer.login);
