@@ -34,6 +34,7 @@ requirejs(["jquery", "/dependencies/can/FipCanConfig.js", "Can", "Fsio"], functi
     }
 
 
+
     function downloadFile(ctx, object) {
         ctx.fsio.data.download(ctx.ticket, object, function(jqXHR) {
             $("body").append("<br><br>Downloaded '" + object + "': " +

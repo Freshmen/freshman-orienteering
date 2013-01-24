@@ -248,6 +248,7 @@ app.get('/api/v2/events/:eventID/enrollments', api.enrollments.list);
 app.get('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.show);
 app.get('/api/v2/users', api.users.list);
 app.get('/api/v2/users/:userID', api.users.show);
+app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);

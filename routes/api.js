@@ -304,6 +304,11 @@ module.exports = exports = function api_module(cfg) {
 					res.json(body, 200);
 				});
 			},
+			getEnrollments : function(req, res) {
+				read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
+					res.json(body, 200);
+				});	
+			},
 			get : function(userID, callback) {
 				read_doc(userID, function(body) {
 					callback(body);
