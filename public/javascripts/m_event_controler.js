@@ -89,9 +89,9 @@ $().ready(function(){
 	});
 
 	// Enroll button in the even template
-	$('#enrol').live('click',function(){
-		var index = parseInt(sessionStorage.currentEvent);
-		setEnrollment(index);
+	$(document).on('click','#enrol',function(){
+//		var index = parseInt(sessionStorage.currentEvent);
+		events.setEnrollment();
 	});
 
 	// End Initialisation
@@ -306,13 +306,13 @@ $().ready(function(){
 			}
 		}
 		
-		self.setEnrollment = function setEnrollment(index){
-			var events = JSON.parse(sessionStorage.eventArray);
-			var eventId = events[index]._id;
+		self.setEnrollment = function setEnrollment(){
+//			var events = JSON.parse(sessionStorage.eventArray);
+			var event_id = self.event.currentEvent._id;
 
 			$.ajax({
 				type: "POST",
-				url: '/api/v2/events/' + eventId + "/enrollments",
+				url: '/api/v2/events/' + event_id + "/enrollments",
 				  success: function(data) {
 					// inject
 					console.log(data)
