@@ -16,7 +16,9 @@ $().ready(function(){
 		events.undisplayEventList();
 	});	
 	$(document).on('click','#status',function(){
-		status.updateView();
+		status.initialiseView();
+		var e = new Enrolment();
+		e.getUserEnrolment(status.updateEnrolment);
 	});
 	$('#goBack').live('click',function(){
 		events.injectEvents.call();
@@ -374,29 +376,34 @@ $().ready(function(){
 			new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
 		}
 	}
-	var e = new Enrolment();
-	e.getUserEnrolment();
+	
 	function Enrolment(){
 		var self = this;
 		self.enrolments = [];
 		self.el = [];
-		
+		self.callback = null;
 		// get a list of enrolment
-		self.getUserEnrolment = function getUserEnrolment(){
+		self.getUserEnrolment = function getUserEnrolment(callback){
+			if (callback && typeof(callback) === "function"){
+				self.callback = callback;
+			}
 			$.ajax({
 				url:"/api/v2/me/enrollments"
 			})
-			.done(self.whenGetUserEnrolmentDone)
+			.done(this,self.whenGetUserEnrolmentDone)
 			.fail(self.whenGetUserEnrolmentFail);
 		}
 		// refresh enrolment
 		self.refreshEnrolment = function refreshEnrolment(){
 			
 		}
-		self.whenGetUserEnrolmentDone = function (jqXHR){
-			console.log("done");
+		self.whenGetUserEnrolmentDone = function (data){
+			self.enrolments = data;
+			if (self.callback && typeof(self.callback) === "function"){
+				self.callback.call(data);
+			}
 		}
-		self.whenGetUserEnrolmentFail = function (jqXHR){
+		self.whenGetUserEnrolmentFail = function (data){
 			console.log("fail");
 		}
 	}
@@ -404,8 +411,17 @@ $().ready(function(){
 	function Status(){
 		var self = this;
 		
+		self.initialiseView = function initialiseView(){
+			new EJS({url: '/templates/statusTemplate.ejs'}).update('contentWrap', {});
+		}
+		
 		self.updateView = function updateView(){
-			new EJS({url: '/templates/statusTemplate.ejs'}).update('contentWrap', {content : {}});
+			
+		}
+		
+		self.updateEnrolment = function updateEnrolment(callback){
+			var o = this;
+			new EJS({url: '/templates/enrolmentTemplate.ejs'}).update('enrolmentWrap', {content:this});
 		}
 	}
 	
