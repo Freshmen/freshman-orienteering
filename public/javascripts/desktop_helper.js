@@ -96,6 +96,7 @@ function saveEvent(){
 	$.post("/api/v2/events/",event_details,function(data){
 		jQuery.parseJSON(data);
 		eventDBID = data.id;
+		saveTicket(eventDBID, function(data){ console.log(data) });
 	},"json");
 
 	eventCreated = true;

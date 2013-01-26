@@ -12,5 +12,7 @@ define({
     CP_LINK_HOST: "https://fip.sp.f-secure.com",
     APPLICATION_FAMILY_ID: "900",
     ONEID_APP_ID: "900bro",
-    OPERATOR_ID: "699"
+    OPERATOR_ID: "699",
+    api_key : "l7xx4b2071526ae34e7fb2d33ff02bb82503",
+    api_key_secret : "d6ad0ed4ad0246d19a2a6c424cfcb65d"
 });
