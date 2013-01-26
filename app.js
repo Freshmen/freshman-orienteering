@@ -251,24 +251,32 @@ app.get('/api/v2/users/:userID', api.users.show);
 app.get('/api/v2/me', api.users.getCurrentUser);
 app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 app.get('/api/v2/me/checkins', api.users.getCheckins);
+app.get('/api/v2/events/:eventID/tickets', api.tickets.list);
+app.get('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.show);
+
 
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);
 app.post('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins', api.checkins.create);
 app.post('/api/v2/events/:eventID/enrollments', api.enrollments.create);
 app.post('/api/v2/users', api.users.create);
+app.post('/api/v2/events/:eventID/tickets', api.tickets.create);
 
 app.put('/api/v2/events/:eventID', api.events.edit);
 app.put('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.edit);
 app.put('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.edit);
 app.put('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.edit);
 app.put('/api/v2/users/:userID', api.users.edit);
+app.put('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.edit);
+
 
 app.delete('/api/v2/events/:eventID', api.events.remove);
 app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.remove);
 app.delete('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.remove);
 app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.remove);
 app.delete('/api/v2/users/:userID', api.users.remove);
+app.delete('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.remove);
+
 
 // 404 page if nothing else matched
 

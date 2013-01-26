@@ -1,3 +1,22 @@
+var removeHash = function(hashValue) {
+	// Remove the ugly Facebook appended hash
+	if (window.location.hash && window.location.hash === hashValue) {
+		if (window.history && history.pushState) {
+			window.history.pushState("", document.title, window.location.pathname);
+		} else {
+			// Prevent scrolling by storing the page's current scroll offset
+			var scroll = {
+				top: document.body.scrollTop,
+				left: document.body.scrollLeft
+			};
+			window.location.hash = "";
+			// Restore the scroll offset, should be flicker free
+			document.body.scrollTop = scroll.top;
+			document.body.scrollLeft = scroll.left;
+		}
+	}
+}("#_=_");
+
 var Users = Backbone.Collection.extend({
 	url: '/api/v2/users'
 });

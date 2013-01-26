@@ -34,6 +34,9 @@ module.exports = exports = function api_module(cfg) {
 	   				},
 	   				"CheckinsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkin\")\n    emit(doc.user, doc);\n}"
+	   				},
+	   				"Tickets": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Ticket\")\n    emit(doc.event, doc);\n}"
 	   				}
 				}
 	  		}, '_design/Lists'
@@ -347,6 +350,35 @@ module.exports = exports = function api_module(cfg) {
 						});
 					}
 				});	
+			}
+		},
+
+		tickets : {
+			create : function(req, res) {
+				req.body.type = 'Ticket';
+				insert_doc(req.body, 0, function(body){
+					res.json(201, body);
+				});
+			},
+			list : function(req, res) {
+				read_view('Tickets', parseFilters(req, req.params.eventID), function(body) {
+					res.json(200, body);
+				});
+			},
+			show : function(req, res) {
+				read_doc(req.params.ticketID, function(body) {
+					res.json(200, body);
+				});
+			},
+			edit : function(req, res) {
+				update_doc(req.params.ticketID, req.body, function(body){
+					res.json(200, body);
+				});
+			},
+			remove : function(req, res) {
+				delete_doc(req.params.ticketID, function(body) {
+					res.json(200, body);
+				});
 			}
 		}
 	};
