@@ -308,8 +308,9 @@ span.delete:hover {
   -ms-transform: rotate(-65deg);
   -o-transform: rotate(-65deg);
 }
-span:hover {
-  -webkit-transform: scale(1.2);
+.subHeader {
+  text-shadow: 0px 0px 4px #09f;
+  padding-left: 10px;
 }
 .thumb {
   height: 75px;
