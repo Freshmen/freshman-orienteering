@@ -256,6 +256,7 @@ define(["CanVersion", "Fsio"], function(ver, Fsio) {
         (function() {
             fsio.ticket.createWithCookies(function(jqXHR, textStatus) {
                 if(jqXHR.status == 200) {
+                    console.log(jqXHR.responseText);
                     var ticket = JSON.parse(jqXHR.responseText)["Ticket"];
                 } else {
                     console.log("Failed to get FSIO ticket: " + jqXHR.status);

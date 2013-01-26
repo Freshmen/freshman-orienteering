@@ -47,6 +47,43 @@ var Router = Backbone.Router.extend({
 	}
 });
 
+var EventModel = Backbone.Model.extend({
+	idAttribute : "_id",
+	urlRoot: '/api/v2/events',
+	defaults: {  }
+});
+
+var CheckpointModel = Backbone.Model.extend({
+	idAttribute : "_id",
+	urlRoot: '/api/v2/events/:eventID/checkpoints',
+	defaults: {  }
+});
+
+var UserModel = Backbone.Model.extend({
+	idAttribute : "_id",
+	urlRoot: '/api/v2/users',
+	defaults: {  }
+});
+
+var Users = Backbone.Collection.extend({
+	url: '/api/v2/users'
+});
+
+var UserList = Backbone.View.extend({
+	el: '.page',
+	render : function() {
+		var that = this;
+		var users = new Users();
+		users.fetch({
+			success : function(users) {
+				new EJS({url: '/templates/admin/userList.ejs'}).update(that.$el, { users : users });
+			}
+		});
+	}
+});
+
+var userList = new UserList();
+
 var router = new Router();
 router.on('route:home', function() {
 	// render user list
@@ -57,6 +94,7 @@ router.on('route:home', function() {
 router.on('route:listUsers', function() {
 	$("#top-nav li").removeClass("active");
 	$("#top-nav-users").addClass("active");
+	userList.render();
 });
 
 router.on('route:editUser', function() {

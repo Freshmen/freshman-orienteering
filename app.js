@@ -14,6 +14,7 @@ var express = require('express')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
   , backbone = require('./routes/backbone.js')
+  , ticketManagement = require('./routes/ticketManagement.js') 
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf')
@@ -96,6 +97,9 @@ function ensureAuthenticated(req, res, next) {
 	res.redirect('/login')
 }
 //--------- End Facebook Login ---------
+
+// Ticket management
+ticketManagement.start(api, 45);
 
 var app = express();
 
