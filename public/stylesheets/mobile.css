@@ -261,6 +261,7 @@ h3 {
   letter-spacing: 0;
 }
 span.delete {
+  color: #09f;
   position: relative;
   padding: 2px;
   float: right;
@@ -276,8 +277,39 @@ span.expand {
   margin-top: 0px;
 }
 span.delete:hover {
-  color: #fff;
   background: #000;
+}
+#refresh {
+  position: relative;
+  float: right;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-right: 8px solid #09f;
+  -webkit-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+  -moz-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+  -ms-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+  -o-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+}
+#refresh:after {
+  content: "";
+  position: absolute;
+  border: 3px solid transparent;
+  border-top: 3px solid #09f;
+  border-right: 3px solid #09f;
+  border-left: 3px solid #09f;
+  border-radius: 50px;
+  top: -9px;
+  left: -11px;
+  width: 12px;
+  height: 12px;
+  -webkit-transform: rotate(-65deg);
+  -moz-transform: rotate(-65deg);
+  -ms-transform: rotate(-65deg);
+  -o-transform: rotate(-65deg);
+}
+span:hover {
+  -webkit-transform: scale(1.2);
 }
 .thumb {
   height: 75px;
