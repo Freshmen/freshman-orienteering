@@ -35,7 +35,8 @@ nconf.defaults({
   'database_name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
-  'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
+  'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback',
+  'ticket_refresh_rate' : 5
 });
 
 // API initialization
@@ -43,6 +44,8 @@ nconf.defaults({
 api.configure({ 
   'url' : nconf.get('database_host'),
   'name': nconf.get('database_name')  
+}, function() { 
+  ticketManagement.start(api, nconf.get('ticket_refresh_rate'));
 });
 
 //--------- Facebook Login ------------
@@ -97,9 +100,6 @@ function ensureAuthenticated(req, res, next) {
 	res.redirect('/login')
 }
 //--------- End Facebook Login ---------
-
-// Ticket management
-ticketManagement.start(api, 45);
 
 var app = express();
 
