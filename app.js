@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , desktop = require('./routes/desktop.js')
   , create = require('./routes/desktop_create.js')
+  , manage = require('./routes/desktop_manage.js')
   , mobile = require('./routes/mobile.js')
   , login = require('./routes/login.js')
   , organizer = require('./routes/organizer.js')
@@ -132,6 +133,7 @@ app.get('/', routes.show);
 
 app.get('/desktop', ensureAuthenticated, desktop.show);
 app.get('/desktop_create', ensureAuthenticated, create.show);
+app.get('/desktop_manage', ensureAuthenticated, manage.show);
 //app.get('/mobile', ensureAuthenticated, mobile.show);
 app.get('/mobile', mobile.show);
 app.get('/organizer/login', ensureAuthenticated, organizer.login);
