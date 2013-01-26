@@ -356,6 +356,7 @@ module.exports = exports = function api_module(cfg) {
 		tickets : {
 			create : function(req, res) {
 				req.body.type = 'Ticket';
+				req.body.event = req.params.eventID;
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
