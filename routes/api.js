@@ -384,6 +384,11 @@ module.exports = exports = function api_module(cfg) {
 				delete_doc(req.params.ticketID, function(body) {
 					res.json(200, body);
 				});
+			},
+			getTickets : function(callback) {
+				read_view('Tickets', false, function(body) {
+					callback(body);
+				});
 			}
 		}
 	};
