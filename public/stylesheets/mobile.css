@@ -260,10 +260,13 @@ h3 {
   text-align: center;
   letter-spacing: 0;
 }
+/* upper right corner, delete button */
 span.delete {
+  color: #09f;
   position: relative;
   padding: 2px;
   float: right;
+  cursor: pointer;
   margin-top: 3px;
   margin-right: 3px;
   border-radius: 2px;
@@ -276,8 +279,65 @@ span.expand {
   margin-top: 0px;
 }
 span.delete:hover {
-  color: #fff;
   background: #000;
+}
+/* upper right corner, refresh button */
+#refresh {
+  position: relative;
+  float: right;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+  border-top: 8px solid transparent;
+  border-right: 8px solid #09f;
+  -webkit-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+  -moz-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+  -ms-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+  -o-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+}
+#refresh:after {
+  content: "";
+  position: absolute;
+  border: 3px solid transparent;
+  border-top: 3px solid #09f;
+  border-right: 3px solid #09f;
+  border-left: 3px solid #09f;
+  border-radius: 50px;
+  top: -9px;
+  left: -11px;
+  width: 12px;
+  height: 12px;
+  -webkit-transform: rotate(-65deg);
+  -moz-transform: rotate(-65deg);
+  -ms-transform: rotate(-65deg);
+  -o-transform: rotate(-65deg);
+}
+/* header: status, events etc in templates*/
+.subHeader {
+  text-shadow: 0px 0px 4px #09f;
+  padding-left: 10px;
+}
+.subHeader2 {
+  padding-left: 10px;
+  font-size: 12px;
+}
+/* activated notification */
+#statusEnrollList div {
+  clear: both;
+}
+#statusEnrollList div li {
+  float: left;
+}
+#activateEvent {
+  font-size: 14px;
+  color: #fff;
+  padding-right: 10px;
+  float: right;
+  text-shadow: -1px -1px #fff, 1px 1px #09f;
+  cursor: pointer;
+}
+#activateEvent:after {
+  content: "";
 }
 .thumb {
   height: 75px;

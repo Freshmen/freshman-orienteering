@@ -24,11 +24,13 @@
 	</script>
 		<header id="banner" class="body">
 		<h1><a href="desktop">Freshman Orienteering</a></h1>
+		<div id="organizerName">&nbsp;</div>
 		<nav>
 			<li><a href="desktop">Home</a></li>
 			<li class="active"><a href="desktop_create">Create Event</a></li>
-			<li><a href="#">Manage Events</a></li>
+			<li><a href="desktop_manage">Manage Events</a></li>
 		</nav>
+
 	</header>
 
 	<div id="content">
@@ -77,7 +79,11 @@
         				fixIds();
     				}
     			});
-		});
+			$.getJSON("/api/v2/me", function(json) {
+		 		$("#organizerName").text(json.name + " logged in");
+		 		$("#organizerName").hide().fadeIn('fast');
+ 			});
+ 		});
 		
 		$('#event_form').submit(function() {
 			saveEvent();

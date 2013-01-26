@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , desktop = require('./routes/desktop.js')
   , create = require('./routes/desktop_create.js')
+  , manage = require('./routes/desktop_manage.js')
   , mobile = require('./routes/mobile.js')
   , login = require('./routes/login.js')
   , organizer = require('./routes/organizer.js')
@@ -14,6 +15,7 @@ var express = require('express')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
   , backbone = require('./routes/backbone.js')
+  , ticketManagement = require('./routes/ticketManagement.js') 
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf')
@@ -34,7 +36,8 @@ nconf.defaults({
   'database_name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
-  'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback'
+  'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback',
+  'ticket_refresh_rate' : 5
 });
 
 // API initialization
@@ -42,6 +45,8 @@ nconf.defaults({
 api.configure({ 
   'url' : nconf.get('database_host'),
   'name': nconf.get('database_name')  
+}, function() { 
+  ticketManagement.start(api, nconf.get('ticket_refresh_rate'));
 });
 
 //--------- Facebook Login ------------
@@ -128,8 +133,9 @@ app.get('/', routes.show);
 
 app.get('/desktop', ensureAuthenticated, desktop.show);
 app.get('/desktop_create', ensureAuthenticated, create.show);
+app.get('/desktop_manage', ensureAuthenticated, manage.show);
 app.get('/mobile', ensureAuthenticated, mobile.show);
-
+//app.get('/mobile', mobile.show);
 app.get('/organizer/login', ensureAuthenticated, organizer.login);
 
 app.get('/login', login.show);

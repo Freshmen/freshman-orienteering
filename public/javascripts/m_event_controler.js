@@ -8,27 +8,17 @@ $().ready(function(){
 	 * ***********************/
 	// initialize an event object
 	var events = new Events();
-
+	var status = new Status();
 	$('#taskListClose').live('click',function(){
 		undisplayTaskList();
 	});
-	$(document).on('click','#contentListClose',function(e){
+	$(document).on('click','#contentListClose',function(){
 		events.undisplayEventList();
 	});	
-	$("#status").live('click',function(){
-		$.ajax({
-	    	  url: "/mockData/",
-	    	  type: "POST",
-	    	  data: {"task": "asdfadsfsdaf"},
-	    	  dataType: "json",
-	    	  contentType: "application/json",
-	    	  success : function(data){
-	    		  console.log(log);
-	    	  },
-	    	  error : function(data){
-	    		  console.log(data);
-	    	  }
-	    	});
+	$(document).on('click','#status',function(){
+		status.initialiseView();
+		var e = new Enrolment();
+		e.getUserEnrolment(status.updateEnrolment);
 	});
 	$('#goBack').live('click',function(){
 		events.injectEvents.call();
@@ -91,7 +81,7 @@ $().ready(function(){
 	// Enroll button in the even template
 	$(document).on('click','#enrol',function(){
 //		var index = parseInt(sessionStorage.currentEvent);
-		events.setEnrollment();
+		events.setEnrolment();
 	});
 
 	// End Initialisation
@@ -114,49 +104,6 @@ $().ready(function(){
 		$('#taskContent').css('display','none');
 	}
 
-//	function getEvents(){
-//		// new data
-//		$.ajax({
-//			  url: '/api/v2/events',
-//			  success: function(data) {
-//				// inject
-//				if(typeof(Storage)!=="undefined")
-//			    {
-//			    	//sessionStorage.eventArray = JSON.stringify(data.db);
-//			    	sessionStorage.eventArray = JSON.stringify(data); // mock data version
-//			    }
-//			    else
-//			    {
-//			    	// NEED TO IMPROVE - No web storage support 
-//			    }
-//				injectEvents.call(data);
-//			  },
-//			  error : function(data){
-//				  console.log(data);//return error if the JSON is not valid
-//			  }
-//			});
-//			
-//	}
-
-//	function setEnrollment(index){
-//		var events = JSON.parse(sessionStorage.eventArray);
-//		var eventId = events[index]._id;
-//
-//		$.ajax({
-//			type: "POST",
-//			url: '/api/v2/events/' + eventId + "/enrollments",
-//			  success: function(data) {
-//				// inject
-//				console.log(data)
-//			  },
-//
-//			  error : function(data){
-//			  	console.log("Error")
-//				console.log(data);//return error if the JSON is not valid
-//			  }
-//			});
-//	}
-
 	function injectTask(){
 		$.ajax({
 			 url: '/mockData/taskExample.json', success: function(data){
@@ -165,82 +112,23 @@ $().ready(function(){
 		}
 		});
 	}
-
-//	function getEventByIndexHelper(){
-//		var self = this;
-//
-//		// Hack to make the Enrollment work by: Jukka
-//		if($(this).attr("id") == "enrol" ){
-//			return
-//		}
-//		//////
-//
-//		if ($(this).parent().attr("data-tag") == "events"){
-//			var o = self;
-//			var event = getEventByIndex.call(o);
-//			// show Event's description
-//			showEventDescription(event);
-//		}else if ($(this).parent().attr("data-tag") == "checkpoints"){
-//			getTask();
-//		}else if ($(this).parent().attr("data-tag") == "event_description"){
-//			var o = self;
-//			var event = getEventByIndex.call(o);
-//		}
-//	}
 	
-//	function getEventByIndex() {
-//		var o = this;
-//		var event_id = null;
-//		var eventArray = JSON.parse(sessionStorage.eventArray);
-//		if(eventArray != null && typeof eventArray != 'undefined'){
-//			var index = $(o).attr('data-index');
-//			/// Added by Jukka
-//			sessionStorage.currentEvent = index;
-//			return eventArray[index];
-//		}else{
-//			// TO-DO
-//			return false;
-//		}		
-//	}
-
-
-//	function injectEvents(){
-//		var o = {};
-//		if (this.events){
-//			o = this;
-//		}else{
-//			if (sessionStorage.eventArray){
-//				o = JSON.parse(sessionStorage.eventArray);
-//			}else{
-//				return false;
-//			}
-//		}
-//	  	new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
-//	}
-
-//	function showEventDescription(event){
-//		var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
-//	}
-	
-	/// Event enclosure
-
 	function Events() {
 		var self = this;
 		// a list of events from the server
 		self.events = [];
-		// a list of enrolled events
-		self.enrolEvents = [];
+		// a list of new enrolled events for app restart
+		self.newEnrolEvents = [];
 		// is the event list shown to user or not
 		self.isDisplay = false;
 		// create an instance of one event
 		self.event = new Event();
-		
+
 		// one event
 		function Event(){
 			var _self = this;
 			// current event
 			_self.currentEvent = {};
-			
 			// show current event description 
 			_self.showEventDescription = function showEventDescription(event){
 				var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap',{content:event});
@@ -276,12 +164,9 @@ $().ready(function(){
 		self.getEventByIndex = function getEventByIndex() {
 			var o = this;
 			var event_id = null;
-//			var eventArray = JSON.parse(sessionStorage.eventArray);
 			var eventArray = self.events;
 			if(eventArray != null && typeof eventArray != 'undefined'){
 				var index = $(o).attr('data-index');
-				/// Added by Jukka
-//				sessionStorage.currentEvent = index;
 				return eventArray[index];
 			}else{
 				// TO-DO
@@ -306,23 +191,20 @@ $().ready(function(){
 			}
 		}
 		
-		self.setEnrollment = function setEnrollment(){
-//			var events = JSON.parse(sessionStorage.eventArray);
+		self.setEnrolment = function setEnrolment(){
 			var event_id = self.event.currentEvent._id;
-
 			$.ajax({
 				type: "POST",
 				url: '/api/v2/events/' + event_id + "/enrollments",
-				  success: function(data) {
+				success: function(data) {
 					// inject
-					console.log(data)
-				  },
-
-				  error : function(data){
+					self.newEnrolEvents.push(data);
+				},
+				error : function(data){
 				  	console.log("Error")
 					console.log(data);//return error if the JSON is not valid
-				  }
-				});
+				}
+			});
 		}
 		
 		self.displayEventList = function displayEventList(){
@@ -339,7 +221,6 @@ $().ready(function(){
 		}
 
 	}
-
 
 	function Checkpoints(){
 		var self = this;
@@ -493,6 +374,83 @@ $().ready(function(){
 				}
 			}
 			new EJS({url: '/templates/taskTemplate.ejs'}).update('taskWrap', {content : data.task});
+		}
+	}
+	
+	function Enrolment(){
+		var self = this;
+		self.enrolments = [];
+		self.el = [];
+		self.callback = null;
+		// get a list of enrolment
+		self.getUserEnrolment = function getUserEnrolment(callback){
+			if (callback && typeof(callback) === "function"){
+				self.callback = callback;
+			}
+			$.ajax({
+				url:"/api/v2/me/enrollments"
+			})
+			.done(this,self.whenGetUserEnrolmentDone)
+			.fail(self.whenGetUserEnrolmentFail);
+		}
+		// refresh enrolment
+		self.refreshEnrolment = function refreshEnrolment(){
+			
+		}
+		self.whenGetUserEnrolmentDone = function (data){
+			self.enrolments = data;
+			if (self.callback && typeof(self.callback) === "function"){
+				self.callback.call(data);
+			}
+		}
+		self.whenGetUserEnrolmentFail = function (data){
+			console.log("fail");
+		}
+	}
+	
+	function Status(){
+		var self = this;
+		
+		self.initialiseView = function initialiseView(){
+			new EJS({url: '/templates/statusTemplate.ejs'}).update('contentWrap', {});
+		}
+		
+		self.updateView = function updateView(){
+			
+		}
+		
+		self.updateEnrolment = function updateEnrolment(callback){
+			var o = this;
+			new EJS({url: '/templates/enrolmentTemplate.ejs'}).update('enrolmentWrap', {content:this});
+		}
+	}
+	
+	// handle notification selections 
+	function notifiedWindow(){
+		// o = {message, type, buttons, functions} 
+		// where message and type are String; buttons and functions are Array
+		var o = this;
+		if ( (o.buttons.length + 1 ) != o.functions.length) {
+			return false;
+		}
+		//edit default cancel
+		o.buttons.push({'data-role': 'cancel', text: 'No', 'class': 'default'});
+		// get an instance from notification centre
+		var marker_notifier = initialiseNotification();
+		// modify notification
+		var confirmMsg = marker_notifier.notify({
+			message: o.message,
+			'type': o.type,
+			buttons: o.buttons,
+			modal: true,
+			ms: 10000,
+			opacity : .7
+		});
+		if (o.buttons.length > 1) {
+			o.buttons.forEach(function(button,index,value){
+				// attach events
+				confirmMsg.on('click:' + button["data-role"],o.functions[index]);
+			});
 		}
 	}
 	

@@ -5,7 +5,8 @@
        <!-- check the first object if it is the type of Checkpoint, Event or others -->
        <% if (content[0] && content[0].type == "Checkpoint") {%>  
             	<ul id="checkpoints" class="contentList" data-tag="checkpoints">
-       <%} else if (content[0] && content[0].type == "Event"){ %>   
+       <%} else if (content[0] && content[0].type == "Event"){ %> 
+       			<p class="subHeader">Events</p>	  
        			<ul id="events" class="contentList" data-tag="events">
        <%} else{%>
        			<ul id="currentEvent" class="contentList" data-tag="event_description">
@@ -23,7 +24,7 @@
 	       <!-- end of for statement -->
        
        <%} else {%>
-       		<li><h2>Event Name: <%= content.title %></h2></li>
+       		<li><h2 class="subHeader">Event Name: <%= content.title %></h2></li>
        		<li><p>Description: <%= content.description %><p></li>
           	<li data-tag=<%=content._id%> id="showCheckpoints"><a href="#">Show Checkpoints</a></li>
           	<li><div id="checkPointWrap"></div></li>

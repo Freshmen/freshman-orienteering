@@ -1,11 +1,12 @@
 module.exports = exports = function api_module(cfg) {
 	var nano, db;
 
-	var init = function(cfg) {
+	var init = function(cfg, callback) {
 		nano = require('nano')(cfg.url);
 		nano.db.create(cfg.name);
 		db = nano.use(cfg.name);
 		add_design_docs();
+		if (callback) { callback(); }
 	}
 
 	if (cfg) { init(cfg); }
@@ -80,16 +81,20 @@ module.exports = exports = function api_module(cfg) {
 	}
 
 	var delete_doc = function(id, callback) {
-		read_rev(id, function(rev) {
-			db.destroy(id, rev, function(err, body) {
-				if (err) {
-					callback(err);
-				}
-				else  {
-					callback(body);
-				}  	
+		if (id) {
+			read_rev(id, function(rev) {
+				db.destroy(id, rev, function(err, body) {
+					if (err) {
+						callback(err);
+					}
+					else  {
+						callback(body);
+					}  	
+				});
 			});
-		});
+		} else { 
+			callback({ "error" : "no id provided" });
+		}
 	}
 
 	var update_doc = function(id, doc, callback) {
@@ -156,7 +161,7 @@ module.exports = exports = function api_module(cfg) {
 			create : function(req, res) {
 				req.body.type = 'Event';
 				if (req.user && !req.body.organizer) {
-					req.body.organizer = req.user;
+					req.body.organizer = req.user._id;
 				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
@@ -383,6 +388,16 @@ module.exports = exports = function api_module(cfg) {
 			remove : function(req, res) {
 				delete_doc(req.params.ticketID, function(body) {
 					res.json(200, body);
+				});
+			},
+			getTickets : function(callback) {
+				read_view('Tickets', false, function(body) {
+					callback(body);
+				});
+			},
+			deleteTicket : function(ticketID, callback) {
+				delete_doc(ticketID, function(body) {
+					callback(body);
 				});
 			}
 		}

@@ -7,6 +7,7 @@ fontFamily="AvantGardeGothicITCW01B 731063","Helvetica Neue",Arial,sans-serif
 fontBig=18px
 fontNav=14px
 fontSmall = 13px;
+subHearder2FontSize = 12px;
 
 /* global colors */
 siteBackgroundColor = #eee
@@ -24,6 +25,8 @@ listBarHeight = 30px;
 listBarSmallHeight = 20px;
 eventTopPosition = 10px;
 headerRightPosition = 20px;
+subHearderLeftPosition = 10px;
+activatedRightPadding = 10px;
 
 /* Style functions, not working, seems handy */
 linkHover()
@@ -326,11 +329,13 @@ clear:both
   text-align:center;
   letter-spacing:0
 }
-
+/* upper right corner, delete button */
 span.delete {
+	color: #09f;
 	position:relative;
 	padding: 2px;
 	float:right;
+	cursor: pointer;
 	margin-top: 3px;
 	margin-right: 3px;
 	border-radius: 2px;
@@ -343,9 +348,72 @@ span.expand {
 	margin-top: 0px;
 }
 span.delete:hover{
-	color: #ffffff;
 	background: #000;
 }
+/* upper right corner, refresh button */
+#refresh {
+  	position: relative;
+  	float: right;
+	width: 0;
+	height: 0;
+	cursor: pointer;
+	border-top: 8px solid transparent;
+	border-right: 8px solid rgb(0, 153, 255);
+	-webkit-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+	-moz-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+	-ms-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+	-o-transform: rotate(0deg) translate(-29px, 7px) scale(0.7);
+}
+#refresh:after {
+  	content: "";
+	position: absolute;
+	border: 3px solid transparent;
+	border-top: 3px solid rgb(0, 153, 255);
+	border-right: 3px solid rgb(0, 153, 255);
+	border-left: 3px solid rgb(0, 153, 255);
+	border-radius: 50px;
+	top: -9px;
+	left: -11px;
+	width: 12px;
+	height: 12px;
+	-webkit-transform: rotate(-65deg);
+	-moz-transform: rotate(-65deg);
+	-ms-transform: rotate(-65deg);
+	-o-transform: rotate(-65deg);
+}
+
+/* header: status, events etc in templates*/
+.subHeader {
+	text-shadow: 0px 0px 4px rgb(0, 153, 255);
+	padding-left: subHearderLeftPosition;
+}
+.subHeader2 {
+	padding-left: subHearderLeftPosition;
+	font-size: subHearder2FontSize;
+}
+
+/* activated notification */
+#statusEnrollList div {
+	clear: both;
+}
+#statusEnrollList div li {
+	float:left;
+}
+#activateEvent {
+	font-size:fontNav;
+	color:white;
+	padding-right: activatedRightPadding;
+	float:right;
+	text-shadow: -1px -1px white, 1px 1px rgb(0, 153, 255);
+	cursor: pointer;
+}
+#activateEvent:after {
+	content: "";
+}
+#activateEvent:before {
+
+}
+
 .thumb {
     height: 75px;
     border: 1px solid #000;
