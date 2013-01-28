@@ -1,0 +1,15 @@
+<% if (content && content.length != 0) {%>
+	<%if (content.length == 1) {%>
+		<p class="subHeader2">Enrolled Event:</p>
+	<%} else {%>
+		<p class="subHeader2">Enrolled Events:</p>
+	<%}%>	
+	<ul id="statusEnrollList">
+		<% for(var i = 0; i<content.length; i++) {%>
+			<div><li data-index= <%=i%> data-event-id= <%=content[i].event%>><a href="#"><%= content[i].event%></a></li><span id="activateEvent">Start</span></div>
+		<% } %>
+	 </ul>  
+	<%} else {%>
+		<p class="subHeader2">Sorry, you haven't enrolled any event yet!</p>
+	<%}%>
+    
