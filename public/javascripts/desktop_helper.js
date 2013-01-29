@@ -101,7 +101,7 @@ function saveEvent(){
 
 	eventCreated = true;
 			
-	displayNotifier("Your event has been created!","Start adding checkpoints by double-clicking on the map.");
+	displayNotifier("Your event has been created!","Start adding checkpoints by double-clicking on the map. Checkpoints can be rearranged by dragging them around.");
 
 	<!-- Display add checkpoint button -->	
 	//$("#addOption").trigger('click');
@@ -189,7 +189,7 @@ function displayNotifier(title_msg, body_msg) {
 		hideOnClick: true,
 		fadeInMs: 800,
 		fadeOutMs: 800,
-		ms: 6000,
+		ms: 10000,
 	});
 }
 
