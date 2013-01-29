@@ -17,16 +17,17 @@ function getUserEvents(){
 			if (log == 1){
 				console.log(userEvents[0].title);
 			}
-			populateEventData(userEvents);
+			populatePage(userEvents);
 
 		});
 	});
 
 }
 
-function populateEventData(eventData){
+function populatePage(eventData){
 	for (var e in eventData){
-		$("#content").append(eventData[e].title+"<br />");
-
+		var currentID = eventData[e]._id;
+		$("#content").append('<div id="event_'+currentID+'" class="eventListContainer"></div>');
+		$("#event_"+currentID).append(eventData[e].title);
 	}
 }
