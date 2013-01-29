@@ -139,7 +139,9 @@ function parseCheckpoint(checkpointFormID) {
 	var location = {};
 	var task = {};
 	var order;
-	var key = $("#" + checkpointFormID).children("#hidden");
+	//	var key = $("#" + checkpointFormID).children("#hidden").first().text();
+	// Just to make things more complex ;-)
+	var key = $("#" + checkpointFormID + ">#hidden:first").text();
 	if ($('#ordered').attr('checked')?true:false) {
 		order = checkpointFormID.replace("checkpoint_","");
 	}
@@ -158,11 +160,13 @@ function parseCheckpoint(checkpointFormID) {
 			location["longitude"] = $(this).val();
 		}
 	});
-	task["description"] = $("#task_" + key).children("textarea").val();
-	task["URL"] = $("#task_" + key).children("input").val();
-	task["accepts"] = $("#task_" + key).children("select").val();
+	task["description"] = $("#dialog_" + key).children("textarea").val();
+	task["URL"] = $("#dialog_" + key).children("input").val();
+	task["accepts"] = $("#dialog_" + key).children("select").val();
 	checkpoint_details['order'] = order;
 	checkpoint_details['location'] = location;
+	console.log(key);
+	console.log(task);
 	checkpoint_details['task'] = task;
 	return checkpoint_details;
 }
