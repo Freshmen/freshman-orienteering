@@ -399,7 +399,7 @@ span.delete:hover{
 #statusEnrollList div li {
 	float:left;
 }
-#activateEvent {
+.startEvent,.startingEvent {
 	font-size:fontNav;
 	color:white;
 	padding-right: activatedRightPadding;
@@ -407,11 +407,19 @@ span.delete:hover{
 	text-shadow: -1px -1px white, 1px 1px rgb(0, 153, 255);
 	cursor: pointer;
 }
-#activateEvent:after {
+.startEvent:after,.startingEvent:after {
 	content: "";
 }
-#activateEvent:before {
+.startEvent:before,.startingEvent:before {
 
+}
+.startingEvent {
+color: #09f;
+padding-right: 20px;
+text-shadow: 0px 0px 4px #09f;
+}
+.startingEvent::after {
+content: "ing";
 }
 
 .thumb {

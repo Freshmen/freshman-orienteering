@@ -6,7 +6,7 @@
 	<%}%>	
 	<ul id="statusEnrollList">
 		<% for(var i = 0; i<content.length; i++) {%>
-			<div><li data-index= <%=i%> data-event-id= <%=content[i].event%>><a href="#"><%= content[i].event%></a></li><span id="activateEvent">Start</span></div>
+			<div><li data-index= <%=i%> data-event-id= <%=content[i].event%>><a href="#"><%= content[i].event%></a></li><span class="startEvent">Start</span></div>
 		<% } %>
 	 </ul>  
 	<%} else {%>

@@ -24,27 +24,15 @@ $().ready(function(){
 		events.injectEvents.call();
 	});
 	
-	
 	$('#eventList').click(function(){
 		events.getEvents(events.injectEvents);
-
-		/*
-		if(!isDisplay){
-			displayEventList();
-		}else{
-			undisplayEventList();
-		}	
-		*/
-
 	});
 
-//	$(document).on('click','#events li',getEventByIndexHelper);
 	$(document).on('click','#events li',function(){
 		var el = $(this);
 		events.getEventByIndexHelper.call(el);
 	});
 	events.displayEventList();
-//	displayEventList();
 	
 	// initialise a checkpoint object
 	var checkPoints = new Checkpoints();
@@ -84,6 +72,10 @@ $().ready(function(){
 		events.setEnrolment();
 	});
 
+	$(document).on('click','#statusEnrollList div span',function(){
+		status.starting = this;
+		status.updateCSS();
+	});
 	// End Initialisation
 	
 	/* ***********************
@@ -410,7 +402,33 @@ $().ready(function(){
 	
 	function Status(){
 		var self = this;
+		// represents the current element that a user clicks
+		self.starting = {};
+		self.startClassName = new StartClassName();
 		
+		function StartClassName(){
+			var _self = this;
+			_self.DEFAULT_NAME = 'startEvent';
+			_self.BEFORE_START = _self.DEFAULT_NAME;
+			_self.STARTING = 'startingEvent';
+			
+			_self.nextName = function nextName(){
+				if (_self.currentName() != _self.BEFORE_START){
+					return _self.BEFORE_START;
+				}else{
+					return _self.STARTING;
+				}
+			}
+			
+			_self.currentName = function currentName(){
+				if (!$.isEmptyObject(self.starting)){
+					return $(self.starting).attr('class') 
+				}else{
+					return _self.DEFAULT_NAME;
+				}
+			}
+		}
+			
 		self.initialiseView = function initialiseView(){
 			new EJS({url: '/templates/statusTemplate.ejs'}).update('contentWrap', {});
 		}
@@ -422,6 +440,18 @@ $().ready(function(){
 		self.updateEnrolment = function updateEnrolment(callback){
 			var o = this;
 			new EJS({url: '/templates/enrolmentTemplate.ejs'}).update('enrolmentWrap', {content:this});
+		}
+		
+		self.updateCSS = function updateCSS() {
+			if (!$.isEmptyObject(self.starting)){
+				return $(self.starting).attr('class',self.startClassName.nextName) 
+			}else{
+				return false;
+			}
+		}
+		
+		self.cancleThisStart = function cancleThisStart() {
+			self.starting = {};
 		}
 	}
 	
@@ -490,5 +520,9 @@ $().ready(function(){
 //	      });
 	    }
 	  }
+	
+	function changeClassName(){
+		console.log(el);
+	}
 	  
 });
