@@ -192,6 +192,9 @@ module.exports = exports = function api_module(cfg) {
 		checkpoints : {
 			create : function(req, res) {
 				req.body.type = 'Checkpoint';
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;
+				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
@@ -221,7 +224,9 @@ module.exports = exports = function api_module(cfg) {
 		enrollments : {
 			create : function(req, res) {
 				req.body.type = 'Enrollment';
-				req.body.event = req.params.eventID;
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;
+				}
 				if (!req.body.user && req.user) {
 					req.body.user = req.user._id;
 				}		
@@ -256,6 +261,9 @@ module.exports = exports = function api_module(cfg) {
 		checkins : {
 			create : function(req, res) {
 				req.body.type = 'Checkin';
+				if (req.params.checkpointID) {
+					req.body.checkpoint = req.params.checkpointID;
+				}
 				if (!req.body.user && req.user) {
 					req.body.user = req.user;
 				}
@@ -361,9 +369,9 @@ module.exports = exports = function api_module(cfg) {
 		tickets : {
 			create : function(req, res) {
 				req.body.type = 'Ticket';
-				req.body.event = req.params.eventID;
-				req.body.createdAt = new Date();
-				req.body.lastModified = new Date();
+				if (req.user && req.user._id) {
+					req.body.user = req.user._id;	
+				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
@@ -380,7 +388,6 @@ module.exports = exports = function api_module(cfg) {
 			},
 			edit : function(req, res) {
 				req.body.type = 'Ticket';
-				req.body.lastModified = new Date();
 				update_doc(req.params.ticketID, req.body, function(body){
 					res.json(200, body);
 				});
