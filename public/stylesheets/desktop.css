@@ -227,7 +227,7 @@ tbody td {
   margin: 10px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 3px 3px 7px #a8a8a8;
+  box-shadow: 1px 2px 7px #a8a8a8;
   clear: both;
 }
 .eventNameTag {
@@ -236,7 +236,16 @@ tbody td {
   display: inline;
   vertical-align: middle;
 }
-#manageEventButton {
+#eventDetailsHolder {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 1px 2px 7px #a8a8a8;
+  padding: 20px;
+  height: 300px;
+}
+#detailsButton,
+#submissionsButton {
   margin: 10px;
   float: right;
   display: inline;
