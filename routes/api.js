@@ -361,9 +361,9 @@ module.exports = exports = function api_module(cfg) {
 		tickets : {
 			create : function(req, res) {
 				req.body.type = 'Ticket';
-				req.body.event = req.params.eventID;
-				req.body.createdAt = new Date();
-				req.body.lastModified = new Date();
+				if (req.user && req.user._id) {
+					req.body.user = req.user._id;	
+				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
@@ -380,7 +380,6 @@ module.exports = exports = function api_module(cfg) {
 			},
 			edit : function(req, res) {
 				req.body.type = 'Ticket';
-				req.body.lastModified = new Date();
 				update_doc(req.params.ticketID, req.body, function(body){
 					res.json(200, body);
 				});
