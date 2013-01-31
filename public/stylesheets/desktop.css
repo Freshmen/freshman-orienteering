@@ -219,7 +219,7 @@ tbody td {
   background-color: #fff;
   padding: 1px 30px 30px 30px;
   border-radius: 10px;
-  box-shadow: 3px 3px 7px #a8a8a8;
+  box-shadow: 1px 2px 7px #a8a8a8;
 }
 .eventListContainer {
   height: 50px;
@@ -242,7 +242,7 @@ tbody td {
   border-radius: 10px;
   box-shadow: 1px 2px 7px #a8a8a8;
   padding: 20px;
-  height: 300px;
+  height: auto;
 }
 #detailsButton,
 #submissionsButton {

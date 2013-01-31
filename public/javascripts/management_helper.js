@@ -40,11 +40,15 @@ function populatePage(eventData){
 
 function viewEventDetails(eventID){
 	var thisEvent = userEvents[eventID];
+	var starttime = new Date(thisEvent.starttime);
+	var endtime = new Date(thisEvent.endtime);
 	clearContent($('#content'),"&lt; Back");
 	$('#content').append('<div id="eventDetailsHolder"></div>');
 	$('#eventDetailsHolder').append('<h1>'+thisEvent.title+'</h2>');
 	$('#eventDetailsHolder').append('<h3>Location</h3>');
-	$('#eventDetailsHolder').append('Latitude: '+thisEvent.location.latitude+', Longitude: '+thisEvent.location.longitude);
+	$('#eventDetailsHolder').append('Latitude: '+thisEvent.location.latitude+'<br />Longitude: '+thisEvent.location.longitude);
+	$('#eventDetailsHolder').append('<h3>Time</h3>');
+	$('#eventDetailsHolder').append('The event starts at '+starttime+' and ends at '+endtime);
 	$('#eventDetailsHolder').append('<h3>Description</h3>');
 	$('#eventDetailsHolder').append(thisEvent.description);
 	if (thisEvent.ordered == 'true'){
