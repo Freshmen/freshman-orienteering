@@ -12,9 +12,11 @@ requirejs(["/dependencies/can/FipCanConfig.js", "Can"],
         can = new Can(CONFIG, CONFIG.api_key, CONFIG.api_key_secret);
 
     	can.login(function(status) {
-	    // Catch the culprit
 	    if(status == 400){
-	        window.location.replace(decodeURIComponent("http://127.0.0.1/loginToFacebook.html"));
+		// @Vidhuran - 31st Jan 2013 
+		// Commenting out for now , to be later uncommented.
+		//   window.location.replace(decodeURIComponent("http://127.0.0.1/loginToFacebook.html"));
+		alert("You haven't yet given permissions for the CAN app. Login to Facebook and accept CAN as an app. Instructions will be updatd soon.");
 	    }		
             // Create FSIO client.
        	    fsio = can.createFsioClient();
