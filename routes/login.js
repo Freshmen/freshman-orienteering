@@ -1,8 +1,7 @@
 exports.show = function(req, res){
-	if(req && req.session && req.session.passport && !req.session.passport.user){
-		res.render('login', { 'title' : 'Welcome'});
-	} else {
-		res.render('is_you', { 'title' : 'Welcome pass','content': req.session.passport.user});
+	var greeting = "Welcome";
+	if(req.user && req.user.name){
+		greeting = "Welcome, " + req.user.name;
 	}
-	
+	res.render('login', { 'greeting' : greeting, 'authenticated' : req.user?true:false });	
 }

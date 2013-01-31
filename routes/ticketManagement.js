@@ -4,7 +4,6 @@ var api;
 
 var updateAllTickets = function() {
 	api.tickets.getTickets(function(data){
-		console.log("updating " + data.length + " tickets");
 		for (var i = 0; i < data.length; i++) {
 			(function(ticket) { 
 				var options = {
@@ -22,8 +21,6 @@ var updateAllTickets = function() {
 						api.tickets.deleteTicket(ticket._id, function(){
 							console.log('Expired ticket deleted.');
 						});
-					} else if (res.statusCode == 200) {
-						console.log("updated ticket: " + ticket._id);
 					}
 				}).on('error', function(e) {
 					console.error(e);
