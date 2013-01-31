@@ -73,6 +73,14 @@ $().ready(function(){
 	});
 
 	$(document).on('click','#statusEnrollList div span',function(){
+		// assigned the current "starting" element
+		if (!$.isEmptyObject(status.starting) && status.starting != this){
+			status.cancleThisStart();
+		}
+		if (!$.isEmptyObject(status.starting) && status.starting === this){
+			status.cancleThisStart();
+			return false;
+		}
 		status.starting = this;
 		status.updateCSS();
 	});
@@ -398,6 +406,9 @@ $().ready(function(){
 		self.whenGetUserEnrolmentFail = function (data){
 			console.log("fail");
 		}
+		self.fromEnrolmentGetEvent = function(){
+			
+		}
 	}
 	
 	function Status(){
@@ -412,6 +423,7 @@ $().ready(function(){
 			_self.BEFORE_START = _self.DEFAULT_NAME;
 			_self.STARTING = 'startingEvent';
 			
+			// return the next status - not start or starting - that it should be
 			_self.nextName = function nextName(){
 				if (_self.currentName() != _self.BEFORE_START){
 					return _self.BEFORE_START;
@@ -420,6 +432,7 @@ $().ready(function(){
 				}
 			}
 			
+			//return the current status
 			_self.currentName = function currentName(){
 				if (!$.isEmptyObject(self.starting)){
 					return $(self.starting).attr('class') 
@@ -451,6 +464,8 @@ $().ready(function(){
 		}
 		
 		self.cancleThisStart = function cancleThisStart() {
+			//change the current "starting" to "start"
+			self.updateCSS();
 			self.starting = {};
 		}
 	}
@@ -521,8 +536,26 @@ $().ready(function(){
 	    }
 	  }
 	
-	function changeClassName(){
-		console.log(el);
+	// web worker
+	if(typeof(Worker)!=="undefined"){
+		if(typeof(worker)=="undefined"){
+			// start a worker
+			var worker = new Worker('/javascripts/update_event_from_enrolment.js');
+			worker.postMessage("Go");
+		}
+		// web worker handles message events by "onmessage" handler
+//		worker.onmessage = function (event) {
+//			console.log("message: " + event.data);
+//	    };
+		// web worker handles message events by "onmessage" handler, but this will not effect on "worker.onmessage"
+	    worker.addEventListener('message', function(e) {
+	    	  console.log('Worker said: ', e.data);
+	    }, false);
+	    console.log("sdf");
+	}else{
+		/* -- NEED TO DISCUSS-- */
 	}
-	  
+	function stopWorker(w){ 
+		w.terminate();
+	}
 });
