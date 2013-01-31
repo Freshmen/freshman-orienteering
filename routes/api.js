@@ -102,7 +102,7 @@ module.exports = exports = function api_module(cfg) {
 			var current_doc = body;
 			for (var prop in doc) {
 				if (doc.hasOwnProperty(prop)) {
-					current_doc[prop] = updateItem[prop];
+					current_doc[prop] = doc[prop];
 				}
 			}
 			insert_doc(current_doc, 0, function(body) {
