@@ -27,7 +27,13 @@ function getUserEvents(){
 function populatePage(eventData){
 	for (var e in eventData){
 		var currentID = eventData[e]._id;
-		$("#content").append('<div id="event_'+currentID+'" class="eventListContainer"></div>');
-		$("#event_"+currentID).append(eventData[e].title);
+		$('#contentManage').append('<div id="event_'+currentID+'" class="eventListContainer"></div>');
+		$('#event_'+currentID).append('<h3 class="eventNameTag">'+eventData[e].title+'</h3>');
+		$('#event_'+currentID).append('<input type="button" id="manageEventButton" onclick=manageThisEvent('+currentID+') value="Manage" class="button">');
+
 	}
+}
+
+function manageThisEvent(eventID){
+	$('#contentManage').empty();
 }
