@@ -19,12 +19,14 @@
 			<li><a href="desktop_manage">Manage Events</a></li>
 		</nav>
 	</header>
-
+	
+	<div id="canLoginLoader" align="center"><h5 style="margin: 0">Logging into CAN</h5><img src="/images/ajax-loader.gif"></img></div>
 	<section id="content" class="body">
 		<p>
-			As an event organizer, you can set up an orienteering track for event participants. Along the track, you can assign checkpoints, where participants may perform tasks that you have assigned. This allows for a fun and an interactive way for gathering images and videos from the event. Let's build a great event!
+			As an event organizer, you can set up an orienteering track for event participants. Along the track, you can assign checkpoints, where participants may perform tasks that you have assigned. This allows for a fun and an interactive way for gathering images and videos from the event. You should have already accepted the FIP CAN Facebook app in order for you to have the possibility to crowdsource submissions from your event. Let's build a great event!
 		</p>
 	
+		
 	</section>
 
 	<footer id="contentinfo" class="body"></footer>
@@ -34,15 +36,66 @@
 	<script src="/dependencies/backbone.notifier.js"></script>
 	<script src="//api.maps.nokia.com/2.2.3/jsl.js"></script>
 	<script src="/javascripts/notifier.js"></script>
-	<iframe src="/organizer/login" style="display:none;"></iframe>
+	<iframe name="canlogin" src="/organizer/login" style="display:none;"></iframe>
 
 	<script>
 		$(document).ready(function(){
 			$.getJSON("/api/v2/me", function(json) {
-		 		$("#organizerName").text(json.name + " logged in");
+		 		$("#organizerName").text("Welcome " + json.name);
 		 		$("#organizerName").hide().fadeIn('fast');
- 			});
+			});
+			var loginAttemptsCounter = 0;
+			var loginAttempt = function() { 
+                                $.ajax({
+                                        url: "https://devapi-fip.sp.f-secure.com:443/OneID/user/2_0_0/scim/v1/Users/current",
+                                        headers: {"x-apikey": "l7xx4b2071526ae34e7fb2d33ff02bb82503"},
+					xhrFields: { withCredentials: true },
+                                        statusCode: {
+                                                400: function() {
+                                                        console.log("page not found");
+                                                        loginAttemptsCounter++;
+                                                        loginAttempt();               
+                                                        if(loginAttemptsCounter > 5000) {
+                                                                $("#canLoginLoader>img").fadeOut('fast');
+                                                                $("#canLoginLoader>h5").fadeOut('fast');
+								displayNotifier("Login to CAN Failed","You should have already granted permissions to the FIP CAN Facebook app.")
+                                                        }       
+                                                },
+                                                200: function() {
+                                                        console.log("page found");
+                                                        $("#canLoginLoader>img").fadeOut('fast');
+                                                        $("#canLoginLoader>h5").text('Login to CAN was Successful');
+							// Hide text after 5 seconds
+							setTimeout(function() {
+								$("#canLoginLoader>h5").fadeOut('fast');
+     							}, 5000); 
+                                                }
+                                        }
+                                });
+			}
+			loginAttempt();
 		});
+		function displayNotifier(title_msg, body_msg) {
+		        <!-- Display info dialog -->
+        		var notifier = new Backbone.Notifier({
+        	        	theme: 'plastic',
+		                type: 'info',
+        	        	dialog: false,
+                		modal: true,
+		                position: 'center',
+	        	        zIndex: 10000,
+                		screenOpacity: 0.7,
+	        	});
+        		notifier.notify({
+	                	title: title_msg,
+	                	message: body_msg,
+        		        hideOnClick: true,
+        	        	fadeInMs: 800,
+		                fadeOutMs: 800,
+        	        	ms: 10000,
+	        	});
+		}
+
 	</script>
 </body>
 </html>
