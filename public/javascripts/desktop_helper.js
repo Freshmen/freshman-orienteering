@@ -25,7 +25,7 @@ function createCheckpoint(marker){
 	$('#checkpoint').attr("id","checkpoint_" + i);
 
 	<!-- FIX: Just #title in the following line will set the id of the Event title -->
-	<!-- Alternative would be to change the id of the event title while disabling it if that doesn't cause any harm -->
+	<!-- Alternative would be to change the id of the event title while disabling it if that doesnt cause any harm -->
  
 	$('#checkpoint_' + i +'>#title').attr("id","title_" + hashkey);
 	$('#dialog').attr("id","dialog_" + hashkey);
@@ -188,6 +188,8 @@ function displayNotifier(title_msg, body_msg) {
 		position: 'center',
 		zIndex: 10000,
 		screenOpacity: 0.7,
+		fadeInMs: 0,
+		fadeOutMs: 0,
 	});
 	notifier.notify({
 		title: title_msg,

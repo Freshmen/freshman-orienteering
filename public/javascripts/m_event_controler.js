@@ -541,7 +541,7 @@ $().ready(function(){
 		if(typeof(worker)=="undefined"){
 			// start a worker
 			var worker = new Worker('/javascripts/update_event_from_enrolment.js');
-			worker.postMessage("Go");
+			worker.postMessage("0d67d509acc5df754d2035851302af44");
 		}
 		// web worker handles message events by "onmessage" handler
 //		worker.onmessage = function (event) {
@@ -551,7 +551,6 @@ $().ready(function(){
 	    worker.addEventListener('message', function(e) {
 	    	  console.log('Worker said: ', e.data);
 	    }, false);
-	    console.log("sdf");
 	}else{
 		/* -- NEED TO DISCUSS-- */
 	}
