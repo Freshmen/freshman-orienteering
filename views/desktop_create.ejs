@@ -69,8 +69,42 @@
 
 		$(document).ready(function(){
 			$("#addOption").hide();
-			$("#starttime").datetimepicker({useLocalTimezone : true});
-			$("#endtime").datetimepicker({useLocalTimezone : true});
+			<!-- Adding some extra stuff here to restrict the time for start and end event -->
+			var starttime = $("#starttime");
+			var endtime = $("#endtime");
+			starttime.datetimepicker({useLocalTimezone : true, minDate : new Date(), 
+				onClose: function(dateText, inst) {
+					if (endtime.val() != '') {
+						var eventStartTime = starttime.datetimepicker('getDate');
+						var eventEndTime = endtime.datetimepicker('getDate');
+						if (eventStartTime > eventEndTime) 
+							// Display some alert here about the user's error
+							endtime.datetimepicker('setDate', eventStartTime);
+					} else {
+						endtime.val(dateText);
+					}
+				},
+				onSelect: function (selectedDateTime){
+					endtime.datetimepicker('option', 'minDate', starttime.datetimepicker('getDate') );
+				}				
+			});
+			endtime.datetimepicker({useLocalTimezone : true, minDate : new Date(),
+				onClose: function(dateText, inst) {
+					if (starttime.val() != '') {
+						var eventStartTime = starttime.datetimepicker('getDate');
+						var eventEndTime = endtime.datetimepicker('getDate');
+						if (starttime > endtime)
+							// Display some alert here about the user's error
+							starttime.datetimepicker('setDate', eventEndTime);
+					} else {
+						starttime.val(dateText);
+					}
+				},
+				onSelect: function (selectedDateTime){
+					starttime.datetimepicker('option', 'maxDate', endtime.datetimepicker('getDate') );
+				}
+		      	});
+
 			$( "#checkpoint_holder" ).sortable({
 				stop: function(event, ui) {
         				fixIds();
