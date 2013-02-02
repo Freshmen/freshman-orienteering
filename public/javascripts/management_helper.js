@@ -111,6 +111,8 @@ function askConfirmation(eventID){
 		position: 'center',
 		zIndex: 10000,
 		screenOpacity: 0.7,
+		fadeInMs: 0,
+		fadeOutMs: 0,
 	});
 
 	var confirmMsg = notifier.notify({
