@@ -72,8 +72,16 @@ function viewSubmissions(eventID){
 
 function editProperty(link, ID){
 	var editee = $(link).prev();
+	
 	if ($(link).text() == '(edit)'){
 		editee.replaceWith('<input type="text" id="'+editee.attr("id")+'" class="'+editee.attr("class")+'" value="'+editee.text()+'">');
+		
+		$(link).prev().keyup(function(event){
+    		if(event.keyCode == 13){
+        		$(link).click();
+    		}
+    	});
+
 		$(link).text('(save)');
 	}
 	else {
@@ -119,7 +127,6 @@ function askConfirmation(eventID){
 .on('click:ok', function(){
 	this.destroy();
 	deleteEvent(eventID);
-	notifier.success('The event has been deleted.');
 })
 .on('click:cancel', 'destroy');
 }
