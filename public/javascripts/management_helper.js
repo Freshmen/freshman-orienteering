@@ -88,7 +88,7 @@ function editProperty(link, ID){
 		var obj = {};
 		obj[editee.attr("id")] = editee.val();
 		$.ajax({
-			url:'/api/v2/events/'+ID,
+			url:'/api/v2/events/'+ID,	
 			type:'PUT',
 			data: obj,
 			success: function(response,data){}
@@ -137,7 +137,9 @@ function deleteEvent(eventID){
 	$.ajax({
 		url:'/api/v2/events/'+eventID,
 		type:'DELETE',
-		success: function(response,data){}
+		success: function(response,data){
+			window.location.reload();
+		}
 	});
-	window.location.reload()
+	
 }
