@@ -23,7 +23,11 @@ function createCheckpoint(marker){
 	$('#dialog').append('<select id="submissionType" class="wide"><option value="" disabled="disabled" selected>Select submission file type</option><option value="video/*">Video</option><option value = "image/*">Image</option><option value = "audio/*">Audio</option><option value = "*">Any</option></select>');
 
 	$('#checkpoint').attr("id","checkpoint_" + i);
-	$('#title').attr("id","title_" + hashkey);
+
+	<!-- FIX: Just #title in the following line will set the id of the Event title -->
+	<!-- Alternative would be to change the id of the event title while disabling it if that doesn't cause any harm -->
+ 
+	$('#checkpoint_' + i +'>#title').attr("id","title_" + hashkey);
 	$('#dialog').attr("id","dialog_" + hashkey);
 	$('#latitude').attr("id","latitude_" + hashkey);
 	$('#longitude').attr("id","longitude_" + hashkey);
@@ -129,7 +133,11 @@ function saveCheckpoints() {
 		if (/checkpoint_./.test($(this).attr("id"))){
 			//console.log($(this).attr("id"));
 			checkpointJSON = parseCheckpoint($(this).attr("id"));
-			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(){});
+			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
+			    // Setup the checkpoint folder and upload the task file into it.
+			    chkptDBID = data.id	 
+			    setupCheckpointFolder(eventDBID, chkptDBID);
+			});
 		}
 	});
 }
@@ -148,8 +156,8 @@ function parseCheckpoint(checkpointFormID) {
 	else {
 		order = '0';
 	}
-	console.log(checkpointFormID);
 	$("#" + checkpointFormID).children().each(function() {
+		console.log($(this));
 		if (/title_./.test($(this).attr("id"))){
 			checkpoint_details['title'] = $(this).val();
 		}
@@ -165,8 +173,6 @@ function parseCheckpoint(checkpointFormID) {
 	task["accepts"] = $("#dialog_" + key).children("select").val();
 	checkpoint_details['order'] = order;
 	checkpoint_details['location'] = location;
-	console.log(key);
-	console.log(task);
 	checkpoint_details['task'] = task;
 	return checkpoint_details;
 }

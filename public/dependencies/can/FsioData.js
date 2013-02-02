@@ -31,7 +31,7 @@ define(["FsioBase"], function(FsioBase) {
      * @param {object} [headers]   Extra headers.
      */
     FsioData.prototype.upload = function(
-        token, object_name, data, complete, params, headers) {
+        token, object_name, data, complete, params, headers) {	
         var path = "upload/" + object_name;
         if(params) {
             // query params for PUT

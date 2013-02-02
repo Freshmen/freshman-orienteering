@@ -16,7 +16,7 @@ requirejs(["/dependencies/can/FipCanConfig.js", "Can"],
 		// @Vidhuran - 31st Jan 2013 
 		// Commenting out for now , to be later uncommented.
 		//   window.location.replace(decodeURIComponent("http://127.0.0.1/loginToFacebook.html"));
-		alert("You haven't yet given permissions for the CAN app. Login to Facebook and accept CAN as an app. Instructions will be updatd soon.");
+		alert("CAN Login Error, So you CAN't create an event");
 	    }		
             // Create FSIO client.
        	    fsio = can.createFsioClient();
@@ -65,31 +65,13 @@ function waitUntilScanned(ctx, object) {
                             });
 }
 
-function uploadFile(ctx) {
-    var object_name = randomString() + "_" + new Date().getTime();
-    var data15 = "Hello Me!";
-    ctx.fsio.data.upload(ctx.token, object_name, data15, function(
+function uploadFile(token, path, task) {
+    var object_name = path + "/Task.txt";
+    fsio.data.upload(token, object_name, task, function(
         jqXHR) {
-        $("body").append("<br><br>Uploaded '" + object_name + "': "+
-                         jqXHR.status);
         if(jqXHR.status == 204)
-            waitUntilScanned(ctx, object_name);
+            console.log("Uploaded " + object_name);	    
         console.log(jqXHR);
-    });
-}
-
-function createUploadToken() {
-    	
-    ctx.fsio.ticket.createUploadToken(ctx.ticket, function(
-        jqXHR) {
-        if(jqXHR.status == 200) {
-	    console.log(jqXHR.responseText);	
-            ctx.token = JSON.parse(jqXHR.responseText).Token;
-            //uploadFile(ctx);
-        } else {
-            $("body").append("<br>Failed to create upload token: " +
-                             status);
-        }
     });
 }
 
@@ -105,17 +87,15 @@ var setupEventFolder = function(eventID,eventName) {
 	    // get eventname , in future this will be directly available as an input parameter.
 	    $.get("api/v2/events/"+eventID, function(data){
 		eventName = data.title;
-		eventDesc = data.description;
+		var eventDesc = data.description;
 	        // Create a folder with that name	
-	        fsio.content.createFolder(ticket, "FORI/"+eventName,
+	        fsio.content.createFolder(ticket, "/devices/Web/FORI/"+eventName,
                     function(jqXHR){
-		        console.log("foler created for event "+ eventID +" "+ jqXHR );
-		        console.log(jqXHR);
 			// Set up description and metadata for the folder
 			var metadata = { "eventID" : eventID };
-			fsio.content.setFileMetadata(ticket, "FORI/"+eventName, eventDesc, metadata, 
+			fsio.content.setFileMetadata(ticket, "/devices/Web/FORI/"+eventName, eventDesc, metadata, 
 			    function(jqXHR){
-				console.log(jqXHR);
+				// Nothing to be done here
 			    }
 			);
 		    }
@@ -128,6 +108,44 @@ var setupEventFolder = function(eventID,eventName) {
     }		
 }  
 
+var uploadTask = function (ticket,path,chkptTask) {
+    fsio.ticket.createUploadToken(ticket, function(data) {
+    	if(data.status == 200) {
+	    var token = JSON.parse(data.responseText).Token;
+	    console.log(token);
+	    uploadFile(token, path, chkptTask);
+	} else {
+	    console.log("Error while uploading task to "+ path);	
+	}
+    });	
+}
+
+var setupCheckpointFolder = function(eventID, chkptID) {
+    if(!!eventID || !!chkptID) {
+        $.get("api/v2/events/" + eventID + "/checkpoints/" +chkptID, function(data){
+            var chkptName = data.title;
+            var chkptTask = data.task.description;
+            $.get("api/v2/events/"+eventID, function(data){
+                var eventName = data.title;
+	        $.get("api/v2/events/"+eventID+"/tickets", function(data) {
+	            var ticket = data[0].ticket;
+                    // Create a folder with that name
+                    fsio.content.createFolder(ticket, "/devices/Web/FORI/"+eventName+"/"+chkptName, function(jqXHR){
+		        // Set up description and metadata for the folder
+		        var metadata = { "chkptID" : chkptID };
+		        fsio.content.setFileMetadata(ticket, "/devices/Web/FORI/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
+			    var path = "devices/Web/FORI/"+eventName+"/"+chkptName;
+			    uploadTask(ticket,path,chkptTask);		
+			});
+		    });
+    	        });
+	    });
+	});    
+    } else {
+        console.log("The arguments cannot be null, provide me with the eventID and chkptID");
+    }		
+    
+}
 var fetchTicket = function(callback) {
 	callback(ticket);
 };
