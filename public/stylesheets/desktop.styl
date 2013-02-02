@@ -78,6 +78,8 @@ input, textarea, select
     margin-left: auto
     margin-right: auto
     padding: 20px
+    position:relative
+    z-index:1
 
 #checkpoint_holder
     width: 1000px
@@ -189,35 +191,54 @@ tbody td
 .drag-container
     width:100%
     margin:0px auto
-    background:#fff url(../images/leftside.gif) repeat-y left top
     float:top	
-
-.top
-    width:100%
-    height:20px
-    background:url(../images/top.gif) no-repeat left top
-
-.top span
-    display:block
-    position:relative
-    height:20px
-    background:url(../images/top-right.gif) no-repeat right top
 
 .center-content
     position:relative
-    background:url(../images/rightside.gif) repeat-y right top
-    padding:1px 30px 1px 30px
+    background-color: white
+    padding:1px 30px 30px 30px
+    border-radius:10px
+    box-shadow: 1px 2px 7px #A8A8A8
 
-.bottom
-    height:60px
-    background:url(../images/bottom.gif) no-repeat left bottom
+.eventListContainer
+    //clear: both
+    height:50px
+    width:100%
+    margin: 10px
+    background-color: white
+    border-radius: 10px
+    box-shadow: 1px 2px 7px #A8A8A8
+    //overflow: auto
+    clear:both
 
-.bottom span
-    display:block
-    position:relative
-    height:60px
-    background:url(../images/bottom-right.gif) no-repeat right top
 
+.eventNameTag
+    margin: 10px
+    float:left
+    display: inline
+    vertical-align:middle
+
+#eventDetailsHolder
+    width:100%
+    background-color: white
+    border-radius: 10px
+    box-shadow: 1px 2px 7px #A8A8A8
+    padding:20px
+    height: auto
+
+#detailsButton, #submissionsButton
+    margin: 10px
+    float:right
+    display: inline
+    //vertical-align:middle
+
+#ajaxLoader
+    margin-right: auto
+    margin-left: auto
+    width:66px
+    left: 48%
+    position:absolute
+    z-index:2
 
 .onoffswitch 
     position: relative 

@@ -1,154 +1,123 @@
-var db = require('./db.js');
+var userSchema = [
+	{ title : '#'},
+	{ title : 'Name'},
+	{ title : 'Profile'},
+	{ title : 'Type' }
+];
 
-exports.events = {
-	'list' : function(req, res) {
-		db.getDocumentsByType('Event', function(data) {
-			res.render('admin/events/list', { 'items' : data });
-		});
-	},
-	'show' : function(req, res) {
-		db.getDocumentById(req.params.eventID, function(data) {
-			db.getDocumentsByType('User', function(users) {
-				db.getDocumentsByType('Event', function(events) {
-					res.render('admin/events/show', { 'event' : data, 'users' : users, 'events' : events });
-				});
-			});	
-		});
-	},
-	'edit' : function(req, res) {
-		db.getDocumentById(req.params.eventID, function(data) {
-			db.getDocumentsByType('User', function(users) {
-				res.render('admin/events/edit', { 'event' : data, 'users' : users });
-			});
-		});
-	},
-	'create' : function(req, res) {
-		db.getDocumentsByType('User', function(users) {
-			res.render('admin/events/create', { 'users' : users });
-		});	
-	}
-};
+var eventSchema = [
+	{ title : '#'},
+	{ title : 'Title'},
+	{ title : 'Location' },
+	{ title : 'Start time' },
+	{ title : 'End time' },
+	{ title : 'Checkpoints' },
+	{ title : 'Enrollments' }
+];
 
-exports.checkpoints = {
-	'list' : function(req, res) {
-		db.getCheckpoints(req.params.eventID, function(data) {
-			res.render('admin/checkpoints/list', { 'items' : data});
-		});
-	},
-	'show' :  function(req, res) { 
-		db.getDocumentById(req.params.checkpointID, function(data) {
-			res.render('admin/checkpoints/show', { 'checkpoint' : data });
-		});
-	},
-	'edit' :  function(req, res) {
-		db.getDocumentById(req.params.checkpointID, function(data) {
-			res.render('admin/checkpoints/edit', { 'checkpoint' : data, 'eventID' : req.params.eventID });
-		});
-	 },
-	'create' :  function(req, res) { 
-		res.render('admin/checkpoints/create', { 'eventID' : req.params.eventID });
-	}
-};
 
-exports.enrollments = {
-	'list' : function(req, res) {
-		if (req.params.userID) {
-			db.getEnrollmentsByUser(req.params.userID, function(data) {
-				res.render('admin/enrollments/list', { 'items' : data });
-			});
-		} else {
-			db.getEnrollments(req.params.eventID, function(data) {
-				res.render('admin/enrollments/list', { 'items' : data});
-			});
-		}
-	},
-	'show' : function(req, res) {
-		db.getDocumentById(req.params.enrollmentID, function(data) {
-			db.getDocumentsByType('User', function(users) {
-				db.getDocumentsByType('Event', function(events) {
-					res.render('admin/enrollments/show', { 'enrollment' : data, 'users' : users, 'events' : events  });
-				});
-			});
-		});
-	},
-	'edit' : function(req, res) {
-		db.getDocumentById(req.params.enrollmentID, function(data) {
-			db.getDocumentsByType('User', function(users) {
-				db.getDocumentsByType('Event', function(events) {
-					res.render('admin/enrollments/edit', { 'enrollment' : data, 'users' : users, 'events' : events, 'eventID' : req.params.eventID });
-				});
-			});
-		});
-	},
-	'create' : function(req, res) {
-		var api_endpoint;
-		if (req.params.userID) {
-			api_endpoint = '/api/v1/users/' + req.params.userID + '/enrollments';
-		} else if (req.params.eventID) {
-			api_endpoint = '/api/v1/events/' + req.params.eventID + '/enrollments';
-		}
-		db.getDocumentsByType('User', function(users) {
-			db.getDocumentsByType('Event', function(events) {
-				res.render('admin/enrollments/create', { 'users' : users, 'events' : events, 'api_endpoint' : api_endpoint });
-			});
-		});	
-	}
-};
-
-exports.checkins = {
-	'list' : function(req, res) {
-		db.getCheckins(req.params.checkpointID, function(data) {
-			res.render('admin/checkins/list', { 'items' : data});
-		});
-	},
-	'show' : function(req, res) {
-		db.getDocumentById(req.params.checkinID, function(data) {
-			db.getDocumentsByType('User', function(users) {
-				db.getCheckpoints(req.params.eventID, function(checkpoints) {
-					res.render('admin/checkins/show', { 'checkin' : data, 'users' : users, 'checkpoints' : checkpoints });
-				});
-			});
-		});
-	},
-	'edit' : function(req, res) {
-		db.getDocumentById(req.params.checkinID, function(data) {
-			db.getDocumentsByType('User', function(users) {
-				db.getCheckpoints(req.params.eventID, function(checkpoints) {
-					res.render('admin/checkins/edit', { 'checkin' : data, 'checkpoints' : checkpoints, 'users' : users, 'eventID' : req.params.eventID, 'checkpointID' : req.params.checkpointID });
-				});
-			});
-		});
-	},
-	'create' : function(req, res) {
-		db.getDocumentsByType('User', function(users) {
-			db.getCheckpoints(req.params.eventID, function(checkpoints) {
-				res.render('admin/checkins/create', { 'checkpoints' : checkpoints, 'users' : users, 'eventID' : req.params.eventID, 'checkpointID' : req.params.checkpointID });
-			});
-		});
-	}
-};
+var ticketSchema = [
+	{ title : '#'},
+	{ title : 'Ticket'},
+	{ title : 'Owner' }
+];
 
 exports.users = {
-	'list' : function(req, res) {
-		db.getDocumentsByType('User', function(data) {
-			res.render('admin/users/list', { 'items' : data});
-		});		
+	list : function(req, res) {
+		var options = {
+			user : req.user,
+			title : 'Users',
+			topnav : 'users',
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/'}, 
+				{ text : 'Users', link : '/admin/users', active : true}
+			],
+			schema : userSchema
+		};
+		res.render('admin/list.ejs', options);
 	},
-	'show' : function(req, res) {
-		db.getDocumentById(req.params.userID, function(data) {
-			res.render('admin/users/show', { 'user' : data });
-		});
-	},
-	'edit' : function(req, res) {
-		db.getDocumentById(req.params.userID, function(data) {
-			res.render('admin/users/edit', { 'user' : data });
-		});
-	},
-	'create' : function(req, res) {
-		res.render('admin/users/create', { });
+	edit : function(req, res) {
+		var options = {
+			user : req.user,
+			title : 'Edit user',
+			topnav : 'users',
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/'}, 
+				{ text : 'Users', link : '/admin/users', active : true}
+			],
+			schema : userSchema
+		};
+		res.render('admin/edit.ejs', options);
 	}
-};
+}
+
+exports.events = {
+	list : function(req, res) {
+		var options = {
+			user : req.user,
+			title : 'Events',
+			topnav : 'events',
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/'}, 
+				{ text : 'Events', link : '/admin/events', active : true}
+			],
+			schema : eventSchema
+		};
+		res.render('admin/list.ejs', options);
+	},
+	edit : function(req, res) {
+		var options = {
+			user : req.user,
+			title : 'Edit event',
+			topnav : 'events',	
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/'}, 
+				{ text : 'Events', link : '/admin/events', active : true}
+			],
+			schema : eventSchema,
+		};
+		res.render('admin/edit.ejs', options);
+	}
+}
+
+exports.tickets = {
+	list : function(req, res) {
+		var options = {
+			user : req.user,
+			title : 'Tickets',
+			topnav : 'tickets',
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/'}, 
+				{ text : 'Tickets', link : '/admin/tickets', active : true}
+			],
+			schema : ticketSchema
+		};
+		res.render('admin/list.ejs', options);
+	},
+	edit : function(req, res) {
+		var options = {
+			user : req.user,
+			title : 'Edit ticket',
+			topnav : 'tickets',
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/'}, 
+				{ text : 'Tickets', link : '/admin/tickets', active : true}
+			],
+			schema : ticketSchema
+		};
+		res.render('admin/edit.ejs', options);
+	}
+}
 
 exports.index = function(req, res) {
-	res.render('admin/index');
-};
+	var options = {
+		user : req.user,
+		topnav : 'home',
+			breadcrumbs : [
+				{ text : 'Home', link : '/admin/', active : true}
+			]
+	};
+	res.render('admin/index.ejs', options);
+}
+
+
