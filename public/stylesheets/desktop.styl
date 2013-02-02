@@ -157,6 +157,7 @@ h2, h3, h4, h5, h6
 
 footer
     text-align: center
+    font-size:120%
 
 a
     outline: 0
@@ -167,7 +168,7 @@ a img
 a:link, a:visited
     color: #1B7AE0
     padding: 0 1px
-    text-decoration: underline
+    text-decoration: none
 
 a:hover, a:active
     background-color: #1B7AE0
@@ -200,7 +201,7 @@ tbody td
     background-color: white
     padding:1px 30px 30px 30px
     border-radius:10px
-    box-shadow: 1px 2px 7px #A8A8A8
+    box-shadow: 1px 1px 7px #A8A8A8
 
 .eventListContainer
     //clear: both
@@ -209,10 +210,9 @@ tbody td
     margin: 10px
     background-color: white
     border-radius: 10px
-    box-shadow: 1px 2px 7px #A8A8A8
+    box-shadow: 1px 1px 7px #A8A8A8
     //overflow: auto
     clear:both
-
 
 .eventNameTag
     margin: 10px
@@ -224,15 +224,30 @@ tbody td
     width:100%
     background-color: white
     border-radius: 10px
-    box-shadow: 1px 2px 7px #A8A8A8
+    box-shadow: 1px 1px 7px #A8A8A8
     padding:20px
-    height: auto
+    height:auto
+
+#eventDetailsHolder #title
+    font-size:350%
+    font-weight:bold
+
+#eventDetailsHolder #deleteButton
+    margin-top: 30px
+    background-color:firebrick
 
 #detailsButton, #submissionsButton
     margin: 10px
     float:right
     display: inline
     //vertical-align:middle
+
+.propertyEditLink
+    font-size:80%
+
+.propertyHeader
+    display:inline
+    margin-right:5px
 
 #ajaxLoader
     margin-right: auto

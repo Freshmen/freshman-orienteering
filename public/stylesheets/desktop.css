@@ -175,6 +175,7 @@ h6 {
 }
 footer {
   text-align: center;
+  font-size: 120%;
 }
 a {
   outline: 0;
@@ -187,7 +188,7 @@ a:link,
 a:visited {
   color: #1b7ae0;
   padding: 0 1px;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:hover,
 a:active {
@@ -221,7 +222,7 @@ tbody td {
   background-color: #fff;
   padding: 1px 30px 30px 30px;
   border-radius: 10px;
-  box-shadow: 1px 2px 7px #a8a8a8;
+  box-shadow: 1px 1px 7px #a8a8a8;
 }
 .eventListContainer {
   height: 50px;
@@ -229,7 +230,7 @@ tbody td {
   margin: 10px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 1px 2px 7px #a8a8a8;
+  box-shadow: 1px 1px 7px #a8a8a8;
   clear: both;
 }
 .eventNameTag {
@@ -242,15 +243,30 @@ tbody td {
   width: 100%;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 1px 2px 7px #a8a8a8;
+  box-shadow: 1px 1px 7px #a8a8a8;
   padding: 20px;
   height: auto;
+}
+#eventDetailsHolder #title {
+  font-size: 350%;
+  font-weight: bold;
+}
+#eventDetailsHolder #deleteButton {
+  margin-top: 30px;
+  background-color: #b22222;
 }
 #detailsButton,
 #submissionsButton {
   margin: 10px;
   float: right;
   display: inline;
+}
+.propertyEditLink {
+  font-size: 80%;
+}
+.propertyHeader {
+  display: inline;
+  margin-right: 5px;
 }
 #ajaxLoader {
   margin-right: auto;
