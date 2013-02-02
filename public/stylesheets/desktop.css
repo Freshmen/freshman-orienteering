@@ -213,6 +213,7 @@ tbody td {
   width: 100%;
   margin: 0px auto;
   float: top;
+  margin: 10px;
 }
 .center-content {
   position: relative;
