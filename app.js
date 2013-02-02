@@ -167,9 +167,6 @@ app.get('/logout', function(req, res){
 
 // Pages for admin view
 app.get('/admin', ensureAuthenticated, admin.index);
-app.get('/admin/users', ensureAuthenticated, admin.users.list);
-app.get('/admin/events', ensureAuthenticated, admin.events.list);
-app.get('/admin/tickets', ensureAuthenticated, admin.tickets.list);
 
 // Calls that can be made to the API v2
 app.get('/api/v2/events', api.events.list);

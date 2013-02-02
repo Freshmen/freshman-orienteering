@@ -196,6 +196,9 @@ module.exports = exports = function api_module(cfg) {
 				if (req.params.eventID) {
 					req.body.event = req.params.eventID;
 				}
+				if (req.user && !req.body.organizer) {
+					req.body.organizer = req.user._id;
+				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
@@ -372,6 +375,9 @@ module.exports = exports = function api_module(cfg) {
 				req.body.type = 'Ticket';
 				if (req.user && req.user._id) {
 					req.body.user = req.user._id;	
+				}
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;	
 				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);

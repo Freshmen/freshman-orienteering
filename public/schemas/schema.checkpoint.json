@@ -1,0 +1,49 @@
+{
+	"$schema" : "http://json-schema.org/draft-04/schema#",
+	"title" : "Checkpoint",
+	"description" : "A checkpoint in the Fori app",
+	"type" : "object",
+	"properties" : {
+		"_id" : {
+			"description" : "a unique identifier for the checkpoint",
+			"type"  : "string"
+		},
+		"title" : {
+			"type" : "string"
+		},
+		"location" : {
+			"type" : "object",
+			"properties" : {
+				"longitude" : {
+					"type" : "number"
+				},
+				"latitude" : {
+					"type" : "number"
+				},
+				"altitude" : {
+					"type" : "number"
+				}
+			},
+			"required" : ["longitude", "latitude"]
+		},
+		"order" : {
+			"type" : "number"
+		},
+		"type" : {
+			"type" : "string",
+			"enum" : ["Checkpoint"]
+		},
+		"organizer" : {
+			"description" : "A unique identifier for an organizer (user)",
+			"type" : "string"
+		},
+		"taskDescription" : {
+			"type" : "string",
+		},
+		"taskUrl" : {
+			"type" : "string",
+			"format" : "uri"
+		}
+	},
+	"required" : ["title", "location"]
+}

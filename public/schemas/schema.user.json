@@ -1,0 +1,17 @@
+{
+	"$schema" : "http://json-schema.org/draft-04/schema#",
+	"title" : "User",
+	"description" : "An user of the Fori app",
+	"type" : "object",
+	"properties" : {
+		"_id" : {
+			"description" : "a unique identifier for the user",
+			"type"  : "string"
+		},
+		"type" : {
+			"type" : "string",
+			"enum" : ["User"]
+		}
+	},
+	"required" : []
+}

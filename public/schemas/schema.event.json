@@ -1,0 +1,53 @@
+{
+	"$schema" : "http://json-schema.org/draft-04/schema#",
+	"title" : "Event",
+	"description" : "An organized event in the Fori app",
+	"type" : "object",
+	"properties" : {
+		"_id" : {
+			"description" : "a unique identifier for the event",
+			"type"  : "string"
+		},
+		"title" : {
+			"type" : "string"
+		}, 
+		"description" : {
+			"type" : "string"
+		},
+		"startTime" : {
+			"type" : "string",
+			"format" : "date-time"
+		},
+		"endTime" : {
+			"type" : "string",
+			"format" : "date-time"
+		},
+		"location" : {
+			"type" : "object",
+			"properties" : {
+				"longitude" : {
+					"type" : "number"
+				},
+				"latitude" : {
+					"type" : "number"
+				},
+				"altitude" : {
+					"type" : "number"
+				}
+			},
+			"required" : ["longitude", "latitude"]
+		},
+		"ordered" : {
+			"type" : "boolean"
+		},
+		"type" : {
+			"type" : "string",
+			"enum" : ["Event"]
+		},
+		"organizer" : {
+			"description" : "A unique identifier for an organizer (user)",
+			"type" : "string"
+		}
+	},
+	"required" : ["title", "startTime", "endTime", "location"]
+}

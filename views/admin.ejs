@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
 	<meta charset="utf-8" />
-	<title>Admin view with Backbone.js</title>
+	<title>Admin view</title>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css" />
@@ -12,15 +12,15 @@
 		<div class="navbar navbar-static-top">
 			<div class="navbar-inner">
 				<ul class="nav">
-					<a class="brand" href="/admin/">Admin Console</a>
-					<li id="top-nav-events" <% if (topnav == "events") {%>class="active"<% } %>>
-						<a href="/admin/events/">Events</a>
+					<a class="brand" href="#">Admin Console</a>
+					<li id="top-nav-events">
+						<a href="#events/">Events</a>
 					</li>
-					<li id="top-nav-users" <% if (topnav == "users") {%>class="active"<% } %>>
-						<a href="/admin/users/">Users</a>
+					<li id="top-nav-users">
+						<a href="#users/">Users</a>
 					</li>
-					<li id="top-nav-users" <% if (topnav == "tickets") {%>class="active"<% } %>>
-						<a href="/admin/tickets/">Tickets</a>
+					<li id="top-nav-users">
+						<a href="#tickets/">Tickets</a>
 					</li>
 				</ul>
 				<ul class="nav pull-right">
@@ -42,12 +42,17 @@
 		</div>
 		<br />
 		<ul class="breadcrumb">
-			<% breadcrumbs.forEach(function(crumb){ %>
-				<% if (crumb.active) { %>
-					<li class="active"><%= crumb.text %></li>
-				<% } else { %>
-					<li><a href="<%= crumb.link %>"><%= crumb.text %></a> <span class="divider">/</span></li>
-				<% } %>
-			<% }) %>
+			<li class="active">Home</li>
 		</ul>
 		<div class="page">
+			<div class="well">
+				<h2>Welcome, Admin! <small>Remember to play nice</small></h2>
+				<p>This is the administration area of the application. You will have access to other users entries. So that you can debug problems and help out users when needed. Do not abuse your powers.</p>
+			</div>
+		</div>
+	</div>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+	<script src="/javascripts/admin.js"></script>
+</body>
+</html>
