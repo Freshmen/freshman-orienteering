@@ -55,7 +55,7 @@ h1 {
 }
 #logo-orienteering {
   width: auto;
-  height: 210px;
+  height: 12em;
   margin: 0 auto;
   background: url("../images/gamified_logo.png") no-repeat center center;
   background-size: contain;
