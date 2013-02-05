@@ -18,9 +18,10 @@ a {
 #mapArea {
   height: 100%;
 }
-#welcome-page {
+#content {
   max-width: 800px;
   margin: 0 auto;
+  display: block;
 }
 h1,
 h2,
@@ -37,9 +38,17 @@ h1 {
 .disabled {
   opacity: 0.75;
 }
+#banner {
+  width: 100%;
+  height: auto;
+  margin-top: 40px;
+  background-color: #fff;
+  box-shadow: 1px 1px 7px #a8a8a8;
+  display: block;
+}
 #logo-orienteering {
-  width: 800px;
-  height: 400px;
+  width: auto;
+  height: 280px;
   margin: 0 auto;
   background: url("../images/gamified_logo.png") no-repeat center center;
   background-size: contain;
