@@ -184,6 +184,8 @@ app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 app.get('/api/v2/me/checkins', api.users.getCheckins);
 app.get('/api/v2/events/:eventID/tickets', api.tickets.list);
 app.get('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.show);
+app.get('/api/v2/tickets', api.tickets.list);
+app.get('/api/v2/tickets/:ticketID', api.tickets.show);
 
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);
