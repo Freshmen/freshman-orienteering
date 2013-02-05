@@ -80,13 +80,11 @@ function editProperty(link, ID){
 	
 	if ($(link).text() == '(edit)'){
 		editee.replaceWith('<input type="text" id="'+editee.attr("id")+'" class="'+editee.attr("class")+'" value="'+editee.text()+'">');
-		
 		$(link).prev().keyup(function(event){
     		if(event.keyCode == 13){
         		$(link).click();
     		}
     	});
-
 		$(link).text('(save)');
 	}
 	else {
