@@ -206,6 +206,7 @@ a {
 a img {
   border: 0px;
   text-decoration: none;
+  background-color: none;
 }
 a:link,
 a:visited {
@@ -410,4 +411,20 @@ tbody td {
 #note {
   font-size: 90%;
   margin-top: 2em;
+}
+#header-logo {
+  width: auto;
+  height: auto;
+  margin: 20px;
+}
+#logo {
+  width: 60%;
+  height: 60%;
+  height: auto;
+}
+#logo-link {
+  text-decoration: none;
+  border: 0 none;
+  background-color: transparent;
+  transition: none;
 }
