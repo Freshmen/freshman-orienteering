@@ -20,7 +20,11 @@
 </head>
 <body>
 		<header id="banner" class="body">
-		<h1><a href="desktop">Gamified</a></h1>
+			<div id="header-logo" href="desktop">
+				<a href="desktop" id="logo-link">
+					<img src="/images/gamified_logo_small.png" alt="Logo" id="logo">
+				</a>
+			</div>
 		<div id="organizerName">&nbsp;</div>
 		<nav>
 			<li><a href="desktop">Home</a></li>
@@ -30,7 +34,7 @@
 
 	</header>
 
-	<div id="content">
+	<div id="content-create">
 				<form id="event_form" action="">
 					<input type="text" id="title" class="wide" size="30" placeholder="Event Name" style="font-size: 36px;" autocomplete="off" maxlength="255" required><br />
 					<input type="text" id="location" class="wide" style="font-size: 18px;" value="" placeholder="Double-click the map to mark the start location" required disabled><br />
@@ -69,6 +73,10 @@
 
 		$(document).ready(function(){
 			$("#addOption").hide();
+			$.getJSON("/api/v2/me", function(json) {
+		 		$("#organizerName").text(json.name + " logged in");
+		 		$("#organizerName").hide().fadeIn('fast');
+ 			});
 			<!-- Adding some extra stuff here to restrict the time for start and end event -->
 			var starttime = $("#starttime");
 			var endtime = $("#endtime");
@@ -110,10 +118,6 @@
         				fixIds();
     				}
     			});
-			$.getJSON("/api/v2/me", function(json) {
-		 		$("#organizerName").text(json.name + " logged in");
-		 		$("#organizerName").hide().fadeIn('fast');
- 			});
  		});
 		
 		$('#event_form').submit(function() {
