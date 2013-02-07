@@ -6,9 +6,12 @@ $().ready(function(){
 	 * Initialisation
 	 *
 	 * ***********************/
-	// initialize an event object
+	// initialise an event object
 	var events = new Events();
+    // initialise a status object
 	var status = new Status();
+    // initialise a checkpoint object
+    var checkPoints = null;
 	$('#taskListClose').live('click',function(){
 		undisplayTaskList();
 	});
@@ -30,12 +33,10 @@ $().ready(function(){
 
 	$(document).on('click','#events li',function(){
 		var el = $(this);
+        checkPoints = new Checkpoints();
 		events.getEventByIndexHelper.call(el);
 	});
 	events.displayEventList();
-	
-	// initialise a checkpoint object
-	var checkPoints = new Checkpoints();
 	
 	$('#showCheckpoints').live('click',function(){
 		// if hasn't been shown
@@ -94,8 +95,7 @@ $().ready(function(){
 	function hideCheckpoints(){
 		$("#checkPointWrap").children().remove();
 	}
-	
-	
+
 	function displayTaskList(){
 		/* -- Nothing to do yet-- */
 	}
@@ -179,7 +179,6 @@ $().ready(function(){
 
 			if ($(this).parent().attr("data-tag") == "events"){
 				var o = _self;
-//				var event = self.getEventByIndex.call(o);
 				self.event.currentEvent = self.getEventByIndex.call(o);
 				// show Event's description
 				self.event.showEventDescription(self.event.currentEvent);
@@ -283,8 +282,6 @@ $().ready(function(){
 					  }else{
 						  if(typeof(Storage)!=="undefined")
 						    {
-						    	//sessionStorage.eventArray = JSON.stringify(data.db);
-//						    	sessionStorage.checkpointsArray = JSON.stringify(data); // mock data version
 						    	self.checkpoints = data;
 						    }
 						    else
@@ -468,17 +465,6 @@ $().ready(function(){
             eventNameUpdateWorker.eventID = o[0].event;
             eventNameUpdateWorker.onmessageCallback = self.updateEventName;
             eventNameUpdateWorker.tellWorkEventID();
-//            var eventNameUpdateWorker = [];
-////            eventNameUpdateWorker.onmessageCallback = self.updateEventName;
-////            eventNameUpdateWorker.tellWorkEventID();
-//            $.each(o,function(indexInArray, valueOfElement){
-////                var eventNameUpdateWorker = new EventNameUpdateWorker(o[indexInArray]);
-//                eventNameUpdateWorker[indexInArray] = new EventNameUpdateWorker(o[indexInArray]);
-//                eventNameUpdateWorker[indexInArray].onmessageCallback = self.updateEventName;
-//                console.log(valueOfElement.event);
-//                eventNameUpdateWorker[indexInArray].eventID = valueOfElement.event;
-//                eventNameUpdateWorker[indexInArray].tellWorkEventID();
-//            });
         }
         self.updateEventName = function updateEventName(){
             var o = JSON.parse(this);
@@ -598,7 +584,6 @@ $().ready(function(){
                     self.onmessageCallback.call(self.event);
                 }
                 // post message to worker
-                console.log(self.i);
                 if (self.i<self.onmessageNumberLimited)
                     self.onMessageHelper(self.enrolments[self.i++]);
             } :
@@ -637,26 +622,4 @@ $().ready(function(){
         }
 
     }
-//	if(typeof(Worker)!=="undefined"){
-//		if(typeof(worker)=="undefined"){
-//			// start a worker
-//			var worker = new Worker('/javascripts/update_event_from_enrolment.js');
-//			worker.postMessage("0d67d509acc5df754d2035851302af44");
-//
-//		}
-//		// web worker handles message events by "onmessage" handler
-////		worker.onmessage = function (event) {
-////			console.log("message: " + event.data);
-////	    };
-//		// web worker handles message events by "onmessage" handler, but this will not effect on "worker.onmessage"
-//	    worker.addEventListener('message', function(e) {
-//	    	  console.log('Worker said: ', e.data);
-//            worker.postMessage("0d67d509acc5df754d20358513071b0e");
-//	    }, false);
-//	}else{
-//		/* -- NEED TO DISCUSS-- */
-//	}
-//	function stopWorker(w){
-//		w.terminate();
-//	}
 });

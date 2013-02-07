@@ -35,7 +35,25 @@
       <file leaf-file-name="m_event_controler.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/m_event_controler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="602" column="63" selection-start="17668" selection-end="17668" vertical-scroll-proportion="0.6040373">
+            <state line="35" column="20" selection-start="966" selection-end="966" vertical-scroll-proportion="0.8152174">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login_status.ejs" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/templates/login_status.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="statusTemplate.ejs" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/templates/statusTemplate.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="10" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -434,9 +452,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/templates/login_status.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/templates/statusTemplate.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="10" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/m_event_controler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="602" column="63" selection-start="17668" selection-end="17668" vertical-scroll-proportion="0.6040373">
+        <state line="35" column="20" selection-start="966" selection-end="966" vertical-scroll-proportion="0.8152174">
           <folding />
         </state>
       </provider>
