@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta charset="utf-8">
-	<title>Freshman Orienteering Desktop Client</title>
+	<title>Gamified</title>
 	<link rel='stylesheet' href='/stylesheets/desktop.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-base.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-theme-plastic.css' />
@@ -11,7 +11,7 @@
 <body id="index" class="home">
 	
 	<header id="banner" class="body">
-		<h1><a href="desktop">Freshman Orienteering</a></h1>
+		<h1><a href="desktop">Gamified</a></h1>
 		<div id="organizerName">&nbsp;</div>
 		<nav>
 			<li class="active"><a href="desktop">Home</a></li>
@@ -22,9 +22,18 @@
 	
 	<div id="canLoginLoader" align="center"><h5>Logging into CAN</h5><img src="/images/ajax-loader.gif"></img></div>
 	<section id="content" class="body">
-		<p>
-			As an event organizer, you can set up an orienteering track for event participants. Along the track, you can assign checkpoints, where participants may perform tasks that you have assigned. This allows for a fun and an interactive way for gathering images and videos from the event. You should have already accepted the FIP CAN Facebook app in order for you to have the possibility to crowdsource submissions from your event. Let's build a great event!
-		</p>
+	<div id="front-page-holder">
+		<div id="demo"></div>
+			<div id="welcome">
+				<h2>Welcome to Gamified!</h2>
+				<p>To take part in an event, visit <a href="fori.uni.me/mobile">gami.fi/ed</a> on your mobile device. Just enroll to an event and get going!</p>
+				<h4>Creating your own event</h4>
+				<p>
+					As an event organizer, you can set up an orienteering track for event participants. Along the track, you can assign checkpoints, where participants may perform tasks that you have assigned. This allows for a fun and an interactive way for gathering images and videos from the event.
+				</p>
+				<p id="note">* Note that you should have already accepted the FIP CAN Facebook app in order for you to have the possibility to crowdsource submissions from your event.</p>
+			</div>
+		</div>
 	
 		
 	</section>
@@ -40,6 +49,10 @@
 
 	<script>
 		$(document).ready(function(){
+			var timeOut = false;
+			setInterval(function() {
+				timeOut = true;
+			},10000);
 			$.getJSON("/api/v2/me", function(json) {
 		 		$("#organizerName").text("Welcome " + json.name);
 		 		$("#organizerName").hide().fadeIn('fast');
@@ -54,11 +67,13 @@
                                                 400: function() {
                                                         console.log("page not found");
                                                         loginAttemptsCounter++;
-                                                        loginAttempt();               
-                                                        if(loginAttemptsCounter > 5000) {
+                                                        if(!timeOut){
+                                                        	loginAttempt();	
+                                                        }               
+                                                        if(loginAttemptsCounter == 5000 || timeOut) {
                                                                 $("#canLoginLoader>img").fadeOut('fast');
                                                                 $("#canLoginLoader>h5").fadeOut('fast');
-								displayNotifier("Login to CAN Failed","You should have already granted permissions to the FIP CAN Facebook app.")
+															displayNotifier("Login to CAN Failed","You must have already granted permissions to the FIP CAN Facebook app.")
                                                         }       
                                                 },
                                                 200: function() {
