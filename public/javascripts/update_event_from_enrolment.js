@@ -3,7 +3,7 @@ var eventThread = new EventThread();
 
 // worker listens on on-coming message from the main thread
 self.addEventListener('message', function(e) {
-    eventThread.setEnrolmentID(e.data);
+    eventThread.enrolmentID = e.data;
     if(eventThread.enrolmentID){
         eventThread.getEvent();
     }else{
@@ -24,11 +24,6 @@ function EventThread(){
         {
             _self.updateEnrolmentToMain(_self.xhr.responseText);
         }
-    }
-
-    // set enrolment ID
-    _self.setEnrolmentID = function setEnrolmentID(id){
-        _self.enrolmentID = id;
     }
 
     // download event by ID asynchronously
