@@ -260,6 +260,10 @@ h3 {
   text-align: center;
   letter-spacing: 0;
 }
+.distanceMeter {
+  line-height: 50px;
+  padding-left: 10px;
+}
 /* upper right corner, delete button */
 span.delete {
   color: #09f;
@@ -392,6 +396,10 @@ span.delete:hover {
     font-size: 11.899999999999999px;
     right: 9.799999999999999px;
   }
+  .distanceMeter {
+    line-height: 35px;
+    padding-left: 7px;
+  }
   #contentWrap {
     top: 45px;
   }
@@ -461,6 +469,10 @@ span.delete:hover {
   #footer footer #control {
     line-height: 40px;
     font-size: 13.600000000000001px;
+  }
+  .distanceMeter {
+    line-height: 40px;
+    padding-left: 8px;
   }
   #contentWrap {
     top: 45px;

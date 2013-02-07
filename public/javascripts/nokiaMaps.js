@@ -47,6 +47,9 @@ $().ready(function() {
     document.addEventListener('locationUpdated', function(evt){
 	  updatePosition(evt.position);
 	  _Geolocation.g_watchPositionAction(evt.position);
+
+	  if(_Geolocation.g_distanceToCurrentCheckpoint != -1)
+	  	$('#distance').text("Distance to Checkpoint: " + _Geolocation.g_distanceToCurrentCheckpoint/1000 + " km");
 	}, false);
 
     //_Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);

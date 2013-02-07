@@ -115,9 +115,13 @@ _Geolocation.g_showRoute = function(observedRouter, key, value){
         map.objects.remove(_Geolocation.g_currentRoute);
         }
 
+     if(_Geolocation.g_distanceToCurrentCheckpoint != -1)
+        $('#distance').text("Distance to Checkpoint: " + _Geolocation.g_distanceToCurrentCheckpoint/1000 + " km");
+
       _Geolocation.g_currentRoute = mapRoute;
 
       } else if (value == "failed") {
+        _Geolocation.g_distanceToCurrentCheckpoint = -1;
         alert("The routing request failed.");
       }
 }
@@ -165,6 +169,11 @@ _Geolocation.g_getRoute = function(marker) {
   router.calculateRoute(waypoints, modes.slice(0));
 }
   
+_Geolocation.g_resetRoute = function() {
+  map.objects.remove(_Geolocation.g_currentRoute);
+  _Geolocation.g_currentRoute = [];
+  _Geolocation.g_distanceToCurrentCheckpoint = -1;
+}
 
 // Error callback to parse the error number
 _Geolocation.g_showError = function(error) {
