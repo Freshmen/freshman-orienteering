@@ -465,7 +465,7 @@ $().ready(function(){
             var o = this;
             // this is the part that wasn't sure how to design
             var eventNameUpdateWorker = new EventNameUpdateWorker(o);
-            eventNameUpdateWorker.eventID = o[0];
+            eventNameUpdateWorker.eventID = o[0].event;
             eventNameUpdateWorker.onmessageCallback = self.updateEventName;
             eventNameUpdateWorker.tellWorkEventID();
 //            var eventNameUpdateWorker = [];
@@ -580,6 +580,7 @@ $().ready(function(){
         self.onmessageCallback = null;
         self.onmessageNumberLimited = Object.prototype.toString.call( self.enrolments ) === '[object Array]' ?
             self.enrolments.length : 0;
+        self.i = 1;
         // define a worker
         self.worker = typeof(Worker)!=="undefined" ?
             ( typeof(self.worker)=="undefined" ?
@@ -597,11 +598,9 @@ $().ready(function(){
                     self.onmessageCallback.call(self.event);
                 }
                 // post message to worker
-                for (var i = 1;i<self.enrolments.length;i++){
-                    self.onMessageHelper(self.enrolments[i]);
-                }
-
-
+                console.log(self.i);
+                if (self.i<self.onmessageNumberLimited)
+                    self.onMessageHelper(self.enrolments[self.i++]);
             } :
             null;
 
@@ -609,12 +608,14 @@ $().ready(function(){
         (function(){
             if (Object.prototype.toString.call( self.enrolments ) !== '[object Array]'){
                 console.log("error: " + events + " is not an array");
+                self.enrolments = [];
                 return false;
             }
         })();
 
         // helper function that communicate with the worker
         self.onMessageHelper = function onMessageHelper(e){
+            self.eventID = e.event;
             self.tellWorkEventID();
         }
 
