@@ -1,4 +1,4 @@
-var log = 1;
+var log = 0;
 var userEvents = {};
 
 function getEventData(){
@@ -26,14 +26,19 @@ function getUserEvents(){
 }
 
 function populatePage(eventData){
-	for (var e in eventData){
-		var currentID = eventData[e]._id;
-		$('#content').append('<div id="event_'+currentID+'" class="eventListContainer"></div>');
-		$('#event_'+currentID).append('<h3 class="eventNameTag">'+eventData[e].title+'</h3>');
-		$('#event_'+currentID).append('<input type="button" id="detailsButton" onclick=viewEventDetails("'+e+'") value="Details" class="button">');
-		$('#event_'+currentID).append('<input type="button" id="submissionsButton" onclick=viewSubmissions("'+e+'") value="Submissions" class="button">');
+	if (jQuery.isEmptyObject(eventData)){
+			$('#content').append('<h1 class="centertext">You don\'t have any events coming up. Go create one!</h1>');
 	}
-	$('#ajaxLoader').fadeOut("fast");
+	else{
+		for (var e in eventData){
+			var currentID = eventData[e]._id;
+			$('#content').append('<div id="event_'+currentID+'" class="eventListContainer"></div>');
+			$('#event_'+currentID).append('<h3 class="eventNameTag">'+eventData[e].title+'</h3>');
+			$('#event_'+currentID).append('<input type="button" id="detailsButton" onclick=viewEventDetails("'+e+'") value="Details" class="button">');
+			$('#event_'+currentID).append('<input type="button" id="submissionsButton" onclick=viewSubmissions("'+e+'") value="Submissions" class="button">');
+		}
+	}
+	$('#ajaxLoader').hide();
 	$('footer').append('<a href="#">View old events...</a>');
 }
 
@@ -75,13 +80,11 @@ function editProperty(link, ID){
 	
 	if ($(link).text() == '(edit)'){
 		editee.replaceWith('<input type="text" id="'+editee.attr("id")+'" class="'+editee.attr("class")+'" value="'+editee.text()+'">');
-		
 		$(link).prev().keyup(function(event){
     		if(event.keyCode == 13){
         		$(link).click();
     		}
     	});
-
 		$(link).text('(save)');
 	}
 	else {

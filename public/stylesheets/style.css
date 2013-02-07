@@ -7,10 +7,10 @@ body {
   margin: 0 auto;
   padding: 0;
   height: 100%;
-  background-color: #7b98d0;
-  color: #fff;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  font-family: 'Arial, Sans-serif';
+  background: #fbfaf7;
+  background-image: url("../images/bg_desktop.png");
+  font-family: 'Arvo', serif;
+  color: #000;
 }
 a {
   color: #00b7ff;
@@ -18,9 +18,17 @@ a {
 #mapArea {
   height: 100%;
 }
-#welcome-page {
-  max-width: 360px;
+#content {
+  max-width: 800px;
   margin: 0 auto;
+  display: block;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  position: relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 40px;
 }
 h1,
 h2,
@@ -29,23 +37,51 @@ h3 {
   font-weight: normal;
 }
 h1 {
-  margin-bottom: 5px;
+  margin-bottom: 0px;
+  font-size: 400%;
+  width: 100%;
 }
 .disabled {
   opacity: 0.75;
 }
+.center {
+  text-align: center;
+}
+#banner {
+  width: 100%;
+  height: contain;
+  margin-top: 2em;
+  background-color: #fff;
+  box-shadow: 1px 1px 7px #a8a8a8;
+  z-index: 999;
+  position: relative;
+  display: block;
+}
 #logo-orienteering {
-  width: 320px;
-  height: 80px;
+  width: auto;
+  height: 12em;
   margin: 0 auto;
-  background: url("../images/mercator.jpg") no-repeat center center;
-  border-radius: 5px;
-  box-shadow: 4px 4px 5px #444;
+  background: url("../images/gamified_logo.png") no-repeat center center;
+  background-size: contain;
+}
+#facebook-login {
+  width: 219px;
+  height: 36px;
+  margin: 0 auto;
+  background: url("../images/facebook_login.png") no-repeat center center;
+  background-size: contain;
+}
+#facebook-login:hover {
+  width: 219px;
+  height: 36px;
+  margin: 0 auto;
+  background: url("../images/facebook_login_hover.png") no-repeat center center;
+  background-size: contain;
 }
 .wide-btn {
   display: block;
   border: 1px solid #ddd;
-  border-radius: 3px;
+  border-radius: 5px;
   text-shadow: 0 1px 1px #fff;
   box-shadow: 0 1px 1px #fff;
   padding: 6px 10px;

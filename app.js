@@ -94,7 +94,7 @@ passport.use(new FacebookStrategy(
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) { return next(); }
   req.session.redirect_url = req.path;
-	res.redirect('/login')
+	res.redirect('/login');
 }
 //--------- End Facebook Login ---------
 
@@ -125,7 +125,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.show);
+app.get('/', function(req, res) {
+  res.redirect('/ed');
+});
+
+app.get('/ed', routes.show);
 
 app.get('/desktop', ensureAuthenticated, desktop.show);
 app.get('/desktop_create', ensureAuthenticated, desktop.create);
@@ -184,6 +188,8 @@ app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 app.get('/api/v2/me/checkins', api.users.getCheckins);
 app.get('/api/v2/events/:eventID/tickets', api.tickets.list);
 app.get('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.show);
+app.get('/api/v2/tickets', api.tickets.list);
+app.get('/api/v2/tickets/:ticketID', api.tickets.show);
 
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);

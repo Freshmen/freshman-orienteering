@@ -140,6 +140,7 @@ function saveCheckpoints() {
 			});
 		}
 	});
+	window.location.reload();
 }
 
 function parseCheckpoint(checkpointFormID) {
@@ -199,6 +200,34 @@ function displayNotifier(title_msg, body_msg) {
 		fadeOutMs: 800,
 		ms: 10000,
 	});
+}
+
+function confirmSave(){
+	var notifier = new Backbone.Notifier({
+		theme: 'plastic',
+		modal: true,
+		position: 'center',
+		zIndex: 10000,
+		screenOpacity: 0.7,
+		fadeInMs: 0,
+		fadeOutMs: 0,
+	});
+
+	var confirmMsg = notifier.notify({
+	message: "Are you sure you want to save this event as it is?",
+	'type': "info",
+	buttons: [
+		{'data-role': 'ok', text: 'Yes'},
+		{'data-role': 'cancel', text: 'No', 'class': 'default'}
+	],
+	modal: true,
+	ms: null,
+	destroy: false
+})
+.on('click:ok', function(){
+	saveCheckpoints();
+})
+.on('click:cancel', 'destroy');
 }
 
 function taskDialog(taskButton){

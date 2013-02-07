@@ -441,33 +441,68 @@ $().ready(function(){
 				}
 			}
 		}
-			
+
+
+        // initialise status view
 		self.initialiseView = function initialiseView(){
 			new EJS({url: '/templates/statusTemplate.ejs'}).update('contentWrap', {});
 		}
-		
+
+        // update status view
 		self.updateView = function updateView(){
-			
+
 		}
-		
-		self.updateEnrolment = function updateEnrolment(callback){
+
+        // update enrolment list view
+		self.updateEnrolment = function updateEnrolment(){
 			var o = this;
+            // initial update
 			new EJS({url: '/templates/enrolmentTemplate.ejs'}).update('enrolmentWrap', {content:this});
+            // deeper update
+            self.updateEventNameHelper.call(o);
 		}
-		
-		self.updateCSS = function updateCSS() {
+        self.updateEventNameHelper = function updateEventName(){
+            var o = this;
+            // this is the part that wasn't sure how to design
+            var eventNameUpdateWorker = new EventNameUpdateWorker(o);
+            eventNameUpdateWorker.eventID = o[0].event;
+            eventNameUpdateWorker.onmessageCallback = self.updateEventName;
+            eventNameUpdateWorker.tellWorkEventID();
+//            var eventNameUpdateWorker = [];
+////            eventNameUpdateWorker.onmessageCallback = self.updateEventName;
+////            eventNameUpdateWorker.tellWorkEventID();
+//            $.each(o,function(indexInArray, valueOfElement){
+////                var eventNameUpdateWorker = new EventNameUpdateWorker(o[indexInArray]);
+//                eventNameUpdateWorker[indexInArray] = new EventNameUpdateWorker(o[indexInArray]);
+//                eventNameUpdateWorker[indexInArray].onmessageCallback = self.updateEventName;
+//                console.log(valueOfElement.event);
+//                eventNameUpdateWorker[indexInArray].eventID = valueOfElement.event;
+//                eventNameUpdateWorker[indexInArray].tellWorkEventID();
+//            });
+        }
+        self.updateEventName = function updateEventName(){
+            var o = JSON.parse(this);
+            var el = $("#statusEnrollList li[data-event-id=" + o._id +"] a");
+            el.text(o.title);
+        }
+        /**
+         * StartClassName member functions
+         */
+        // update CSS of enrolment start button
+        self.updateCSS = function updateCSS() {
 			if (!$.isEmptyObject(self.starting)){
 				return $(self.starting).attr('class',self.startClassName.nextName) 
 			}else{
 				return false;
 			}
 		}
-		
+		// remove the updated CSS of the enrolment start button and reset the taped "starting" to empty
 		self.cancleThisStart = function cancleThisStart() {
 			//change the current "starting" to "start"
 			self.updateCSS();
 			self.starting = {};
 		}
+
 	}
 	
 	// handle notification selections 
@@ -535,26 +570,93 @@ $().ready(function(){
 //	      });
 	    }
 	  }
-	
+    var i = 0 ;
 	// web worker
-	if(typeof(Worker)!=="undefined"){
-		if(typeof(worker)=="undefined"){
-			// start a worker
-			var worker = new Worker('/javascripts/update_event_from_enrolment.js');
-			worker.postMessage("0d67d509acc5df754d2035851302af44");
-		}
-		// web worker handles message events by "onmessage" handler
-//		worker.onmessage = function (event) {
-//			console.log("message: " + event.data);
-//	    };
-		// web worker handles message events by "onmessage" handler, but this will not effect on "worker.onmessage"
-	    worker.addEventListener('message', function(e) {
-	    	  console.log('Worker said: ', e.data);
-	    }, false);
-	}else{
-		/* -- NEED TO DISCUSS-- */
-	}
-	function stopWorker(w){ 
-		w.terminate();
-	}
+    function EventNameUpdateWorker(events){
+        var self = this;
+        self.eventID = null;
+        self.event = {};
+        self.enrolments = typeof(events)!=="undefined" ? events : [];
+        self.onmessageCallback = null;
+        self.onmessageNumberLimited = Object.prototype.toString.call( self.enrolments ) === '[object Array]' ?
+            self.enrolments.length : 0;
+        self.i = 1;
+        // define a worker
+        self.worker = typeof(Worker)!=="undefined" ?
+            ( typeof(self.worker)=="undefined" ?
+                new Worker('/javascripts/update_event_from_enrolment.js') :
+                self.worker ) :
+            "undefined";
+        // listen on on-coming message
+        self.worker.onmessage = typeof(self.worker)!=="undefined" ?
+            function(e){
+                // update the enrolment view
+                // current event
+                self.event = e.data;
+                // trigger a callback with overwritten "this" to an "event" object
+                if (self.onmessageCallback && typeof(self.onmessageCallback) === "function"){
+                    self.onmessageCallback.call(self.event);
+                }
+                // post message to worker
+                console.log(self.i);
+                if (self.i<self.onmessageNumberLimited)
+                    self.onMessageHelper(self.enrolments[self.i++]);
+            } :
+            null;
+
+        // validation function
+        (function(){
+            if (Object.prototype.toString.call( self.enrolments ) !== '[object Array]'){
+                console.log("error: " + events + " is not an array");
+                self.enrolments = [];
+                return false;
+            }
+        })();
+
+        // helper function that communicate with the worker
+        self.onMessageHelper = function onMessageHelper(e){
+            self.eventID = e.event;
+            self.tellWorkEventID();
+        }
+
+        self.tellWorkEventID = function tellWorkEventID(){
+
+            if(typeof(self.worker)!=="undefined"){
+                if (self.eventID != null){
+                    self.worker.postMessage(self.eventID);
+                }else{
+                    return false;
+                }
+            }
+        }
+
+        self.stopWorker = function stopWorker(){
+            if(typeof(self.worker)!=="undefined"){
+                self.worker.terminate();
+            }
+        }
+
+    }
+//	if(typeof(Worker)!=="undefined"){
+//		if(typeof(worker)=="undefined"){
+//			// start a worker
+//			var worker = new Worker('/javascripts/update_event_from_enrolment.js');
+//			worker.postMessage("0d67d509acc5df754d2035851302af44");
+//
+//		}
+//		// web worker handles message events by "onmessage" handler
+////		worker.onmessage = function (event) {
+////			console.log("message: " + event.data);
+////	    };
+//		// web worker handles message events by "onmessage" handler, but this will not effect on "worker.onmessage"
+//	    worker.addEventListener('message', function(e) {
+//	    	  console.log('Worker said: ', e.data);
+//            worker.postMessage("0d67d509acc5df754d20358513071b0e");
+//	    }, false);
+//	}else{
+//		/* -- NEED TO DISCUSS-- */
+//	}
+//	function stopWorker(w){
+//		w.terminate();
+//	}
 });

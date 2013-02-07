@@ -3,16 +3,21 @@
   <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    <title><%= title %></title>
+    <title>Gamified</title>
+    <link href='//fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
   	<div id="welcome-page">
-	    <h1 id="page-title"><%= title %></h1>
-	    <div id="logo-orienteering"></div>
-	    <div id="map-button-wrapper">
-	      <a class="wide-btn" href="mobile">Participant</a>
-	      <a class="wide-btn" href="desktop">Organizer</a>
+  		<div id="banner">
+  			<div id="logo-orienteering"></div>
+  		</div>
+	    <div id="content">
+	    	<p class="info">Gamified is a location-based application that uses F-Secure Content Cloud Platform to crowdsource images, videos and other media from different events.</p>
+	    	<p class="center">Log in with your facebook account to start the adventure.</p>
+        <a class="wide-btn" href="/mobile">Participant</a>
+	     	<a class="wide-btn" href="/desktop">Organizer</a>
+        <div id="facebook-login"></div>
 	    </div>
 	</div>
   </body>

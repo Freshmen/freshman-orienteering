@@ -1,15 +1,19 @@
 <% if (content && content.length != 0) {%>
-	<%if (content.length == 1) {%>
-		<p class="subHeader2">Enrolled Event:</p>
-	<%} else {%>
-		<p class="subHeader2">Enrolled Events:</p>
-	<%}%>	
-	<ul id="statusEnrollList">
-		<% for(var i = 0; i<content.length; i++) {%>
-			<div><li data-index= <%=i%> data-event-id= <%=content[i].event%>><a href="#"><%= content[i].event%></a></li><span class="startEvent">Start</span></div>
-		<% } %>
-	 </ul>  
-	<%} else {%>
-		<p class="subHeader2">Sorry, you haven't enrolled any event yet!</p>
-	<%}%>
-    
+    <% if (content.type == "Event") {%>
+        <!-- reserve for changing -->
+    <% }%>
+    <% if (content[0].type == "Enrollment") {%>
+        <%if (content.length == 1) {%>
+            <p class="subHeader2">Enrolled Event:</p>
+        <%} else {%>
+            <p class="subHeader2">Enrolled Events:</p>
+        <%}%>
+        <ul id="statusEnrollList">
+            <% for(var i = 0; i<content.length; i++) {%>
+                <div><li data-index= <%=i%> data-event-id= <%=content[i].event%>><a href="#"><%= content[i].event%></a></li><span class="startEvent">Start</span></div>
+            <% } %>
+        </ul>
+    <% }%>
+<%} else {%>
+    <p class="subHeader2">Sorry, you haven't enrolled any event yet!</p>
+<%}%>

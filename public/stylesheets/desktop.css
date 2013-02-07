@@ -134,13 +134,16 @@ select {
 #banner nav li {
   float: left;
   display: inline-block;
+  width: auto;
 }
 #banner nav a:link,
 #banner nav a:visited {
   color: #fff;
+  width: 200px;
   display: inline-block;
   height: 30px;
-  padding: 5px 1.5em;
+  padding-top: 5px;
+  padding-bottom: 5px;
   text-decoration: none;
   -webkit-transition: background-color 200ms linear;
   -moz-transition: background-color 200ms linear;
@@ -154,7 +157,7 @@ select {
 #banner nav .active a:visited {
   background: #1b7ae0;
   color: #fff;
-  text-shadow: none !important;
+  text-shadow: none;
 }
 #banner nav li:first-child a {
   border-top-left-radius: 5px;
@@ -203,6 +206,7 @@ a {
 a img {
   border: 0px;
   text-decoration: none;
+  background-color: none;
 }
 a:link,
 a:visited {
@@ -228,6 +232,10 @@ thead th {
 thead td,
 tbody td {
   padding: 0.5em 0.4em;
+}
+.centertext {
+  margin: 0 auto;
+  text-align: center;
 }
 .drag-container {
   width: 100%;
@@ -381,4 +389,45 @@ tbody td {
 }
 #hidden {
   display: none;
+}
+#front-page-holder {
+  margin-top: -4em;
+}
+#demo {
+  height: 600px;
+  width: 450px;
+  background: url("../images/device.png") no-repeat center center;
+  background-size: contain;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+#welcome {
+  font-size: 120%;
+  width: 450px;
+  vertical-align: middle;
+  display: inline-block;
+}
+#welcome h2 {
+  font-size: 200%;
+}
+#note {
+  font-size: 90%;
+  margin-top: 2em;
+}
+#header-logo {
+  width: auto;
+  height: auto;
+  margin: 20px;
+}
+#logo {
+  width: 60%;
+  height: 60%;
+  height: auto;
+}
+#logo-link {
+  text-decoration: none;
+  border: 0 none;
+  background-color: transparent;
+  transition: none;
 }

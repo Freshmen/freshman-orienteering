@@ -268,6 +268,9 @@ module.exports = exports = function api_module(cfg) {
 				if (req.params.checkpointID) {
 					req.body.checkpoint = req.params.checkpointID;
 				}
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;
+				}
 				if (!req.body.user && req.user) {
 					req.body.user = req.user;
 				}

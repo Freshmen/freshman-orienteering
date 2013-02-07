@@ -34,9 +34,9 @@ function mobileAddCheckpointMarker(map,checkpoint){
 }
 
 function mobileCheckPointClickEvent(){
-
-	console.log("Checkpoint " + this.get("value") +  " clicked: " 
-				+ this.get("text"));
+    getRadius(this);
+	//console.log("Checkpoint " + this.get("value") +  " clicked: " 
+	//			+ this.get("text"));
 
 	/*
 	TODO: use this function to make changes on the application logic, 
@@ -46,31 +46,26 @@ function mobileCheckPointClickEvent(){
 
 function checkPointMouseEnter(){
 	//console.log("enter");
-	getRadius();
 	this.set("textPen", {"color": "#222"});
+     // Force immediate re-render of the map display
+    map.update(-1, true);
 }
 
 function checkPointMouseOut(){
 	//console.log("out");
 	this.set("textPen", {"color": "#eee"});
+     // Force immediate re-render of the map display
+     map.update(-1, true);
 }
 
 
 function getRadius(marker){
-	
-  if (navigator.geolocation)
-    {
-//    Geolocation.getCurrentPosition();
-    navigator.geolocation.getCurrentPosition(function (){
-    	console.log("asdfadsfdasf");
-    });
-    }
-  else{
-  	console.log("Error retrieving location");
-  }
-	//var currentPos = Geolocation.getCurrentPosition();	
+    _Geolocation.g_getRoute(marker);
+
 }
 
 function positionCallback(position){
 	console.log(position);
 }
+
+

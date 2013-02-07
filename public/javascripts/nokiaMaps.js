@@ -41,7 +41,16 @@ $().ready(function() {
         console.log("Watch");
     };
 
-     _Geolocation.initialize(watchPositionSuccess);
+     _Geolocation.g_initialize(watchPositionSuccess);
+
+     // Callback for location update from geolocation.watchPosition
+    document.addEventListener('locationUpdated', function(evt){
+	  updatePosition(evt.position);
+	  _Geolocation.g_watchPositionAction(evt.position);
+
+	  if(_Geolocation.g_distanceToCurrentCheckpoint != -1)
+	  	$('#distance').text("Distance to Checkpoint: " + _Geolocation.g_distanceToCurrentCheckpoint/1000 + " km");
+	}, false);
 
     //_Geolocation.initialize(watchPositionSuccess, getCurrentPositionSuccess);
     //_Geolocation.watchPosition();
@@ -60,6 +69,7 @@ $().ready(function() {
 
         var TOUCH = nokia.maps.dom.Page.browser.touch,
             CLICK = TOUCH ? "tap" : "click";
+        
         var coords = new nokia.maps.geo.Coordinate(position.coords.latitude, position.coords.longitude);
         marker = new nokia.maps.map.StandardMarker(coords);
         marker.addListener(
@@ -73,7 +83,7 @@ $().ready(function() {
 
         map.addComponent(infoBubbles);
         map.objects.addAll([accuracyCircle, marker]);
-        map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
+        //map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
 
 	
@@ -264,16 +274,7 @@ $().ready(function() {
         infoBubbles = null;        
     }
 
-
-    // Callback for location update from geolocation.watchPosition
-    document.addEventListener('locationUpdated', function(evt){
-	  updatePosition(evt.position);
-	  _Geolocation.watchPositionAction(evt.position);
-	}, false);
-
 });
-
-
 
 function getCoord(map, lat, long){
 	var new_coord = map.pixelToGeo(lat, long);
