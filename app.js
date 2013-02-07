@@ -94,7 +94,7 @@ passport.use(new FacebookStrategy(
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) { return next(); }
   req.session.redirect_url = req.path;
-	res.redirect('/login');
+	res.redirect('/auth/facebook');
 }
 //--------- End Facebook Login ---------
 
