@@ -329,6 +329,13 @@ clear:both
   text-align:center;
   letter-spacing:0
 }
+
+.distanceMeter {
+  line-height:navBarHeight;
+  padding-left: 10px;
+
+}
+
 /* upper right corner, delete button */
 span.delete {
 	color: #09f;
@@ -343,12 +350,14 @@ span.delete {
 	border-top-right-radius: 2px;
 	border-bottom-right-radius: 2px;
 	border-bottom-left-radius: 2px;
+	z-index:100;
 }
 span.expand {
 	margin-top: 0px;
 }
 span.delete:hover{
 	background: #000;
+	z-index:100;
 }
 /* upper right corner, refresh button */
 #refresh {
@@ -470,6 +479,11 @@ content: "ing";
       right:headerRightPosition*mobileScaling*mobileScaling;
     }
 
+    .distanceMeter {
+      line-height:navBarHeight*mobileScaling;
+      padding-left: 10px*mobileScaling;
+    }
+
     #contentWrap{
       top: navBarHeight*mobileScaling+10;
     }
@@ -554,6 +568,11 @@ content: "ing";
     #footer footer #control {
       line-height:navBarHeight*mobileScalingMedium; 
       font-size:(fontNav+3)*mobileScalingMedium;
+    }
+
+    .distanceMeter {
+      line-height:navBarHeight*mobileScalingMedium;
+      padding-left: 10px*mobileScalingMedium;
     }
 
     #contentWrap{
