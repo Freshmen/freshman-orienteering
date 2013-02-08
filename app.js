@@ -186,6 +186,7 @@ app.get('/api/v2/users/:userID', api.users.show);
 app.get('/api/v2/me', api.users.getCurrentUser);
 app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 app.get('/api/v2/me/checkins', api.users.getCheckins);
+app.get('/api/v2/events/:eventID/ticket', api.ticket.show);
 app.get('/api/v2/events/:eventID/tickets', api.tickets.list);
 app.get('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.show);
 app.get('/api/v2/tickets', api.tickets.list);
@@ -196,6 +197,7 @@ app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);
 app.post('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins', api.checkins.create);
 app.post('/api/v2/events/:eventID/enrollments', api.enrollments.create);
 app.post('/api/v2/users', api.users.create);
+app.post('/api/v2/events/:eventID/ticket', api.ticket.create);
 app.post('/api/v2/events/:eventID/tickets', api.tickets.create);
 
 app.put('/api/v2/events/:eventID', api.events.edit);
@@ -212,6 +214,7 @@ app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinI
 app.delete('/api/v2/users/:userID', api.users.remove);
 app.delete('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.remove);
 
+app.get('/api/v2/events/:eventID/upload', api.ticket.upload);
 
 // 404 page if nothing else matched
 

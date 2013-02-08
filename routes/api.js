@@ -1,3 +1,5 @@
+var https = require('https');
+
 module.exports = exports = function api_module(cfg) {
 	var nano, db;
 
@@ -415,6 +417,53 @@ module.exports = exports = function api_module(cfg) {
 			deleteTicket : function(ticketID, callback) {
 				delete_doc(ticketID, function(body) {
 					callback(body);
+				});
+			}
+		},
+		ticket : {
+			create : function(req, res) {
+				req.body.type = 'Ticket';
+				if (req.user && req.user._id) {
+					req.body.user = req.user._id;	
+				}
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;	
+				}
+				insert_doc(req.body, 0, function(body){
+					res.json(201, body);
+				});
+			},
+			show : function(req, res) {
+				read_view('Tickets', parseFilters(req, req.params.eventID), function(body) {
+					res.json(200, body[0]);
+				});
+			},
+			upload : function(req, res) {
+				read_view('Tickets', parseFilters(req, req.params.eventID), function(tickets) {
+					var options = {
+						hostname: 'devapi-fip.sp.f-secure.com',
+						port: 443,
+						method: "POST",
+						path: '/ticket/1_0_0/upload',
+						headers : {
+							'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
+							'x-application-ticket' : tickets[0].ticket,
+							'Content-Length' : 0
+						}
+					};
+					var post_req = https.request(options, function(response) {
+						response.setEncoding('utf-8');
+						res.writeHead(response.statusCode);
+						response.on('data', function(data) {
+							res.write(data);
+						});
+						response.on('end', function(data) {
+							res.end();
+						});
+					}).on('error', function(e) {
+						res.json(500, { "error" : "failed to get an upload token"});
+					});
+					post_req.end();
 				});
 			}
 		}
