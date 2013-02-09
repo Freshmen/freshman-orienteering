@@ -38,13 +38,13 @@ module.exports = exports = function api_module(cfg) {
 	   				"CheckinsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkin\")\n    emit(doc.user, doc);\n}"
 	   				},
-	   				"Submission": {
+	   				"Submissions": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.checkpoint, doc);\n}"
 	   				},
-	   				"SubmissionByEvent": {
+	   				"SubmissionsByEvent": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.event, doc);\n}"
 	   				},
-	   				"SubmissionByUser": {
+	   				"SubmissionsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.user, doc);\n}"
 	   				},
 	   				"Tickets": {
