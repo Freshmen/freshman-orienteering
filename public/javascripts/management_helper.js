@@ -5,8 +5,6 @@ function getEventData(){
 	getUserEvents();
 }
 
-
-
 function getUserEvents(){
 	$.getJSON("/api/v2/me", function(user) {
 		var userID = user._id;
@@ -18,14 +16,14 @@ function getUserEvents(){
 			if (log == 1){
 				console.log(userEvents[0].title);
 			}
-			populatePage(userEvents);
+			populateDetailsPage(userEvents);
 
 		});
 	});
 
 }
 
-function populatePage(eventData){
+function populateDetailsPage(eventData){
 	if (jQuery.isEmptyObject(eventData)){
 			$('#content').append('<h1 class="centertext">You don\'t have any events coming up. Go create one!</h1>');
 	}
@@ -73,6 +71,8 @@ function viewSubmissions(eventID){
 	var thisEvent = userEvents[eventID];
 	clearContent($('#content'),"&lt; Back");
 	$('#content').append('<div id="submissionsHolder"></div>');
+	
+
 }
 
 function editProperty(link, ID){
@@ -146,3 +146,4 @@ function deleteEvent(eventID){
 	});
 	
 }
+
