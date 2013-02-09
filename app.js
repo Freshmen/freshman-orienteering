@@ -127,6 +127,15 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// redirect users from fori.uni.me to gami.fi
+app.all("*", function(req, res, next) {
+  if (req.header("host") == "fori.uni.me") {
+    res.redirect(301, 'http://gami.fi' + req.path);
+  } else {
+    next();
+  }
+});
+
 app.get('/', function(req, res) {
   res.redirect('/ed');
 });
