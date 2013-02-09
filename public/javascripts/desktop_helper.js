@@ -229,6 +229,7 @@ function confirmSave(){
 })
 .on('click:ok', function(){
 	saveCheckpoints();
+	this.destroy();
 })
 .on('click:cancel', 'destroy');
 }
