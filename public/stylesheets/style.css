@@ -65,6 +65,7 @@ h1 {
   background-size: contain;
 }
 #facebook-login {
+  display: block;
   width: 219px;
   height: 36px;
   margin: 0 auto;

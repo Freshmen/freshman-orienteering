@@ -140,13 +140,13 @@ define(["FsioBase"], function(FsioBase) {
                     var chunk_size = Math.min(max_chunk_size,
                                               data.length - start_pos);
                     var end_pos = start_pos + chunk_size;
-                    var range = "bytes " + start_pos + "-" + end_pos + "/" +
+                    var range = "bytes " + start_pos + "-" + --end_pos + "/" +
                         data.length;
                     console.log("Uploading with id " + upload_id +
                                   ", range: " + range);
                     hdrs["content-range"] = range;
                     // upload next part
-                    self.partialUpload(token, upload_id, data.substring(start_pos, end_pos), function(jqXHR, textStatus) {
+                    self.partialUpload(token, upload_id, data.substring(start_pos, ++end_pos), function(jqXHR, textStatus) {
                         // done or error?
                         if(jqXHR.getResponseHeader("content-id") ||
                            jqXHR.status != 204) {

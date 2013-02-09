@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+</head>
+<body>
+	<h1>upload stuff.</h1>
+	<form action="/data/1_0_0/upload"
+       enctype="multipart/form-data"
+       method="post" id="fileform">
+		<label for="File">Upload file:</label>
+		<input id="File" name="File" type="file" />
+		<button type="button" id="send" >Send</button>
+		<button type="button" id="init" >Init</button>
+	</form>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+$(function() {
+	var file, uploadPath, uploadId, fileData;
+	var uploadToken = "cb7614e1-4e09-ff3f-9623-613f4df7108c"; 
+	var uploadPath = "https://devapi-fip.sp.f-secure.com/data/1_0_0/upload_partial/";
+	$("#File").bind("change", function(evt) {
+		console.log("file changed");
+		file = this.files[0];
+		console.log(file);
+	});
+	$("#init").bind("click", function(evt) {
+		console.log("init clicked");
+		console.log(file);
+		var jqxhr = $.ajax({ 
+			url: uploadPath + "devices/Web/" + file.name,
+			method: "POST",
+			xhrFields: {
+				withCredentials: true
+			},
+			headers :{
+				"x-apikey" : "l7xx4b2071526ae34e7fb2d33ff02bb82503",
+				"x-upload-token" : uploadToken
+			},
+			beforeSend: function ( xhr ) {}
+		}).done(function(data) {
+			console.log("init response:");
+			uploadId = jqxhr.getResponseHeader("upload-id");
+			console.log(uploadId);
+		});
+	});
+	$("#send").bind("click", function(evt) {
+		console.log("send clicked");
+		console.log(file);
+		console.log("contentRange:");
+		var contentRange = "bytes 0-" + (--file.size) + "/" + file.size;
+		console.log(contentRange);
+		var jqxhr = $.ajax({ 
+			url: uploadPath + uploadId,
+			method: "PUT",
+			xhrFields: {
+				withCredentials: true
+			},
+			headers :{
+				"x-apikey" : "l7xx4b2071526ae34e7fb2d33ff02bb82503",
+				"x-upload-token" : uploadToken,
+				"content-range" : contentRange
+			},
+			beforeSend: function ( xhr ) {},
+  			data : file,
+  			processData: false,
+  			contentType: false
+		}).done(function(data) {
+			console.log("send response:");
+			console.log(data);
+		});
+	});
+});
+</script>
+</body>
+</html>

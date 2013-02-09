@@ -94,7 +94,7 @@ input, textarea, select
     padding: 20px
     position:relative
     z-index:1
-    
+
 #checkpoint_holder
     width: 1000px
     padding: 20px
@@ -104,7 +104,14 @@ input, textarea, select
 
 #banner
     margin: 0 auto
+    margin-bottom:40px
     text-align: center
+    height:contain
+    width:100%
+    background-color:white
+    box-shadow: 0 0 10px 4px #A8A8A8
+    padding-top:15px
+    padding-bottom:-15px
 
 #banner h1
     font-size: 3.571em
@@ -131,23 +138,24 @@ input, textarea, select
     font-size: 150%
     height: 40px
     line-height: 30px
-    margin: 0 auto 2em auto
+    margin: 0 auto
     display: inline-block
     border-radius: 5px
+    width:600px
 
 #banner nav li
     float: left
     display: inline-block
-    width:auto
+    width:200px
 
 #banner nav a:link, #banner nav a:visited
     color: #fff
     width:200px
     display: inline-block
     height: 30px
-    padding-top: 5px
-    padding-bottom: 5px
+    padding: 5px 0px 5px 0px
     text-decoration: none
+    border-radius:0
     -webkit-transition: background-color 200ms linear
     -moz-transition: background-color 200ms linear
     -o-transition: background-color 200ms linear
@@ -192,6 +200,8 @@ a
     -o-transition: background-color 200ms linear
     -ms-transition: background-color 200ms linear
     transition: background-color 200ms linear
+    border-radius:3px
+    padding:2px
 
 a img
     border:0px
@@ -256,13 +266,14 @@ tbody td
     display: inline
     vertical-align:middle
 
-#eventDetailsHolder
-    width:100%
+#eventDetailsHolder, #submissionsHolder
+    width:auto
     background-color: white
     border-radius: 10px
     box-shadow: 1px 1px 7px #A8A8A8
     padding:20px
     height:auto
+    max-height: 800px
 
 #eventDetailsHolder #title
     font-size:350%
@@ -280,11 +291,14 @@ tbody td
     -ms-transition: background-color 200ms linear
     transition: background-color 200ms linear
 
-#detailsButton, #submissionsButton
+#detailsButton, #submissionsButton, #refreshSubmissionsButton
     margin: 10px
     float:right
     display: inline
     //vertical-align:middle
+
+#submissions
+    width:100%
 
 .propertyEditLink
     font-size:80%
@@ -380,17 +394,16 @@ tbody td
 #hidden
     display:none
 
-#front-page-holder
-    margin-top:-4em
-
 #demo
     height:600px
     width:350px
     background:url('../images/device.png') no-repeat center center
     background-size:contain
-    position:relative
     display:inline-block
     vertical-align:middle
+
+#front-page-holder
+    margin-top:-4em
 
 #welcome
     font-size:120%
@@ -408,11 +421,10 @@ tbody td
 #header-logo
   width:auto
   height:auto
-  margin:20px
+  margin:15px 50px 15px 50px
 
 #logo
-    width:60%
-    height:60%
+    width:500px
     height:auto
 
 #logo-link
