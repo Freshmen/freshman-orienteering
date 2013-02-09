@@ -5,8 +5,6 @@ function getEventData(){
 	getUserEvents();
 }
 
-
-
 function getUserEvents(){
 	$.getJSON("/api/v2/me", function(user) {
 		var userID = user._id;
@@ -18,14 +16,14 @@ function getUserEvents(){
 			if (log == 1){
 				console.log(userEvents[0].title);
 			}
-			populatePage(userEvents);
+			populateDetailsPage(userEvents);
 
 		});
 	});
 
 }
 
-function populatePage(eventData){
+function populateDetailsPage(eventData){
 	if (jQuery.isEmptyObject(eventData)){
 			$('#content').append('<h1 class="centertext">You don\'t have any events coming up. Go create one!</h1>');
 	}
@@ -39,7 +37,7 @@ function populatePage(eventData){
 		}
 	}
 	$('#ajaxLoader').hide();
-	$('footer').append('<a href="#">View old events...</a>');
+	//$('footer').append('<a href="#">View old events...</a>');
 }
 
 function viewEventDetails(eventNumber){
@@ -73,6 +71,10 @@ function viewSubmissions(eventID){
 	var thisEvent = userEvents[eventID];
 	clearContent($('#content'),"&lt; Back");
 	$('#content').append('<div id="submissionsHolder"></div>');
+	$('#submissionsHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Rating</th><th>Share</th></tr></thead><tbody></tbody></table>');
+	$('#submissions tbody').append('<tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>');
+	$('#submissions').tablesorter();
+
 }
 
 function editProperty(link, ID){
@@ -146,3 +148,4 @@ function deleteEvent(eventID){
 	});
 	
 }
+
