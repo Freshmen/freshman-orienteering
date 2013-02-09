@@ -324,6 +324,7 @@ module.exports = exports = function api_module(cfg) {
 					req.body.user = req.user._id;
 				}
 				req.body.timestamp = new Date();
+				req.body.grade = null;
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
