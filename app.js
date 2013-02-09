@@ -183,6 +183,15 @@ app.get('/logout', function(req, res){
 app.get('/admin', ensureAuthenticated, admin.index);
 
 // Calls that can be made to the API v2
+
+app.all('/api/v2/*', function(req, res, next) {
+  if (req.isAuthenticated()) { 
+    next(); 
+  } else {
+    res.json(403, { "error" : "user needs to be logged in." });
+  }
+});
+
 app.get('/api/v2/events', api.events.list);
 app.get('/api/v2/events/:eventID', api.events.show);
 app.get('/api/v2/events/:eventID/checkpoints', api.checkpoints.list);

@@ -184,7 +184,6 @@ module.exports = exports = function api_module(cfg) {
 				}
 			});
 		}
-
 	}
 
 	return {
