@@ -34,4 +34,5 @@ table.tablesorter thead tr .headerSortDown {
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #1B7AE0;
+font-color:white;
 }
