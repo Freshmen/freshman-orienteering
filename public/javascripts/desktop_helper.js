@@ -143,7 +143,7 @@ function saveCheckpoints() {
 			});
 		}
 	});
-	window.location.reload();
+	// window.location.reload();
 }
 
 function parseCheckpoint(checkpointFormID) {
