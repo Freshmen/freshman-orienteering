@@ -47,7 +47,6 @@ function viewEventDetails(eventNumber){
 	var editLink = '<a href="#" onclick=editProperty(this,"'+thisEvent._id+'") class="propertyEditLink">(edit)</a>';
 	if (log == 1){
 				console.log(thisEvent._id);
-				//console.log(editLink);
 			}
 	clearContent($('#content'),"&lt; Back");
 	$('#content').append('<div id="eventDetailsHolder"></div>');
@@ -65,26 +64,6 @@ function viewEventDetails(eventNumber){
 		$('#eventDetailsHolder').append('<h5>The checkpoints of this event are unordered</h5>');
 	}
 	$('#eventDetailsHolder').append('<input type="button" id="deleteButton" onclick=askConfirmation("'+thisEvent._id+'") value="Delete this event" class="button">');
-}
-
-function viewSubmissions(eventID){
-	var thisEvent = userEvents[eventID];
-	clearContent($('#content'),"&lt; Back");
-	$('#content').append('<div id="submissionsHolder"></div>');
-	$('#submissionsHolder').append('<h1 id="title" class="propertyHeader">'+thisEvent.title+'</h1>');
-	$('#submissionsHolder').append('<input type="button" id="refreshSubmissionsButton" onclick=buildSubmissionsTable("'+eventID+'") value="Refresh" class="button"/>');
-	$('#submissionsHolder').append('<div id="tableHolder"></div>');
-	buildSubmissionsTable(thisEvent);
-}
-
-function buildSubmissionsTable(eventID){
-	var thisEvent = userEvents[eventID];
-	$('#tableHolder').empty();
-	$('#tableHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Rating</th><th>Share</th></tr></thead><tbody></tbody></table>');
-	$('#submissions tbody').append('<tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>');
-	$('#submissions tbody').append('<tr><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td></tr>');
-	$('#submissions').trigger("update");
-	$('#submissions').tablesorter({headers: {4: {sorter: false}, 5: {sorter: false}}});
 }
 
 function editProperty(link, ID){
@@ -110,6 +89,49 @@ function editProperty(link, ID){
 		});
 		editee.replaceWith('<h1 type="text" id="'+editee.attr("id")+'" class="'+editee.attr("class")+'">'+editee.val()+'</h1>');
 		$(link).text('(edit)');
+	}
+}
+
+function viewSubmissions(eventID){
+	var thisEvent = userEvents[eventID];
+	clearContent($('#content'),"&lt; Back");
+	$('#content').append('<div id="submissionsHolder"></div>');
+	$('#submissionsHolder').append('<h1 id="title" class="propertyHeader">'+thisEvent.title+'</h1>');
+	$('#submissionsHolder').append('<input type="button" id="refreshSubmissionsButton" onclick=buildSubmissionsTable("'+eventID+'") value="Refresh" class="button"/>');
+	$('#submissionsHolder').append('<div id="tableHolder"></div>');
+	buildSubmissionsTable(eventID);
+}
+
+function buildSubmissionsTable(eventID){
+	var thisEvent = userEvents[eventID];
+	$('#tableHolder').empty();
+	$('#tableHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Grade</th><th>Share</th></tr></thead><tbody></tbody></table>');
+	getSubmissions(thisEvent._id);
+	$('#submissions').trigger("update");
+	$('#submissions').tablesorter({headers: {4: {sorter: false}, 5: {sorter: false}}});
+	
+}
+
+function getSubmissions(eventID){
+	$.getJSON("/api/v2/events/"+eventID+"/submissions", function(submissions) {
+		populateSubmissionsTable(submissions,eventID);
+		console.log(submissions[0].url);
+		});
+}
+
+function populateSubmissionsTable(submissions,eventID){
+	for (var s in submissions) {
+		var url = submissions[s].url;
+		var time = new Date(submissions[s].timestamp);
+		$.getJSON("/api/v2/events/"+eventID+"/checkpoints/"+submissions[s].checkpoint, function(checkpoint) {
+			var checkpointName = checkpoint.title;
+			console.log(checkpointName);
+			$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
+				var userName = user.name;
+				console.log(userName);
+				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName);	
+			});
+		});
 	}
 }
 

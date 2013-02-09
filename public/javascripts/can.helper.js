@@ -50,7 +50,7 @@ function deleteFile(ctx, object) {
 function downloadFile(ctx, object) {
     ctx.fsio.data.download(ctx.ticket, object, function(jqXHR) {
         $("body").append("<br><br>Downloaded '" + object + "': " +
-                         jqXHR.status);
+                    ticket,      jqXHR.status);
         $("body").append("<br><br>" + jqXHR.responseText);
         deleteFile(ctx, object);
     });
@@ -65,8 +65,8 @@ function waitUntilScanned(ctx, object) {
                             });
 }
 
-function uploadFile(token, path, taskFile) {
-    var object_name = path + "/Task";
+function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
+    var object_name = path + "/" + taskFile.name;
     fsio.data.partialUploadInit(token, object_name, function(jqXHR,textStatus) {
         var uploadId = jqXHR.getResponseHeader("upload-id");
             
@@ -79,12 +79,30 @@ function uploadFile(token, path, taskFile) {
         });
         Blob.prototype.substring = Blob.prototype.slice;
         taskFile.length = taskFile.size;
-        fsio.data.uploadPartially(token, uploadId, taskFile, 5000000, function(jqXHR) {
+        fsio.data.uploadPartially(token, uploadId, taskFile, taskFile.length, function(jqXHR) {
             // alert("Uploaded " + fileName + " with status " + jqXHR.status + " and response text " + jqXHR.responseText);
             $.ajaxSetup({
                 contentType : defaultContentType,
                 processData : defaultProcessData
             });
+
+            if(jqXHR.status != 204) {
+                console.log("Task upload error");
+            }
+            else {
+                   fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
+                        var response = JSON.parse(jqXHR.responseText)
+                        var taskUrlObj = {
+                            taskURL : response.Items[0].URL
+                        }
+                        $.ajax({
+                            url:'/api/v2/events/'+eventID+'/checkpoints/'+chkptID,   
+                            type:'PUT',
+                            data: taskUrlObj,
+                            success: function(response,data){}
+                        });
+                   }); 
+            }
         });
     });
 }
@@ -103,11 +121,11 @@ var setupEventFolder = function(eventID,eventName) {
 		        eventName = data.title;
 		        var eventDesc = data.description;
 	            // Create a folder with that name	
-	            fsio.content.createFolder(ticket, "devices/Web/FORI/"+eventName,
+	            fsio.content.createFolder(ticket, "devices/Web/Gamified/"+eventName,
                     function(jqXHR){
 			            // Set up description and metadata for the folder
 			            var metadata = { "eventID" : eventID };
-			            fsio.content.setFileMetadata(ticket, "devices/Web/FORI/"+eventName, eventDesc, metadata, 
+			            fsio.content.setFileMetadata(ticket, "devices/Web/Gamified/"+eventName, eventDesc, metadata, 
 			                 function(jqXHR){
 				               // Nothing to be done here
 			                 }
@@ -122,12 +140,12 @@ var setupEventFolder = function(eventID,eventName) {
     }		
 }  
 
-var uploadTask = function (ticket,path, taskFile) {
+var uploadTask = function (ticket, path, taskFile, eventID, chkptID) {
     fsio.ticket.createUploadToken(ticket, function(data) {
     	if(data.status == 200) {
 	    var token = JSON.parse(data.responseText).Token;
 	    console.log(token);
-	    uploadFile(token, path, taskFile);
+	    uploadFile(ticket, token, path, taskFile, eventID, chkptID);
 	} else {
 	    console.log("Error while uploading task to "+ path);	
 	}
@@ -144,12 +162,12 @@ var setupCheckpointFolder = function(eventID, chkptID, taskFile) {
 	        $.get("api/v2/events/"+eventID+"/tickets", function(data) {
 	            var ticket = data[0].ticket;
                     // Create a folder with that name
-                    fsio.content.createFolder(ticket, "devices/Web/FORI/"+eventName+"/"+chkptName, function(jqXHR){
+                    fsio.content.createFolder(ticket, "devices/Web/Gamified/"+eventName+"/"+chkptName, function(jqXHR){
 		        // Set up description and metadata for the folder
 		        var metadata = { "chkptID" : chkptID };
-		        fsio.content.setFileMetadata(ticket, "devices/Web/FORI/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
-			    var path = "devices/Web/FORI/"+eventName+"/"+chkptName;
-			    uploadTask(ticket,path,taskFile);		
+		        fsio.content.setFileMetadata(ticket, "devices/Web/Gamified/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
+			    var path = "devices/Web/Gamified/"+eventName+"/"+chkptName;
+			    uploadTask(ticket,path,taskFile, eventID, chkptID);		
 			});
 		    });
     	        });
