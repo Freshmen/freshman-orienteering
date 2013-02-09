@@ -283,7 +283,7 @@ module.exports = exports = function api_module(cfg) {
 					req.body.event = req.params.eventID;
 				}
 				if (!req.body.user && req.user) {
-					req.body.user = req.user;
+					req.body.user = req.user._id;
 				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
@@ -321,8 +321,9 @@ module.exports = exports = function api_module(cfg) {
 					req.body.event = req.params.eventID;
 				}
 				if (!req.body.user && req.user) {
-					req.body.user = req.user;
+					req.body.user = req.user._id;
 				}
+				req.body.timestamp = new Date();
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
