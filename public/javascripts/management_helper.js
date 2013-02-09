@@ -37,7 +37,7 @@ function populateDetailsPage(eventData){
 		}
 	}
 	$('#ajaxLoader').hide();
-	$('footer').append('<a href="#">View old events...</a>');
+	//$('footer').append('<a href="#">View old events...</a>');
 }
 
 function viewEventDetails(eventNumber){
