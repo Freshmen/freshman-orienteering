@@ -47,6 +47,9 @@ module.exports = exports = function api_module(cfg) {
 	   				"SubmissionsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.user, doc);\n}"
 	   				},
+	   				"Tasks": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Task\")\n    emit(doc.checkpoint, doc);\n}"
+	   				},
 	   				"Tickets": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Ticket\")\n    emit(doc.event, doc);\n}"
 	   				}
@@ -355,7 +358,35 @@ module.exports = exports = function api_module(cfg) {
 				});
 			}
 		},
-
+		task : {
+			create : function(req, res) {
+				req.body.type = 'Task';
+				if (req.params.checkpointID) {
+					req.body.checkpoint = req.params.checkpointID;
+				}
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;
+				}
+				insert_doc(req.body, 0, function(body){
+					res.json(201, body);
+				});
+			},
+			show : function(req, res) {
+				read_view('Tasks', parseFilters(req, req.params.checkpointID), function(body) {
+					res.json(200, body[0]);
+				});
+			},
+			edit : function(req, res) {
+				update_doc(req.params.taskID, req.body, function(body){
+					res.json(200, body);
+				});
+			},
+			remove : function(req, res) {
+				delete_doc(req.params.taskID, function(body) {
+					res.json(200, body);
+				});
+			}
+		},
 		users : {
 			create : function(req, res) {
 				req.body.type = 'User';
