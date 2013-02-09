@@ -15,11 +15,6 @@ table.tablesorter thead tr th, table.tablesorter tfoot tr th {
     -o-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
-    -webkit-transition: color 200ms linear;
-    -moz-transition: color 200ms linear;
-    -o-transition: color 200ms linear;
-    -ms-transition: color 200ms linear;
-    transition: color 200ms linear;
 }
 table.tablesorter thead tr .header {
 	background-image: url(bg.gif);
