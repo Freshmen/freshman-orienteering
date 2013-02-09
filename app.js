@@ -77,6 +77,8 @@ passport.use(new FacebookStrategy(
 		callbackURL: nconf.get('FACEBOOK_CALLBACK_URL')
  	}, 
  	function(accessToken, refreshToken, profile, done) {
+    console.log(refreshToken);
+    console.log("refreshToken");
 		// asynchronous verification, for effect...
    		process.nextTick(function () {
         api.users.facebook_login(profile, function(id) {
