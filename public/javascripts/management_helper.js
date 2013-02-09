@@ -74,6 +74,9 @@ function viewSubmissions(eventID){
 	$('#submissionsHolder').append('<table id="submissions"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Group</th><th>Rating</th><th>Share</th></tr></thead></table>');
 	$('#submissions').tablesorter();
 
+	var row = document.getElementById("submissions").insertRow(0);
+	row.insertCell(0).innerHTML="test";
+
 }
 
 function editProperty(link, ID){
