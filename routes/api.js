@@ -38,13 +38,13 @@ module.exports = exports = function api_module(cfg) {
 	   				"CheckinsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkin\")\n    emit(doc.user, doc);\n}"
 	   				},
-	   				"Submission": {
+	   				"Submissions": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.checkpoint, doc);\n}"
 	   				},
-	   				"SubmissionByEvent": {
+	   				"SubmissionsByEvent": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.event, doc);\n}"
 	   				},
-	   				"SubmissionByUser": {
+	   				"SubmissionsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.user, doc);\n}"
 	   				},
 	   				"Tickets": {
@@ -283,7 +283,7 @@ module.exports = exports = function api_module(cfg) {
 					req.body.event = req.params.eventID;
 				}
 				if (!req.body.user && req.user) {
-					req.body.user = req.user;
+					req.body.user = req.user._id;
 				}
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
@@ -321,8 +321,10 @@ module.exports = exports = function api_module(cfg) {
 					req.body.event = req.params.eventID;
 				}
 				if (!req.body.user && req.user) {
-					req.body.user = req.user;
+					req.body.user = req.user._id;
 				}
+				req.body.timestamp = new Date();
+				req.body.grade = null;
 				insert_doc(req.body, 0, function(body){
 					res.json(201, body);
 				});
