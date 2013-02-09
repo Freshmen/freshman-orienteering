@@ -131,7 +131,7 @@ app.get('/', function(req, res) {
 
 app.get('/ed', routes.show);
 
-app.get('/desktop', desktop.show);
+app.get('/desktop', ensureAuthenticated, desktop.show);
 app.get('/desktop_create', ensureAuthenticated, desktop.create);
 app.get('/desktop_manage', ensureAuthenticated, desktop.manage);
 app.get('/mobile', ensureAuthenticated, mobile.show);
