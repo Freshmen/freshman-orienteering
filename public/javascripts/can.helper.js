@@ -79,7 +79,7 @@ function uploadFile(token, path, task) {
         });
         Blob.prototype.substring = Blob.prototype.slice;
         task.length = task.size;
-        ctx.fsio.data.uploadPartially(token, uploadId, task, 5000000, function(jqXHR) {
+        fsio.data.uploadPartially(token, uploadId, task, 5000000, function(jqXHR) {
             // alert("Uploaded " + fileName + " with status " + jqXHR.status + " and response text " + jqXHR.responseText);
             $.ajaxSetup({
                 contentType : defaultContentType,
