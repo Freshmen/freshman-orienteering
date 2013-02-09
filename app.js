@@ -133,14 +133,14 @@ app.get('/', function(req, res) {
 
 app.get('/ed', routes.show);
 
-app.get('/desktop', desktop.show);
-app.get('/desktop_create', desktop.create);
-app.get('/desktop_manage', desktop.manage);
-app.get('/mobile', mobile.show);
+app.get('/desktop', ensureAuthenticated, desktop.show);
+app.get('/desktop_create', ensureAuthenticated, desktop.create);
+app.get('/desktop_manage', ensureAuthenticated, desktop.manage);
+app.get('/mobile', ensureAuthenticated, mobile.show);
 //app.get('/mobile', mobile.show);
 app.get('/organizer/login', organizer.login);
 
-app.get('/login', login.show);
+app.get('/login', ensureAuthenticated, login.show);
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the
 //request.  The first step in Facebook authentication will involve

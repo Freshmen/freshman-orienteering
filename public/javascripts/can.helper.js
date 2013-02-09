@@ -103,11 +103,11 @@ var setupEventFolder = function(eventID,eventName) {
 		        eventName = data.title;
 		        var eventDesc = data.description;
 	            // Create a folder with that name	
-	            fsio.content.createFolder(ticket, "/devices/Web/FORI/"+eventName,
+	            fsio.content.createFolder(ticket, "devices/Web/FORI/"+eventName,
                     function(jqXHR){
 			            // Set up description and metadata for the folder
 			            var metadata = { "eventID" : eventID };
-			            fsio.content.setFileMetadata(ticket, "/devices/Web/FORI/"+eventName, eventDesc, metadata, 
+			            fsio.content.setFileMetadata(ticket, "devices/Web/FORI/"+eventName, eventDesc, metadata, 
 			                 function(jqXHR){
 				               // Nothing to be done here
 			                 }
@@ -144,10 +144,10 @@ var setupCheckpointFolder = function(eventID, chkptID, taskFile) {
 	        $.get("api/v2/events/"+eventID+"/tickets", function(data) {
 	            var ticket = data[0].ticket;
                     // Create a folder with that name
-                    fsio.content.createFolder(ticket, "/devices/Web/FORI/"+eventName+"/"+chkptName, function(jqXHR){
+                    fsio.content.createFolder(ticket, "devices/Web/FORI/"+eventName+"/"+chkptName, function(jqXHR){
 		        // Set up description and metadata for the folder
 		        var metadata = { "chkptID" : chkptID };
-		        fsio.content.setFileMetadata(ticket, "/devices/Web/FORI/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
+		        fsio.content.setFileMetadata(ticket, "devices/Web/FORI/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
 			    var path = "devices/Web/FORI/"+eventName+"/"+chkptName;
 			    uploadTask(ticket,path,chkptTask);		
 			});
