@@ -355,6 +355,9 @@ span.delete:hover {
 .startingEvent::after {
   content: "ing";
 }
+.statusWrap ul {
+  margin-top: 0px;
+}
 .thumb {
   height: 75px;
   border: 1px solid #000;

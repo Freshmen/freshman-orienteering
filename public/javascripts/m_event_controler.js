@@ -69,10 +69,10 @@ $().ready(function(){
 
 	// Enroll button in the even template
 	$(document).on('click','#enrol',function(){
-//		var index = parseInt(sessionStorage.currentEvent);
 		events.setEnrolment();
 	});
 
+    // Starting an Event
 	$(document).on('click','#statusEnrollList div span',function(){
 		// assigned the current "starting" element
 		if (!$.isEmptyObject(status.starting) && status.starting != this){
@@ -84,6 +84,8 @@ $().ready(function(){
 		}
 		status.starting = this;
 		status.updateCSS();
+        status.startingEvent = new status.StartingEvent();
+        status.updateEvent.call(status.startingEvent.startingEvent);
 	});
 	// End Initialisation
 	
@@ -413,7 +415,9 @@ $().ready(function(){
 		// represents the current element that a user clicks
 		self.starting = {};
 		self.startClassName = new StartClassName();
-		
+        self.startingEvent = null;
+
+        // represents "start" or "starting" elements
 		function StartClassName(){
 			var _self = this;
 			_self.DEFAULT_NAME = 'startEvent';
@@ -439,6 +443,61 @@ $().ready(function(){
 			}
 		}
 
+        // represents the starting event
+        self.StartingEvent = function StartingEvent(){
+            var _self = this;
+            // current selected event id
+            _self.startingEventId = $(self.starting).length != 0 ? $(self.starting).siblings("li").attr("data-event-id") : null;
+            // current selected event
+            _self.startingEvent = typeof(Storage)!=="undefined" ?
+                _self.startingEventId != null ?
+                    sessionStorage.getItem(_self.startingEventId) != null ?
+                        JSON.parse(sessionStorage.getItem(_self.startingEventId))
+                        : {} // if no this key
+                : {} // if _self.startingEventId is null
+            :{}; // if Storage is not defined
+
+            // update event if not found from session storage
+            _self.getEvent = (function getEvent(){
+                // if no key in the storage
+                if ($.isEmptyObject(_self.startingEvent) && _self.startingEventId != null){
+                    $.ajax({
+                        url:"/api/v2/events/" + _self.startingEventId
+                    })
+                        .done(function(data, textStatus, jqXHR) {
+                            // put into session storage
+                            if(typeof(Storage) !== "undefined")
+                            {
+                                try{
+                                    // session storage stored stringified data
+                                    if (typeof(data) === "object"){
+                                        sessionStorage.setItem(data._id,JSON.stringify(data));
+                                        _self.startingEvent = data;
+                                    }else if(typeof(data) === "string"){
+                                        sessionStorage.setItem(JSON.parse(data)._id,data);
+                                        _self.startingEvent = JSON.parse(data);
+                                    }
+                                }catch (err) {
+                                    var marker_notifier = initialiseNotification();
+                                    marker_notifier.error('Error: ' + err);
+                                }
+
+                            }
+                            else
+                            {
+                                /* -- Out of scope of the project -- */
+                            }
+                            // update event template in delay
+
+
+                        })
+                        .fail(function(data, textStatus, jqXHR) {
+                            var marker_notifier = initialiseNotification();
+                            marker_notifier.error('Error: ' + textStatus);
+                        });
+                }
+            })();
+        }
 
         // initialise status view
 		self.initialiseView = function initialiseView(){
@@ -471,13 +530,21 @@ $().ready(function(){
             var el = $("#statusEnrollList li[data-event-id=" + o._id +"] a");
             el.text(o.title);
         }
+
+        // update event template
+        self.updateEvent = function updateEvent(){
+            var o = this;
+            // initial update
+            new EJS({url: '/templates/startingEventTemplate.ejs'}).update('startedEventWrap', {content:this});
+        }
+
         /**
          * StartClassName member functions
          */
         // update CSS of enrolment start button
         self.updateCSS = function updateCSS() {
 			if (!$.isEmptyObject(self.starting)){
-				return $(self.starting).attr('class',self.startClassName.nextName) 
+				return $(self.starting).attr('class',self.startClassName.nextName)
 			}else{
 				return false;
 			}
@@ -579,6 +646,22 @@ $().ready(function(){
                 // update the enrolment view
                 // current event
                 self.event = e.data;
+                // store event in session
+                // put into session storage
+                if(typeof(Storage) !== "undefined")
+                {   try{
+                        // session storage stored stringified data
+                        sessionStorage.setItem(JSON.parse(self.event)._id,self.event);
+                    }catch (err) {
+                        var marker_notifier = initialiseNotification();
+                        marker_notifier.error('Error: ' + err);
+                    }
+
+                }
+                else
+                {
+                    /* -- Out of scope of the project -- */
+                }
                 // trigger a callback with overwritten "this" to an "event" object
                 if (self.onmessageCallback && typeof(self.onmessageCallback) === "function"){
                     self.onmessageCallback.call(self.event);

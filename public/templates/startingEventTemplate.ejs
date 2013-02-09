@@ -1,0 +1,16 @@
+<% if (content && content.length != 0) {%>
+    <% if (content.type == "Event") {%>
+        <p class="subHeader2">Events</p>
+        <ul id="statusEvent">
+            <li>Event Name: <%= content.title %></li>
+            <li>Description: <% if (content.description.length > 10 ) {%>
+                    <%= content.description.substring(0,10) %><p>
+                <%} else {%>
+                    <%= content.description %>
+                <%}%>
+            <span class="showMore">show more</span></li>
+        </ul>
+    <% }%>
+<%} else {%>
+    <p class="subHeader2">Sorry, could not found the event.</p>
+<%}%>
