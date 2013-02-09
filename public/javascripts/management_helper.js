@@ -47,7 +47,6 @@ function viewEventDetails(eventNumber){
 	var editLink = '<a href="#" onclick=editProperty(this,"'+thisEvent._id+'") class="propertyEditLink">(edit)</a>';
 	if (log == 1){
 				console.log(thisEvent._id);
-				//console.log(editLink);
 			}
 	clearContent($('#content'),"&lt; Back");
 	$('#content').append('<div id="eventDetailsHolder"></div>');
