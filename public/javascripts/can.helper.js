@@ -78,7 +78,7 @@ function uploadFile(token, path, taskFile) {
             processData : false
         });
         Blob.prototype.substring = Blob.prototype.slice;
-        task.length = task.size;
+        taskFile.length = taskFile.size;
         fsio.data.uploadPartially(token, uploadId, taskFile, 5000000, function(jqXHR) {
             // alert("Uploaded " + fileName + " with status " + jqXHR.status + " and response text " + jqXHR.responseText);
             $.ajaxSetup({
