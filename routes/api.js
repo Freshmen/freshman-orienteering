@@ -170,6 +170,23 @@ module.exports = exports = function api_module(cfg) {
 		return isFiltered?filter:'';
 	}
 
+	var checkRights = function(id, user, next) {
+		if (!user) {
+			next({ error : "user not logger in." });
+		} else if (user.type && user.type == "Admin") {
+			next();
+		} else {
+			read_doc(id, function(data) {
+				if (user._id && data.owner && data.owner == user._id) {
+					next();
+				} else {
+					next({ error : "You don't have permissions to modify this object." });
+				}
+			});
+		}
+
+	}
+
 	return {
 		configure : init,
 		events : {
@@ -193,14 +210,26 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			edit : function(req, res) {
-				update_doc(req.params.eventID, req.body, function(body){
-					res.json(200, body);
-				});
+				checkRights(req.params.eventID, req.user, function(err) {
+					if (!err) {
+						update_doc(req.params.eventID, req.body, function(body){
+							res.json(200, body);
+						});
+					} else {
+						res.json(403, err);
+					}
+				})
 			},
 			remove : function(req, res) {
-				delete_doc(req.params.eventID, function(body) {
-					res.json(200, body);
-				});
+				checkRights(req.params.eventID, req.user, function(err) {
+					if (!err) {
+						delete_doc(req.params.eventID, function(body) {
+							res.json(200, body);
+						});
+					} else {
+						res.json(403, err);
+					}
+				})
 			}
 		},
 
