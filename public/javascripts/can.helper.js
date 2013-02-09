@@ -65,7 +65,7 @@ function waitUntilScanned(ctx, object) {
                             });
 }
 
-function uploadFile(token, path, task) {
+function uploadFile(token, path, taskFile) {
     var object_name = path + "/Task";
     fsio.data.partialUploadInit(token, object_name, function(jqXHR,textStatus) {
         var uploadId = jqXHR.getResponseHeader("upload-id");
@@ -79,7 +79,7 @@ function uploadFile(token, path, task) {
         });
         Blob.prototype.substring = Blob.prototype.slice;
         task.length = task.size;
-        fsio.data.uploadPartially(token, uploadId, task, 5000000, function(jqXHR) {
+        fsio.data.uploadPartially(token, uploadId, taskFile, 5000000, function(jqXHR) {
             // alert("Uploaded " + fileName + " with status " + jqXHR.status + " and response text " + jqXHR.responseText);
             $.ajaxSetup({
                 contentType : defaultContentType,
@@ -122,12 +122,12 @@ var setupEventFolder = function(eventID,eventName) {
     }		
 }  
 
-var uploadTask = function (ticket,path,chkptTask) {
+var uploadTask = function (ticket,path, taskFile) {
     fsio.ticket.createUploadToken(ticket, function(data) {
     	if(data.status == 200) {
 	    var token = JSON.parse(data.responseText).Token;
 	    console.log(token);
-	    uploadFile(token, path, chkptTask);
+	    uploadFile(token, path, taskFile);
 	} else {
 	    console.log("Error while uploading task to "+ path);	
 	}
@@ -149,7 +149,7 @@ var setupCheckpointFolder = function(eventID, chkptID, taskFile) {
 		        var metadata = { "chkptID" : chkptID };
 		        fsio.content.setFileMetadata(ticket, "devices/Web/FORI/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
 			    var path = "devices/Web/FORI/"+eventName+"/"+chkptName;
-			    uploadTask(ticket,path,chkptTask);		
+			    uploadTask(ticket,path,taskFile);		
 			});
 		    });
     	        });
