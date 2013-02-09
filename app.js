@@ -28,7 +28,7 @@ nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
   'PORT' : 3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
-  'database_host' : 'http://couch:zu5r8ZcL@fori.uni.me:8124/',
+  'database_host' : 'http://couch:zu5r8ZcL@gami.fi:8124/',
   'database_name' : 'fori-test-6',
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
@@ -62,7 +62,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(obj, done) {
   api.users.get(obj, function(user) { 
-    done(null, user); // need to change
+    done(null, user);
   });
 });
 
@@ -77,8 +77,6 @@ passport.use(new FacebookStrategy(
 		callbackURL: nconf.get('FACEBOOK_CALLBACK_URL')
  	}, 
  	function(accessToken, refreshToken, profile, done) {
-    console.log(refreshToken);
-    console.log("refreshToken");
 		// asynchronous verification, for effect...
    		process.nextTick(function () {
         api.users.facebook_login(profile, function(id) {
@@ -98,6 +96,8 @@ function ensureAuthenticated(req, res, next) {
   req.session.redirect_url = req.path;
 	res.redirect('/auth/facebook');
 }
+
+
 //--------- End Facebook Login ---------
 
 var app = express();
@@ -137,7 +137,6 @@ app.get('/desktop', ensureAuthenticated, desktop.show);
 app.get('/desktop_create', ensureAuthenticated, desktop.create);
 app.get('/desktop_manage', ensureAuthenticated, desktop.manage);
 app.get('/mobile', ensureAuthenticated, mobile.show);
-//app.get('/mobile', mobile.show);
 app.get('/organizer/login', organizer.login);
 
 app.get('/login', ensureAuthenticated, login.show);
@@ -181,6 +180,9 @@ app.get('/api/v2/events/:eventID/checkpoints', api.checkpoints.list);
 app.get('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.show);
 app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins', api.checkins.list);
 app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.show);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/submissions', api.submissions.list);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/submissions/:submissionID', api.submissions.show);
+app.get('/api/v2/events/:eventID/submissions', api.submissions.listByEvent);
 app.get('/api/v2/events/:eventID/enrollments', api.enrollments.list);
 app.get('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.show);
 app.get('/api/v2/users', api.users.list);
@@ -188,6 +190,7 @@ app.get('/api/v2/users/:userID', api.users.show);
 app.get('/api/v2/me', api.users.getCurrentUser);
 app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 app.get('/api/v2/me/checkins', api.users.getCheckins);
+app.get('/api/v2/me/submissions', api.users.getSubmissions);
 app.get('/api/v2/events/:eventID/ticket', api.ticket.show);
 app.get('/api/v2/events/:eventID/tickets', api.tickets.list);
 app.get('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.show);
@@ -197,6 +200,7 @@ app.get('/api/v2/tickets/:ticketID', api.tickets.show);
 app.post('/api/v2/events', api.events.create);
 app.post('/api/v2/events/:eventID/checkpoints', api.checkpoints.create);
 app.post('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins', api.checkins.create);
+app.post('/api/v2/events/:eventID/checkpoints/:checkpointID/submissions', api.submissions.create);
 app.post('/api/v2/events/:eventID/enrollments', api.enrollments.create);
 app.post('/api/v2/users', api.users.create);
 app.post('/api/v2/events/:eventID/ticket', api.ticket.create);
@@ -206,6 +210,7 @@ app.put('/api/v2/events/:eventID', api.events.edit);
 app.put('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.edit);
 app.put('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.edit);
 app.put('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.edit);
+app.put('/api/v2/events/:eventID/checkpoints/:checkpointID/submissions/:submissionID', api.submissions.edit);
 app.put('/api/v2/events/:eventID', api.users.edit);
 app.put('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.edit);
 
@@ -213,6 +218,7 @@ app.delete('/api/v2/events/:eventID', api.events.remove);
 app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.remove);
 app.delete('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.remove);
 app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/checkins/:checkinID', api.checkins.remove);
+app.delete('/api/v2/events/:eventID/checkpoints/:checkpointID/submissions/:submissionID', api.submissions.remove);
 app.delete('/api/v2/users/:userID', api.users.remove);
 app.delete('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.remove);
 

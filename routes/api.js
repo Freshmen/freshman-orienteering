@@ -38,6 +38,15 @@ module.exports = exports = function api_module(cfg) {
 	   				"CheckinsByUser": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkin\")\n    emit(doc.user, doc);\n}"
 	   				},
+	   				"Submission": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.checkpoint, doc);\n}"
+	   				},
+	   				"SubmissionByEvent": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.event, doc);\n}"
+	   				},
+	   				"SubmissionByUser": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Submission\")\n    emit(doc.user, doc);\n}"
+	   				},
 	   				"Tickets": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Ticket\")\n    emit(doc.event, doc);\n}"
 	   				}
@@ -302,6 +311,49 @@ module.exports = exports = function api_module(cfg) {
 			}
 		},
 
+		submissions : {
+			create : function(req, res) {
+				req.body.type = 'Submission';
+				if (req.params.checkpointID) {
+					req.body.checkpoint = req.params.checkpointID;
+				}
+				if (req.params.eventID) {
+					req.body.event = req.params.eventID;
+				}
+				if (!req.body.user && req.user) {
+					req.body.user = req.user;
+				}
+				insert_doc(req.body, 0, function(body){
+					res.json(201, body);
+				});
+			},
+			list : function(req, res) {
+				read_view('Submissions', parseFilters(req, req.params.checkpointID), function(body) {
+					res.json(200, body);
+				});
+			},
+			listByEvent : function(req, res) {
+				read_view('SubmissionsByEvent', parseFilters(req, req.params.eventID), function(body) {
+					res.json(200, body);
+				});
+			},
+			show : function(req, res) {
+				read_doc(req.params.submissionID, function(body) {
+					res.json(200, body);
+				});
+			},
+			edit : function(req, res) {
+				update_doc(req.params.submissionID, req.body, function(body){
+					res.json(200, body);
+				});
+			},
+			remove : function(req, res) {
+				delete_doc(req.params.submissionID, function(body) {
+					res.json(200, body);
+				});
+			}
+		},
+
 		users : {
 			create : function(req, res) {
 				req.body.type = 'User';
@@ -341,6 +393,15 @@ module.exports = exports = function api_module(cfg) {
 			getCheckins : function(req, res) {
 				if (req.user && req.user._id) {
 					read_view('CheckinsByUser', parseFilters(req, req.user._id), function(body) {
+						res.json(200, body);
+					});	
+				} else {
+					res.json(403, { 'error' : 'user not logged in' });
+				}
+			},
+			getSubmissions : function(req, res) {
+				if (req.user && req.user._id) {
+					read_view('SubmissionsByUser', parseFilters(req, req.user._id), function(body) {
 						res.json(200, body);
 					});	
 				} else {

@@ -292,6 +292,7 @@ tbody td {
   box-shadow: 1px 1px 7px #a8a8a8;
   padding: 20px;
   height: auto;
+  max-height: 800px;
 }
 #eventDetailsHolder #title {
   font-size: 350%;
@@ -314,6 +315,9 @@ tbody td {
   margin: 10px;
   float: right;
   display: inline;
+}
+#submissions {
+  width: 100%;
 }
 .propertyEditLink {
   font-size: 80%;
