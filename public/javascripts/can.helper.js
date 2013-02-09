@@ -66,12 +66,26 @@ function waitUntilScanned(ctx, object) {
 }
 
 function uploadFile(token, path, task) {
-    var object_name = path + "/Task.txt";
-    fsio.data.upload(token, object_name, task, function(
-        jqXHR) {
-        if(jqXHR.status == 204)
-            console.log("Uploaded " + object_name);	    
-        console.log(jqXHR);
+    var object_name = path + "/Task";
+    fsio.data.partialUploadInit(token, object_name, function(jqXHR,textStatus) {
+        var uploadId = jqXHR.getResponseHeader("upload-id");
+            
+        // Setup ajax calls when uploading data
+        var defaultContentType = $.ajaxSettings.contentType;
+        var defaultProcessData = $.ajaxSettings.processData;
+        $.ajaxSetup({
+            contentType : false,
+            processData : false
+        });
+        Blob.prototype.substring = Blob.prototype.slice;
+        task.length = task.size;
+        ctx.fsio.data.uploadPartially(token, uploadId, task, 5000000, function(jqXHR) {
+            // alert("Uploaded " + fileName + " with status " + jqXHR.status + " and response text " + jqXHR.responseText);
+            $.ajaxSetup({
+                contentType : defaultContentType,
+                processData : defaultProcessData
+            });
+        });
     });
 }
 
@@ -79,32 +93,32 @@ function uploadFile(token, path, task) {
 // from desktop_helper.js , that can provide us the event name
 var setupEventFolder = function(eventID,eventName) {
     if (!!eventID) {
-	// Get ticket for this event
-	var ticket, eventName;
-	// In future tickets might be tied to the user account
-	$.get("api/v2/events/"+eventID+"/tickets", function(data) {
-	    ticket = data[0].ticket;
-	    // get eventname , in future this will be directly available as an input parameter.
-	    $.get("api/v2/events/"+eventID, function(data){
-		eventName = data.title;
-		var eventDesc = data.description;
-	        // Create a folder with that name	
-	        fsio.content.createFolder(ticket, "/devices/Web/FORI/"+eventName,
+	    // Get ticket for this event
+	    var ticket, eventName;
+	    // In future tickets might be tied to the user account
+	    $.get("api/v2/events/"+eventID+"/tickets", function(data) {
+	        ticket = data[0].ticket;
+	        // get eventname , in future this will be directly available as an input parameter.
+	        $.get("api/v2/events/"+eventID, function(data){
+		        eventName = data.title;
+		        var eventDesc = data.description;
+	            // Create a folder with that name	
+	            fsio.content.createFolder(ticket, "/devices/Web/FORI/"+eventName,
                     function(jqXHR){
-			// Set up description and metadata for the folder
-			var metadata = { "eventID" : eventID };
-			fsio.content.setFileMetadata(ticket, "/devices/Web/FORI/"+eventName, eventDesc, metadata, 
-			    function(jqXHR){
-				// Nothing to be done here
-			    }
-			);
-		    }
-	        );
-	    });		
-	});	
+			            // Set up description and metadata for the folder
+			            var metadata = { "eventID" : eventID };
+			            fsio.content.setFileMetadata(ticket, "/devices/Web/FORI/"+eventName, eventDesc, metadata, 
+			                 function(jqXHR){
+				               // Nothing to be done here
+			                 }
+			            );
+		            }
+	            );
+	        });		
+	    });	
     }
     else {
-	console.log("eventID is not null, can't create folder");
+	    console.log("eventID is not null, can't create folder");
     }		
 }  
 
@@ -120,7 +134,7 @@ var uploadTask = function (ticket,path,chkptTask) {
     });	
 }
 
-var setupCheckpointFolder = function(eventID, chkptID) {
+var setupCheckpointFolder = function(eventID, chkptID, taskFile) {
     if(!!eventID || !!chkptID) {
         $.get("api/v2/events/" + eventID + "/checkpoints/" +chkptID, function(data){
             var chkptName = data.title;

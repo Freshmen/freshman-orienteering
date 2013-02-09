@@ -18,8 +18,8 @@ function createCheckpoint(marker){
 	$('#checkpoint').append('<input type="button" id="addTask" onclick=taskDialog(this) value="Add a task" class="button"><label id="hidden">' + hashkey + '</label>');
 	
 	$('#checkpoint').append('<div id="dialog" title="Task" ></div>');
-	$('#dialog').append('<textarea id="taskDescription" rows="15" placeholder="Enter a task for the participants" class="wide"></textarea>');
-	$('#dialog').append('<input type="text" id="taskURL" placeholder="Task media URL" class="wide">');
+	$('#dialog').append('<textarea id="taskDescription" rows="15" placeholder="Enter a simple description for the task and select the relevant media file" class="wide"></textarea>');
+	$('#dialog').append('<input type="file" id="taskURL" placeholder="Task media URL" class="wide">');
 	$('#dialog').append('<select id="submissionType" class="wide"><option value="" disabled="disabled" selected>Select submission file type</option><option value="video/*">Video</option><option value = "image/*">Image</option><option value = "audio/*">Audio</option><option value = "*">Any</option></select>');
 
 	$('#checkpoint').attr("id","checkpoint_" + i);
@@ -131,12 +131,15 @@ function saveEvent(){
 function saveCheckpoints() {
 	$("form").each(function() {
 		if (/checkpoint_./.test($(this).attr("id"))){
-			//console.log($(this).attr("id"));
 			checkpointJSON = parseCheckpoint($(this).attr("id"));
+			// Take out the file object from the file picker. We dont want to send the file to couchDb.	
+			var taskFile = checkpointJSON['task']['URL'];
+			checkpointJSON['task']['URL'] = "NONE";
+			console.log(checkpointJSON);
 			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
 			    // Setup the checkpoint folder and upload the task file into it.
 			    chkptDBID = data.id	 
-			    setupCheckpointFolder(eventDBID, chkptDBID);
+			    setupCheckpointFolder(eventDBID, chkptDBID, taskFile);
 			});
 		}
 	});
@@ -170,7 +173,7 @@ function parseCheckpoint(checkpointFormID) {
 		}
 	});
 	task["description"] = $("#dialog_" + key).children("textarea").val();
-	task["URL"] = $("#dialog_" + key).children("input").val();
+	task["URL"] = $("#dialog_" + key).children("input")[0].files[0];
 	task["accepts"] = $("#dialog_" + key).children("select").val();
 	checkpoint_details['order'] = order;
 	checkpoint_details['location'] = location;
