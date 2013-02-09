@@ -74,6 +74,7 @@ function viewSubmissions(eventID){
 	$('#submissionsHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Rating</th><th>Share</th></tr></thead><tbody></tbody></table>');
 	$('#submissions tbody').append('<tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>');
 	$('#submissions tbody').append('<tr><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td></tr>');
+	$('#submissions').trigger("update");
 	$('#submissions').tablesorter();
 
 }
