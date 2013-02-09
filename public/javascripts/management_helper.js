@@ -84,12 +84,7 @@ function buildSubmissionsTable(eventID){
 	$('#submissions tbody').append('<tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>');
 	$('#submissions tbody').append('<tr><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td></tr>');
 	$('#submissions').trigger("update");
-	$('#submissions').tablesorter({
-		headers: {
-					4:{sorter: false},
-					5:{sorter: false}
-		}
-	});
+	$('#submissions').tablesorter({headers: {4: {sorter: false}, 5: {sorter: false}}});
 }
 
 function editProperty(link, ID){
