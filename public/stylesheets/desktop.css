@@ -311,7 +311,8 @@ tbody td {
   transition: background-color 200ms linear;
 }
 #detailsButton,
-#submissionsButton {
+#submissionsButton,
+#refreshSubmissionsButton {
   margin: 10px;
   float: right;
   display: inline;

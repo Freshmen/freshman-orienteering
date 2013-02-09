@@ -72,12 +72,19 @@ function viewSubmissions(eventID){
 	clearContent($('#content'),"&lt; Back");
 	$('#content').append('<div id="submissionsHolder"></div>');
 	$('#submissionsHolder').append('<h1 id="title" class="propertyHeader">'+thisEvent.title+'</h1>');
-	$('#submissionsHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Rating</th><th>Share</th></tr></thead><tbody></tbody></table>');
+	$('#submissionsHolder').append('<input type="button" id="refreshSubmissionsButton" onclick=buildSubmissionsTable("'+eventID+'") value="Refresh" class="button"/>');
+	$('#submissionsHolder').append('<div id="tableHolder"></div>');
+	buildSubmissionsTable(thisEvent);
+}
+
+function buildSubmissionsTable(eventID){
+	var thisEvent = userEvents[eventID];
+	$('#tableHolder').empty();
+	$('#tableHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Rating</th><th>Share</th></tr></thead><tbody></tbody></table>');
 	$('#submissions tbody').append('<tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>');
 	$('#submissions tbody').append('<tr><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td><td>Test2</td><td>Test</td></tr>');
 	$('#submissions').trigger("update");
 	$('#submissions').tablesorter();
-
 }
 
 function editProperty(link, ID){
