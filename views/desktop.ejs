@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta charset="utf-8">
-	<title>Gamified</title>
+	<title><%= title %></title>
 	<link rel='stylesheet' href='/stylesheets/desktop.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-base.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-theme-plastic.css' />
@@ -12,11 +12,17 @@
 	
 	<header id="banner">
 		<div id="header-logo" href="desktop">
-				<a href="desktop" id="logo-link">
-					<img src="/images/gamified_logo_small.png" alt="Logo" id="logo">
-				</a>
-			</div>
-		<div id="organizerName">&nbsp;</div>
+			<a href="desktop" id="logo-link">
+				<img src="/images/gamified_logo_small.png" alt="Logo" id="logo">
+			</a>
+		</div>
+		<div id="organizerName">
+			<% if(user && user.name) { %>
+				<span>Welcome <%= user.name %> </span><a href="/logout">Log Out</a>.
+			<% } else { %>
+				<span>You are not logged in.</span>
+			<% } %>
+		</div>
 		<nav>
 			<li class="active"><a href="desktop">Home</a></li>
 			<li><a href="desktop_create">Create Event</a></li>

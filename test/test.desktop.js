@@ -7,7 +7,9 @@ describe('routes/desktop', function() {
         desktop.show.should.be.a["function"];
       });
       it('should return a webpage', function() {
-        var mockReq = null;
+        var mockReq = {};
+        mockReq.user = {};
+        mockReq.user.name = "Test user";
         var mockRes = {
           render: function(viewName) {
             viewName.should.exist;
