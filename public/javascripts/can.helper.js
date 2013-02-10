@@ -90,22 +90,31 @@ function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
                 console.log("Task upload error");
             }
             else {
-                   fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
-                        var response = JSON.parse(jqXHR.responseText)
-                        var taskUrlObj = {
-                            taskURL : response.Items[0].URL
-                        }
-                        $.ajax({
+                    $.get("/api/v2/events/"+eventID+"/checkpoints/"+chkptID, function(data){
+                        var taskObj = data.task;  
+                        fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
+                            var response = JSON.parse(jqXHR.responseText)
+                            taskObj["URL"] = response.Items[0].URL
+                            $.ajax({
                             url:'/api/v2/events/'+eventID+'/checkpoints/'+chkptID,   
                             type:'PUT',
-                            data: taskUrlObj,
-                            success: function(response,data){}
+                            data: taskObj,
+                                success: function(response,data){
+                                    console.log("upload_progress in CAN");
+                                    console.log(upload_progress);
+                                    console.log("Task Object");
+                                    console.log(taskObj);
+                                    upload_progress[taskFile.name] = true;
+                                }
+                            });
                         });
-                   }); 
-            }
+                        
+                        });
+                        
+                   }   
+            });
         });
-    });
-}
+    }
 
 // Right now eventId will be null , after some future changes setupEventFolder will ve called directly 
 // from desktop_helper.js , that can provide us the event name
