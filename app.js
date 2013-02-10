@@ -7,11 +7,11 @@ var express = require('express')
   , routes = require('./routes')
   , desktop = require('./routes/desktop.js')
   , mobile = require('./routes/mobile.js')
-  , login = require('./routes/login.js')
   , organizer = require('./routes/organizer.js')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
   , ticketManagement = require('./routes/ticketManagement.js') 
+  , participant = require('./routes/participant.js') 
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf')
@@ -30,6 +30,7 @@ nconf.defaults({
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
   'database_host' : 'http://couch:zu5r8ZcL@gami.fi:8124/',
   'database_name' : 'fori-test-6',
+  'database_secured' : false,
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback',
@@ -40,7 +41,8 @@ nconf.defaults({
 
 api.configure({ 
   'url' : nconf.get('database_host'),
-  'name': nconf.get('database_name')  
+  'name': nconf.get('database_name'),
+  'UNAUTHENTICATED' : nconf.get('database_secured')  
 }, function() { 
   ticketManagement.start(api, nconf.get('ticket_refresh_rate'));
 });
@@ -147,8 +149,8 @@ app.get('/desktop_create', ensureAuthenticated, desktop.create);
 app.get('/desktop_manage', ensureAuthenticated, desktop.manage);
 app.get('/mobile', ensureAuthenticated, mobile.show);
 app.get('/organizer/login', organizer.login);
+app.get('/cation', participant.index);
 
-app.get('/login', ensureAuthenticated, login.show);
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the
 //request.  The first step in Facebook authentication will involve
@@ -164,7 +166,7 @@ app.get('/auth/facebook',passport.authenticate('facebook'),function(req, res){
 //request.  If authentication fails, the user will be redirected back to the
 //login page.  Otherwise, the primary route function will be called,
 //which, in this example, will redirect the user to the home page.
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }),function(req, res) {
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/' }),function(req, res) {
   var redirect_url = req.session.redirect_url;
   if (redirect_url) {
     delete req.session.redirect_url;
@@ -176,16 +178,16 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRed
 
 app.get('/logout', function(req, res){
 	req.logout();
-	res.redirect('/');
+	res.redirect('/thanks');
 });
-
+app.get('/thanks', routes.logout);
 // Pages for admin view
 app.get('/admin', ensureAuthenticated, admin.index);
 
 // Calls that can be made to the API v2
 
 app.all('/api/v2/*', function(req, res, next) {
-  if (req.isAuthenticated()) { 
+  if (!nconf.get('database_secured') || req.isAuthenticated()) { 
     next(); 
   } else {
     res.json(403, { "error" : "user needs to be logged in." });
