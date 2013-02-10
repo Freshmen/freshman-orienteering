@@ -76,10 +76,10 @@ $().ready(function(){
 	$(document).on('click','#statusEnrollList div span',function(){
 		// assigned the current "starting" element
 		if (!$.isEmptyObject(status.starting) && status.starting != this){
-			status.cancleThisStart();
+			status.cancelThisStart();
 		}
 		if (!$.isEmptyObject(status.starting) && status.starting === this){
-			status.cancleThisStart();
+			status.cancelThisStart();
 			return false;
 		}
 		status.starting = this;
@@ -421,6 +421,8 @@ $().ready(function(){
 		self.starting = {};
 		self.startClassName = new StartClassName();
         self.startingEvent = null;
+        // event description wrap elements
+        self.descriptionContent = {};
         // Description Limit
         self.SHORT_DESCRIPTION_LENGTH = 50;
         self.shortDescription = null;
@@ -587,10 +589,12 @@ $().ready(function(){
 			}
 		}
 		// remove the updated CSS of the enrolment start button and reset the taped "starting" to empty
-		self.cancleThisStart = function cancleThisStart() {
-			//change the current "starting" to "start"
+		self.cancelThisStart = function cancelThisStart() {
+			// change the current "starting" to "start"
 			self.updateCSS();
 			self.starting = {};
+            // remove event description
+            $('#startedEventWrap').children().remove();
 		}
 
 	}
