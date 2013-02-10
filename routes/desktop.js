@@ -4,13 +4,13 @@
  */
 
 exports.show = function(req, res){
-  res.render('desktop', { title: 'Desktop Page' });
+  res.render('desktop', { title: 'Gamified : Desktop Page', user : req.user });
 };
 
 exports.create = function(req, res){
-  res.render('desktop_create', { title: 'Create Event' });
+  res.render('desktop_create', { title: 'Gamified : Create Event', user: req.user });
 };
 
 exports.manage = function(req, res){
-  res.render('desktop_manage', { title: 'Manage Event' });
+  res.render('desktop_manage', { title: 'Gamified : Manage Event', user: req.user });
 };
