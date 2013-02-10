@@ -307,7 +307,7 @@ var showProgress = function() {
 												var confirmMsg = notifier.notify({
 													title: "Your event was saved successfully!!!",	
 													message: "Go to the Manage Events section to manage this event or create another event in here",
-													buttons: [{'data-role': 'ok', text: 'Yes'}],
+													buttons: [{'data-role': 'ok', text: 'Yes, I get it'}],
 													modal: true,
 													ms: null,
 													destroy: false
