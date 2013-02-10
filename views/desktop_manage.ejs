@@ -39,11 +39,15 @@
 
 	<script>
 		$(document).ready(function(){
-			$.getJSON("/api/v2/me", function(json) {
-		 		$("#organizerName").text(json.name + " logged in");
+			// The following is commented out as it would be populated from server directly.
+			/*$.getJSON("/api/v2/me", function(json) {
+		 		$("#organizerName").text(json.name + " logged in ");
+		 		$("#organizerName").append("<a href ='/logout'>Log Out</a>");
 		 		$("#organizerName").hide().fadeIn('fast');
 		 		getEventData();
- 			});
+ 			});*/
+			// getEventData moved here
+			getEventData();
 		});
 	</script>
 	

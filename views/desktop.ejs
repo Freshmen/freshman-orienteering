@@ -36,6 +36,7 @@
 					As an event organizer, you can set up an orienteering track for event participants. Along the track, you can assign checkpoints, where participants may perform tasks that you have assigned. This allows for a fun and an interactive way for gathering images and videos from the event.
 				</p>
 				<p id="note">* Note that you should have already accepted the FIP CAN Facebook app in order for you to have the possibility to crowdsource submissions from your event.</p>
+				<p id="fip-can-link">Follow <a href="https://fip.sp.f-secure.com">this link</a> to get it done.</p>
 			</div>
 		</div>
 	</section>
@@ -55,10 +56,12 @@
 			setInterval(function() {
 				timeOut = true;
 			},10000);
-			$.getJSON("/api/v2/me", function(json) {
-		 		$("#organizerName").text("Welcome " + json.name);
+			// The following is commented out as it would be populated from server directly.
+			/* $.getJSON("/api/v2/me", function(json) {
+		 		$("#organizerName").text(json.name + " logged in ");
+		 		$("#organizerName").append("<a href ='/logout'>Log Out</a>");
 		 		$("#organizerName").hide().fadeIn('fast');
-			});
+			});*/
 			var loginAttemptsCounter = 0;
 			var loginAttempt = function() { 
                                 $.ajax({
@@ -75,7 +78,7 @@
                                                         if(loginAttemptsCounter == 5000 || timeOut) {
                                                                 $("#canLoginLoader>img").fadeOut('fast');
                                                                 $("#canLoginLoader>h5").fadeOut('fast');
-															displayNotifier("Login to CAN Failed","You must have already granted permissions to the FIP CAN Facebook app.")
+															displayNotifier("Login to CAN Failed","You must have already granted permissions to the FIP CAN Facebook app. Follow the link below to get it done.")
                                                         }       
                                                 },
                                                 200: function() {
