@@ -1,12 +1,13 @@
 var https = require('https');
 
 module.exports = exports = function api_module(cfg) {
-	var nano, db;
+	var nano, db, DEBUG;
 
 	var init = function(cfg, callback) {
 		nano = require('nano')(cfg.url);
 		nano.db.create(cfg.name);
 		db = nano.use(cfg.name);
+		UNAUTHENTICATED = cfg.UNAUTHENTICATED;
 		add_design_docs();
 		if (callback) { callback(); }
 	}
@@ -171,13 +172,15 @@ module.exports = exports = function api_module(cfg) {
 	}
 
 	var checkRights = function(id, user, next) {
-		if (!user) {
+		if (UNAUTHENTICATED) { 
+			next(); 
+		} else if (!user) {
 			next({ error : "user not logger in." });
 		} else if (user.type && user.type == "Admin") {
 			next();
 		} else {
 			read_doc(id, function(data) {
-				if (user._id && data.owner && data.owner == user._id) {
+				if (user._id && data.organizer && data.organizer == user._id) {
 					next();
 				} else {
 					next({ error : "You don't have permissions to modify this object." });

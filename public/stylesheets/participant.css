@@ -1,0 +1,23 @@
+html { 
+	height: 100%; 
+	overflow: none;
+}
+body { 
+	height: 100%; 
+}
+#mapArea { 
+	height: 100%; 
+	width: 100%; 
+}
+.centered { 
+	text-align: center; 
+}
+#gamified-logo {
+	text-indent: -9999px;
+	background: url('/images/gamified_logo_63x20.png') no-repeat center center;
+	width: 63px;
+	margin-left: 20px;
+}
+#message-bottom {
+	float: none;
+}

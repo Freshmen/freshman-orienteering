@@ -13,12 +13,19 @@
   			<div id="logo-orienteering"></div>
   		</div>
 	    <div id="content">
-	    	<p class="info">Gamified is a location-based application that uses F-Secure Content Cloud Platform to crowdsource images, videos and other media from different events.</p>
-	    	<p class="center">Log in with your facebook account to start the adventure.</p>
-        <% if(mobile) { %>
-          <a id="facebook-login" href="/mobile"></a>
+        <% if(!logout) {%>
+  	    	<p class="info">Gamified is a location-based application that uses F-Secure Content Cloud Platform to crowdsource images, videos and other media from different events.</p>
+  	    	<p class="center">Log in with your facebook account to start the adventure.</p>
+          <% if(mobile) { %>
+            <a id="facebook-login" href="/mobile"></a>
+          <% } else { %>
+            <a id="facebook-login" href="/desktop"></a>
+          <% } %>
         <% } else { %>
-          <a id="facebook-login" href="/desktop"></a>
+          <p class="center">Thank you for using our application! We hope you enjoyed your stay.</p>
+          <p class="center">If you are on shared computer also remember to: </p>
+          <p class="center"><strong>Logout from <a href="http://facebook.com/">Facebook</a>.</strong></p>
+          <p class="center"><a href="/">&lt; back</a></p>
         <% } %>
 	    </div>
 	</div>
