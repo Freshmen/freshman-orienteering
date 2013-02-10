@@ -84,8 +84,12 @@ $().ready(function(){
 		}
 		status.starting = this;
 		status.updateCSS();
+        // displaying the starting event
         status.startingEvent = new status.StartingEvent();
         status.updateEvent.call(status.startingEvent.startingEvent);
+        // displaying the checkpoints of starting event
+        var startingEventCheckpoint = new Checkpoints();
+        startingEventCheckpoint.getCheckpointsHelper(status.startingEvent.startingEventId,status.updateCheckpoint);
 	});
 
     // status event description
@@ -577,6 +581,17 @@ $().ready(function(){
             // initial update
             new EJS({url: '/templates/descriptionTemplate.ejs'}).update('descriptionWrap', {content:o});
         }
+
+        // update checkpoint
+        self.updateCheckpoint = function updateCheckpoint(){
+            var o = {};
+            if (!$.isEmptyObject(this.checkpoints)){
+                o = this.checkpoints;
+            }else{
+                o = this;
+            }
+            var callback = new EJS({url: '/templates/startingCheckpointTemplate.ejs'}).update('startedCheckpointWrap',{content:o});
+        }
         /**
          * StartClassName member functions
          */
@@ -595,6 +610,7 @@ $().ready(function(){
 			self.starting = {};
             // remove event description
             $('#startedEventWrap').children().remove();
+            $('#startedCheckpointWrap').children().remove();
 		}
 
 	}

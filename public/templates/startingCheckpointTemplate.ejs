@@ -1,0 +1,12 @@
+<% if (content && content.length != 0) {%>
+    <% if (content[0].type == "Checkpoint") {%>
+        <p class="subHeader2">Checkpoint</p>
+        <ul id="statusCheckpoint">
+             <% for(var i = 0; i<content.length; i++) {%>
+                <li data-index= <%=i%> data-id = <%= content[i]._id%> ><a href="#"><%= content[i].title%></a></li>
+             <% } %>
+        </ul>
+    <% }%>
+<%} else {%>
+    <p class="subHeader2">Sorry, could not found the checkpoints.</p>
+<%}%>
