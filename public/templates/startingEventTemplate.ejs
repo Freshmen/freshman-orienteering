@@ -3,12 +3,16 @@
         <p class="subHeader2">Events</p>
         <ul id="statusEvent">
             <li>Event Name: <%= content.title %></li>
-            <li>Description: <% if (content.description.length > 10 ) {%>
-                    <%= content.description.substring(0,10) %><p>
-                <%} else {%>
-                    <%= content.description %>
-                <%}%>
-            <span class="showMore">show more</span></li>
+            <li>Description:
+                <section id="descriptionWrap">
+                    <% if (content.description.length > content.shortDescriptionLength ) {%>
+                        <%= content.description.substring(0,content.shortDescriptionLength) %>
+                    <%} else {%>
+                        <%= content.description %>
+                    <%}%>
+                    <span id="showMore"><%= content.nextAction %></span>
+                </section>
+            </li>
         </ul>
     <% }%>
 <%} else {%>

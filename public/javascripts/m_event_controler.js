@@ -60,7 +60,7 @@ $().ready(function(){
 		}
 		
 	});
-	
+
 	// initialise a task object
 	var task = new Task();
 	$(document).on('click','#checkPointWrap li',function(e){
@@ -87,6 +87,11 @@ $().ready(function(){
         status.startingEvent = new status.StartingEvent();
         status.updateEvent.call(status.startingEvent.startingEvent);
 	});
+
+    // status event description
+    $(document).on('click','#showMore',function(){
+        status.updateEventDescription();
+    });
 	// End Initialisation
 	
 	/* ***********************
@@ -416,6 +421,15 @@ $().ready(function(){
 		self.starting = {};
 		self.startClassName = new StartClassName();
         self.startingEvent = null;
+        // Description Limit
+        self.SHORT_DESCRIPTION_LENGTH = 50;
+        self.shortDescription = null;
+        self.fullDescription = null;
+        // user action on Event
+        self.BEFORE_START = "show more";
+        self.SHOW_MORE_EVENT = self.BEFORE_START;
+        self.SHOW_LESS_EVENT = "show less";
+        self.isExpanded = false;
 
         // represents "start" or "starting" elements
 		function StartClassName(){
@@ -457,6 +471,7 @@ $().ready(function(){
                 : {} // if _self.startingEventId is null
             :{}; // if Storage is not defined
 
+
             // update event if not found from session storage
             _self.getEvent = (function getEvent(){
                 // if no key in the storage
@@ -488,7 +503,7 @@ $().ready(function(){
                                 /* -- Out of scope of the project -- */
                             }
                             // update event template in delay
-
+                            /* -- NEED TO BE DONE -- */
 
                         })
                         .fail(function(data, textStatus, jqXHR) {
@@ -534,10 +549,32 @@ $().ready(function(){
         // update event template
         self.updateEvent = function updateEvent(){
             var o = this;
+            // save the status starting event description
+            self.fullDescription = o.description;
+            // add description limited into the object
+            o.shortDescriptionLength = self.SHORT_DESCRIPTION_LENGTH;
+            o.nextAction = "show more";
             // initial update
-            new EJS({url: '/templates/startingEventTemplate.ejs'}).update('startedEventWrap', {content:this});
+            new EJS({url: '/templates/startingEventTemplate.ejs'}).update('startedEventWrap', {content:o});
         }
 
+        // update description
+        self.updateEventDescription = function updateEventDescription(){
+            self.isExpanded = !self.isExpanded;
+            var o = {};
+            // add user action: show more or show less into the object
+            o.nextAction = self.isExpanded ?
+                self.SHOW_MORE_EVENT : self.SHOW_LESS_EVENT;
+            if (self.isExpanded){
+                // show less
+                o.description = self.fullDescription.substring(0,self.SHORT_DESCRIPTION_LENGTH);
+            }else{
+                // show more
+                o.description = self.fullDescription;
+            }
+            // initial update
+            new EJS({url: '/templates/descriptionTemplate.ejs'}).update('descriptionWrap', {content:o});
+        }
         /**
          * StartClassName member functions
          */
@@ -586,45 +623,13 @@ $().ready(function(){
 			});
 		}
 	}
-	
-	/* ***********************
-	 * Testing functions
-	 *
-	 * ***********************/
-	function handleFileSelect(evt) {
-	    var files = evt.target.files; // FileList object
 
-	    // Loop through the FileList and render image files as thumbnails.
-	    for (var i = 0, f; f = files[i]; i++) {
+    /* ***********************
+     * Web Worker
+     *
+     * ***********************/
 
-	      // Only process image files.
-	      if (!f.type.match('image.*')) {
-	        continue;
-	      }
-
-	      var reader = new FileReader();
-
-	      // Closure to capture the file information.
-	      reader.onload = (function(theFile) {
-	        return function(e) {
-	          // Render thumbnail.
-	          var span = document.createElement('span');
-	          span.innerHTML = ['<img class="thumb" src="', e.target.result,
-	                            '" title="', escape(theFile.name), '"/>'].join('');
-	          document.getElementById('list').insertBefore(span, null);
-	        };
-	      })(f);
-
-	      // Read in the image file as a data URL.
-	      reader.readAsDataURL(f);
-	      console.log(f);
-//	      $.ajax({
-//	    	  
-//	      });
-	    }
-	  }
-    var i = 0 ;
-	// web worker
+    // web worker
     function EventNameUpdateWorker(events){
         var self = this;
         self.eventID = null;
@@ -650,12 +655,12 @@ $().ready(function(){
                 // put into session storage
                 if(typeof(Storage) !== "undefined")
                 {   try{
-                        // session storage stored stringified data
-                        sessionStorage.setItem(JSON.parse(self.event)._id,self.event);
-                    }catch (err) {
-                        var marker_notifier = initialiseNotification();
-                        marker_notifier.error('Error: ' + err);
-                    }
+                    // session storage stored stringified data
+                    sessionStorage.setItem(JSON.parse(self.event)._id,self.event);
+                }catch (err) {
+                    var marker_notifier = initialiseNotification();
+                    marker_notifier.error('Error: ' + err);
+                }
 
                 }
                 else
@@ -705,4 +710,41 @@ $().ready(function(){
         }
 
     }
+
+	/* ***********************
+	 * Testing functions
+	 *
+	 * ***********************/
+	function handleFileSelect(evt) {
+	    var files = evt.target.files; // FileList object
+
+	    // Loop through the FileList and render image files as thumbnails.
+	    for (var i = 0, f; f = files[i]; i++) {
+
+	      // Only process image files.
+	      if (!f.type.match('image.*')) {
+	        continue;
+	      }
+
+	      var reader = new FileReader();
+
+	      // Closure to capture the file information.
+	      reader.onload = (function(theFile) {
+	        return function(e) {
+	          // Render thumbnail.
+	          var span = document.createElement('span');
+	          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+	                            '" title="', escape(theFile.name), '"/>'].join('');
+	          document.getElementById('list').insertBefore(span, null);
+	        };
+	      })(f);
+
+	      // Read in the image file as a data URL.
+	      reader.readAsDataURL(f);
+	      console.log(f);
+//	      $.ajax({
+//
+//	      });
+	    }
+	  }
 });

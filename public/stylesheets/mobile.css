@@ -358,6 +358,9 @@ span.delete:hover {
 .statusWrap ul {
   margin-top: 0px;
 }
+#showMore {
+  cursor: pointer;
+}
 .thumb {
   height: 75px;
   border: 1px solid #000;
