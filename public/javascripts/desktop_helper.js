@@ -3,6 +3,7 @@ var hashkey = 0;
 var eventCoord;
 var i = 0;
 var eventDBID;
+var upload_progress = {};
 
 function createCheckpoint(marker){
 	$('<div class="drag-container"><div class="top"><span></span></div><div class="center-content"></div><div class="bottom"><span></span></div> </div>').insertBefore('#addOption');
@@ -45,7 +46,8 @@ function createCheckpoint(marker){
 		hide: 'fade',
 		resizable: false,
 		modal: true,
-		width: 500
+		width: 500,
+		closeText: 'Save & Close'
 	});
 
 	<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
@@ -135,7 +137,7 @@ function saveCheckpoints() {
 			// Take out the file object from the file picker. We dont want to send the file to couchDb.	
 			var taskFile = checkpointJSON['task']['URL'];
 			checkpointJSON['task']['URL'] = "NONE";
-			console.log(checkpointJSON);
+			upload_progress[taskFile.name] = false; 
 			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
 			    // Setup the checkpoint folder and upload the task file into it.
 			    chkptDBID = data.id	 
@@ -143,6 +145,9 @@ function saveCheckpoints() {
 			});
 		}
 	});
+	disableScreen();
+	showProgress();
+	// To enable screen and do something do it in the line after clearInterval(looper)
 	// window.location.reload();
 }
 
@@ -238,4 +243,85 @@ function taskDialog(taskButton){
 	temp = $(taskButton).next().text()
 	taskButton.value = "Edit Task";
 	$("#dialog_" + temp).dialog("open");
+}
+
+// To diable the screen and show upload progress in the screen.
+var disableScreen = function() {
+	$("body").append("<div id=disablingDiv></div>");
+	document.getElementById('disablingDiv').style.display='inline';
+}
+
+var showProgress = function() {
+	
+	$("body").append("<div id='progress-dialog' title='Uploading in progress'>");
+
+	var noOfFiles = 0;
+
+	console.log("upload_progress in helper");
+    console.log(upload_progress);
+
+	$("#progress-dialog").append("<table id='progress-table'>");
+	jQuery.each(upload_progress, function(filename, status) {
+  		$("#progress-table").append("<tr><td>"+ filename +"</td><td><img id = " + filename + " src='/images/ajax-loader.gif'></img></td></tr>");
+  		noOfFiles++;
+	});
+
+	$( "#progress-dialog" ).dialog({
+      modal: true,
+      resizable: false,
+      closeOnEscape: false,
+      draggable: false,
+      width: 800,
+      dialogClass: 'no-close',
+      open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide(); }
+    });
+
+	var finishedUpload = 0;
+	var looper = setInterval(function(){
+		jQuery.each(upload_progress, function(filename, uploaded) {
+  			if(uploaded){
+  				$("#progress-table img").each(function(){
+  					if($(this).attr("id") == filename) {
+  						$(this).attr("src", "/images/green-tick.svg");
+  					}
+  				});	
+  				upload_progress[filename] = false; // resetting so that it doesnt get triggered over and over again
+  				finishedUpload ++;
+  			}
+  			if(finishedUpload == noOfFiles){
+  				clearInterval(looper);
+  				$( "#progress-dialog" ).dialog( "option", "buttons", [ { text: "Done", click: function() { 
+  												$( this ).dialog( "close" );
+  												// Do something else here . reload the page ? 
+  												var notifier = new Backbone.Notifier({
+													theme: 'plastic',
+													type: 'info',
+													dialog: false,
+													modal: true,
+													position: 'center',
+													zIndex: 10000,
+													screenOpacity: 0.7,
+													fadeInMs: 0,
+													fadeOutMs: 0,
+												});
+												var confirmMsg = notifier.notify({
+													title: "Your event was saved successfully!!!",	
+													message: "Go to the Manage Events section to manage this event or create another event in here",
+													buttons: [{'data-role': 'ok', text: 'Yes, I get it'}],
+													modal: true,
+													ms: null,
+													destroy: false
+												})
+												.on('click:ok', function(){
+													this.destroy();
+													window.location.reload();
+												})
+
+  											} } ] );
+  				$( "#progress-dialog" ).dialog( "option", "title", "Uploading Done" );
+
+  			} 			
+		});
+
+	}, 1000);
 }
