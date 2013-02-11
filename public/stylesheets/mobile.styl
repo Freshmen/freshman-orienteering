@@ -408,7 +408,7 @@ span.delete:hover{
 #statusEnrollList div li, #statusCheckpoint div li {
 	float:left;
 }
-.startEvent,.startingEvent {
+.startEvent,.startingEvent,.startNavigation,.startingNavigation {
 	font-size:fontNav;
 	color:white;
 	padding-right: activatedRightPadding;
@@ -422,12 +422,15 @@ span.delete:hover{
 .startEvent:before,.startingEvent:before {
 
 }
-.startingEvent {
+.startingEvent,.startingNavigation {
 color: #09f;
 padding-right: 20px;
 text-shadow: 0px 0px 4px #09f;
 }
-.startingEvent::after {
+.startNavigation::after {
+content: "e";
+}
+.startingEvent::after,.startingNavigation::after {
 content: "ing";
 }
 

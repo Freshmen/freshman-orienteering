@@ -337,7 +337,9 @@ span.delete:hover {
   float: left;
 }
 .startEvent,
-.startingEvent {
+.startingEvent,
+.startNavigation,
+.startingNavigation {
   font-size: 14px;
   color: #fff;
   padding-right: 10px;
@@ -349,12 +351,17 @@ span.delete:hover {
 .startingEvent:after {
   content: "";
 }
-.startingEvent {
+.startingEvent,
+.startingNavigation {
   color: #09f;
   padding-right: 20px;
   text-shadow: 0px 0px 4px #09f;
 }
-.startingEvent::after {
+.startNavigation::after {
+  content: "e";
+}
+.startingEvent::after,
+.startingNavigation::after {
   content: "ing";
 }
 .statusWrap ul {
