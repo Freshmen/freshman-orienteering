@@ -96,7 +96,8 @@
                                                         }       
                                                 },
                                                 200: function() {
-                                                        console.log("page found");
+							$("#create-event").attr("href", "desktop_create");
+							$("#manage-event").attr("href", "desktop_manage");
                                                         $("#canLoginLoader>img").fadeOut('fast');
                                                         $("#canLoginLoader>h5").text('Login to CAN was Successful');
 							// Hide text after 5 seconds
