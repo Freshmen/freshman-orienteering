@@ -25,8 +25,9 @@
 		</div>
 		<nav>
 			<li class="active"><a href="desktop">Home</a></li>
-			<li><a href="desktop_create">Create Event</a></li>
-			<li><a href="desktop_manage">Manage Events</a></li>
+			<!-- Link should be enabled only after successful login to CAN -->
+			<li><a id="create-event" "href="#">Create Event</a></li>
+			<li><a id="manage-event" "href="#">Manage Events</a></li>
 		</nav>
 	</header>
 	
@@ -42,7 +43,7 @@
 					As an event organizer, you can set up an orienteering track for event participants. Along the track, you can assign checkpoints, where participants may perform tasks that you have assigned. This allows for a fun and an interactive way for gathering images and videos from the event.
 				</p>
 				<p id="note">* Note that you should have already accepted the FIP CAN Facebook app in order for you to have the possibility to crowdsource submissions from your event.</p>
-				<p id="fip-can-link">Follow <a href="https://fip.sp.f-secure.com">this link</a> to get it done.</p>
+				<p id="fip-can-link">Follow <a href="https://fip.sp.f-secure.com">this link</a> to get it done or follow the instructions <a href="https://developer.f-secure.com/login_guide">here</a> to oder for a new account.</p>
 			</div>
 		</div>
 	</section>
@@ -58,6 +59,9 @@
 
 	<script>
 		$(document).ready(function(){
+			// Off hover capability
+			// $('#create-event').unbind('mouseenter mouseleave');
+			// $('#manage-event').unbind('mouseenter mouseleave');
 			var timeOut = false;
 			setInterval(function() {
 				timeOut = true;
@@ -76,7 +80,6 @@
 					xhrFields: { withCredentials: true },
                                         statusCode: {
                                                 400: function() {
-                                                        console.log("page not found");
                                                         loginAttemptsCounter++;
                                                         if(!timeOut){
                                                         	loginAttempt();	
@@ -84,7 +87,12 @@
                                                         if(loginAttemptsCounter == 5000 || timeOut) {
                                                                 $("#canLoginLoader>img").fadeOut('fast');
                                                                 $("#canLoginLoader>h5").fadeOut('fast');
-															displayNotifier("Login to CAN Failed","You must have already granted permissions to the FIP CAN Facebook app. Follow the link below to get it done.")
+								// On hower capability 
+								// $('#create-event').bind('mouseenter mouseleave');
+								// $('#manage-event').bind('mouseenter mouseleave');
+								$("#create-event").attr("href", "desktop_create");
+								$("#manage-event").attr("href", "desktop_manage");
+								displayNotifier("Login to CAN Failed","You must have already granted permissions to the FIP CAN Facebook app. Follow the link below to get it done.")
                                                         }       
                                                 },
                                                 200: function() {
