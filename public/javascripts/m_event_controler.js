@@ -83,7 +83,7 @@ $().ready(function(){
 			return false;
 		}
 		status.starting = this;
-		status.updateCSS();
+		status.updateStartEventCSS();
         // displaying the starting event
         status.startingEvent = new status.StartingEvent();
         status.updateEvent.call(status.startingEvent.startingEvent);
@@ -95,6 +95,20 @@ $().ready(function(){
     // status event description
     $(document).on('click','#showMore',function(){
         status.updateEventDescription();
+    });
+
+    // status navigation
+    $(document).on('click','#statusCheckpoint div span',function(){
+        // assigned the current "starting" element
+        if (!$.isEmptyObject(status.naviating) && status.naviating != this){
+            status.cancelThisNavigate();
+        }
+        if (!$.isEmptyObject(status.naviating) && status.naviating === this){
+            status.cancelThisNavigate();
+            return false;
+        }
+        status.naviating = this;
+        status.updateNavigateCSS();
     });
 	// End Initialisation
 	
@@ -425,6 +439,11 @@ $().ready(function(){
 		self.starting = {};
 		self.startClassName = new StartClassName();
         self.startingEvent = null;
+
+        self.naviating = {};
+        self.navigationClassName = new NavigationClassName();
+        self.navigatingCheckpoint = null;
+
         // event description wrap elements
         self.descriptionContent = {};
         // Description Limit
@@ -462,6 +481,32 @@ $().ready(function(){
 				}
 			}
 		}
+
+        // represents "navigate" or "navigating" elements, duplicated
+        function NavigationClassName(){
+            var _self = this;
+            _self.DEFAULT_NAME = 'startNavigation';
+            _self.BEFORE_START = _self.DEFAULT_NAME;
+            _self.STARTING = 'startingNavigation';
+
+            // return the next status - not start or starting - that it should be
+            _self.nextName = function nextName(){
+                if (_self.currentName() != _self.BEFORE_START){
+                    return _self.BEFORE_START;
+                }else{
+                    return _self.STARTING;
+                }
+            }
+
+            //return the current status
+            _self.currentName = function currentName(){
+                if (!$.isEmptyObject(self.naviating)){
+                    return $(self.naviating).attr('class')
+                }else{
+                    return _self.DEFAULT_NAME;
+                }
+            }
+        }
 
         // represents the starting event
         self.StartingEvent = function StartingEvent(){
@@ -596,7 +641,7 @@ $().ready(function(){
          * StartClassName member functions
          */
         // update CSS of enrolment start button
-        self.updateCSS = function updateCSS() {
+        self.updateStartEventCSS = function updateStartEventCSS() {
 			if (!$.isEmptyObject(self.starting)){
 				return $(self.starting).attr('class',self.startClassName.nextName)
 			}else{
@@ -606,13 +651,30 @@ $().ready(function(){
 		// remove the updated CSS of the enrolment start button and reset the taped "starting" to empty
 		self.cancelThisStart = function cancelThisStart() {
 			// change the current "starting" to "start"
-			self.updateCSS();
+			self.updateStartEventCSS();
 			self.starting = {};
             // remove event description
             $('#startedEventWrap').children().remove();
+            // remove event checkpoints
             $('#startedCheckpointWrap').children().remove();
 		}
-
+        /**
+         * NavigateClassName member functions
+         */
+        // update CSS of enrolment start button
+        self.updateNavigateCSS = function updateNavigateCSS() {
+            if (!$.isEmptyObject(self.naviating)){
+                return $(self.naviating).attr('class',self.navigationClassName.nextName)
+            }else{
+                return false;
+            }
+        }
+        // remove the updated CSS of the enrolment start button and reset the taped "starting" to empty
+        self.cancelThisNavigate = function cancelThisStart() {
+            // change the current "starting" to "start"
+            self.updateNavigateCSS();
+            self.naviating = {};
+        }
 	}
 	
 	// handle notification selections 
