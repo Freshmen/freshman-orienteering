@@ -95,3 +95,6 @@ h1 {
   text-align: center;
   margin: 20px;
 }
+.preloads {
+  display: none;
+}

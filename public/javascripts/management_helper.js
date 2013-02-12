@@ -114,8 +114,12 @@ function buildSubmissionsTable(eventID){
 
 function getSubmissions(eventID){
 	$.getJSON("/api/v2/events/"+eventID+"/submissions", function(submissions) {
-		populateSubmissionsTable(submissions,eventID);
-		console.log(submissions[0].url);
+		if (jQuery.isEmptyObject(submissions)){
+			$('#tableHolder').append("<h4>No one has submitted anything yet.</h4>");
+		}
+		else{
+			populateSubmissionsTable(submissions,eventID);
+		}
 		});
 }
 
@@ -125,10 +129,8 @@ function populateSubmissionsTable(submissions,eventID){
 		var time = new Date(submissions[s].timestamp);
 		$.getJSON("/api/v2/events/"+eventID+"/checkpoints/"+submissions[s].checkpoint, function(checkpoint) {
 			var checkpointName = checkpoint.title;
-			console.log(checkpointName);
 			$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
 				var userName = user.name;
-				console.log(userName);
 				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName);	
 			});
 		});
@@ -138,7 +140,7 @@ function populateSubmissionsTable(submissions,eventID){
 function clearContent(elementToClear,newFooter){
 	elementToClear.empty();
 	$('footer').empty();
-	$('footer').append('<a href="desktop_manage">'+newFooter+'</a>');
+	$('footer').append('<a href="manage">'+newFooter+'</a>');
 }
 
 function askConfirmation(eventID){

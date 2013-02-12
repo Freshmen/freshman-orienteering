@@ -145,8 +145,10 @@ app.get('/', function(req, res) {
 app.get('/ed', routes.show);
 
 app.get('/desktop', ensureAuthenticated, desktop.show);
-app.get('/desktop_create', ensureAuthenticated, desktop.create);
-app.get('/desktop_manage', ensureAuthenticated, desktop.manage);
+app.get('/desktop/create', ensureAuthenticated, desktop.create);
+app.get('/desktop/manage', ensureAuthenticated, desktop.manage);
+app.get('/desktop/:eventID', ensureAuthenticated, desktop.details);
+app.get('/desktop/:eventID/submissions', ensureAuthenticated, desktop.grade);
 app.get('/mobile', ensureAuthenticated, mobile.show);
 app.get('/organizer/login', organizer.login);
 app.get('/cation', participant.index);

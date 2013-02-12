@@ -33,6 +33,9 @@ $().ready(function(){
 
 	$(document).on('click','#events li',function(){
 		var el = $(this);
+		if(typeof(checkPoints) !== "undefined" && checkPoints != null)
+			checkPoints.markers.removeAllMarkers();
+        
         checkPoints = new Checkpoints();
 		events.getEventByIndexHelper.call(el);
 	});
@@ -89,17 +92,8 @@ $().ready(function(){
         status.updateEvent.call(status.startingEvent.startingEvent);
         // displaying the checkpoints of starting event
         var startingEventCheckpoint = new Checkpoints();
+        status.updateCheckpoint.callbacks = [startingEventCheckpoint.displayMaker,startingEventCheckpoint.centerScreenWithCheckpoints]
         startingEventCheckpoint.getCheckpointsHelper(status.startingEvent.startingEventId,status.updateCheckpoint);
-
-        if (callbacks && typeof(callbacks) === "array"){
-            for (var i = 0; i<callbacks.length;i++){
-                if (callbacks[i] && typeof(callbacks[0]) === "function"){
-                    callback[i].call(data);
-                }
-            }
-
-        }
-
 	});
 
     // status event description
@@ -260,9 +254,29 @@ $().ready(function(){
 		var self = this;
 		self.isShown = false;
 		self.checkpoints = {};
+        self.markers = new Marker();
 
-        
+        function Marker(){
+            var _self = this;
+            // marker, key:value, key as checkpoints id and value as a marker
+            _self.markers = [];
 
+            _self.setMarker = function setMarker(marker){
+//                _self.marker[checkpoint._id] = marker;
+                _self.markers.push(_self.marker);
+            }
+
+            _self.resetAllMarkers = function resetAllMarkers(){
+//                _self.marker = {};
+                _self.markers = [];
+            }
+
+            _self.removeAllMarkers = function removeAllMarkers(){
+                for (var i = 0; i<_self.markers.length;i++){
+                    map.objects.remove(_self.markers[i]);
+                }
+            }
+        }
 		self.setCheckpoints = function setCheckpoints(b){
 			if (typeof(b) === "boolean")
 				self.isShown = b;
@@ -336,24 +350,29 @@ $().ready(function(){
 				  }
 				});
 		}
+
+
+
 		self.displayMaker = function displayMaker(checkpoints){
-			$.each(checkpoints,function(index,values){
-				mobileAddCheckpointMarker(map, values);
+			$.each(checkpoints,function(index,value){
+				var marker = mobileAddCheckpointMarker(map, value);
+				self.markers.setMarker(marker);
 			});
 		}
+
 		self.centerScreenWithCheckpoints = function centerScreenWithCheckpoints(checkpoints){
 			var len = checkpoints.length;
 			var meanLon = 0.0;
 			var meanLat = 0.0;
 			for(var i = 0; i < len; i++){
-			  	meanLon += checkpoints[i].location.longitude;
-			  	meanLat += checkpoints[i].location.latitude;
+			  	meanLon += parseFloat(checkpoints[i].location.longitude);
+			  	meanLat += parseFloat(checkpoints[i].location.latitude);
 			  }
 
 			  meanLon = meanLon/len;
 			  meanLat = meanLat/len;
 			  
-			  setZoom(map, 14); // 14 is default for street level
+			  setZoom(map, 13); // 14 is default for street level
 			  centerMapToCoordinate(map, meanLat, meanLon);
 			  
 		}
@@ -649,6 +668,13 @@ $().ready(function(){
                 o = this;
             }
             var template = new EJS({url: '/templates/startingCheckpointTemplate.ejs'}).update('startedCheckpointWrap',{content:o});
+            if(self.updateCheckpoint.callbacks){
+                for (var i = 0;i<self.updateCheckpoint.callbacks.length;i++){
+                    if (typeof(self.updateCheckpoint.callbacks[i]) === "function"){
+                        self.updateCheckpoint.callbacks[i](o);
+                    }
+                }
+            }
         }
         /**
          * StartClassName member functions

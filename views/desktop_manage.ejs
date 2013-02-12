@@ -1,21 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<title><%= title %></title>
 	<link rel='stylesheet' href='/stylesheets/desktop.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-base.css' />
 	<link rel='stylesheet' href='/stylesheets/notifier-theme-plastic.css' />
-	<link rel="StyleSheet" type="text/css" href="/dependencies/jquery-tablesorter/themes/blue/style.css"> 
-	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
-	<!--<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>-->
+	<link rel='stylesheet' href='/dependencies/jquery-tablesorter/themes/blue/style.css'> 
+	<link  rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arvo'>
     <script src="/javascripts/management_helper.js"></script>
     <script src="/dependencies/libs/require-jquery.js"></script>
 </head>
 <body>
 	<header id="banner">
-		<div id="header-logo" href="desktop">
-				<a href="desktop" id="logo-link">
+		<div id="header-logo">
+				<a href="/desktop" id="logo-link">
 					<img src="/images/gamified_logo_small.png" alt="Logo" id="logo">
 				</a>
 			</div>
@@ -27,9 +26,9 @@
 			<% } %>
 		</div>
 		<nav>
-			<li><a href="desktop">Home</a></li>
-			<li><a href="desktop_create">Create Event</a></li>
-			<li class="active"><a href="desktop_manage">Manage Events</a></li>
+			<li><a href="/desktop">Home</a></li>
+			<li><a href="/desktop/create">Create Event</a></li>
+			<li class="active"><a href="/desktop/manage">Manage Events</a></li>
 		</nav>
 	</header>
 
@@ -44,15 +43,7 @@
 	<script src="/dependencies/jquery-tablesorter/jquery.tablesorter.js"></script>
 
 	<script>
-		$(document).ready(function(){
-			// The following is commented out as it would be populated from server directly.
-			/*$.getJSON("/api/v2/me", function(json) {
-		 		$("#organizerName").text(json.name + " logged in ");
-		 		$("#organizerName").append("<a href ='/logout'>Log Out</a>");
-		 		$("#organizerName").hide().fadeIn('fast');
-		 		getEventData();
- 			});*/
-			// getEventData moved here
+		$(function(){
 			getEventData();
 		});
 	</script>
