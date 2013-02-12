@@ -359,6 +359,38 @@ span.delete:hover{
 	background: #000;
 	z-index:100;
 }
+/* upper right corner, minus button */
+#editStatus {
+    color: #09f;
+    position:relative;
+    padding: 2px;
+    float:right;
+    cursor: pointer;
+    margin-top: 3px;
+    -webkit-transform: rotate(0deg) translate(-64px, -4px) scale(2);
+    -moz-transform: rotate(0deg) translate(-64px, -4px) scale(2);
+    -ms-transform: rotate(0deg) translate(-64px, -4px) scale(2);
+    -o-transform: rotate(0deg) translate(-64px, -4px) scale(2);
+}
+
+#editStatus::after {
+   content: "";
+   position: relative;
+   top: 0;
+   left: 0;
+   width: 10px;
+   height: 10px;
+   border: 2px solid red;
+   -moz-border-radius: 50px 50px 50px 50px;
+   border-radius: 50px 50px 50px 50px;
+   -webkit-transform: rotate(-45deg) translate(-64px, -4px) ;
+   -moz-transform: rotate(-45deg);
+   -ms-transform: rotate(-45deg);
+   -o-transform: rotate(-45deg);
+   transform: rotate(-45deg);
+}
+
+
 /* upper right corner, refresh button */
 #refresh {
   	position: relative;

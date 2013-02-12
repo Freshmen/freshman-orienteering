@@ -90,6 +90,16 @@ $().ready(function(){
         // displaying the checkpoints of starting event
         var startingEventCheckpoint = new Checkpoints();
         startingEventCheckpoint.getCheckpointsHelper(status.startingEvent.startingEventId,status.updateCheckpoint);
+
+        if (callbacks && typeof(callbacks) === "array"){
+            for (var i = 0; i<callbacks.length;i++){
+                if (callbacks[i] && typeof(callbacks[0]) === "function"){
+                    callback[i].call(data);
+                }
+            }
+
+        }
+
 	});
 
     // status event description
@@ -250,7 +260,9 @@ $().ready(function(){
 		var self = this;
 		self.isShown = false;
 		self.checkpoints = {};
-		
+
+        
+
 		self.setCheckpoints = function setCheckpoints(b){
 			if (typeof(b) === "boolean")
 				self.isShown = b;
@@ -456,6 +468,7 @@ $().ready(function(){
         self.SHOW_LESS_EVENT = "show less";
         self.isExpanded = false;
 
+
         // represents "start" or "starting" elements
 		function StartClassName(){
 			var _self = this;
@@ -635,7 +648,7 @@ $().ready(function(){
             }else{
                 o = this;
             }
-            var callback = new EJS({url: '/templates/startingCheckpointTemplate.ejs'}).update('startedCheckpointWrap',{content:o});
+            var template = new EJS({url: '/templates/startingCheckpointTemplate.ejs'}).update('startedCheckpointWrap',{content:o});
         }
         /**
          * StartClassName member functions
