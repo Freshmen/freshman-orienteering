@@ -140,7 +140,7 @@ function populateSubmissionsTable(submissions,eventID){
 function clearContent(elementToClear,newFooter){
 	elementToClear.empty();
 	$('footer').empty();
-	$('footer').append('<a href="desktop_manage">'+newFooter+'</a>');
+	$('footer').append('<a href="manage">'+newFooter+'</a>');
 }
 
 function askConfirmation(eventID){
