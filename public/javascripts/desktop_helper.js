@@ -10,7 +10,7 @@ function createCheckpoint(marker){
 	$(".center-content").last().append('<form id="checkpoint"></form>');
 	i++;
 	hashkey++;
-	$('#checkpoint').append('<img src="images/trash.jpg" class="trash" onclick=removeCheckpoint(this) style="float:right; margin:0 5px 0 0; height: auto; width: 20px;"><label id="hidden">' + hashkey + '</label><h3>Checkpoint ' + i + '</h3>');
+	$('#checkpoint').append('<img src="http://gami.fi/images/trash.jpg" class="trash" onclick=removeCheckpoint(this) style="float:right; margin:0 5px 0 0; height: auto; width: 20px;"><label id="hidden">' + hashkey + '</label><h3>Checkpoint ' + i + '</h3>');
 	$('#checkpoint').append('<input type="text" id="title" placeholder="Title" autocomplete="off" class="CHPformfield" required>');
 	$('#checkpoint').append('<label class="CHPformfield">Latitude:</label>');
 	$('#checkpoint').append('<input type="text" id="latitude" placeholder="Latitude" autocomplete="off" class="CHPformfield" required disabled>');
