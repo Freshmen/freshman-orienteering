@@ -160,6 +160,7 @@ select {
   height: 30px;
   padding: 5px 0px 5px 0px;
   text-decoration: none;
+  border-radius: 0;
   -webkit-transition: background-color 200ms linear;
   -moz-transition: background-color 200ms linear;
   -o-transition: background-color 200ms linear;
@@ -168,13 +169,18 @@ select {
 }
 #banner nav a:hover,
 #banner nav a:active,
-#banner nav li.active a {
+#banner nav .active a {
   background: #1b7ae0;
   color: #fff;
   text-shadow: none;
 }
-#banner nav {
-  border-radius: 5px;
+#banner nav li:first-child a {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+#banner nav li:last-child a {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 h2 {
   font-size: 1.571em;
