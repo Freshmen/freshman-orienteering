@@ -33,6 +33,9 @@ $().ready(function(){
 
 	$(document).on('click','#events li',function(){
 		var el = $(this);
+		if(typeof(checkPoints) !== "undefined" && checkPoints != null)
+			checkPoints.displayUnMaker();
+        
         checkPoints = new Checkpoints();
 		events.getEventByIndexHelper.call(el);
 	});
@@ -250,7 +253,8 @@ $().ready(function(){
 		var self = this;
 		self.isShown = false;
 		self.checkpoints = {};
-		
+		self.markers = [];
+
 		self.setCheckpoints = function setCheckpoints(b){
 			if (typeof(b) === "boolean")
 				self.isShown = b;
@@ -324,24 +328,34 @@ $().ready(function(){
 				  }
 				});
 		}
+
+		self.displayUnMaker = function displayUnMaker(){
+			$.each(self.markers ,function(index,values){
+				map.objects.remove(values);
+			});
+			self.markers = [];
+		}
+
 		self.displayMaker = function displayMaker(checkpoints){
 			$.each(checkpoints,function(index,values){
-				mobileAddCheckpointMarker(map, values);
+				var marker = mobileAddCheckpointMarker(map, values);
+				self.markers.push(marker);
 			});
 		}
+
 		self.centerScreenWithCheckpoints = function centerScreenWithCheckpoints(checkpoints){
 			var len = checkpoints.length;
 			var meanLon = 0.0;
 			var meanLat = 0.0;
 			for(var i = 0; i < len; i++){
-			  	meanLon += checkpoints[i].location.longitude;
-			  	meanLat += checkpoints[i].location.latitude;
+			  	meanLon += parseFloat(checkpoints[i].location.longitude);
+			  	meanLat += parseFloat(checkpoints[i].location.latitude);
 			  }
 
 			  meanLon = meanLon/len;
 			  meanLat = meanLat/len;
 			  
-			  setZoom(map, 14); // 14 is default for street level
+			  setZoom(map, 13); // 14 is default for street level
 			  centerMapToCoordinate(map, meanLat, meanLon);
 			  
 		}

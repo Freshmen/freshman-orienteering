@@ -29,8 +29,8 @@ function mobileAddCheckpointMarker(map,checkpoint){
     new_marker.set("text",checkpoint.title);
     new_marker.set("value", checkpoint.order);
 	map.objects.add(new_marker);
-
-	return new_marker;
+    return new_marker;
+	//markers.push(new_marker);
 }
 
 function mobileCheckPointClickEvent(){
