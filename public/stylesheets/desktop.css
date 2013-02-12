@@ -435,8 +435,8 @@ tbody td {
 #welcome h2 {
   font-size: 200%;
 }
-#note {
-  font-size: 90%;
+.note {
+  font-size: 80%;
   margin-top: 2em;
 }
 #header-logo {
