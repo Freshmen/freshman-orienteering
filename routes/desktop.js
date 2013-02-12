@@ -16,6 +16,7 @@ exports.manage = function(req, res){
 };
 
 exports.details = function(req, res) {
+	var currentEvent;
 	res.render();
 }
 
