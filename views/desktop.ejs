@@ -24,10 +24,9 @@
 			<% } %>
 		</div>
 		<nav>
-			<li class="active"><a href="desktop">Home</a></li>
-			<!-- Link should be enabled only after successful login to CAN -->
-			<li><a id="create-event" href="#">Create Event</a></li>
-			<li><a id="manage-event" href="#">Manage Events</a></li>
+			<li class="active"><a href="/desktop">Home</a></li>
+			<li><a id="/desktop/create-event">Create Event</a></li>
+			<li><a id="/desktop/manage-event">Manage Events</a></li>
 		</nav>
 	</header>
 	
@@ -55,82 +54,7 @@
 	<script src="/dependencies/backbone.notifier.js"></script>
 	<script src="//api.maps.nokia.com/2.2.3/jsl.js"></script>
 	<script src="/javascripts/notifier.js"></script>
+	<script src="/javascripts/desktop.js"></script>
 	<iframe name="canlogin" src="/organizer/login" style="display:none;"></iframe>
-
-	<script>
-		$(document).ready(function(){
-			// Off hover capability
-			// $('#create-event').unbind('mouseenter mouseleave');
-			// $('#manage-event').unbind('mouseenter mouseleave');
-			var timeOut = false;
-			setInterval(function() {
-				timeOut = true;
-			},10000);
-			// The following is commented out as it would be populated from server directly.
-			/* $.getJSON("/api/v2/me", function(json) {
-		 		$("#organizerName").text(json.name + " logged in ");
-		 		$("#organizerName").append("<a href ='/logout'>Log Out</a>");
-		 		$("#organizerName").hide().fadeIn('fast');
-			});*/
-			var loginAttemptsCounter = 0;
-			var loginAttempt = function() { 
-                                $.ajax({
-                                        url: "https://devapi-fip.sp.f-secure.com:443/OneID/user/2_0_0/scim/v1/Users/current",
-                                        headers: {"x-apikey": "l7xx4b2071526ae34e7fb2d33ff02bb82503"},
-					xhrFields: { withCredentials: true },
-                                        statusCode: {
-                                                400: function() {
-                                                        loginAttemptsCounter++;
-                                                        if(!timeOut){
-                                                        	loginAttempt();	
-                                                        }               
-                                                        if(loginAttemptsCounter == 5000 || timeOut) {
-                                                                $("#canLoginLoader>img").fadeOut('fast');
-                                                                $("#canLoginLoader>h5").fadeOut('fast');
-								// On hower capability 
-								// $('#create-event').bind('mouseenter mouseleave');
-								// $('#manage-event').bind('mouseenter mouseleave');
-								$("#create-event").attr("href", "desktop_create");
-								$("#manage-event").attr("href", "desktop_manage");
-								displayNotifier("Login to CAN Failed","You must have already granted permissions to the FIP CAN Facebook app. Follow the link below to get it done.")
-                                                        }       
-                                                },
-                                                200: function() {
-							$("#create-event").attr("href", "desktop_create");
-							$("#manage-event").attr("href", "desktop_manage");
-                                                        $("#canLoginLoader>img").fadeOut('fast');
-                                                        $("#canLoginLoader>h5").text('Login to CAN was Successful');
-							// Hide text after 5 seconds
-							setTimeout(function() {
-								$("#canLoginLoader>h5").fadeOut('fast');
-     							}, 5000); 
-                                                }
-                                        }
-                                });
-			}
-			loginAttempt();
-		});
-		function displayNotifier(title_msg, body_msg) {
-		        <!-- Display info dialog -->
-        		var notifier = new Backbone.Notifier({
-        	        	theme: 'plastic',
-		                type: 'info',
-        	        	dialog: false,
-                		modal: true,
-		                position: 'center',
-	        	        zIndex: 10000,
-                		screenOpacity: 0.7,
-	        	});
-        		notifier.notify({
-	                	title: title_msg,
-	                	message: body_msg,
-        		        hideOnClick: true,
-        	        	fadeInMs: 800,
-		                fadeOutMs: 800,
-        	        	ms: 10000,
-	        	});
-		}
-
-	</script>
 </body>
 </html>
