@@ -17,6 +17,13 @@
 			<% } %>
 		</span>
 	</p>
+	<h2>Enrolled events</h2>
+	<ul>
+	<% for (idx in enrolledEvents) { %>
+		<li><%= enrolledEvents[idx].title %></li>
+	<%}%> 
+	</ul>
+	<h2>All events</h2>
 	<ul>
 	<% for (idx in events) { %>
 		<li><%= events[idx].title %></li>

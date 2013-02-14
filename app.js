@@ -11,7 +11,7 @@ var express = require('express')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
   , ticketManagement = require('./routes/ticketManagement.js') 
-  , participant = require('./routes/participant.js') 
+  , participant = require('./routes/participant.js')
   , http = require('http')
   , path = require('path')
   , nconf = require('nconf')
@@ -119,6 +119,10 @@ app.configure(function(){
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(function (req, res, next) {
+    req.api = res.api = api;
+    next();
+  });
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
@@ -154,7 +158,7 @@ app.get('/organizer/login', organizer.login);
 
 
 // Routes for Participant side
-app.get('/events', ensureAuthenticated, participant.eventList);
+app.get('/events', ensureAuthenticated, function(req, res, next) { req.tuomo = true; next(); }, participant.eventList);
 app.get('/events/:eventID', ensureAuthenticated, participant.eventDetails);
 app.get('/events/:eventID/checkpoints', ensureAuthenticated, participant.checkpointList);
 app.get('/events/:eventID/checkpoints/:checkpointID', ensureAuthenticated, participant.checkpointDetails);

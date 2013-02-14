@@ -201,8 +201,9 @@ module.exports = exports = function api_module(cfg) {
 					res.json(201, body);
 				});
 			},
-			list : function(req, res) {
+			list : function(req, res, next) {
 				read_view('Events', parseFilters(req, req.query['organizer']), function(body) {
+					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
@@ -445,12 +446,14 @@ module.exports = exports = function api_module(cfg) {
 					res.json(200, body);
 				});
 			},
-			getEnrollments : function(req, res) {
+			getEnrollments : function(req, res, next) {
 				if (req.user && req.user._id) {
 					read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
+						if (next) { return next(null, body); }
 						res.json(200, body);
 					});	
 				} else {
+					if (next) { return next({ 'error' : true }); }
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
