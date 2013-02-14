@@ -4,7 +4,8 @@ exports.eventList = function(req, res) {
 	res.render('eventList.ejs', { 
 		user: req.user, 
 		title: title, 
-		events : [], 
+		events : [
+		{ title : "first events"}, { title : "second events"} ], 
 		enrollments : []
 	});
 }

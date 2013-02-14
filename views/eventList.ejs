@@ -5,6 +5,22 @@
 <title></title>
 </head>
 <body>
-	<h1>List events here!</h1>
+	<h1><%= title %></h1>
+
+	<p>Currently logged in user is: 
+		<span>
+			<% if(user && user.name) { %>
+			 user has a name, the name is: 
+				<%= user.name %>
+			<% } else { %>
+				no user found.
+			<% } %>
+		</span>
+	</p>
+	<ul>
+	<% for (idx in events) { %>
+		<li><%= events[idx].title %></li>
+	<%}%> 
+	</ul>
 </body>
 </html>
