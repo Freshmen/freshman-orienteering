@@ -3,10 +3,19 @@
 <head>
 <meta charset="utf-8">
 <title></title>
+<link rel='stylesheet' href='/stylesheets/mobile.css'/>
 </head>
 <body>
 	<h1><%= title %></h1>
+    <div>
+    <div id="profileWrap">
+            <div id="profile"></div>
+        </div>
 
+        <div id="houseWrap">
+            <div id="house"></div>
+        </div>
+    </div>
 	<p>Currently logged in user is: 
 		<span>
 			<% if(user && user.name) { %>

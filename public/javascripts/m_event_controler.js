@@ -8,10 +8,13 @@ $().ready(function(){
 	 * ***********************/
 	// initialise an event object
 	var events = new Events();
-    // initialise a status object
-	var status = new Status();
-    // initialise a checkpoint object
+    // define a status object
+	var status = null;
+    // define a checkpoint object
     var checkPoints = null;
+    // initialise a content
+    var content = new Content();
+
 	$('#taskListClose').live('click',function(){
 		undisplayTaskList();
 	});
@@ -19,9 +22,21 @@ $().ready(function(){
 		events.undisplayEventList();
 	});	
 	$(document).on('click','#status',function(){
-		status.initialiseView();
-		var e = new Enrolment();
-		e.getUserEnrolment(status.updateEnrolment);
+        if (status == null){
+            // initialise a status object
+            status = new Status();
+            status.initialiseView();
+            var e = new Enrolment();
+            e.getUserEnrolment(status.updateEnrolment);
+            status.storeStatus();
+            console.log("new");
+        }else{
+            if (typeof(Storage) !== "undefined"){
+                status = JSON.parse(sessionStorage.status);
+                console.log("old");
+            }
+        }
+
 	});
 	$('#goBack').live('click',function(){
 		events.injectEvents.call();
@@ -30,6 +45,13 @@ $().ready(function(){
 	$('#eventList').click(function(){
 		events.getEvents(events.injectEvents);
 	});
+
+    $('#content').on('load', function(){console.log("asdfsdaf")});
+    $('#content').load(function(){
+        if (typeof($('#contentListClose').attr('data-tag')) === "undefined") {
+            $('#contentListClose').attr('data-tag',events.DELETE_ELEMENT_TAG);
+        }
+    });
 
 	$(document).on('click','#events li',function(){
 		var el = $(this);
@@ -145,9 +167,15 @@ $().ready(function(){
 		}
 		});
 	}
-	
+	function Content(){
+        var self = this;
+        self.DEFAULT_CONTENT_TAG = "event";
+        self.currentContentTag = self.DEFAULT_CONTENT_TAG;
+    }
 	function Events() {
 		var self = this;
+        // event window delete button tag
+        self.DELETE_ELEMENT_TAG = "eventClose";
 		// a list of events from the server
 		self.events = [];
 		// a list of new enrolled events for app restart
@@ -190,7 +218,7 @@ $().ready(function(){
 			}else{
 				return false;
 			}
-			new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
+            var html = new EJS({url: '/templates/mobileList.ejs'}).update('contentWrap', {content: o});
 		}
 		
 		// get the event index where user tap on
@@ -469,6 +497,8 @@ $().ready(function(){
 	
 	function Status(){
 		var self = this;
+        // status window delete button tag
+        self.DELETE_ELEMENT_TAG = "statusClose";
 		// represents the current element that a user clicks
 		self.starting = {};
 		self.startClassName = new StartClassName();
@@ -700,6 +730,25 @@ $().ready(function(){
             self.markers = self.checkpoints.markers.markers;
         }
 
+        // store current status
+        self.storeStatus = function storeStatus(){
+            if(typeof(Storage) !== "undefined")
+            {
+                try{
+                    var o = {};
+                    o.lastUpdate = JSON.stringify((new Date()).toJSON());
+                    o.data = JSON.stringify(self);
+                    sessionStorage.status =JSON.stringify(o);
+                }catch (err) {
+                    var marker_notifier = initialiseNotification();
+                    marker_notifier.error('Error: ' + err);
+                }
+            }
+            else
+            {
+                /* -- Out of scope of the project -- */
+            }
+        }
         /**
          * StartClassName member functions
          */
