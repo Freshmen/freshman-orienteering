@@ -151,7 +151,14 @@ app.get('/desktop/:eventID', ensureAuthenticated, desktop.details);
 app.get('/desktop/:eventID/submissions', ensureAuthenticated, desktop.grade);
 app.get('/mobile', ensureAuthenticated, mobile.show);
 app.get('/organizer/login', organizer.login);
-app.get('/cation', participant.index);
+
+
+// Routes for Participant side
+app.get('/events', ensureAuthenticated, participant.eventList);
+app.get('/events/:eventID', ensureAuthenticated, participant.eventDetails);
+app.get('/events/:eventID/checkpoints', ensureAuthenticated, participant.checkpointList);
+app.get('/events/:eventID/checkpoints/:checkpointID', ensureAuthenticated, participant.checkpointDetails);
+
 
 //GET /auth/facebook
 //Use passport.authenticate() as route middleware to authenticate the
