@@ -28,15 +28,15 @@
 	</p>
 	<h2>Enrolled events</h2>
 	<ul>
-	<% for (idx in enrolledEvents) { %>
-		<li><%= enrolledEvents[idx].title %></li>
-	<%}%> 
+		<% enrolled.forEach(function(evt){ %>
+			<li><a href="/events/<%= evt._id %>"><%= evt.title %></a></li>
+		<%})%> 
 	</ul>
 	<h2>All events</h2>
 	<ul>
-	<% for (idx in events) { %>
-		<li><%= events[idx].title %></li>
-	<%}%> 
+		<% unenrolled.forEach(function(evt){ %>
+			<li><a href="/events/<%= evt._id %>"><%= evt.title %></a></li>
+		<%})%> 
 	</ul>
 </body>
 </html>

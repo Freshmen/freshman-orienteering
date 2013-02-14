@@ -5,6 +5,13 @@
 <title></title>
 </head>
 <body>
-	<h1>Display task here!</h1>
+	<h1>Checkpoint: <%= checkpoint.title %></h1>
+	<h2>Task description:</h2>
+	<p><%= task.description %></p>
+	<a href="<%= task.url %>">View task</a>
+	<button type="button">Upload</button>
+	<input type="file" hidden />
+	<p>Upload token: <%= ticket %></p>
+	<p><a href="/events/<%= evt._id %>/checkpoints">&lt; Back</a></p>
 </body>
 </html>

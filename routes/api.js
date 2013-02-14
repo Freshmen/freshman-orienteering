@@ -207,8 +207,9 @@ module.exports = exports = function api_module(cfg) {
 					res.json(200, body);
 				});
 			},
-			show : function(req, res) {
+			show : function(req, res, next) {
 				read_doc(req.params.eventID, function(body) {
+					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
@@ -249,13 +250,15 @@ module.exports = exports = function api_module(cfg) {
 					res.json(201, body);
 				});
 			},
-			list : function(req, res) {
+			list : function(req, res, next) {
 				read_view('Checkpoints', parseFilters(req, req.params.eventID), function(body) {
+					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
-			show : function(req, res) {
+			show : function(req, res, next) {
 				read_doc(req.params.checkpointID, function(body) {
+					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
@@ -403,8 +406,9 @@ module.exports = exports = function api_module(cfg) {
 					res.json(201, body);
 				});
 			},
-			show : function(req, res) {
+			show : function(req, res, next) {
 				read_view('Tasks', parseFilters(req, req.params.checkpointID), function(body) {
+					if (next) { return next(null, body); }
 					res.json(200, body[0]);
 				});
 			},
@@ -457,21 +461,25 @@ module.exports = exports = function api_module(cfg) {
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
-			getCheckins : function(req, res) {
+			getCheckins : function(req, res, next) {
 				if (req.user && req.user._id) {
 					read_view('CheckinsByUser', parseFilters(req, req.user._id), function(body) {
+						if (next) { return next(null, body); }
 						res.json(200, body);
 					});	
 				} else {
+					if (next) { return next(true); }
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
-			getSubmissions : function(req, res) {
+			getSubmissions : function(req, res, next) {
 				if (req.user && req.user._id) {
 					read_view('SubmissionsByUser', parseFilters(req, req.user._id), function(body) {
+						if (next) { return next(null, body); }
 						res.json(200, body);
 					});	
 				} else {
+					if (next) { return next(true); }
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
@@ -566,8 +574,12 @@ module.exports = exports = function api_module(cfg) {
 					res.json(200, body[0]);
 				});
 			},
-			upload : function(req, res) {
+			upload : function(req, res, next) {
 				read_view('Tickets', parseFilters(req, req.params.eventID), function(tickets) {
+					if (!tickets || !tickets[0].ticket) {
+						if (next) { return next(true); }
+						res.json(500, { "error" : "failed to get a user ticket"});
+					}
 					var options = {
 						hostname: 'devapi-fip.sp.f-secure.com',
 						port: 443,
@@ -580,12 +592,15 @@ module.exports = exports = function api_module(cfg) {
 						}
 					};
 					var post_req = https.request(options, function(response) {
+						var token;
 						response.setEncoding('utf-8');
 						res.writeHead(response.statusCode);
 						response.on('data', function(data) {
+							if (next) { token += data ; }
 							res.write(data);
 						});
 						response.on('end', function(data) {
+							if (next) { return next(null, token); }
 							res.end();
 						});
 					}).on('error', function(e) {

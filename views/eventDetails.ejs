@@ -5,6 +5,9 @@
 <title></title>
 </head>
 <body>
-	<h1>Show Event details here!</h1>
+	<h1>Event: <%= evt.title %></h1>
+	<label>Enrolled:<input type="checkbox" checked="<%= enrolled %>"/></label>
+	<p><a href="/events/<%= evt._id %>/checkpoints">Go to Map</a></p>
+	<p><a href="/events/">&lt; Back</a></p>
 </body>
 </html>

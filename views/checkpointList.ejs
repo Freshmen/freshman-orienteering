@@ -6,6 +6,19 @@
 </head>
 <body>
 	<div id="map"></div>
+	<h2>Visited Checkpoints</h2>
+	<ul>
+		<% visited.forEach(function(cp){ %>
+			<li><a href="/events/<%= evt._id %>/checkpoints/<%= cp._id %>"><%= cp.title %></a></li>
+		<%})%> 
+	</ul>
+	<h2>All Checkpoints</h2>
+	<ul>
+		<% unvisited.forEach(function(cp){ %>
+			<li><a href="/events/<%= evt._id %>/checkpoints/<%= cp._id %>"><%= cp.title %></a></li>
+		<%})%> 
+	</ul>
+	<p><a href="/events/<%= evt._id %>">&lt; Back</a></p>
 	<script src="/javascripts/geolocation.js"></script>
 </body>
 </html>
