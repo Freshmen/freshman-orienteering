@@ -34,7 +34,7 @@ $().ready(function(){
 	$(document).on('click','#events li',function(){
 		var el = $(this);
 		if(typeof(checkPoints) !== "undefined" && checkPoints != null)
-			checkPoints.displayUnMaker();
+			checkPoints.markers.removeAllMarkers();
         
         checkPoints = new Checkpoints();
 		events.getEventByIndexHelper.call(el);
@@ -92,6 +92,8 @@ $().ready(function(){
         status.updateEvent.call(status.startingEvent.startingEvent);
         // displaying the checkpoints of starting event
         var startingEventCheckpoint = new Checkpoints();
+        status.updateCheckpoint.callbacks = [startingEventCheckpoint.displayMaker,startingEventCheckpoint.centerScreenWithCheckpoints];
+        status.checkpoints = startingEventCheckpoint;
         startingEventCheckpoint.getCheckpointsHelper(status.startingEvent.startingEventId,status.updateCheckpoint);
 	});
 
@@ -112,6 +114,9 @@ $().ready(function(){
         }
         status.naviating = this;
         status.updateNavigateCSS();
+        //show route
+        status.navigatingCheckpoint = new status.NavigatingCheckpoint();
+
     });
 	// End Initialisation
 	
@@ -253,8 +258,28 @@ $().ready(function(){
 		var self = this;
 		self.isShown = false;
 		self.checkpoints = {};
-		self.markers = [];
+        self.markers = new Marker();
 
+        function Marker(){
+            var _self = this;
+            // marker, key:value, key as checkpoints id and value as a marker
+            _self.markers = {};
+
+            _self.setMarker = function setMarker(checkpoint,marker){
+                _self.markers[checkpoint._id] = marker;
+            }
+
+            _self.resetAllMarkers = function resetAllMarkers(){
+//                _self.marker = {};
+                _self.markers = [];
+            }
+
+            _self.removeAllMarkers = function removeAllMarkers(){
+                for (var i = 0; i<_self.markers.length;i++){
+                    map.objects.remove(_self.markers[i]);
+                }
+            }
+        }
 		self.setCheckpoints = function setCheckpoints(b){
 			if (typeof(b) === "boolean")
 				self.isShown = b;
@@ -329,17 +354,12 @@ $().ready(function(){
 				});
 		}
 
-		self.displayUnMaker = function displayUnMaker(){
-			$.each(self.markers ,function(index,values){
-				map.objects.remove(values);
-			});
-			self.markers = [];
-		}
+
 
 		self.displayMaker = function displayMaker(checkpoints){
-			$.each(checkpoints,function(index,values){
-				var marker = mobileAddCheckpointMarker(map, values);
-				self.markers.push(marker);
+			$.each(checkpoints,function(index,value){
+				var marker = mobileAddCheckpointMarker(map, value);
+				self.markers.setMarker(value,marker);
 			});
 		}
 
@@ -470,6 +490,11 @@ $().ready(function(){
         self.SHOW_LESS_EVENT = "show less";
         self.isExpanded = false;
 
+        // checkpoints
+        self.checkpoints = {};
+        self.markers = {};
+        self.navigatingCheckpoint = null;
+
         // represents "start" or "starting" elements
 		function StartClassName(){
 			var _self = this;
@@ -520,6 +545,20 @@ $().ready(function(){
                     return _self.DEFAULT_NAME;
                 }
             }
+        }
+
+        // represents the navigating checkpoint
+        self.NavigatingCheckpoint = function NavigatingCheckpoint(){
+            var _self = this;
+            _self.navigatingCheckpointID = $(self.naviating).length != 0 ? $(self.naviating).siblings("li").attr("data-id") : null;
+            _self.navigatingMarker =  _self.navigatingCheckpointID != null ? self.markers[_self.navigatingCheckpointID] : {};
+            // navigation function
+            self.showRoute = (function showRoute(){
+                if (_self.navigatingCheckpointID != null && !$.isEmptyObject(_self.navigatingMarker)){
+                    _Geolocation.g_getRoute(_self.navigatingMarker);
+                }
+            })();
+
         }
 
         // represents the starting event
@@ -649,8 +688,18 @@ $().ready(function(){
             }else{
                 o = this;
             }
-            var callback = new EJS({url: '/templates/startingCheckpointTemplate.ejs'}).update('startedCheckpointWrap',{content:o});
+            var template = new EJS({url: '/templates/startingCheckpointTemplate.ejs'}).update('startedCheckpointWrap',{content:o});
+            // This is what I am not sure
+            if(self.updateCheckpoint.callbacks){
+                for (var i = 0;i<self.updateCheckpoint.callbacks.length;i++){
+                    if (typeof(self.updateCheckpoint.callbacks[i]) === "function"){
+                        self.updateCheckpoint.callbacks[i](o);
+                    }
+                }
+            }
+            self.markers = self.checkpoints.markers.markers;
         }
+
         /**
          * StartClassName member functions
          */
