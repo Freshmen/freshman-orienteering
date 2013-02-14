@@ -576,7 +576,7 @@ module.exports = exports = function api_module(cfg) {
 			},
 			upload : function(req, res, next) {
 				read_view('Tickets', parseFilters(req, req.params.eventID), function(tickets) {
-					if (!tickets || !tickets[0].ticket) {
+					if (!tickets && !tickets[0].ticket) {
 						if (next) { return next(true); }
 						res.json(500, { "error" : "failed to get a user ticket"});
 					}
