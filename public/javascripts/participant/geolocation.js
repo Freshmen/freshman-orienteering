@@ -83,6 +83,11 @@ GAMIFY.Geo.prototype.displayUserLocation = function() {
 GAMIFY.Geo.prototype.updateUserLocation = function() {
   var that = this;
   this.positioning.watchPosition(function(position) {
+    var msg = "Location updated. ";
+    msg += "Latitude: " + position.coords.latitude;
+    msg += " . ";
+    msg += "Longitude: " + position.coords.longitude;
+    alert(msg);
     that.userMarker.set("coordinate", position.coords);
     that.map.update(-1, true);
   });
