@@ -123,10 +123,10 @@ var setupEventFolder = function(eventID,eventName) {
 	    // Get ticket for this event
 	    var ticket, eventName;
 	    // In future tickets might be tied to the user account
-	    $.get("api/v2/events/"+eventID+"/tickets", function(data) {
+	    $.get("/api/v2/events/"+eventID+"/tickets", function(data) {
 	        ticket = data[0].ticket;
 	        // get eventname , in future this will be directly available as an input parameter.
-	        $.get("api/v2/events/"+eventID, function(data){
+	        $.get("/api/v2/events/"+eventID, function(data){
 		        eventName = data.title;
 		        var eventDesc = data.description;
 	            // Create a folder with that name	
@@ -163,12 +163,12 @@ var uploadTask = function (ticket, path, taskFile, eventID, chkptID) {
 
 var setupCheckpointFolder = function(eventID, chkptID, taskFile) {
     if(!!eventID || !!chkptID) {
-        $.get("api/v2/events/" + eventID + "/checkpoints/" +chkptID, function(data){
+        $.get("/api/v2/events/" + eventID + "/checkpoints/" +chkptID, function(data){
             var chkptName = data.title;
             var chkptTask = data.task.description;
-            $.get("api/v2/events/"+eventID, function(data){
+            $.get("/api/v2/events/"+eventID, function(data){
                 var eventName = data.title;
-	        $.get("api/v2/events/"+eventID+"/tickets", function(data) {
+	        $.get("/api/v2/events/"+eventID+"/tickets", function(data) {
 	            var ticket = data[0].ticket;
                     // Create a folder with that name
                     fsio.content.createFolder(ticket, "devices/Web/Gamified/"+eventName+"/"+chkptName, function(jqXHR){
