@@ -47,7 +47,14 @@ function createCheckpoint(marker){
 		resizable: false,
 		modal: true,
 		width: 500,
-		closeText: 'Save & Close'
+		dialogClass: 'no-close',
+        open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide();
+		buttons: [{
+      		text: "Done",
+      		click: function() {
+        		$( this ).dialog( "close" );
+      		}
+    	}]
 	});
 
 	<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
@@ -137,7 +144,8 @@ function saveCheckpoints() {
 			// Take out the file object from the file picker. We dont want to send the file to couchDb.	
 			var taskFile = checkpointJSON['task']['URL'];
 			checkpointJSON['task']['URL'] = "NONE";
-			upload_progress[taskFile.name] = false; 
+			if(taskFile != null)
+				upload_progress[taskFile.name] = false; 
 			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
 			    // Setup the checkpoint folder and upload the task file into it.
 			    chkptDBID = data.id	 
@@ -166,7 +174,7 @@ function parseCheckpoint(checkpointFormID) {
 		order = '0';
 	}
 	$("#" + checkpointFormID).children().each(function() {
-		console.log($(this));
+		// console.log($(this));
 		if (/title_./.test($(this).attr("id"))){
 			checkpoint_details['title'] = $(this).val();
 		}
