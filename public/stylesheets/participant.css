@@ -105,10 +105,12 @@ a i {
   float: left;
   padding: 4px;
 }
-#show-map {
+#show-map,
+#upload {
   right: 0;
   float: right;
   padding: 4px;
+  cursor: pointer;
 }
 #contents-container {
   padding: 20px;
@@ -144,8 +146,14 @@ a i {
   font-family: 'Arvo', serif;
   text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 }
+#enroll-button p {
+  display: inline;
+}
 .enrolled {
   background-color: #b22222;
+}
+.hidden {
+  display: none;
 }
 .wrapper-dropdown-5 {
 /* Size & position */

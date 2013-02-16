@@ -30,27 +30,45 @@
     	</div>
 	</div>
 
-	<h1>Checkpoint : <%= checkpoint.title %></h1>
-	<hr>
-	<h2>Task description</h2>
-	<hr>
-	<p><%= checkpoint.task.description %></p>
-	<ul>
-		<li><a href="<%= checkpoint.task.url %>" class="enrollment-link">View task's media file</a></li>
-	</ul>
-	<a href="<%= checkpoint.task.url %>">View task</a>
-	<button type="button">Upload</button>
-	<% if (checkpoint.task.accepts == 'audio/*') {%>
-		<input id="audiofile" type="file" accepts="audio/*;capture=microphone">
-	<% } else if (checkpoint.task.accepts == 'video/*') { %>
-		<input id="videofile" type="file" accepts="video/*;capture=camcorder">
-	<% } else if (checkpoint.task.accepts == 'image/*') { %>
-		<input id="imagefile" type="file" accepts="image/*;capture=camera">
-	<% } else { %>
-		<input id="anyfile" type="file"> 
-	<% } %> 
-	<p>Upload token: <%= ticket %></p>
-	<p><a href="/events/<%= evt._id %>/checkpoints">&lt; Back</a></p>
+	<div id="contents-container">
+		<h2><%= checkpoint.title %></h2>
+		<hr>
+		<p><%= checkpoint.task.description %></p>
+		<center>
+			<button href="<%= checkpoint.task.url %>" id="enroll-button">
+				<i class="icon-cloud-download icon-large"></i>
+				<p>View task's media file</p>
+			</button>
+		</center>
+		</ul>
+		<a href="<%= checkpoint.task.url %>">View task</a>
+
+		<% if (checkpoint.task.accepts == 'audio/*') {%>
+			<input id="audiofile" type="file" accepts="audio/*;capture=microphone" class="hidden">
+		<% } else if (checkpoint.task.accepts == 'video/*') { %>
+			<input id="videofile" type="file" accepts="video/*;capture=camcorder" class="hidden">
+		<% } else if (checkpoint.task.accepts == 'image/*') { %>
+			<input id="imagefile" type="file" accepts="image/*;capture=camera" class="hidden">
+		<% } else { %>
+			<input id="anyfile" type="file" class="hidden"> 
+		<% } %>
+	</div>
+
+	<div id="footer-container" class="fixed-container">
+		<a href="/events/<%= evt._id %>/checkpoints">
+			<div id="back" class="footer-item">
+				<i class="icon-angle-left icon-large"></i>
+				<p>Back</p>
+			</div>
+		</a>
+		<a onClick=openFileSelector()>
+			<div id="upload" class="footer-item">
+				<i class="icon-cloud-upload icon-large"></i>
+				<p>Upload Submission</p>
+			</div>
+		</a>
+	</div>
+
 	<script type="text/javascript">
 		var input = document.querySelector('input[type=file]');
 		input.onchange = function () {

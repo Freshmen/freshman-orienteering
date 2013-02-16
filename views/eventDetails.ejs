@@ -31,12 +31,13 @@
 	<div id="contents-container">
 		<h2><%= evt.title %></h2>
 		<p><%= evt.description %></p>
-		<button id="enroll-button" <% if (enrolled) { %> class="enrolled" <% } %>>
-			<i class="icon-pencil icon-large"></i>
-			<% if (!enrolled) { %> Enroll <% } %>
-			<% if (enrolled) { %> Unenroll <% } %>
-		</button>
-		
+		<center>
+			<button id="enroll-button" <% if (enrolled) { %> class="enrolled" <% } %>>
+				<i class="icon-pencil icon-large"></i>
+				<% if (!enrolled) { %> Enroll <% } %>
+				<% if (enrolled) { %> Unenroll <% } %>
+			</button>
+		</center>
 	</div>
 
 	<div id="footer-container" class="fixed-container">
