@@ -9,7 +9,6 @@
 		height: 100%;
 		overflow: hidden;
 		margin: 0;
-		padding: 40px 0;
 	}
 	#footer {
 		position: fixed;
@@ -30,18 +29,23 @@
 	#mapContainer {
 		width: 100%; 
 		height: 100%;
+		padding: 40px 0;
 	}
 </style>
 </head>
 <body>
 	<header id="header"></header>
 	<div id="mapContainer"></div>
-	<footer id="footer"><a href="/events/<%= evt._id %>">&lt; Back</a></footer>
+	<footer id="footer">
+		<a href="/events/<%= evt._id %>">&lt; Back</a>
+		<button id="checkin" type="button">Check in!</button>
+	</footer>
 	<script src="//api.maps.nokia.com/2.2.3/jsl.js?with=all"></script>
 	<script src="/javascripts/participant/geolocation.js"></script>
 	<script>
 		GAMIFY.geo = new GAMIFY.Geo(document.getElementById("mapContainer"));
-		GAMIFY.geo.showCheckpoints(<%- JSON.stringify(checkpoints) %>);
+		GAMIFY.geo.addCheckpoints(<%- JSON.stringify(checkpoints) %>);
+		GAMIFY.geo.setStartPosition(<%- JSON.stringify(evt.location) %>);
 	</script>
 </body>
 </html>

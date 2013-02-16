@@ -28,12 +28,85 @@ GAMIFY.Geo = function(mapContainer) {
   }); 
   this.positioning = new nokia.maps.positioning.Manager();
   this.router = new nokia.maps.routing.Manager();
+  this.displayUserLocation();
+  this.updateUserLocation();
 };
 
-GAMIFY.Geo.prototype.showCheckpoints = function(checkpoints) {
-    console.log("Adding checkpoints");
-    for (var i = 0; i < checkpoints.length; i++) {
-      console.log("Adding checkpoint:");
-      console.log(checkpoints[i].title);
+GAMIFY.Geo.prototype.addCheckpoints = function(checkpointList) {
+  this.checkpoints = [];   
+  var checkpointContainer = new nokia.maps.map.Container();
+  for (var i=0; i < checkpointList.length; i++) {
+    var checkpoint = checkpointList[i];
+    if(checkpoint.location) {
+      checkpoint.location.latitude = Number(checkpoint.location.latitude); 
+      checkpoint.location.longitude = Number(checkpoint.location.longitude);      
     }
+    var coords = [checkpoint.location.latitude, checkpoint.location.longitude]; 
+    var markerOptions = {};
+    if (checkpoint.visited) {
+      markerOptions.brush = { color: "#ddd"};
+    }
+    if (Number(checkpoint.order)) {
+      markerOptions.text = checkpoint.order;
+    }
+    var standardMarker = new nokia.maps.map.StandardMarker(coords, markerOptions);
+    checkpointContainer.objects.add(standardMarker);
+
+    this.checkpoints.push(checkpoint);
+  }
+  this.map.objects.add(checkpointContainer);
+  this.map.zoomTo(checkpointContainer.getBoundingBox(),false,true);
 }
+
+GAMIFY.Geo.prototype.displayUserLocation = function() {
+  var that = this;
+  this.positioning.getCurrentPosition(function(position) {
+    var coords = position.coords;
+    that.userMarker = 
+      new nokia.maps.map.StandardMarker(coords, {
+        text: "You",
+        textPen: {
+          strokeColor: "#333"
+        },
+        brush: {
+          color: "#FFF"
+        },
+        pen: {
+          strokeColor: "#333"
+        }
+      });
+    that.map.objects.add(that.userMarker);
+  });
+}
+
+GAMIFY.Geo.prototype.updateUserLocation = function() {
+  console.log("User location updated!");
+  var that = this;
+  this.positioning.watchPosition(function(position) {
+    that.userMarker.set("coordinate", position.coords);
+    that.map.update(-1, true);
+  });
+}
+
+GAMIFY.Geo.prototype.setStartPosition = function(location) {
+  var that = this;
+  var coords = {};
+  coords.latitude = Number(location.latitude);
+  coords.longitude = Number(location.longitude);
+  var markersIconsUrl = "/images/markers.png";
+
+  var anchor = new nokia.maps.util.Point(16, 30),
+    finishIcon = new nokia.maps.gfx.BitmapImage(markersIconsUrl, null, 30, 34, 34, 0),
+    finishMarker = new nokia.maps.map.Marker(coords, {
+      icon: finishIcon,
+      anchor: anchor
+    });
+
+  this.map.objects.add(finishMarker);
+
+}
+
+GAMIFY.Geo.prototype.centerOnUser = function() {
+  this.map.set("center", this.userMarker);
+}
+
