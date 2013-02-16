@@ -143,8 +143,7 @@ function saveCheckpoints() {
 			// Take out the file object from the file picker. We dont want to send the file to couchDb.	
 			var taskFile = checkpointJSON['task']['URL'];
 			checkpointJSON['task']['URL'] = "NONE";
-			if(taskFile != null)
-				upload_progress[taskFile.name] = false; 
+			upload_progress[checkpointJSON['title']] = false;
 			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
 			    // Setup the checkpoint folder and upload the task file into it.
 			    chkptDBID = data.id	 
@@ -153,9 +152,12 @@ function saveCheckpoints() {
 		}
 	});
 	disableScreen();
-	showProgress();
-	// To enable screen and do something do it in the line after clearInterval(looper)
-	// window.location.reload();
+	if(jQuery.isEmptyObject(upload_progress)){
+		endNotifier();
+	}
+	else {
+		showProgress();	
+	}
 }
 
 function parseCheckpoint(checkpointFormID) {
@@ -300,29 +302,7 @@ var showProgress = function() {
   				$( "#progress-dialog" ).dialog( "option", "buttons", [ { text: "Done", click: function() { 
   												$( this ).dialog( "close" );
   												// Do something else here . reload the page ? 
-  												var notifier = new Backbone.Notifier({
-													theme: 'plastic',
-													type: 'info',
-													dialog: false,
-													modal: true,
-													position: 'center',
-													zIndex: 10000,
-													screenOpacity: 0.7,
-													fadeInMs: 0,
-													fadeOutMs: 0,
-												});
-												var confirmMsg = notifier.notify({
-													title: "Your event was saved successfully!!!",	
-													message: "Go to the Manage Events section to manage this event or create another event in here",
-													buttons: [{'data-role': 'ok', text: 'Yes, I get it'}],
-													modal: true,
-													ms: null,
-													destroy: false
-												})
-												.on('click:ok', function(){
-													this.destroy();
-													window.location.reload();
-												})
+  												endNotifier();
 
   											} } ] );
   				$( "#progress-dialog" ).dialog( "option", "title", "Uploading Done" );
@@ -331,4 +311,30 @@ var showProgress = function() {
 		});
 
 	}, 1000);
+}
+
+var endNotifier = function(){
+	var notifier = new Backbone.Notifier({
+		theme: 'plastic',
+		type: 'info',
+		dialog: false,
+		modal: true,
+		position: 'center',
+		zIndex: 10000,
+		screenOpacity: 0.7,
+		fadeInMs: 0,
+		fadeOutMs: 0,
+	});
+	var confirmMsg = notifier.notify({
+		title: "Your event was saved successfully!!!",	
+		message: "Go to the Manage Events section to manage this event or create another event in here",
+		buttons: [{'data-role': 'ok', text: 'Yes, I get it'}],
+		modal: true,
+		ms: null,
+		destroy: false
+	})
+	.on('click:ok', function(){
+		this.destroy();
+		window.location.reload();
+	})
 }

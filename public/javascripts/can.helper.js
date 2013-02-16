@@ -91,7 +91,8 @@ function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
             }
             else {
                     $.get("/api/v2/events/"+eventID+"/checkpoints/"+chkptID, function(data){
-                        var taskObj = data.task;  
+                        var taskObj = data.task;
+                        var title = data.title;  
                         fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
                             var response = JSON.parse(jqXHR.responseText)
                             taskObj["URL"] = response.Items[0].URL
@@ -104,7 +105,7 @@ function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
                                     console.log(upload_progress);
                                     console.log("Task Object");
                                     console.log(taskObj);
-                                    upload_progress[taskFile.name] = true;
+                                    upload_progress[title] = true;
                                 }
                             });
                         });
@@ -176,7 +177,13 @@ var setupCheckpointFolder = function(eventID, chkptID, taskFile) {
 		        var metadata = { "chkptID" : chkptID };
 		        fsio.content.setFileMetadata(ticket, "devices/Web/Gamified/"+eventName+"/"+chkptName, "No Desc", metadata, function(jqXHR){
 			    var path = "devices/Web/Gamified/"+eventName+"/"+chkptName;
-			    uploadTask(ticket,path,taskFile, eventID, chkptID);		
+                if(taskFile != undefined){
+                    uploadTask(ticket,path,taskFile, eventID, chkptID);     
+                }
+                else {
+                    upload_progress[chkptName] = true;    
+                }
+                
 			});
 		    });
     	        });
