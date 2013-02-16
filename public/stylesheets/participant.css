@@ -29,6 +29,7 @@ li {
   position: fixed;
   height: 1.8em;
   width: 100%;
+  display: block;
 }
 #header-container {
   top: 0;
