@@ -32,5 +32,5 @@ GAMIFY.Geo = function(mapContainer) {
 
 GAMIFY.Geo.prototype.showCheckpoints = function(checkpoints) {
     console.log("Adding checkpoints:");
-    console.log(checkpoints)
+    console.log(checkpoints);
 }

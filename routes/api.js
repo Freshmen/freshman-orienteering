@@ -128,7 +128,7 @@ module.exports = exports = function api_module(cfg) {
 	}
 
 	var read_view = function(view, filter, callback) {
-		filter == filter?filter:'';
+		filter = filter?filter:'';
 		db.view('Lists', view, filter, function(err, body) {
 	  		if (!err) {
 	  			var response = [];
@@ -201,15 +201,13 @@ module.exports = exports = function api_module(cfg) {
 					res.json(201, body);
 				});
 			},
-			list : function(req, res, next) {
+			list : function(req, res) {
 				read_view('Events', parseFilters(req, req.query['organizer']), function(body) {
-					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
-			show : function(req, res, next) {
+			show : function(req, res) {
 				read_doc(req.params.eventID, function(body) {
-					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
@@ -250,15 +248,13 @@ module.exports = exports = function api_module(cfg) {
 					res.json(201, body);
 				});
 			},
-			list : function(req, res, next) {
+			list : function(req, res) {
 				read_view('Checkpoints', parseFilters(req, req.params.eventID), function(body) {
-					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
-			show : function(req, res, next) {
+			show : function(req, res) {
 				read_doc(req.params.checkpointID, function(body) {
-					if (next) { return next(null, body); }
 					res.json(200, body);
 				});
 			},
@@ -273,7 +269,6 @@ module.exports = exports = function api_module(cfg) {
 				});
 			}
 		},
-
 		enrollments : {
 			create : function(req, res) {
 				req.body.type = 'Enrollment';
@@ -406,9 +401,8 @@ module.exports = exports = function api_module(cfg) {
 					res.json(201, body);
 				});
 			},
-			show : function(req, res, next) {
+			show : function(req, res) {
 				read_view('Tasks', parseFilters(req, req.params.checkpointID), function(body) {
-					if (next) { return next(null, body); }
 					res.json(200, body[0]);
 				});
 			},
@@ -450,36 +444,30 @@ module.exports = exports = function api_module(cfg) {
 					res.json(200, body);
 				});
 			},
-			getEnrollments : function(req, res, next) {
+			getEnrollments : function(req, res) {
 				if (req.user && req.user._id) {
 					read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
-						if (next) { return next(null, body); }
 						res.json(200, body);
 					});	
 				} else {
-					if (next) { return next({ 'error' : true }); }
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
-			getCheckins : function(req, res, next) {
+			getCheckins : function(req, res) {
 				if (req.user && req.user._id) {
 					read_view('CheckinsByUser', parseFilters(req, req.user._id), function(body) {
-						if (next) { return next(null, body); }
 						res.json(200, body);
 					});	
 				} else {
-					if (next) { return next(true); }
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
-			getSubmissions : function(req, res, next) {
+			getSubmissions : function(req, res) {
 				if (req.user && req.user._id) {
 					read_view('SubmissionsByUser', parseFilters(req, req.user._id), function(body) {
-						if (next) { return next(null, body); }
 						res.json(200, body);
 					});	
 				} else {
-					if (next) { return next(true); }
 					res.json(403, { 'error' : 'user not logged in' });
 				}
 			},
@@ -574,10 +562,9 @@ module.exports = exports = function api_module(cfg) {
 					res.json(200, body[0]);
 				});
 			},
-			upload : function(req, res, next) {
+			upload : function(req, res) {
 				read_view('Tickets', parseFilters(req, req.params.eventID), function(tickets) {
 					if (!tickets && !tickets[0].ticket) {
-						if (next) { return next(true); }
 						res.json(500, { "error" : "failed to get a user ticket"});
 					}
 					var options = {
@@ -596,16 +583,53 @@ module.exports = exports = function api_module(cfg) {
 						response.setEncoding('utf-8');
 						res.writeHead(response.statusCode);
 						response.on('data', function(data) {
-							if (next) { token += data ; }
 							res.write(data);
 						});
 						response.on('end', function(data) {
-							if (next) { return next(null, token); }
 							res.end();
 						});
 					}).on('error', function(e) {
 						res.json(500, { "error" : "failed to get an upload token"});
 					});
+					post_req.end();
+				});
+			}
+		}, 
+		internal : {
+			getDocumentById : function(id, callback) {
+				read_doc(id, callback);
+			},
+			getDocumentsByType : function(type, filter, callback) {
+				if (filter) {
+					filter = { key : filter };
+				} else {
+					filter = '';
+				}
+				read_view(type, filter, callback);
+			},
+			getUploadToken : function(eventID, callback) {
+				read_view('Tickets', { key : eventID}, function(tickets) {
+					var options = {
+						hostname: 'devapi-fip.sp.f-secure.com',
+						port: 443,
+						method: "POST",
+						path: '/ticket/1_0_0/upload',
+						headers : {
+							'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
+							'x-application-ticket' : tickets[0].ticket,
+							'Content-Length' : 0
+						}
+					};
+					var post_req = https.request(options, function(response) {
+						var token;
+						response.setEncoding('utf-8');
+						response.on('data', function(data) {
+							token += data;
+						});
+						response.on('end', function() {
+							callback(token);
+						});
+					})
 					post_req.end();
 				});
 			}

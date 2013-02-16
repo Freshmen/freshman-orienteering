@@ -32,16 +32,16 @@
 		height: 100%;
 	}
 </style>
-
 </head>
 <body>
 	<header id="header"></header>
 	<div id="mapContainer"></div>
 	<footer id="footer"><a href="/events/<%= evt._id %>">&lt; Back</a></footer>
-	<script src="http://api.maps.nokia.com/2.2.3/jsl.js?with=all"></script>
+	<script src="//api.maps.nokia.com/2.2.3/jsl.js?with=all"></script>
 	<script src="/javascripts/participant/geolocation.js"></script>
 	<script>
 		GAMIFY.geo = new GAMIFY.Geo(document.getElementById("mapContainer"));
+		console.log(<%- JSON.stringify(checkpoints) %>);
 	</script>
 </body>
 </html>
