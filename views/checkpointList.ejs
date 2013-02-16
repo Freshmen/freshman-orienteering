@@ -34,7 +34,8 @@
 </style>
 </head>
 <body>
-	<header id="header"></header>
+	<header id="header">
+		<button id="locateMe" type="button">Center on user</button></header>
 	<div id="mapContainer"></div>
 	<footer id="footer">
 		<a href="/events/<%= evt._id %>">&lt; Back</a>
@@ -46,6 +47,11 @@
 		GAMIFY.geo = new GAMIFY.Geo(document.getElementById("mapContainer"));
 		GAMIFY.geo.addCheckpoints(<%- JSON.stringify(checkpoints) %>);
 		GAMIFY.geo.setStartPosition(<%- JSON.stringify(evt.location) %>);
+		if (window.addEventListener) {
+			document.getElementById("locateMe").addEventListener('click', function() { GAMIFY.geo.centerOnUser(); }, false);
+		} else if (window.attachEvent) {
+			document.getElementById("locateMe").attachEvent('click', function() { GAMIFY.geo.centerOnUser(); });
+		}
 	</script>
 </body>
 </html>

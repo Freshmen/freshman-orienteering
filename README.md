@@ -16,9 +16,8 @@ To sreve the application you need a server running Node.js with NPM installed. S
 ## Licence
 
 
-   Copyright 2012 Team Freshmen (Sanna Olkkonen, Dexter He,
-   Fuguo Huang, Vidhuran Harichandra, Raoul Udd, TianShi Xiang,
-   Jukka Saarelma, Tuomo Vierros)
+   Copyright 2012 Team Freshmen (Sanna Olkkonen, Dexter He, Fuguo Huang, 
+   Vidhuran Harichandra, Raoul Udd, Jukka Saarelma, Tuomo Vierros)
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

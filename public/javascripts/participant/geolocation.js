@@ -75,12 +75,12 @@ GAMIFY.Geo.prototype.displayUserLocation = function() {
           strokeColor: "#333"
         }
       });
+    that.userMarker.enableDrag();
     that.map.objects.add(that.userMarker);
   });
 }
 
 GAMIFY.Geo.prototype.updateUserLocation = function() {
-  console.log("User location updated!");
   var that = this;
   this.positioning.watchPosition(function(position) {
     that.userMarker.set("coordinate", position.coords);
@@ -107,6 +107,5 @@ GAMIFY.Geo.prototype.setStartPosition = function(location) {
 }
 
 GAMIFY.Geo.prototype.centerOnUser = function() {
-  this.map.set("center", this.userMarker);
+  this.map.set("center", this.userMarker.get("coordinate"));
 }
-
