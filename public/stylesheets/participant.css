@@ -39,7 +39,7 @@ li {
   left: 0;
   background-color: #13549a;
   color: #fff;
-  box-shadow: 1px 1px 7px #a8a8a8;
+  box-shadow: 0 0 7px #a8a8a8;
   text-shadow: #000 0 0 0.2em;
 }
 #footer-container {
@@ -47,7 +47,7 @@ li {
   left: 0;
   background-color: #13549a;
   color: #fff;
-  box-shadow: 1px 1px 7px #a8a8a8;
+  box-shadow: 0 0 7px #a8a8a8;
   text-shadow: #000 0 0 0.2em;
 }
 #header-container li a {
