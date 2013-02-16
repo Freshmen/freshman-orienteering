@@ -1,26 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<script data-main="/javascripts/can.helper.min.js" src="/dependencies/libs/require-jquery.js"></script>
-<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" charset="utf-8" />
+	<title>Gamified : Checkpoint <%= checkpoint.title %></title>
+	<link rel='stylesheet' href='/stylesheets/participant.css'/>
+	<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Arvo' />
+	<link rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css'>
+	<script data-main="/javascripts/can.helper.min.js" src="/dependencies/libs/require-jquery.js"></script>
+	<script src="/javascripts/logout_dropdown.js"></script>
 </head>
 <body>
-	<h1>Checkpoint: <%= checkpoint.title %></h1>
-	<h2>Task description:</h2>
+	<div id="header-container" class="fixed-container">
+    	<a href="/events">
+    		<div id="home">
+    			<i class="icon-home icon-large"></i>
+   	 		</div>
+   	 	</a>
+   	 	<div id="gamified-logo"></div>
+   	 	<div id="dd" class="wrapper-dropdown-5" tabindex="1">
+			<i class="icon-user icon-large"></i>
+    		<p>
+    			<% if(user && user.name) { %>
+    				<%= user.name %>
+    			<% } %>
+    		</p>
+    		<ul class="dropdown">
+        		<li><a href="/logout"><i class="icon-signout"></i>Log out</a></li>
+    		</ul>
+    	</div>
+	</div>
+
+	<h1>Checkpoint : <%= checkpoint.title %></h1>
+	<hr>
+	<h2>Task description</h2>
+	<hr>
 	<p><%= checkpoint.task.description %></p>
+	<ul>
+		<li><a href="<%= checkpoint.task.url %>" class="enrollment-link">View task's media file</a></li>
+	</ul>
 	<a href="<%= checkpoint.task.url %>">View task</a>
-	<!-- <button type="button">Upload</button> -->
-	<input type="file" <% if checkpoint.task.accepts != 'any/*'{%> accepts="<%= checkpoint.task.url %>" <%} %> />
+	<button type="button">Upload</button>
+	<% if (checkppoint.task.accepts == 'audio/*') {%>
+		<input id="audiofile" type="file" accepts="audio/*;capture=microphone">
+	<% } else if (checkpoint.task.accepts == 'video/*') { %>
+		<input id="videofile" type="file" accepts="video/*;capture=camcorder">
+	<% } else if (checkpoint.task.accepts == 'image/*') { %>
+		<input id="imagefile" type="file" accepts="image/*;capture=camera">
+	<% } else { %>
+		<input id="anyfile" type="file"> 
+	<% } %> 
 	<p>Upload token: <%= ticket %></p>
 	<p><a href="/events/<%= evt._id %>/checkpoints">&lt; Back</a></p>
 	<script type="text/javascript">
 		var input = document.querySelector('input[type=file]');
 		input.onchange = function () {
   			var file = input.files[0];
-  			console.log(file.name);
-  			var path = "devices/Web/<%= evt.title>/<%= checkpoint.title>/Submissions/" + file.name;
-  			var uploadTicket = <%= ticket>
+  			var eventName = <%= evt.title %>
+  			var chkptName = <%= checkpoint.title %>
+  			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
+  			var uploadTicket = <%= ticket %>
   			uploadFile(uploadTicket,path,file);
   		}
 	</script>
