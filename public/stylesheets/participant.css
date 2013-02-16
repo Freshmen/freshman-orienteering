@@ -8,6 +8,7 @@ body {
 }
 h2 {
   font-size: 120%;
+  margin-bottom: 0;
 }
 a {
   text-decoration: none;
@@ -54,9 +55,19 @@ a i {
   font-size: 80%;
   text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 }
+.enrollment-link {
+  border-radius: 7px;
+  background-color: #3fab47;
+  padding: 2px 5px 2px 5px;
+  display: block;
+  box-shadow: 0 0 5px #a8a8a8;
+  font-size: 80%;
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+}
 #home {
   display: inline-block;
   padding: 3px;
+  padding-left: 8px;
   top: 0;
   left: 0;
   float: left;
