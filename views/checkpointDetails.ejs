@@ -10,19 +10,18 @@
 	<h2>Task description:</h2>
 	<p><%= checkpoint.task.description %></p>
 	<a href="<%= checkpoint.task.url %>">View task</a>
-	<!-- <button type="button">Upload</button> -->
-	<input type="file" <% if checkpoint.task.accepts != 'any/*'{%> accepts="<%= checkpoint.task.url %>" <%} %> />
+	<input type="file" <% if (checkpoint.task.accepts != 'any/*') {%> accepts="<%= checkpoint.task.accepts %>" <%} %> />
 	<p>Upload token: <%= ticket %></p>
 	<p><a href="/events/<%= evt._id %>/checkpoints">&lt; Back</a></p>
-	<script type="text/javascript">
-		var input = document.querySelector('input[type=file]');
-		input.onchange = function () {
-  			var file = input.files[0];
-  			console.log(file.name);
-  			var path = "devices/Web/<%= evt.title>/<%= checkpoint.title>/Submissions/" + file.name;
-  			var uploadTicket = <%= ticket>
-  			uploadFile(uploadTicket,path,file);
-  		}
+	<script>
+	var input = document.querySelector('input[type=file]');
+	input.onchange = function () {
+			var file = input.files[0];
+			console.log(file.name);
+			var path = "devices/Web/<%= evt.title>/<%= checkpoint.title>/Submissions/" + file.name;
+			var uploadTicket = <%= ticket>
+			uploadFile(uploadTicket,path,file);
+		}
 	</script>
 </body>
 </html>

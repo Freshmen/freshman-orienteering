@@ -578,7 +578,6 @@ module.exports = exports = function api_module(cfg) {
 						}
 					};
 					var post_req = https.request(options, function(response) {
-						var token;
 						response.setEncoding('utf-8');
 						res.writeHead(response.statusCode);
 						response.on('data', function(data) {

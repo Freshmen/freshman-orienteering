@@ -109,3 +109,28 @@ GAMIFY.Geo.prototype.setStartPosition = function(location) {
 GAMIFY.Geo.prototype.centerOnUser = function() {
   this.map.set("center", this.userMarker.get("coordinate"));
 }
+
+GAMIFY.Geo.prototype.checkin = function() {
+  console.log("checkin clicked");
+  var closest;
+  var distance = 1000;
+  for (var i=0; i<this.checkpoints.length; i++) {
+    var checkpoint = this.checkpoints[i];
+    var coords = new nokia.maps.geo.Coordinate(checkpoint.location.latitude, checkpoint.location.longitude);
+    var dist = this.userMarker.get("coordinate").distance(coords);
+    if (dist < distance) {
+      distance = dist;
+      closest = checkpoint;
+    }
+  }
+  if (distance > 50) {
+    alert("You are not close enough to any checkpoint");
+  } else {
+    console.log("Closest:");
+    console.log(closest);
+    console.log("Distance:");
+    console.log(distance);
+    
+    window.location += "/" + checkpoint._id;
+  }
+}
