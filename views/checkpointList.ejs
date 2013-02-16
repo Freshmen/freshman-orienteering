@@ -41,7 +41,7 @@
 	<script src="/javascripts/participant/geolocation.js"></script>
 	<script>
 		GAMIFY.geo = new GAMIFY.Geo(document.getElementById("mapContainer"));
-		console.log(<%- JSON.stringify(checkpoints) %>);
+		GAMIFY.geo.showCheckpoints(<%- JSON.stringify(checkpoints) %>);
 	</script>
 </body>
 </html>
