@@ -19,11 +19,10 @@ ul {
   padding: 0;
   line-height: 150%;
   margin-right: 5px;
-  margin-left: 5px;
 }
 li {
   vertical-align: top;
-  margin: 6px 0 6px 0;
+  margin: 0 0 6px;
   width: 100%;
   display: block;
 }
@@ -62,7 +61,6 @@ a i {
 }
 #user p {
   display: inline;
-  font-size: 120%;
 }
 #home {
   display: inline-block;
