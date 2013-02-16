@@ -114,7 +114,6 @@ module.exports = exports = function api_module(cfg) {
 
 	var update_doc = function(id, doc, callback) {
 		db.get(id, function(err, body) {
-			console.log(body);
 			var current_doc = body;
 			for (var prop in doc) {
 				if (doc.hasOwnProperty(prop)) {
