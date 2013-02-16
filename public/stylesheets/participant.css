@@ -9,6 +9,9 @@ body {
   width: auto;
   font-family: 'Arvo', serif;
 }
+h2 {
+  font-size: 120%;
+}
 a {
   text-decoration: none;
   border: 0;
@@ -18,7 +21,7 @@ ul {
   list-style-type: none;
   padding: 0;
   line-height: 150%;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 li {
   vertical-align: top;
@@ -34,25 +37,27 @@ li {
 #header-container {
   top: 0;
   left: 0;
-  background-color: #1b7ae0;
+  background-color: #13549a;
   color: #fff;
   box-shadow: 1px 1px 7px #a8a8a8;
   text-shadow: #000 0 0 0.2em;
+  border-bottom: 2px #000;
 }
 a i {
   text-decoration: none;
   color: #fff;
 }
 .event-link {
-  border-radius: 5px;
+  border-radius: 7px;
   background-color: #1b7ae0;
-  padding: 4px;
+  padding: 2px 5px 2px 5px;
   width: 100%;
   display: block;
-  box-shadow: 1px 1px 3px #a8a8a8;
+  box-shadow: 0 0 5px #a8a8a8;
+  text-shadow: #000 0 0 0.2em;
+  font-size: 80%;
 }
 #user {
-  right: 0;
   top: 0;
   display: inline-block;
   padding: 3px;
@@ -66,6 +71,7 @@ a i {
   display: inline-block;
   padding: 5px;
   float: left;
+  top: 0;
 }
 #footer-container {
   bottom: 0;

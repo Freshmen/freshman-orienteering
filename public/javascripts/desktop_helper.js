@@ -48,7 +48,6 @@ function createCheckpoint(marker){
 		modal: true,
 		width: 500,
 		dialogClass: 'no-close',
-        open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide();
 		buttons: [{
       		text: "Done",
       		click: function() {
@@ -57,7 +56,7 @@ function createCheckpoint(marker){
     	}]
 	});
 
-	<!-- $('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" }); -->
+	//$('.drag-container').last().draggable({ axis: "y", containment: "parent", scroll: false , snap: "true", snapMode: "outer" });
 	checkpoint_hash[hashkey] = marker;
 	fixIds();
 }
