@@ -49,8 +49,10 @@
 		GAMIFY.geo.setStartPosition(<%- JSON.stringify(evt.location) %>);
 		if (window.addEventListener) {
 			document.getElementById("locateMe").addEventListener('click', function() { GAMIFY.geo.centerOnUser(); }, false);
+			document.getElementById("checkin").addEventListener('click', function() { GAMIFY.geo.checkin(); }, false);
 		} else if (window.attachEvent) {
 			document.getElementById("locateMe").attachEvent('click', function() { GAMIFY.geo.centerOnUser(); });
+			document.getElementById("checkin").attachEvent('click', function() { GAMIFY.geo.checkin(); });
 		}
 	</script>
 </body>

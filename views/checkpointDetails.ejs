@@ -40,7 +40,7 @@
 	</ul>
 	<a href="<%= checkpoint.task.url %>">View task</a>
 	<button type="button">Upload</button>
-	<% if (checkppoint.task.accepts == 'audio/*') {%>
+	<% if (checkpoint.task.accepts == 'audio/*') {%>
 		<input id="audiofile" type="file" accepts="audio/*;capture=microphone">
 	<% } else if (checkpoint.task.accepts == 'video/*') { %>
 		<input id="videofile" type="file" accepts="video/*;capture=camcorder">
@@ -55,8 +55,8 @@
 		var input = document.querySelector('input[type=file]');
 		input.onchange = function () {
   			var file = input.files[0];
-  			var eventName = <%= evt.title %>
-  			var chkptName = <%= checkpoint.title %>
+  			//var eventName = <%= evt.title %>
+  			//var chkptName = <%= checkpoint.title %>
   			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
   			var uploadTicket = <%= ticket %>
   			uploadFile(uploadTicket,path,file);
