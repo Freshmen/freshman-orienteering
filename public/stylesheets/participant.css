@@ -47,12 +47,12 @@ a i {
 }
 .event-link {
   border-radius: 7px;
-  background-color: #1b7ae0;
+  background-color: #2981e4;
   padding: 2px 5px 2px 5px;
   display: block;
   box-shadow: 0 0 5px #a8a8a8;
-  text-shadow: #000 0 0 0.2em;
   font-size: 80%;
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 }
 #dd {
   top: 0;
