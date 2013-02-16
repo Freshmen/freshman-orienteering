@@ -29,7 +29,7 @@ nconf.defaults({
   'PORT' : 3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
   'database_host' : 'http://couch:zu5r8ZcL@gami.fi:8124/',
-  'database_name' : 'fori-test-6',
+  'database_name' : 'gamify-2013-02',
   'database_secured' : false,
   'FACEBOOK_APP_ID' : '449519988438382',
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
