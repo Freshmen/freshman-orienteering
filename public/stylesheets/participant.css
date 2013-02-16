@@ -4,6 +4,9 @@ html {
 }
 body {
   height: 100%;
+  max-width: 320px;
+  min-width: 0px;
+  width: auto;
   font-family: 'Arvo', serif;
 }
 a {
@@ -50,9 +53,9 @@ a i {
 #user {
   right: 0;
   top: 0;
-  position: fixed;
   display: inline-block;
   padding: 3px;
+  float: right;
 }
 #user p {
   display: inline;
@@ -61,6 +64,7 @@ a i {
 #home {
   display: inline-block;
   padding: 5px;
+  float: left;
 }
 #footer-container {
   bottom: 0;
