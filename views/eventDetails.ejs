@@ -1,15 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" charset="utf-8" />
+<title>Gamified : <%= evt.title %></title>
+<link rel='stylesheet' href='/stylesheets/participant.css'/>
+<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Arvo' />
+<link rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css'>
 </head>
 <body>
-	<h1>Event: <%= evt.title %></h1>
-	<label>Enrolled:
-		<input type="checkbox" <% if (enrolled) { %>checked<% } %> />
-	</label>
-	<p><a href="/events/<%= evt._id %>/checkpoints">Go to Map</a></p>
-	<p><a href="/events/">&lt; Back</a></p>
+	<div id="header-container" class="fixed-container">
+    	<a href="/events">
+    		<div id="home">
+    			<i class="icon-home icon-large"></i>
+   	 		</div>
+   	 	</a>
+   	 	<div id="gamified-logo"></div>
+   	 	<div id="dd" class="wrapper-dropdown-5" tabindex="1">
+			<i class="icon-user icon-large"></i>
+    		<p>
+    			<% if(user && user.name) { %>
+    				<%= user.name %>
+    			<% } %>
+    		</p>
+    		<ul class="dropdown">
+        		<li><a href="/logout"><i class="icon-signout"></i>Log out</a></li>
+    		</ul>
+    	</div>
+	</div>
+
+	<div id="contents-container">
+		<h2><%= evt.title %></h2>
+		<p><%= evt.description %></p>
+		<button id="enroll-button" <% if (enrolled) { %> class="enrolled" <% } %>>
+			<i class="icon-pencil icon-large"></i>
+			<% if (!enrolled) { %> Enroll <% } %>
+			<% if (enrolled) { %> Unenroll <% } %>
+		</button>
+		
+	</div>
+
+	<div id="footer-container" class="fixed-container">
+		<a href="/events/">
+			<div id="back" class="footer-item">
+				<i class="icon-angle-left icon-large"></i>
+				<p>Events</p>
+			</div>
+		</a>
+		<a href="/events/<%= evt._id %>/checkpoints">
+			<div id="show-map" class="footer-item">
+				<i class="icon-globe"></i>
+				<p>Go to Map</p>
+				<i class="icon-angle-right icon-large"></i>
+			</div>
+		</a>
+	</div>
+
+	<script src="/dependencies/jquery-1.7.2.min.js"></script>
+	<script src="/javascripts/logout_dropdown.js"></script>
 </body>
 </html>

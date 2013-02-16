@@ -96,15 +96,12 @@ function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
                         fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
                             var response = JSON.parse(jqXHR.responseText)
                             taskObj["URL"] = response.Items[0].URL
+                            var task = { "task" : taskObj };
                             $.ajax({
                             url:'/api/v2/events/'+eventID+'/checkpoints/'+chkptID,   
                             type:'PUT',
-                            data: taskObj,
+                            data: task,
                                 success: function(response,data){
-                                    console.log("upload_progress in CAN");
-                                    console.log(upload_progress);
-                                    console.log("Task Object");
-                                    console.log(taskObj);
                                     upload_progress[title] = true;
                                 }
                             });
