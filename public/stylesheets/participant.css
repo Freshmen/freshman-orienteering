@@ -18,6 +18,8 @@ ul {
   list-style-type: none;
   padding: 0;
   line-height: 150%;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 li {
   vertical-align: top;
