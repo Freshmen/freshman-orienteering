@@ -271,7 +271,7 @@ var showProgress = function() {
 
 	$("#progress-dialog").append("<table id='progress-table'>");
 	jQuery.each(upload_progress, function(filename, status) {
-  		$("#progress-table").append("<tr><td>"+ filename +"</td><td><img id = " + filename + " src='/images/ajax-loader.gif'></img></td></tr>");
+  		$("#progress-table").append("<tr><td>"+ filename +"</td><td><img id = '" + filename + "' src='/images/ajax-loader.gif'></img></td></tr>");
   		noOfFiles++;
 	});
 
