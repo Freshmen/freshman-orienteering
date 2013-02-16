@@ -146,7 +146,7 @@ define(["FsioBase"], function(FsioBase) {
                                   ", range: " + range);
                     hdrs["content-range"] = range;
                     // upload next part
-                    self.partialUpload(token, upload_id, data.substring(start_pos, ++end_pos), function(jqXHR, textStatus) {
+                    self.partialUpload(token, upload_id, data, function(jqXHR, textStatus) {
                         // done or error?
                         if(jqXHR.getResponseHeader("content-id") ||
                            jqXHR.status != 204) {
