@@ -11,7 +11,7 @@ exports.create = function(req, res) {
 };
 
 exports.manage = function(req, res) {
-	res.render('desktop_manage', { title: 'Gamified : Manage Event', user: req.user, events: events });
+	res.render('desktop_manage', { title: 'Gamified : Manage Event', user: req.user });
 };
 
 exports.details = function(req, res) {
