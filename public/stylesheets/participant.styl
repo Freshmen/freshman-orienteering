@@ -38,6 +38,9 @@ li
 	text-shadow: black 0 0 0.2em
 	border-bottom: 2px black
 
+#header-container li a
+	text-decoration: none
+
 a i
 	text-decoration:none
 	color:white
@@ -51,14 +54,14 @@ a i
 	text-shadow: black 0 0 0.2em
 	font-size:80%
 
-#user
+#dd
 	top: 0
 	display: inline-block
 	padding: 3px
 	float:right
 	margin-right: 5px
 
-#user p
+#dd p
 	display: inline
 
 #home
@@ -93,3 +96,46 @@ a i
 #message-bottom 
 	float: none
 
+// The following is for the logout dropdown
+
+.wrapper-dropdown-5
+	/* Size & position */
+	position: relative
+	/* Styles */
+	outline: none
+	cursor:pointer
+
+.wrapper-dropdown-5 .dropdown
+	/* Size & position */
+	position: absolute
+	top: 100%
+	left: 0
+	right: 0
+	margin-top: 0
+	
+	/* Styles */
+	background: #fff
+	list-style: none
+
+	/* Hiding */
+	max-height: 0
+	overflow: hidden
+	line-height:50%
+
+.wrapper-dropdown-5 .dropdown li
+	background-color: white
+	border: 1px solid #13549a
+	padding: 5px
+
+.wrapper-dropdown-5 .dropdown li a
+	display: block
+	text-decoration: none
+	color: #13549a
+	text-shadow:none
+
+.wrapper-dropdown-5 .dropdown li i
+	margin-right: 5px
+	color: inherit
+
+.wrapper-dropdown-5.active .dropdown
+	max-height: 400px

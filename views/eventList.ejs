@@ -9,31 +9,24 @@
 </head>
 <body>
 	<div id="header-container" class="fixed-container">
-    	<a href="events">
+    	<a href="/events">
     		<div id="home">
     			<i class="icon-home icon-large"></i>
    	 		</div>
    	 	</a>
-   	 	<div id="user">
+   	 	<div id="dd" class="wrapper-dropdown-5" tabindex="1">
 			<i class="icon-user icon-large"></i>
     		<p>
     			<% if(user && user.name) { %>
     				<%= user.name %>
     			<% } %>
     		</p>
+    		<ul class="dropdown">
+        		<li><a href="/logout"><i class="icon-signout"></i>Log out</a></li>
+    		</ul>
     	</div>
 	</div>
-    
-    <!--	
-    <div id="profileWrap">
-            <div id="profile"></div>
-        </div>
 
-        <div id="houseWrap">
-            <div id="house"></div>
-        </div>
-    </div>
-	-->
 	<div id="contents-container">
 		<h2>Enrolled events</h2>
 		<ul>
@@ -48,5 +41,8 @@
 			<%})%> 
 		</ul>
 	</div>
+
+	<script src="/dependencies/jquery-1.7.2.min.js"></script>
+	<script src="/javascripts/logout_dropdown.js"></script>
 </body>
 </html>
