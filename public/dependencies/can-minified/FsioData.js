@@ -20,28 +20,6 @@ define(["FsioBase"], function(FsioBase) {
     }
 
     /**
-     * Upload data.
-     *
-     * @param {string} token       FSIO upload token.
-     * @param {string} object_name The name of the object being uploaded.
-     * @param {string} data        Data to upload.
-     * @param {function(jqXHR,textStatus)} complete
-     * Complete callback.
-     * @param {object} [params]    Query parameters.
-     * @param {object} [headers]   Extra headers.
-     */
-    FsioData.prototype.upload = function(
-        token, object_name, data, complete, params, headers) {	
-        var path = "upload/" + object_name;
-        if(params) {
-            // query params for PUT
-            path += "?" + $.param(params);
-        }
-        this.requestWithUploadToken(token, "PUT", path, complete, data,
-                                    headers);
-    };
-
-    /**
      * Initialize partial upload. Upload ID is returned with 'upload-id'
      * response header.
      *
@@ -159,23 +137,6 @@ define(["FsioBase"], function(FsioBase) {
                 }
             });
         })(this);
-    };
-
-    /**
-     * Download data. To download the specified byte range of the file use
-     * 'range' header, e.g. {'range': 'bytes=0-1000'}.
-     *
-     * @param {string} token       FSIO ticket.
-     * @param {string} object_name The name of the object being downloaded.
-     * @param {function(jqXHR,textStatus)} complete
-     * Complete callback.
-     * @param {object} [params]    Query parameters.
-     * @param {object} [headers]   Extra headers.
-     */
-    FsioData.prototype.download = function(
-        ticket, object_name, complete, params, headers) {
-        this.requestWithTicket(ticket, "GET", "files/" + object_name,
-                               complete, params, headers);
     };
 
     // Return the constructor function
