@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title></title>
-<link rel='stylesheet' href='/stylesheets/mobile.css'/>
+	<meta charset="utf-8">
+	<title>Gamified : Events</title>
+	<link rel='stylesheet' href='/stylesheets/participant.css'/>
+	<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Arvo' />
+	<link rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css'>
 </head>
 <body>
-	<h1><%= title %></h1>
-    <div>
+	<div id="header-container" class="fixed-container">
+    	<a href="events">
+    		<div id="home">
+    			<i class="icon-home icon-2x"></i>
+   	 		</div>
+   	 	</a>
+   	 	<div id="user">
+			<i class="icon-user icon-2x"></i>
+    		<p>
+    			<% if(user && user.name) { %>
+    				<%= user.name %>
+    			<% } %>
+    		</p>
+    	</div>
+	</div>
+    
+    <!--	
     <div id="profileWrap">
             <div id="profile"></div>
         </div>
@@ -16,27 +33,20 @@
             <div id="house"></div>
         </div>
     </div>
-	<p>Currently logged in user is: 
-		<span>
-			<% if(user && user.name) { %>
-			 user has a name, the name is: 
-				<%= user.name %>
-			<% } else { %>
-				no user found.
-			<% } %>
-		</span>
-	</p>
-	<h2>Enrolled events</h2>
-	<ul>
-		<% enrolled.forEach(function(evt){ %>
-			<li><a href="/events/<%= evt._id %>"><%= evt.title %></a></li>
-		<%})%> 
-	</ul>
-	<h2>All events</h2>
-	<ul>
-		<% unenrolled.forEach(function(evt){ %>
-			<li><a href="/events/<%= evt._id %>"><%= evt.title %></a></li>
-		<%})%> 
-	</ul>
+	-->
+	<div id="contents-container">
+		<h2>Enrolled events</h2>
+		<ul>
+			<% enrolled.forEach(function(evt){ %>
+				<li><a href="/events/<%= evt._id %>" class="event-link"><%= evt.title %></a></li>
+			<%})%> 
+		</ul>
+		<h2>All events</h2>
+		<ul>
+			<% unenrolled.forEach(function(evt){ %>
+				<li><a href="/events/<%= evt._id %>" class="event-link"><%= evt.title %></a></li>
+			<%})%> 
+		</ul>
+	</div>
 </body>
 </html>
