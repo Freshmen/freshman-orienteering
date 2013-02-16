@@ -207,7 +207,7 @@ app.all('/api/v2/*', function(req, res, next) {
   }
 });
 
-app.get('/api/v2/events', function(req, res, next) { console.log(req); next();}, api.events.list);
+app.get('/api/v2/events', api.events.list);
 app.get('/api/v2/events/:eventID', api.events.show);
 app.get('/api/v2/events/:eventID/checkpoints', api.checkpoints.list);
 app.get('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.show);
