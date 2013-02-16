@@ -84,27 +84,8 @@ exports.checkpointDetails = function(req, res) {
 							break;
 						}
 					}
-					if (checkpoint.task) {
-						task = checkpoint.task;
-					} else if (checkpoint.taskURL && checkpoint.taskDescription) {
-						task = {};
-						task.taskURL = checkpoint.taskURL;
-						task.description = checkpoint.taskDescription
-					} else {
-						req.api.task.show(req, null, function(err, task) {
-							res.render('checkpointDetails.ejs', {
-								checkpoint: checkpoint,
-								task: task,
-								evt : evt,
-								submitted : submitted,
-								ticket : ticket,
-								user: req.user 
-							});
-						});
-					}
 					res.render('checkpointDetails.ejs', {
 						checkpoint: checkpoint,
-						task: task,
 						evt : evt,
 						submitted : submitted,
 						ticket : ticket, 
