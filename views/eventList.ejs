@@ -29,12 +29,14 @@
 	</div>
 
 	<div id="contents-container">
-		<h2>Enrolled events</h2>
-		<ul>
-			<% enrolled.forEach(function(evt){ %>
-				<li><a href="/events/<%= evt._id %>" class="event-link"><%= evt.title %></a></li>
-			<%})%> 
-		</ul>
+		<% if(enrolled.length != 0) { %>
+			<h2>Enrolled events</h2>
+			<ul>
+				<% enrolled.forEach(function(evt){ %>
+					<li><a href="/events/<%= evt._id %>" class="event-link"><%= evt.title %></a></li>
+				<%})%> 
+			</ul>
+		<% } %>
 		<h2>All events</h2>
 		<ul>
 			<% unenrolled.forEach(function(evt){ %>
