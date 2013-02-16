@@ -158,7 +158,7 @@ app.get('/organizer/login', organizer.login);
 
 
 // Routes for Participant side
-app.get('/events', ensureAuthenticated, function(req, res, next) { req.tuomo = true; next(); }, participant.eventList);
+app.get('/events', ensureAuthenticated, participant.eventList);
 app.get('/events/:eventID', ensureAuthenticated, participant.eventDetails);
 app.get('/events/:eventID/checkpoints', ensureAuthenticated, participant.checkpointList);
 app.get('/events/:eventID/checkpoints/:checkpointID', ensureAuthenticated, participant.checkpointDetails);
@@ -207,7 +207,7 @@ app.all('/api/v2/*', function(req, res, next) {
   }
 });
 
-app.get('/api/v2/events', api.events.list);
+app.get('/api/v2/events', function(req, res, next) { console.log(req); next();}, api.events.list);
 app.get('/api/v2/events/:eventID', api.events.show);
 app.get('/api/v2/events/:eventID/checkpoints', api.checkpoints.list);
 app.get('/api/v2/events/:eventID/checkpoints/:checkpointID', api.checkpoints.show);
