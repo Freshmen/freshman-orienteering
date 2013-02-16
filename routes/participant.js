@@ -50,27 +50,20 @@ exports.eventDetails = function(req, res) {
 exports.checkpointList = function(req, res) {
 	req.api.checkpoints.list(req, null, function(err, checkpoints) {
 		req.api.users.getCheckins(req, null, function(err, chekins) {
-			var visited = [];
-			var unvisited = [];
 			for (var i = 0; i < checkpoints.length; i++) {
-				var found = false;
+				checkpoints[i].visited = false;
 				for (var j = 0; j < chekins.length; j++) {
 					if (checkpoints[i]._id == chekins[j].checkpoint) {
-						visited.push(checkpoints[i]);
-						found = true;
+						checkpoints[i].visited = true;
 						break;
 					}
-				}
-				if (!found) {
-					unvisited.push(checkpoints[i]);
 				}
 			}
 			req.api.events.show(req, null, function(err, evt) {
 				res.render('checkpointList.ejs', {
 					user : req.user, 
 					title : title, 
-					visited : visited,
-					unvisited : unvisited,
+					checkpoints : checkpoints,
 					evt : evt
 				});
 			});

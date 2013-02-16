@@ -2,23 +2,46 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title></title>
+<title>Map View</title>
+<style>
+	html, body {
+		width: 100%; 
+		height: 100%;
+		overflow: hidden;
+		margin: 0;
+		padding: 40px 0;
+	}
+	#footer {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 40px;
+		background-color: #fff;
+	}
+	#header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 40px;
+		background-color: #fff;
+	}
+	#mapContainer {
+		width: 100%; 
+		height: 100%;
+	}
+</style>
+
 </head>
 <body>
-	<div id="map"></div>
-	<h2>Visited Checkpoints</h2>
-	<ul>
-		<% visited.forEach(function(cp){ %>
-			<li><a href="/events/<%= evt._id %>/checkpoints/<%= cp._id %>"><%= cp.title %></a></li>
-		<%})%> 
-	</ul>
-	<h2>All Checkpoints</h2>
-	<ul>
-		<% unvisited.forEach(function(cp){ %>
-			<li><a href="/events/<%= evt._id %>/checkpoints/<%= cp._id %>"><%= cp.title %></a></li>
-		<%})%> 
-	</ul>
-	<p><a href="/events/<%= evt._id %>">&lt; Back</a></p>
-	<script src="/javascripts/geolocation.js"></script>
+	<header id="header"></header>
+	<div id="mapContainer"></div>
+	<footer id="footer"><a href="/events/<%= evt._id %>">&lt; Back</a></footer>
+	<script src="http://api.maps.nokia.com/2.2.3/jsl.js?with=all"></script>
+	<script src="/javascripts/participant/geolocation.js"></script>
+	<script>
+		GAMIFY.geo = new GAMIFY.Geo(document.getElementById("mapContainer"));
+	</script>
 </body>
 </html>
