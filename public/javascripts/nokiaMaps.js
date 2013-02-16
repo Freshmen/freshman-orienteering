@@ -79,10 +79,13 @@ $().ready(function() {
             }
         );
         
-        accuracyCircle = new nokia.maps.map.Circle(coords, position.coords.accuracy);
+        var accuracy = position.coords.accuracy;
+        accuracyCircle = new nokia.maps.map.Circle(coords, accuracy);
 
         map.addComponent(infoBubbles);
-        map.objects.addAll([accuracyCircle, marker]);
+        map.objects.add(marker);
+
+        if (accuracy < 20) map.objects.add(accuracyCircle);
         //map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
 	};
 

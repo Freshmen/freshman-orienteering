@@ -31,6 +31,9 @@ GAMIFY.Geo = function(mapContainer) {
 };
 
 GAMIFY.Geo.prototype.showCheckpoints = function(checkpoints) {
-    console.log("Adding checkpoints:");
-    console.log(checkpoints);
+    console.log("Adding checkpoints");
+    for (var i = 0; i < checkpoints.length; i++) {
+      console.log("Adding checkpoint:");
+      console.log(checkpoints[i].title);
+    }
 }
