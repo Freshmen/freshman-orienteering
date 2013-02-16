@@ -11,5 +11,13 @@
 	</label>
 	<p><a href="/events/<%= evt._id %>/checkpoints">Go to Map</a></p>
 	<p><a href="/events/">&lt; Back</a></p>
+	<input type="file" accepts="audio/*" />
+	<script type="text/javascript">
+		var input = document.querySelector('input[type=file]');
+		input.onchange = function () {
+  			var file = input.files[0];
+  			console.log(file.name);
+  		}
+	</script>
 </body>
 </html>
