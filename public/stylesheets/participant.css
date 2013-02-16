@@ -155,6 +155,10 @@ a i {
 .hidden {
   display: none;
 }
+#startTime,
+#endTime {
+  font-size: 80%;
+}
 .wrapper-dropdown-5 {
 /* Size & position */
   position: relative;
