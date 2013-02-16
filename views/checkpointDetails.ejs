@@ -73,11 +73,11 @@
 		var input = document.querySelector('input[type=file]');
 		input.onchange = function () {
   			var file = input.files[0];
-  			//var eventName = <%= evt.title %>
-  			//var chkptName = <%= checkpoint.title %>
+  			var eventName = "<%= evt.title %>";
+  			var chkptName = "<%= checkpoint.title %>";
+  			var uploadTicket = "<%= ticket %>";
   			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
-  			var uploadTicket = <%= ticket %>
-  			uploadFile(uploadTicket,path,file);
+  			uploadFile("bf782565-3052-3146-3686-0e1235f5f00c", path, file);
   		}
 	</script>
 </body>
