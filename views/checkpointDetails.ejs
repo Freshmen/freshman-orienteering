@@ -14,7 +14,7 @@
     	<a href="/events">
     		<div id="home">
     			<i class="icon-home icon-large"></i>
-   	 		</div>
+   	 		</div>:w
    	 	</a>
    	 	<div id="gamified-logo"></div>
    	 	<div id="dd" class="wrapper-dropdown-5" tabindex="1">
@@ -52,6 +52,13 @@
 		<% } else { %>
 			<input id="anyfile" type="file" class="hidden"> 
 		<% } %>
+
+		<a id="hiddenLink"></a>
+
+		<center id="hiddenUploader">
+			<p>Uploading Submission in Progress</p>
+			<img src="/images/ajax-loader.gif"></img>
+		</center>
 	</div>
 
 	<div id="footer-container" class="fixed-container">
@@ -75,17 +82,36 @@
   			var file = input.files[0];
   			var eventName = "<%= evt.title %>";
   			var chkptName = "<%= checkpoint.title %>";
-  			var uploadTicket = "<%= ticket %>";
+  			var uploadToken = "<%= ticket %>";
   			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
-  			uploadFile("bf782565-3052-3146-3686-0e1235f5f00c", path, file);
+			$.get("/api/v2/events/<%= evt._id %>/upload", function(data){
+				console.log(data);
+				var uploadToken = data.Token;
+				uploadFile(uploadToken, path, file);
+				$("#hiddenUploader").show();
+				$("#hiddenUploader p").show();
+				$("#hiddenUploader img").show();
+			        var looper = setInterval(function() {
+					if(uploaded) {
+						$("#hiddenUploader p").text("Your submission is done. Go back to the map and follow the next checkpoint");
+						$("#hiddenUploader img").attr("src", "/images/green-tick.svg");
+						clearInterval(looper);
+					}
+				}, 1000);
+			});
   		}
 
   		function getTaskFile(){
-  			window.location.replace("<%= checkpoint.task.url %>");		
+			$.get("/api/v2/events/<%= evt._id %>/checkpoints/<%= checkpoint._id %>/download", function(data){
+				console.log(data.URL);
+				var downloadURL = data.URL;
+				$("#hiddenLink").attr("href", downloadURL);
+				$("#hiddenLink").trigger('click');
+			});		
   		}
 
   		function openFileSelector() {
-    		$('input[type=file]').trigger('click');
+    			$('input[type=file]').trigger('click');
 		}
 	</script>
 </body>
