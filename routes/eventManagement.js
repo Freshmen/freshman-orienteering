@@ -9,9 +9,9 @@ var updateEventTaskUrls = function() {
 			(function(event) { 
 				var currentTime = moment();
 				var eventStartTime = event.starttime;
-				var timeDiff = eventStartTime.diff(currentTime, 'minutes');
+				var timeDiff = currentTime.diff(eventStartTime, 'minutes');
 				console.log(timeDiff);
-				if(timeDiff > 0 && timeDiff < 30 ) {
+				if(timeDiff < 0 && timeDiff > -30 ) {
 					console.log(event.title);
 					/* var options = {
 						hostname: 'gami.fi',
