@@ -56,7 +56,9 @@ function downloadFile(ctx, object) {
 function getSubmissionUrl(path, callback) {
 	var full_path = "devices/Web/Gamified/" + path;	
 	fsio.content.getFileInfo(ticket, full_path, function(data){
-		console.log(data);
+		var response = JSON.parse(data.responseText);
+		var URL = response.Items[0].URL;
+		callback(URL);
 	});
 }
 
