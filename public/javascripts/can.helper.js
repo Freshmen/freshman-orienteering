@@ -82,19 +82,7 @@ function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
 			$.get("/api/v2/events/"+eventID+"/checkpoints/"+chkptID, function(data){
 		        	var taskObj = data.task;
 				var title = data.title;
-        		        fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
-					var response = JSON.parse(jqXHR.responseText)
-	                		taskObj["URL"] = response.Items[0].URL
-        	                	var task = { "task" : taskObj };
-	                	        $.ajax({
-        	                		url:'/api/v2/events/'+eventID+'/checkpoints/'+chkptID,
-                	            		type:'PUT',
-	                	            	data: task,
-        	                	        success: function(response,data){
-                	                		upload_progress[title] = true;
-                        	       	 	}
-                            		});
-                        	});
+                	        upload_progress[title] = true;
                         });
                    }   
             });
