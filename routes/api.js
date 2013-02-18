@@ -621,7 +621,7 @@ module.exports = exports = function api_module(cfg) {
 							response.setEncoding('utf-8');
 							res.writeHead(response.statusCode);
 							response.on('data', function(data) {
-								items.write(data);
+								items += data;
 							});
 							response.on('end', function(data) {
 								if (items && items.Items && items.Items[0]) {
