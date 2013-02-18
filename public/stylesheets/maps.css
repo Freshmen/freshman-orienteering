@@ -7,18 +7,18 @@ body {
     padding: 0;
 }
 
-.lastfm_LandingPage ~ .mh5_SettingsDialog {
+.gamify_LandingPage ~ .mh5_SettingsDialog {
     top: 10.8rem;
 }
 
-.lastfm_header {
+.gamify_header {
     overflow: hidden;
     position: relative;
     color: white;
     margin: 0;
     height: 5rem;
-    background: url(img/logo.png) no-repeat 1.1rem 1.3rem;
-    background-color: #B61F24;
+    background: url(/images/gamified_logo_175x40.png) no-repeat 0.5rem center;
+    background-color: #13549A;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-weight: 100;
@@ -76,11 +76,11 @@ body {
 }
 
 /** Splash Page **/
-.lastfm_SplashPage {
-    background-color: #B61F24;
+.gamify_SplashPage {
+    background-color: #13549A;
 }
 
-.lastfm_SplashPage .lastfm_biglogo {
+.gamify_SplashPage .gamify_biglogo {
     display: block;
     height: 8.6rem;
     width: 18.4rem;
@@ -88,10 +88,10 @@ body {
     margin-right: auto;
     margin-top: 15.3rem;
     clear: both;
-    background-image: url(img/big_logo.png);
+    background: url(/images/gamified_logo_175x40.png) no-repeat center center;
 }
 
-.lastfm_SplashPage .lastfm_spinner {
+.gamify_SplashPage .gamify_spinner {
     display: block;
     height: 3.2rem;
     width: 3.2rem;
@@ -99,31 +99,31 @@ body {
     margin-right: auto;
     margin-top: 2.3rem;
     clear: both;
-    background-image: url(img/spinner_32.png);
+    background-image: url(/images/maps/img/spinner_32.png);
 }
 
 /** Landing Page **/
 
-.lastfm_LandingPage.mh5_Page {
+.gamify_LandingPage.mh5_Page {
     background-color: #FFFFFF;
 }
 
 
-.lastfm_LandingPage .mh5_PlaceSummary,
-.lastfm_LandingPage .mh5_PlaceSummary .details {
+.gamify_LandingPage .mh5_PlaceSummary,
+.gamify_LandingPage .mh5_PlaceSummary .details {
     padding-top: 0;
 }
 
 
-.lastfm_LandingPage .mh5_Search {
+.gamify_LandingPage .mh5_Search {
     padding: 1rem 1rem 1rem 0;
 }
 
-.lastfm_LandingPage .mh5_Map {
+.gamify_LandingPage .mh5_Map {
     height: auto;
 }
 
-.lastfm_LandingPage .lastfm_listContainer {
+.gamify_LandingPage .lastfm_listContainer {
     position: absolute;
     width: 100%;
     top: 10.8rem;
@@ -131,15 +131,15 @@ body {
     width: 100%;
 }
 
-.lastfm_LandingPage .lastfm_listContainer .mh5_vScroll {
+.gamify_LandingPage .lastfm_listContainer .mh5_vScroll {
     width: 100%;
 }
 
-.lastfm_LandingPage .mh5_List {
+.gamify_LandingPage .mh5_List {
     background-color: #FFF;
 }
 
-.lastfm_LandingPage .lastfm_gap {
+.gamify_LandingPage .lastfm_gap {
     height: 20rem;
     width: 100%;
     /*necessary for ie10 to catch click events*/
@@ -147,15 +147,15 @@ body {
 }
 
 
-.lastfm_LandingPage .mh5_PlaceDetails {
+.gamify_LandingPage .mh5_PlaceDetails {
     top: 10.8rem;
 }
 
-.lastfm_LandingPage .lastfm_ArtistList {
+.gamify_LandingPage .lastfm_ArtistList {
     padding: 1.2rem .9rem 0 .9rem;
 }
 
-.lastfm_LandingPage .lastfm_artistListItem {
+.gamify_LandingPage .lastfm_artistListItem {
     -webkit-box-align: center;
     -ms-flex-align: center;
     box-align: center;
@@ -168,7 +168,7 @@ body {
     padding: 0 1rem;
 }
 
-.lastfm_LandingPage .lastfm_artistTitle {
+.gamify_LandingPage .lastfm_artistTitle {
     height: 1rem;
     padding: .9rem;
     font-size: 2.1rem;
@@ -218,43 +218,32 @@ body {
     line-height: 1.6rem;
 }
 
-.lastfm_LandingPage .lastfm_search_options_button {
+.gamify_LandingPage .lastfm_search_options_button {
     width: 6rem;
     padding: 1rem;
 }
 
-.lastfm_LandingPage .lastfm_search_options_segment {
-    background: url(img/lastfm_iconsheet.png) no-repeat;
+.gamify_LandingPage .lastfm_search_options_segment {
+    background: url(/images/maps/img/lastfm_iconsheet.png) no-repeat;
     width: 2rem;
     height: 2rem;
 }
 
-.lastfm_LandingPage .lastfm_geosearch {
+.gamify_LandingPage .lastfm_geosearch {
     background-position: 0 .1rem;
 }
 
-.lastfm_LandingPage .mh5_selected .lastfm_geosearch {
+.gamify_LandingPage .mh5_selected .lastfm_geosearch {
     background-position: -1.9rem .1rem;
 }
 
-.lastfm_LandingPage .lastfm_artistsearch {
+.gamify_LandingPage .lastfm_artistsearch {
     background-position: -4rem .1rem;
 }
 
-.lastfm_LandingPage .mh5_selected .lastfm_artistsearch {
+.gamify_LandingPage .mh5_selected .lastfm_artistsearch {
     background-position: -5.9rem .1rem;
 }
 
-/** Aritst Page **/
-.lastfm_ArtistPage .lastfm_overview {
-    height: 6.7rem;
-}
 
-.lastfm_ArtistPage .lastfm_overview > img {
-    margin-right: .5rem;
-}
-.lastfm_ArtistPage .lastfm_artistBio {
-    font-size: 1.3rem;
-    line-height: 1.6rem;
-    margin: 1rem;
-}
+

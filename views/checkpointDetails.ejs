@@ -69,7 +69,19 @@
 		</a>
 	</div>
 
-	<script type="text/javascript">
+	<ul>
+		<li><label>Event id: </label><%= evt._id %></li>
+		<li><label>Event title: </label><%= evt.title %></li>
+		<li><label>Ticket: </label><%= ticket %></li>
+		<li><label>Checkpoint id: </label><%= checkpoint._id %></li>
+		<li><label>Checkpoint title: </label><%= checkpoint.title %></li>
+		<li><label>Checkpoint task desc: </label><%= checkpoint.task.description %></li>
+		<li><label>Checkpoint task URL: </label><%= checkpoint.task.URL %></li>
+		<li><label>Checkpoint task accepts: </label><%= checkpoint.task.accepts %></li>
+		<li><label>Submitted: </label><%= submitted %></li>
+	</ul>
+
+	<!--script type="text/javascript">
 		var input = document.querySelector('input[type=file]');
 		input.onchange = function () {
   			var file = input.files[0];
@@ -87,6 +99,6 @@
   		function openFileSelector() {
     		$('input[type=file]').trigger('click');
 		}
-	</script>
+	</script-->
 </body>
 </html>

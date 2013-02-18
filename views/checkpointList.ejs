@@ -13,6 +13,7 @@ maximum-scale=1.0, user-scalable=no">
 mh5.css">
 <link rel="stylesheet" href="http://api.maps.nokia.com/mobile/latest/lib/
 colors.css">
+<link rel="stylesheet" href="/stylesheets/maps.css">
 <style>
 html, body { 
 	width: 100%; 
@@ -30,6 +31,12 @@ html, body {
 <body class="mh5_hwacc_body">
 <script src="http://api.maps.nokia.com/mobile/latest/lib/mh5.js"></script>
 <div id="app_location"></div>
+<script>
+	var gamify = gamify || {};
+	gamify.checkpoints = <%- JSON.stringify(checkpoints) %>;
+</script>
+<script src="/javascripts/maps/SplashPage.js"></script>
+<script src="/javascripts/maps/LandingPage.js"></script>
 <script src="/javascripts/maps/setup.js"></script>
 </script>
 </body>

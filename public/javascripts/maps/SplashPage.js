@@ -5,27 +5,27 @@
             longitude: 30.0
         }
     };
-    if (!global.lastfm) {
-        global.lastfm = {};
+    if (!global.gamify) {
+        global.gamify = {};
     }
 
-    if (global.lastfm.SplashPage) {
+    if (global.gamify.SplashPage) {
         return;
     }
 
-    global.lastfm.SplashPage = {
-        cssClass: "mh5_Page lastfm_SplashPage",
+    global.gamify.SplashPage = {
+        cssClass: "mh5_Page gamify_SplashPage",
         children: ["logo","spinner"],
         layout: {
             type: nokia.mh5.ui.RowLayout
         },
         logo: {
             control: nokia.mh5.ui.Control,
-            cssClass: "lastfm_biglogo"
+            cssClass: "gamify_biglogo"
         },
         spinner: {
             control: nokia.mh5.ui.Control,
-            cssClass: "lastfm_spinner mh5_spinner"
+            cssClass: "gamify_spinner mh5_spinner"
         },
         build: function() {
             this.constructor.prototype.build.call(this);
@@ -40,22 +40,23 @@
                     delete this._timeoutId;
                     //switch to the landing page but only if the fallback switch hasn't happened
                     var location = ((result && result.data) || defaultLocation).coords;
-                    //get nearby events
-                    LastFmSearchAdapter.search(null, {
-                        method: "geo.getevents",
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    }, function(e) {
-                        // load the next page with nearby events
-                        nokia.mh5.app.controller.switchTo("landing", {
-                            method: "geo.getevents",
-                            items: e.results
-                        }, {
-                            replaceLastHistoryEntry: true
-                        });
-                    }.bind(this), function(e) {
-                        nokia.mh5.app.controller.switchTo("landing", {}, {replaceLastHistoryEntry: true});
-                    });
+                    //add checkpoints and route here;
+                    var checkpoints = global.gamify.checkpoints;
+                    var waypoints = [];
+                    for (var i = 0; i < checkpoints.length; i++) {
+                        var location = {};
+                        location.latitude = parseFloat(checkpoints[i].location.latitude);
+                        location.longitude = parseFloat(checkpoints[i].location.longitude);
+                        waypoints.push(location);
+                        console.log(location);
+                    }
+                    nokia.mh5.adapters.Route.fetch(waypoints,
+                        {mode: "walk"}, function(result) {
+                          nokia.mh5.app.controller.switchTo("landing", { method: "geo.getevents", items : waypoints, route : result }, {replaceLastHistoryEntry: true});
+                        }, function(error) {
+                          nokia.mh5.app.controller.switchTo("landing", { method: "geo.getevents", items : waypoints }, {replaceLastHistoryEntry: true});
+                        }
+                    );
                 }
             }
             nokia.mh5.event.one(nokia.mh5.geolocation, "positionactivate", onPositionActivated.bind(this));
