@@ -471,6 +471,9 @@ tbody td {
   width: 66px;
   height: 66px;
 }
+#share {
+  padding: 4px;
+}
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }

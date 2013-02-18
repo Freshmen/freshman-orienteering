@@ -105,10 +105,10 @@ function viewSubmissions(eventID){
 function buildSubmissionsTable(eventID){
 	var thisEvent = userEvents[eventID];
 	$('#tableHolder').empty();
-	$('#tableHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Grade</th><th>Share</th></tr></thead><tbody></tbody></table>');
+	$('#tableHolder').append('<table id="submissions" class="tablesorter"><thead><tr><th>Submission</th><th>Time</th><th>Checkpoint</th><th>Submitter</th><th>Share</th></tr></thead><tbody></tbody></table>');
 	getSubmissions(thisEvent._id);
 	$('#submissions').trigger("update");
-	$('#submissions').tablesorter({headers: {4: {sorter: false}, 5: {sorter: false}}});
+	$('#submissions').tablesorter({headers: {4: {sorter: false} }});
 	
 }
 
@@ -131,7 +131,7 @@ function populateSubmissionsTable(submissions,eventID){
 			var checkpointName = checkpoint.title;
 			$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
 				var userName = user.name;
-				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName);	
+				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName+'</td><td><a id="share" href="https://www.facebook.com/sharer/sharer.php?u='+url+'"><i class="icon-facebook-sign icon-large"> Share on facebook</a></td></tr>');	
 			});
 		});
 	}
