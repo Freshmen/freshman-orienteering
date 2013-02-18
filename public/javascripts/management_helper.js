@@ -133,7 +133,7 @@ function populateSubmissionsTable(submissions,eventID){
 		time = moment(time).format("HH:mm:ss, D.MM.YYYY");
 		$.getJSON("/api/v2/events/"+eventID+"/checkpoints/"+submissions[s].checkpoint, function(checkpoint) {
 			var checkpointName = checkpoint.title;
-			var submissionPath = eventName + "/" + checkpointName + "/" + filename;
+			var submissionPath = eventName + "/" + checkpointName + "/submissions/" + filename;
 			getSubmissionUrl(submissionPath , function(downloadUrl){
 				var url = downloadUrl;
 				$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
