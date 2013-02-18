@@ -6,6 +6,7 @@
 	<link rel='stylesheet' href='/stylesheets/participant.css'/>
 	<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Arvo' />
 	<link rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css'>
+	<script src="/javascripts/moment.min.js"></script>
 </head>
 <body>
 	<div id="header-container" class="fixed-container">
@@ -32,6 +33,9 @@
 		<h2><%= evt.title %></h2>
 		<hr>
 		<p><%= evt.description %></p>
+		<hr>
+		<p id="startTime"></p>
+		<p id="endTime"></p>
 		<center>
 			<button id="enroll-button" <% if (enrolled) { %> class="enrolled" <% } %>>
 				<i class="icon-pencil icon-large"></i>
@@ -59,5 +63,13 @@
 
 	<script src="/dependencies/jquery-1.7.2.min.js"></script>
 	<script src="/javascripts/logout_dropdown.js"></script>
+	<script>
+		$(function () {
+			var starttime = new Date("<%= evt.starttime %>");
+			var endtime = new Date("<%= evt.endtime %>");
+			$("#startTime").text('Starts at ' + moment(starttime).format("h:mm a, D MMMM YYYY"));
+			$("#endTime").text('Ends at ' + moment(endtime).format("h:mm a, D MMMM YYYY"));
+		});
+	</script>
 </body>
 </html>
