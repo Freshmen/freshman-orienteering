@@ -1,7 +1,8 @@
 var title = "Gamified";
 
 exports.eventList = function(req, res) {
-	req.api.internal.getDocumentsByType('Events', null, function(events) {
+	var now = new Date();
+	req.api.internal.getDocumentsByType('EventsByDate', { startkey : now }, function(events) {
 		req.api.internal.getDocumentsByType('EnrollmentsByUser', req.user._id, function(enrollments) {
 			var enrolled = [];
 			var unenrolled = [];
