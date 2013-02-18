@@ -631,6 +631,9 @@ module.exports = exports = function api_module(cfg) {
 								}			
 							});
 						}).on('error', function(e) {
+							console.log("Error with getting a download URL from CAN:");
+							console.log(response);
+							console.log(options);
 							res.json(500, { "error" : "failed to get a response from CAN"});
 						});
 						post_req.end();	
