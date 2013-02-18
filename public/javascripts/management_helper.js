@@ -132,7 +132,7 @@ function populateSubmissionsTable(submissions,eventID){
 			var checkpointName = checkpoint.title;
 			$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
 				var userName = user.name;
-				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName+'</td><td><a id="share" href="https://www.facebook.com/sharer/sharer.php?u='+url+'"><i class="icon-facebook-sign icon-large"> Share on facebook</a></td></tr>');	
+				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName+'</td><td><a id="share" href="https://www.facebook.com/sharer/sharer.php?u='+url+'" target="_blank"><i class="icon-facebook-sign icon-large"> Share on facebook</a></td></tr>');	
 			});
 		});
 	}
