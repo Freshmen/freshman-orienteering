@@ -145,12 +145,23 @@ a i {
   font-size: 120%;
   font-family: 'Arvo', serif;
   text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+  cursor: pointer;
 }
 #enroll-button p {
   display: inline;
 }
-.enrolled {
+#unenroll-button {
   background-color: #b22222;
+  border-radius: 5px;
+  color: #fff;
+  padding: 6px 20px;
+  text-decoration: none;
+  outline: none;
+  border-width: 0px;
+  font-size: 120%;
+  font-family: 'Arvo', serif;
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+  cursor: pointer;
 }
 .hidden {
   display: none;

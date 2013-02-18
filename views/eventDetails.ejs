@@ -37,11 +37,16 @@
 		<p id="startTime"></p>
 		<p id="endTime"></p>
 		<center>
-			<button id="enroll-button" <% if (enrolled) { %> class="enrolled" <% } %>>
-				<i class="icon-pencil icon-large"></i>
-				<% if (!enrolled) { %> Enroll <% } %>
-				<% if (enrolled) { %> Unenroll <% } %>
+			<% if (!enrolled) { %>
+				<button id="enroll-button" onClick=enroll() >
+					<i class="icon-pencil icon-large"></i> Enroll
+				</button>
+			<% } else { %>
+				<button id="unenroll-button" onClick=unEnroll() >
+					<i class="icon-remove-sign icon-large"></i> Unenroll
+				</button>
 			</button>
+			<% } %>
 		</center>
 	</div>
 
@@ -70,6 +75,26 @@
 			$("#startTime").text('Starts at ' + moment(starttime).format("h:mm a, D MMMM YYYY"));
 			$("#endTime").text('Ends at ' + moment(endtime).format("h:mm a, D MMMM YYYY"));
 		});
+
+		function enroll() {
+			$.ajax({
+				url:'/api/v2/events/<%= evt._id %>/enrollments/',	
+				type:'POST',
+				success: function(response,data){
+					window.location.reload();
+				}
+			});
+		}
+
+		function unEnroll() {
+			$.ajax({
+				url:'/api/v2/events/<%= evt._id %>/enrollments/',	
+				type:'DELETE',
+				success: function(response,data){
+					window.location.reload();
+				}
+			});
+		}
 	</script>
 </body>
 </html>
