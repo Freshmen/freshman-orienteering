@@ -231,6 +231,12 @@ module.exports = exports = function api_module(cfg) {
 						res.json(403, err);
 					}
 				})
+			},
+			getEvents : function(callback) {
+				read_view('Events', false, function(body) {
+					callback(body);
+				});
+			
 			}
 		},
 
