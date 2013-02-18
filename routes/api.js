@@ -609,24 +609,29 @@ module.exports = exports = function api_module(cfg) {
 							hostname: 'devapi-fip.sp.f-secure.com',
 							port: 443,
 							method: "GET",
-							path: checkpoint.task.URL,
+							path: encodeURIComponent(checkpoint.task.URL),
 							headers : {
 								'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
 								'x-application-ticket' : tickets[0].ticket
 							}
 						};
-						console.log(options);
 						var post_req = https.request(options, function(response) {
+							var items;
 							response.setEncoding('utf-8');
 							res.writeHead(response.statusCode);
 							response.on('data', function(data) {
-								res.write(data);
+								items.write(data);
 							});
 							response.on('end', function(data) {
-								res.end();
+								if (items && items.Items && items.Items[0]) {
+									var item = items.Items[0].URL;
+									res.json(200, item);
+								} else {
+									res.json(500, { "error" : "failed to get a download url"});
+								}			
 							});
 						}).on('error', function(e) {
-							res.json(500, { "error" : "failed to get a download url"});
+							res.json(500, { "error" : "failed to get a response from CAN"});
 						});
 						post_req.end();	
 					});
