@@ -10,8 +10,7 @@ var express = require('express')
   , organizer = require('./routes/organizer.js')
   , api = require('./routes/api.js')()
   , admin = require('./routes/admin.js')
-  , ticketManagement = require('./routes/ticketManagement.js')
-  , eventManagement = require('./routes/eventManagement.js') 
+  , ticketManagement = require('./routes/ticketManagement.js') 
   , participant = require('./routes/participant.js')
   , http = require('http')
   , path = require('path')
@@ -36,7 +35,6 @@ nconf.defaults({
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback',
   'ticket_refresh_rate' : 5,
-  'event_refresh_rate' : 20, 
 });
 
 // API initialization
@@ -47,7 +45,6 @@ api.configure({
   'UNAUTHENTICATED' : nconf.get('database_secured')  
 }, function() { 
   ticketManagement.start(api, nconf.get('ticket_refresh_rate'));
-  eventManagement.start(api,nconf.get('event_refresh_rate'));
 });
 
 //--------- Facebook Login ------------
