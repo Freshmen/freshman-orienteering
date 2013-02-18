@@ -42,8 +42,8 @@
 					<i class="icon-pencil icon-large"></i> Enroll
 				</button>
 			<% } else { %>
-				<button id="unenroll-button" onClick=unEnroll() >
-					<i class="icon-remove-sign icon-large"></i> Unenroll
+				<button id="unenroll-button" onClick=withdraw() >
+					<i class="icon-remove-sign icon-large"></i> Withdraw
 				</button>
 			</button>
 			<% } %>
@@ -86,7 +86,7 @@
 			});
 		}
 
-		function unEnroll() {
+		function withdraw() {
 			$.ajax({
 				url:'/api/v2/events/<%= evt._id %>/enrollments/',	
 				type:'DELETE',
