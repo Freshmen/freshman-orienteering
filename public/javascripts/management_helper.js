@@ -127,6 +127,7 @@ function populateSubmissionsTable(submissions,eventID){
 	for (var s in submissions) {
 		var url = submissions[s].url;
 		var time = new Date(submissions[s].timestamp);
+		time = moment(time).format("HH:mm:ss, D.MM.YYYY");
 		$.getJSON("/api/v2/events/"+eventID+"/checkpoints/"+submissions[s].checkpoint, function(checkpoint) {
 			var checkpointName = checkpoint.title;
 			$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
