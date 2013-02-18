@@ -62,7 +62,7 @@
 	</div>
 
 	<div id="footer-container" class="fixed-container">
-		<a href="/events/<%= evt._id %>/checkpoints">
+		<a id="BackButton" href="/events/<%= evt._id %>/checkpoints">
 			<div id="back" class="footer-item">
 				<i class="icon-angle-left icon-large"></i>
 				<p>Back</p>
@@ -83,7 +83,7 @@
   			var eventName = "<%= evt.title %>";
   			var chkptName = "<%= checkpoint.title %>";
   			var uploadToken = "<%= ticket %>";
-  			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
+  			var path = "devices/Web/Gamified/" + eventName + "/" + chkptName + "/submissions/" + file.name;
 			uploadFile(uploadToken, path, file);
 			$("#hiddenUploader").show();
 			$("#hiddenUploader p").show();
@@ -95,6 +95,10 @@
 					clearInterval(looper);
 				}
 			}, 1000);
+			setTimeout(fucntion() {
+				alert("You'll be taken to the maps page now");
+				window.location = document.getElementById('BackButton').href;
+			})
   		}
 
   		function getTaskFile(){
@@ -102,7 +106,7 @@
 				console.log(data.URL);
 				var downloadURL = data.URL;
 				$("#hiddenLink").attr("href", downloadURL);
-				$("#hiddenLink").trigger('click');
+				window.location = document.getElementById('hiddenLink').href;
 			});		
   		}
 
