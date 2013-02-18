@@ -9,7 +9,7 @@ var updateEventTaskUrls = function() {
 			(function(event) { 
 				var currenttime = moment();
 				var eventstarttime = event.starttime;
-				var timediff = currenttime.diff(eventstarttime, 'minutes');
+				var timediff = currenttime.diff(, 'minutes');
 				console.log(timediff);
 				if(timediff < 30 && timediff > 0 ) {
 					console.log(event.title);	

@@ -55,7 +55,7 @@
     "forever" : "*",
     "nano" : "*",
     "passport" : "*",
-    "passport-facebook" : "*"
+    "passport-facebook" : "*",
     "moment" : "*"	
   },
   "devDependencies": {
