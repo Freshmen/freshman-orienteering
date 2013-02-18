@@ -618,8 +618,6 @@ module.exports = exports = function api_module(cfg) {
 						console.log(options);
 						var post_req = https.request(options, function(response) {
 							var items;
-							response.setEncoding('utf-8');
-							res.writeHead(response.statusCode);
 							response.on('data', function(data) {
 								items += data;
 							});
