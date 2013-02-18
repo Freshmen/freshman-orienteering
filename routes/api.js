@@ -597,13 +597,12 @@ module.exports = exports = function api_module(cfg) {
 						}
 					};
 					var post_req = https.request(options, function(response) {
-						response.setEncoding('utf-8');
-						res.writeHead(response.statusCode);
+						var ticket = "";
 						response.on('data', function(data) {
-							res.write(data);
+							ticket += data;
 						});
 						response.on('end', function(data) {
-							res.end();
+							res.json(200, ticket);
 						});
 					}).on('error', function(e) {
 						res.json(500, { "error" : "failed to get an upload token"});
@@ -680,13 +679,13 @@ module.exports = exports = function api_module(cfg) {
 						}
 					};
 					var post_req = https.request(options, function(response) {
-						var token;
+						var token = "";
 						response.setEncoding('utf-8');
 						response.on('data', function(data) {
 							token += data;
 						});
 						response.on('end', function() {
-							callback(token);
+							callback(JSON.parse(token));
 						});
 					})
 					post_req.end();

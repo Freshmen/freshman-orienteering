@@ -73,37 +73,28 @@ exports.checkpointList = function(req, res) {
 }
 
 exports.checkpointDetails = function(req, res) {
-	var submitted = {};
-	var checkpoint = {};
-	checkpoint._id = "mockid";
-	checkpoint.title = "Mock title";
-	checkpoint.task = {};
-	checkpoint.task.description = "Mock Description";
-	checkpoint.task.URL = "http://dev/null";
-	checkpoint.task.accepts = "video/*;"
-	var ticket = "mock";
-	var evt = {};
-	evt._id = "mockid";
-	evt.title = "Mock title";
+	var submitted = false;
 
-	//req.api.internal.getDocumentById(req.params.eventID, function(evt) {
-		// req.api.internal.getUploadToken(req.params.eventID, function(ticket) {
-		// 	req.api.internal.getDocumentById(req.params.checkpointID, function(checkpoint) {
-		// 		req.api.internal.getDocumentsByType('SubmissionsByUser', req.user._id, function(submissions) {
-		// 			for (var i = 0; i < submissions.length; i++) {
-		// 				if (submissions[i].checkpoint == req.params.checkpointID) {
-		// 					submitted = true;
-		// 					break;
-		// 				}
-		// 			}
+
+	req.api.internal.getDocumentById(req.params.eventID, function(evt) {
+		req.api.internal.getUploadToken(req.params.eventID, function(ticket) {
+			req.api.internal.getDocumentById(req.params.checkpointID, function(checkpoint) {
+		 		req.api.internal.getDocumentsByType('SubmissionsByUser', req.user._id, function(submissions) {
+		 			for (var i = 0; i < submissions.length; i++) {
+		 				if (submissions[i].checkpoint == req.params.checkpointID) {
+		 					submitted = submissions[i]._id;
+		 					break;
+		 				}
+		 			}
 					res.render('checkpointDetails.ejs', {
 						checkpoint: checkpoint,
 						evt : evt,
-						ticket : ticket, 
+						ticket : ticket["Token"], 
+						submitted : submitted,
 						user: req.user 
 		 			});
-		// 		});
-		// 	});
-		// });
-	//});
+		 		});
+		 	});
+		});
+	});
 }
