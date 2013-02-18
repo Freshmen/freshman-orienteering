@@ -609,7 +609,7 @@ module.exports = exports = function api_module(cfg) {
 							hostname: 'devapi-fip.sp.f-secure.com',
 							port: 443,
 							method: "GET",
-							path: encodeURIComponent(checkpoint.task.URL),
+							path: encodeURI(checkpoint.task.URL),
 							headers : {
 								'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
 								'x-application-ticket' : tickets[0].ticket
