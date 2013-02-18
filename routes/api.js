@@ -659,11 +659,11 @@ module.exports = exports = function api_module(cfg) {
 				read_doc(id, callback);
 			},
 			getDocumentsByType : function(type, filter, callback) {
-				if (filter) {
+				if (typeof filter == "string") {
 					filter = { key : filter };
-				} else {
+				} else if (!filter) {
 					filter = '';
-				}
+				} 
 				read_view(type, filter, callback);
 			},
 			getUploadToken : function(eventID, callback) {
