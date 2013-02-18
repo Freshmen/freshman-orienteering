@@ -7,12 +7,17 @@ var updateEventTaskUrls = function() {
 	api.events.getEvents(function(data){
 		for (var i = 0; i < data.length; i++) {
 			(function(event) { 
-				var currenttime = moment();
-				var eventstarttime = event.starttime;
-				var timediff = currenttime.diff(, 'minutes');
-				console.log(timediff);
-				if(timediff < 30 && timediff > 0 ) {
-					console.log(event.title);	
+				var currentTime = moment();
+				var eventStartTime = event.starttime;
+				var timeDiff = eventStartTime.diff(currentTime, 'minutes');
+				console.log(timeDiff);
+				if(timeDiff > 0 && timeDiff < 30 ) {
+					console.log(event.title);
+					/* var options = {
+						hostname: 'gami.fi',
+						port: 80,
+						path: '/api/v2/events/' + event._id + '/tickets',
+					} */	
 				}
 				/*var options = {
 					hostname: 'devapi-fip.sp.f-secure.com',

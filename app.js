@@ -36,7 +36,7 @@ nconf.defaults({
   'FACEBOOK_APP_SECRET' : '6b878512fa91d329803d933a9ac286de',
   'FACEBOOK_CALLBACK_URL' : '/auth/facebook/callback',
   'ticket_refresh_rate' : 5,
-  'event_refresh_rate' : 1, 
+  'event_refresh_rate' : 20, 
 });
 
 // API initialization
