@@ -2,7 +2,7 @@ var checkpoint_hash = {};
 var hashkey = 0;
 var eventCoord;
 var i = 0;
-var eventDBID;
+var eventDBID, eventName;
 var upload_progress = {};
 
 function createCheckpoint(marker){
@@ -105,6 +105,7 @@ function saveEvent(){
 	});
 	event_details["description"] = $('#description').val();
 	event_details["ordered"] = $('#ordered').attr('checked')?true:false;
+	eventName = event_details["title"];
 	$.post("/api/v2/events/",event_details,function(data){
 		jQuery.parseJSON(data);
 		eventDBID = data.id;
@@ -142,7 +143,12 @@ function saveCheckpoints() {
 			checkpointJSON = parseCheckpoint($(this).attr("id"));
 			// Take out the file object from the file picker. We dont want to send the file to couchDb.	
 			var taskFile = checkpointJSON['task']['URL'];
-			checkpointJSON['task']['URL'] = "NONE";
+			if ( taskFile == undefined ){
+				checkpointJSON['task']['URL'] = "NONE";
+			}
+			else {
+				var pathToTaskFile = "/content/1_0_0/files/devices/Web/Gamified/" + eventName + "/" + checkpointJSON["title"] + "/" taskFile.name;
+			}
 			upload_progress[checkpointJSON['title']] = false;
 			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
 			    // Setup the checkpoint folder and upload the task file into it.
