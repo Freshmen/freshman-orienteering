@@ -101,6 +101,7 @@ function viewSubmissions(eventID){
 	$('#submissionsHolder').append('<h1 id="title" class="propertyHeader">'+thisEvent.title+'</h1>');
 	$('#submissionsHolder').append('<input type="button" id="refreshSubmissionsButton" onclick=buildSubmissionsTable("'+eventID+'") value="Refresh" class="button"/>');
 	$('#submissionsHolder').append('<div id="tableHolder"></div>');
+	eventName = thisEvent.title;
 	buildSubmissionsTable(eventID);
 }
 
