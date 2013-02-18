@@ -615,7 +615,7 @@ module.exports = exports = function api_module(cfg) {
 								'x-application-ticket' : tickets[0].ticket
 							}
 						};
-						console.log("options");
+						console.log(options);
 						var post_req = https.request(options, function(response) {
 							var items;
 							response.setEncoding('utf-8');
