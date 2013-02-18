@@ -617,16 +617,16 @@ module.exports = exports = function api_module(cfg) {
 						};
 						console.log(options);
 						var post_req = https.request(options, function(response) {
-							var items;
+							var items = "";
 							response.on('data', function(data) {
 								items += data;
 							});
 							response.on('end', function(data) {
-								console.log(items);
 								if (items && items.Items && items.Items[0]) {
 									var item = items.Items[0].URL;
 									res.json(200, item);
 								} else {
+									console.log(items);
 									res.json(500, { "error" : "failed to get a download url"});
 								}			
 							});
