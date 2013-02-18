@@ -84,21 +84,17 @@
   			var chkptName = "<%= checkpoint.title %>";
   			var uploadToken = "<%= ticket %>";
   			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
-			$.get("/api/v2/events/<%= evt._id %>/upload", function(data){
-				console.log(data);
-				var uploadToken = data.Token;
-				uploadFile(uploadToken, path, file);
-				$("#hiddenUploader").show();
-				$("#hiddenUploader p").show();
-				$("#hiddenUploader img").show();
-			        var looper = setInterval(function() {
-					if(uploaded) {
-						$("#hiddenUploader p").text("Your submission is done. Go back to the map and follow the next checkpoint");
-						$("#hiddenUploader img").attr("src", "/images/green-tick.svg");
-						clearInterval(looper);
-					}
-				}, 1000);
-			});
+			uploadFile(uploadToken, path, file);
+			$("#hiddenUploader").show();
+			$("#hiddenUploader p").show();
+			$("#hiddenUploader img").show();
+			var looper = setInterval(function() {
+				if(uploaded) {
+					$("#hiddenUploader img").attr("src", "/images/green-tick.svg");
+					$("#hiddenUploader p").text("Your submission is done. Go back to the map and follow the next checkpoint");
+					clearInterval(looper);
+				}
+			}, 1000);
   		}
 
   		function getTaskFile(){
