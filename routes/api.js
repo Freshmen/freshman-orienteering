@@ -22,7 +22,7 @@ module.exports = exports = function api_module(cfg) {
 	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.organizer, doc);\n}"
 	   				},
 	   				"EventsByDate": {
-	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.endTime, doc);\n}"
+	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.endtime, doc);\n}"
 	   				},
 	   				"Checkpoints": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
