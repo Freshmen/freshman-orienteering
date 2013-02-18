@@ -597,6 +597,41 @@ module.exports = exports = function api_module(cfg) {
 					});
 					post_req.end();
 				});
+			}, 
+			download : function(req, res) {
+				read_view('Tickets', parseFilters(req, req.params.eventID), function(tickets) {
+					if (!tickets && !tickets[0].ticket) {
+						res.json(500, { "error" : "failed to get a user ticket"});
+					}
+					read_doc(req.params.checkpointID, function(checkpoint) {
+
+						var options = {
+							hostname: 'devapi-fip.sp.f-secure.com',
+							port: 443,
+							method: "GET",
+							path: '/content/1_0_0/files/' + checkpoint.task.URL,
+							headers : {
+								'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
+								'x-application-ticket' : tickets[0].ticket
+							}
+						};
+
+						var post_req = https.request(options, function(response) {
+							response.setEncoding('utf-8');
+							res.writeHead(response.statusCode);
+							response.on('data', function(data) {
+								res.write(data);
+							});
+							response.on('end', function(data) {
+								res.end();
+							});
+						}).on('error', function(e) {
+							res.json(500, { "error" : "failed to get an upload token"});
+						});
+						post_req.end();	
+					});
+					
+				});
 			}
 		}, 
 		internal : {

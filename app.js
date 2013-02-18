@@ -263,6 +263,8 @@ app.delete('/api/v2/users/:userID', api.users.remove);
 app.delete('/api/v2/events/:eventID/tickets/:ticketID', api.tickets.remove);
 
 app.get('/api/v2/events/:eventID/upload', api.ticket.upload);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/upload', api.ticket.upload);
+app.get('/api/v2/events/:eventID/checkpoints/:checkpointID/download', api.ticket.download);
 
 // 404 page if nothing else matched
 
