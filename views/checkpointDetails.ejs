@@ -35,11 +35,17 @@
 		<hr>
 		<p><%= checkpoint.task.description %></p>
 		<center>
-			
+			<% if (checkpoint.task.URL == 'NONE') {%>
+			<button id="unenroll-button">
+				<i class="icon-remove-sign icon-large"></i>
+				<p>No task media file</p>
+			</button>
+			<% } else { %>
 			<button onClick=getTaskFile() id="enroll-button">
 				<i class="icon-cloud-download icon-large"></i>
 				<p>View task's media file</p>
 			</button>
+			<% } %>	
 		</center>
 		</ul>
 		
@@ -103,7 +109,6 @@
 
   		function getTaskFile(){
 			$.get("/api/v2/events/<%= evt._id %>/checkpoints/<%= checkpoint._id %>/download", function(data){
-				console.log(data.URL);
 				var downloadURL = data.URL;
 				$("#hiddenLink").attr("href", downloadURL);
 				window.location = document.getElementById('hiddenLink').href;
