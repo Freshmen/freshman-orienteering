@@ -13,10 +13,7 @@ requirejs(["/dependencies/can/FipCanConfig.js", "Can"],
 
     	can.login(function(status) {
 	    if(status == 400){
-		// @Vidhuran - 31st Jan 2013 
-		// Commenting out for now , to be later uncommented.
-		//   window.location.replace(decodeURIComponent("http://127.0.0.1/loginToFacebook.html"));
-		alert("CAN Login Error, So you CAN't create an event");
+	    	console.log("User successfully logged in to CAN");
 	    }		
             // Create FSIO client.
        	    fsio = can.createFsioClient();
@@ -56,14 +53,6 @@ function downloadFile(ctx, object) {
     });
 }
 
-function waitUntilScanned(ctx, object) {
-    ctx.fsio.waitForWorkers(ctx.ticket, object,
-                            ["AV","FileTypeWorkerStatus","MetadataWorkerStatus"],
-                            10, function(status) {
-                                if(status == "success")
-                                    downloadFile(ctx, object);
-                            });
-}
 
 function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
     var object_name = path + "/" + taskFile.name;
@@ -90,25 +79,30 @@ function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
                 console.log("Task upload error");
             }
             else {
-                    $.get("/api/v2/events/"+eventID+"/checkpoints/"+chkptID, function(data){
-                        var taskObj = data.task;
-                        var title = data.title;  
-                        fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
-                            var response = JSON.parse(jqXHR.responseText)
-                            taskObj["URL"] = response.Items[0].URL
-                            var task = { "task" : taskObj };
-                            $.ajax({
-                            url:'/api/v2/events/'+eventID+'/checkpoints/'+chkptID,   
-                            type:'PUT',
-                            data: task,
-                                success: function(response,data){
-                                    upload_progress[title] = true;
-                                }
-                            });
-                        });
-                        
-                        });
-                        
+		     fsio.waitForWorkers(ticket, object_name,
+                            ["AV","FileTypeWorkerStatus","MetadataWorkerStatus","ThumbnailWorkerStatus","TranscodingAudioWorkerStatus","TranscodingVideoWorkerStatus"],
+                            10, function(status) {
+                                if(status == "success"){
+					$.get("/api/v2/events/"+eventID+"/checkpoints/"+chkptID, function(data){
+		                        	var taskObj = data.task;
+			                        var title = data.title;
+        	        		        fsio.content.getFileInfo(ticket, object_name, function(jqXHR) {
+			                        	var response = JSON.parse(jqXHR.responseText)
+	                			        taskObj["URL"] = response.Items[0].URL
+        	                	    		var task = { "task" : taskObj };
+                	            			$.ajax({
+                        	    				url:'/api/v2/events/'+eventID+'/checkpoints/'+chkptID,
+                            					type:'PUT',
+	                            				data: task,
+        	                        			success: function(response,data){
+                	                    				upload_progress[title] = true;
+                        	        			}
+                            				});
+                        			});
+
+                        		});
+				}    
+                            });	
                    }   
             });
         });

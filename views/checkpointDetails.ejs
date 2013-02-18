@@ -35,14 +35,14 @@
 		<hr>
 		<p><%= checkpoint.task.description %></p>
 		<center>
-			<button href="<%= checkpoint.task.url %>" id="enroll-button">
+			
+			<button onClick=getTaskFile() id="enroll-button">
 				<i class="icon-cloud-download icon-large"></i>
 				<p>View task's media file</p>
 			</button>
 		</center>
 		</ul>
-		<a href="<%= checkpoint.task.url %>">View task</a>
-
+		
 		<% if (checkpoint.task.accepts == 'audio/*') {%>
 			<input id="audiofile" type="file" accepts="audio/*;capture=microphone" class="hidden">
 		<% } else if (checkpoint.task.accepts == 'video/*') { %>
@@ -79,6 +79,14 @@
   			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
   			uploadFile("bf782565-3052-3146-3686-0e1235f5f00c", path, file);
   		}
+
+  		function getTaskFile(){
+  			window.location.replace("<%= checkpoint.task.url %>");		
+  		}
+
+  		function openFileSelector() {
+    		$('input[type=file]').trigger('click');
+		}
 	</script>
 </body>
 </html>
