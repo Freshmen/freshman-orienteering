@@ -222,6 +222,7 @@ app.get('/api/v2/events/:eventID/enrollments/:enrollmentID', api.enrollments.sho
 app.get('/api/v2/users', api.users.list);
 app.get('/api/v2/users/:userID', api.users.show);
 app.get('/api/v2/me', api.users.getCurrentUser);
+app.get('/api/v2/me/events', api.users.getEvents);
 app.get('/api/v2/me/enrollments', api.users.getEnrollments);
 app.get('/api/v2/me/checkins', api.users.getCheckins);
 app.get('/api/v2/me/submissions', api.users.getSubmissions);

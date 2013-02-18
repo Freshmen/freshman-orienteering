@@ -20,7 +20,10 @@ module.exports = exports = function api_module(cfg) {
 				{
 	   				"Events": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.organizer, doc);\n}"
-	   				},	
+	   				},
+	   				"EventsByDate": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.endtime, doc);\n}"
+	   				},
 	   				"Checkpoints": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
 	   				},
@@ -201,7 +204,8 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				read_view('Events', parseFilters(req, req.query['organizer']), function(body) {
+				var now = new Date;
+				read_view('EventsByDate', { startkey : now }, function(body) {
 					res.json(200, body);
 				});
 			},
@@ -449,6 +453,15 @@ module.exports = exports = function api_module(cfg) {
 					res.json(200, body);
 				});
 			},
+			getEvents : function(req, res) {
+				if (req.user && req.user._id) {
+					read_view('Events', parseFilters(req, req.user._id), function(body) {
+						res.json(200, body);
+					});	
+				} else {
+					res.json(403, { 'error' : 'user not logged in' });
+				}
+			},
 			getEnrollments : function(req, res) {
 				if (req.user && req.user._id) {
 					read_view('EnrollmentsByUser', parseFilters(req, req.user._id), function(body) {
@@ -584,13 +597,12 @@ module.exports = exports = function api_module(cfg) {
 						}
 					};
 					var post_req = https.request(options, function(response) {
-						response.setEncoding('utf-8');
-						res.writeHead(response.statusCode);
+						var ticket = "";
 						response.on('data', function(data) {
-							res.write(data);
+							ticket += data;
 						});
 						response.on('end', function(data) {
-							res.end();
+							res.json(200, ticket);
 						});
 					}).on('error', function(e) {
 						res.json(500, { "error" : "failed to get an upload token"});
@@ -609,24 +621,31 @@ module.exports = exports = function api_module(cfg) {
 							hostname: 'devapi-fip.sp.f-secure.com',
 							port: 443,
 							method: "GET",
-							path: checkpoint.task.URL,
+							path: encodeURI(checkpoint.task.URL),
 							headers : {
 								'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
 								'x-application-ticket' : tickets[0].ticket
 							}
 						};
-
 						var post_req = https.request(options, function(response) {
-							response.setEncoding('utf-8');
-							res.writeHead(response.statusCode);
+							var items = "";
 							response.on('data', function(data) {
-								res.write(data);
+								items += data;
 							});
 							response.on('end', function(data) {
-								res.end();
+								items = JSON.parse(items);
+								if (items && items.Items && items.Items[0]) {
+									var item = items.Items[0];
+									res.json(200, item);
+								} else {
+									console.log(items);
+									res.json(500, { "error" : "failed to get a download url"});
+								}			
 							});
 						}).on('error', function(e) {
-							res.json(500, { "error" : "failed to get an upload token"});
+							console.log("Error with getting a download URL from CAN:");
+							console.log(e);
+							res.json(500, { "error" : "failed to get a response from CAN"});
 						});
 						post_req.end();	
 					});
@@ -639,11 +658,11 @@ module.exports = exports = function api_module(cfg) {
 				read_doc(id, callback);
 			},
 			getDocumentsByType : function(type, filter, callback) {
-				if (filter) {
+				if (typeof filter == "string") {
 					filter = { key : filter };
-				} else {
+				} else if (!filter) {
 					filter = '';
-				}
+				} 
 				read_view(type, filter, callback);
 			},
 			getUploadToken : function(eventID, callback) {
@@ -660,13 +679,13 @@ module.exports = exports = function api_module(cfg) {
 						}
 					};
 					var post_req = https.request(options, function(response) {
-						var token;
+						var token = "";
 						response.setEncoding('utf-8');
 						response.on('data', function(data) {
 							token += data;
 						});
 						response.on('end', function() {
-							callback(token);
+							callback(JSON.parse(token));
 						});
 					})
 					post_req.end();

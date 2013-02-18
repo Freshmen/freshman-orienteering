@@ -1,63 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" charset="utf-8" />
-<title>Gamified : <%= evt.title %></title>
-<link rel='stylesheet' href='/stylesheets/participant.css'/>
-<link rel='stylesheet' href='//fonts.googleapis.com/css?family=Arvo' />
-<link rel="stylesheet" href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.0.2/css/font-awesome.min.css'>
+<meta http-equiv="X-UA-Compatible" content="IE=100">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="True">
+<meta name="touch-event-mode" value="native">
+<meta name="cursor-event-mode" value="native">
+<meta name="format-detection" content="telephone=no"/>
+<meta name="format-detection" content="address=no"/>
+<link rel="stylesheet" href="http://api.maps.nokia.com/mobile/latest/lib/
+mh5.css">
+<link rel="stylesheet" href="http://api.maps.nokia.com/mobile/latest/lib/
+colors.css">
 <style>
-	html, body {
-		width: 100%; 
-		height: 100%;
-		overflow: hidden;
-		margin: 0;
-	}
-	#footer {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 40px;
-		background-color: #fff;
-	}
-	#header {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 40px;
-		background-color: #fff;
-	}
-	#mapContainer {
-		width: 100%; 
-		height: 100%;
-		padding: 40px 0;
-	}
+html, body { 
+	width: 100%; 
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+#app_location {
+	width: 100%; 
+	height: 100%; 
+	position: relative;
+}
 </style>
 </head>
-<body>
-	<header id="header">
-		<button id="locateMe" type="button">Center on user</button></header>
-	<div id="mapContainer"></div>
-	<footer id="footer">
-		<a href="/events/<%= evt._id %>">&lt; Back</a>
-		<button id="checkin" type="button">Check in!</button>
-	</footer>
-	<script src="//api.maps.nokia.com/2.2.3/jsl.js?with=all"></script>
-	<script src="/javascripts/participant/geolocation.js"></script>
-	<script>
-		GAMIFY.geo = new GAMIFY.Geo(document.getElementById("mapContainer"));
-		GAMIFY.geo.addCheckpoints(<%- JSON.stringify(checkpoints) %>);
-		GAMIFY.geo.setStartPosition(<%- JSON.stringify(evt.location) %>);
-		if (window.addEventListener) {
-			document.getElementById("locateMe").addEventListener('click', function() { GAMIFY.geo.centerOnUser(); }, false);
-			document.getElementById("checkin").addEventListener('click', function() { GAMIFY.geo.checkin(); }, false);
-		} else if (window.attachEvent) {
-			document.getElementById("locateMe").attachEvent('click', function() { GAMIFY.geo.centerOnUser(); });
-			document.getElementById("checkin").attachEvent('click', function() { GAMIFY.geo.checkin(); });
-		}
-	</script>
+<body class="mh5_hwacc_body">
+<script src="http://api.maps.nokia.com/mobile/latest/lib/mh5.js"></script>
+<div id="app_location"></div>
+<script src="/javascripts/maps/setup.js"></script>
+</script>
 </body>
 </html>

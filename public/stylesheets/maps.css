@@ -1,0 +1,260 @@
+html,
+body {
+    font-size: 10px;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.lastfm_LandingPage ~ .mh5_SettingsDialog {
+    top: 10.8rem;
+}
+
+.lastfm_header {
+    overflow: hidden;
+    position: relative;
+    color: white;
+    margin: 0;
+    height: 5rem;
+    background: url(img/logo.png) no-repeat 1.1rem 1.3rem;
+    background-color: #B61F24;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-weight: 100;
+}
+
+.lastfm_overview {
+    height: 5.5rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: box;
+    padding: 1rem;
+    -webkit-box-align: center;
+    border-top:  .1rem solid white;
+}
+
+
+.lastfm_overview .lastfm_eventName {
+    padding-bottom: 1.5rem;
+}
+
+.lastfm_overview > div {
+    -webkit-box-flex: 1;
+    -ms-flex:         1 0 auto;
+    box-flex:         1;
+    color: #FFF;
+}
+
+.lastfm_overview > img {
+    margin-right: .2rem;
+    border: .2rem solid #FFF;
+    max-width: 6.4rem;
+    max-height: 5.6rem;
+    overflow: hidden;
+}
+
+.lastfm_overview > div > div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.lastfm_overview > div > div > span{
+    font-weight: bold;
+}
+
+.lastfm_overview > div > div:first-child {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 3rem;
+}
+
+.lastfm_overview > div > div:not(:first-child) {
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+/** Splash Page **/
+.lastfm_SplashPage {
+    background-color: #B61F24;
+}
+
+.lastfm_SplashPage .lastfm_biglogo {
+    display: block;
+    height: 8.6rem;
+    width: 18.4rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15.3rem;
+    clear: both;
+    background-image: url(img/big_logo.png);
+}
+
+.lastfm_SplashPage .lastfm_spinner {
+    display: block;
+    height: 3.2rem;
+    width: 3.2rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2.3rem;
+    clear: both;
+    background-image: url(img/spinner_32.png);
+}
+
+/** Landing Page **/
+
+.lastfm_LandingPage.mh5_Page {
+    background-color: #FFFFFF;
+}
+
+
+.lastfm_LandingPage .mh5_PlaceSummary,
+.lastfm_LandingPage .mh5_PlaceSummary .details {
+    padding-top: 0;
+}
+
+
+.lastfm_LandingPage .mh5_Search {
+    padding: 1rem 1rem 1rem 0;
+}
+
+.lastfm_LandingPage .mh5_Map {
+    height: auto;
+}
+
+.lastfm_LandingPage .lastfm_listContainer {
+    position: absolute;
+    width: 100%;
+    top: 10.8rem;
+    bottom: 0;
+    width: 100%;
+}
+
+.lastfm_LandingPage .lastfm_listContainer .mh5_vScroll {
+    width: 100%;
+}
+
+.lastfm_LandingPage .mh5_List {
+    background-color: #FFF;
+}
+
+.lastfm_LandingPage .lastfm_gap {
+    height: 20rem;
+    width: 100%;
+    /*necessary for ie10 to catch click events*/
+    background-color: rgba(255, 255, 255, .00001);
+}
+
+
+.lastfm_LandingPage .mh5_PlaceDetails {
+    top: 10.8rem;
+}
+
+.lastfm_LandingPage .lastfm_ArtistList {
+    padding: 1.2rem .9rem 0 .9rem;
+}
+
+.lastfm_LandingPage .lastfm_artistListItem {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    box-align: center;
+    display: inline-block;
+    margin: 0 1rem 1rem 0;
+    background-color: #0187c5;
+    color: #FFF;
+    line-height: 2.2rem;
+    font-size: 1.2rem;
+    padding: 0 1rem;
+}
+
+.lastfm_LandingPage .lastfm_artistTitle {
+    height: 1rem;
+    padding: .9rem;
+    font-size: 2.1rem;
+    color: #991B1F;
+    background-color: #FFF;
+}
+
+.lastfm_eventListItem {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: box;
+    border-bottom: .1rem solid #DEDEDE;
+    height: 6.3rem;
+}
+
+.lastfm_eventListItem > div {
+    -webkit-box-flex: 1;
+    -ms-flex:         1 0 auto;
+    box-flex:         1;
+    margin: 0 1rem;
+}
+
+
+.lastfm_eventListItem > div > div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.lastfm_eventListItem > img {
+    height: 5.5rem;
+    width: 5.5rem;
+    margin: .4rem .7rem 0 0;
+}
+
+.lastfm_eventListItem .lastfm_eventTitle {
+    color: #000;
+    font-size: 1.3rem;
+    font-weight: bold;
+    line-height: 1.6rem;
+    padding-top: .7rem;
+}
+
+.lastfm_eventListItem .lastfm_eventAddress{
+    color: #444;
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+}
+
+.lastfm_LandingPage .lastfm_search_options_button {
+    width: 6rem;
+    padding: 1rem;
+}
+
+.lastfm_LandingPage .lastfm_search_options_segment {
+    background: url(img/lastfm_iconsheet.png) no-repeat;
+    width: 2rem;
+    height: 2rem;
+}
+
+.lastfm_LandingPage .lastfm_geosearch {
+    background-position: 0 .1rem;
+}
+
+.lastfm_LandingPage .mh5_selected .lastfm_geosearch {
+    background-position: -1.9rem .1rem;
+}
+
+.lastfm_LandingPage .lastfm_artistsearch {
+    background-position: -4rem .1rem;
+}
+
+.lastfm_LandingPage .mh5_selected .lastfm_artistsearch {
+    background-position: -5.9rem .1rem;
+}
+
+/** Aritst Page **/
+.lastfm_ArtistPage .lastfm_overview {
+    height: 6.7rem;
+}
+
+.lastfm_ArtistPage .lastfm_overview > img {
+    margin-right: .5rem;
+}
+.lastfm_ArtistPage .lastfm_artistBio {
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+    margin: 1rem;
+}
