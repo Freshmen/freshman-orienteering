@@ -615,7 +615,7 @@ module.exports = exports = function api_module(cfg) {
 								'x-application-ticket' : tickets[0].ticket
 							}
 						};
-
+						console.log(options);
 						var post_req = https.request(options, function(response) {
 							response.setEncoding('utf-8');
 							res.writeHead(response.statusCode);
@@ -626,7 +626,7 @@ module.exports = exports = function api_module(cfg) {
 								res.end();
 							});
 						}).on('error', function(e) {
-							res.json(500, { "error" : "failed to get an upload token"});
+							res.json(500, { "error" : "failed to get a download url"});
 						});
 						post_req.end();	
 					});
