@@ -88,7 +88,7 @@
 
 		function withdraw() {
 			$.ajax({
-				url:'/api/v2/events/<%= evt._id %>/enrollments/',	
+				url:'/api/v2/events/<%= evt._id %>/enrollments/<%= enrolled %>',	
 				type:'DELETE',
 				success: function(response,data){
 					window.location.reload();
