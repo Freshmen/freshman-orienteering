@@ -615,7 +615,6 @@ module.exports = exports = function api_module(cfg) {
 								'x-application-ticket' : tickets[0].ticket
 							}
 						};
-						console.log(options);
 						var post_req = https.request(options, function(response) {
 							var items = "";
 							response.on('data', function(data) {
@@ -624,7 +623,7 @@ module.exports = exports = function api_module(cfg) {
 							response.on('end', function(data) {
 								items = JSON.parse(items);
 								if (items && items.Items && items.Items[0]) {
-									var item = items.Items[0].URL;
+									var item = items.Items[0];
 									res.json(200, item);
 								} else {
 									console.log(items);
