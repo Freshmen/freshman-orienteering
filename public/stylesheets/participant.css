@@ -145,12 +145,23 @@ a i {
   font-size: 120%;
   font-family: 'Arvo', serif;
   text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+  cursor: pointer;
 }
 #enroll-button p {
   display: inline;
 }
-.enrolled {
+#unenroll-button {
   background-color: #b22222;
+  border-radius: 5px;
+  color: #fff;
+  padding: 6px 20px;
+  text-decoration: none;
+  outline: none;
+  border-width: 0px;
+  font-size: 120%;
+  font-family: 'Arvo', serif;
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+  cursor: pointer;
 }
 .hidden {
   display: none;
@@ -173,6 +184,7 @@ a i {
   left: 0;
   right: 0;
   margin-top: 0;
+  margin-bottom: 0;
 /* Styles */
   background: #fff;
   list-style: none;
@@ -185,6 +197,7 @@ a i {
   background-color: #fff;
   border: 1px solid #13549a;
   padding: 5px;
+  margin-bottom: 0;
 }
 .wrapper-dropdown-5 .dropdown li a {
   display: block;

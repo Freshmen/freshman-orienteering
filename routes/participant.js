@@ -34,7 +34,7 @@ exports.eventDetails = function(req, res) {
 		req.api.internal.getDocumentsByType('EnrollmentsByUser', req.user._id, function(enrollments) {
 			for (var i = 0; i < enrollments.length; i++) {
 				if (enrollments[i].event == req.params.eventID) {
-					enrolled = true;
+					enrolled = enrollments[i]._id;
 					break;
 				}
 			}
