@@ -1,5 +1,6 @@
 var log = 0;
 var userEvents = {};
+var eventName = "";
 
 function getEventData(){
 	getUserEvents();
@@ -64,6 +65,7 @@ function viewEventDetails(eventNumber){
 		$('#eventDetailsHolder').append('<h5>The checkpoints of this event are unordered</h5>');
 	}
 	$('#eventDetailsHolder').append('<input type="button" id="deleteButton" onclick=askConfirmation("'+thisEvent._id+'") value="Delete this event" class="button">');
+	eventName = thisEvent.title;
 }
 
 function editProperty(link, ID){
@@ -125,7 +127,7 @@ function getSubmissions(eventID){
 
 function populateSubmissionsTable(submissions,eventID){
 	for (var s in submissions) {
-		var url = submissions[s].url;
+		var url = submissions[s].filename;
 		var time = new Date(submissions[s].timestamp);
 		time = moment(time).format("HH:mm:ss, D.MM.YYYY");
 		$.getJSON("/api/v2/events/"+eventID+"/checkpoints/"+submissions[s].checkpoint, function(checkpoint) {

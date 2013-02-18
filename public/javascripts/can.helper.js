@@ -53,6 +53,12 @@ function downloadFile(ctx, object) {
     });
 }
 
+function getSubmissionUrl(path, callback) {
+	var full_path = "devices/Web/Gamified/" + path;	
+	fsio.content.getFileInfo(ticket, full_path, function(data){
+		console.log(data);
+	});
+}
 
 function uploadFile(ticket, token, path, taskFile, eventID, chkptID) {
     var object_name = path + "/" + taskFile.name;
