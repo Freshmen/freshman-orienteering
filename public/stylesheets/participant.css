@@ -26,6 +26,12 @@ li {
   margin: 0 0 6px;
   display: block;
 }
+hr {
+  border: none;
+  background-color: #ccc;
+  color: #ccc;
+  height: 1px;
+}
 .fixed-container {
   position: fixed;
   height: 1.8em;

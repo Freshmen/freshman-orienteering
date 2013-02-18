@@ -20,7 +20,10 @@ module.exports = exports = function api_module(cfg) {
 				{
 	   				"Events": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.organizer, doc);\n}"
-	   				},	
+	   				},
+	   				"EventsByDate": {
+	       				"map": "function(doc) {\n  if (doc.type === \"Event\")\n    emit(doc.endTime, doc);\n}"
+	   				},
 	   				"Checkpoints": {
 	       				"map": "function(doc) {\n  if (doc.type === \"Checkpoint\")\n    emit(doc.event, doc);\n}"
 	   				},
@@ -201,7 +204,8 @@ module.exports = exports = function api_module(cfg) {
 				});
 			},
 			list : function(req, res) {
-				read_view('Events', parseFilters(req, req.query['organizer']), function(body) {
+				var now = new Date;
+				read_view('EventsByDate', { startkey : now }, function(body) {
 					res.json(200, body);
 				});
 			},
@@ -448,6 +452,15 @@ module.exports = exports = function api_module(cfg) {
 				delete_doc(req.params.userID, function(body) {
 					res.json(200, body);
 				});
+			},
+			getEvents : function(req, res) {
+				if (req.user && req.user._id) {
+					read_view('Events', parseFilters(req, req.user._id), function(body) {
+						res.json(200, body);
+					});	
+				} else {
+					res.json(403, { 'error' : 'user not logged in' });
+				}
 			},
 			getEnrollments : function(req, res) {
 				if (req.user && req.user._id) {
