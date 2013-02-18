@@ -147,7 +147,8 @@ function saveCheckpoints() {
 				checkpointJSON['task']['URL'] = "NONE";
 			}
 			else {
-				var pathToTaskFile = "/content/1_0_0/files/devices/Web/Gamified/" + eventName + "/" + checkpointJSON["title"] + "/" + taskFile.name;
+				var pathToTaskFile = "/content/1_0_0/files/devices/Web/Gamified/" + eventName + "/" + checkpointJSON['title'] + "/" + taskFile.name;
+				checkpointJSON['task']['URL'] = pathToTaskFile;
 			}
 			upload_progress[checkpointJSON['title']] = false;
 			$.post("/api/v2/events/" + eventDBID + "/checkpoints",checkpointJSON,function(data){
