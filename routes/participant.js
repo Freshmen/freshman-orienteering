@@ -77,7 +77,7 @@ exports.checkpointDetails = function(req, res) {
 
 
 	req.api.internal.getDocumentById(req.params.eventID, function(evt) {
-	//	req.api.internal.getUploadToken(req.params.eventID, function(ticket) {
+		req.api.internal.getUploadToken(req.params.eventID, function(ticket) {
 			req.api.internal.getDocumentById(req.params.checkpointID, function(checkpoint) {
 		 		req.api.internal.getDocumentsByType('SubmissionsByUser', req.user._id, function(submissions) {
 		 			for (var i = 0; i < submissions.length; i++) {
@@ -95,6 +95,6 @@ exports.checkpointDetails = function(req, res) {
 		 			});
 		 		});
 		 	});
-	//	});
+		});
 	});
 }
