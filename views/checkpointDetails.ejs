@@ -35,11 +35,17 @@
 		<hr>
 		<p><%= checkpoint.task.description %></p>
 		<center>
-			
+			<% if (checkpoint.task.URL == 'NONE') {%>
+			<button id="unenroll-button">
+				<i class="icon-remove-sign icon-large"></i>
+				<p>No task media file</p>
+			</button>
+			<% } else { %>
 			<button onClick=getTaskFile() id="enroll-button">
 				<i class="icon-cloud-download icon-large"></i>
 				<p>View task's media file</p>
 			</button>
+			<% } %>	
 		</center>
 		</ul>
 		
@@ -52,10 +58,17 @@
 		<% } else { %>
 			<input id="anyfile" type="file" class="hidden"> 
 		<% } %>
+
+		<a id="hiddenLink"></a>
+
+		<center id="hiddenUploader">
+			<p>Uploading Submission in Progress</p>
+			<img src="/images/ajax-loader.gif"></img>
+		</center>
 	</div>
 
 	<div id="footer-container" class="fixed-container">
-		<a href="/events/<%= evt._id %>/checkpoints">
+		<a id="BackButton" href="/events/<%= evt._id %>/checkpoints">
 			<div id="back" class="footer-item">
 				<i class="icon-angle-left icon-large"></i>
 				<p>Back</p>
@@ -87,17 +100,35 @@
   			var file = input.files[0];
   			var eventName = "<%= evt.title %>";
   			var chkptName = "<%= checkpoint.title %>";
-  			var uploadTicket = "<%= ticket %>";
-  			var path = "devices/Web/" + eventName + "/" + chkptName + "/submissions/" + file.name;
-  			uploadFile("bf782565-3052-3146-3686-0e1235f5f00c", path, file);
+  			var uploadToken = "<%= ticket %>";
+  			var path = "devices/Web/Gamified/" + eventName + "/" + chkptName + "/submissions/" + file.name;
+			uploadFile(uploadToken, path, file);
+			$("#hiddenUploader").show();
+			$("#hiddenUploader p").show();
+			$("#hiddenUploader img").show();
+			var looper = setInterval(function() {
+				if(uploaded) {
+					$("#hiddenUploader img").attr("src", "/images/green-tick.svg");
+					$("#hiddenUploader p").text("Your submission is done. Go back to the map and follow the next checkpoint");
+					clearInterval(looper);
+				}
+			}, 1000);
+			setTimeout(function() {
+				alert("You'll be taken to the maps page now");
+				window.location = document.getElementById('BackButton').href;
+			}, 5000);
   		}
 
   		function getTaskFile(){
-  			window.location.replace("<%= checkpoint.task.url %>");		
+			$.get("/api/v2/events/<%= evt._id %>/checkpoints/<%= checkpoint._id %>/download", function(data){
+				var downloadURL = data.URL;
+				$("#hiddenLink").attr("href", downloadURL);
+				window.location = document.getElementById('hiddenLink').href;
+			});		
   		}
 
   		function openFileSelector() {
-    		$('input[type=file]').trigger('click');
+    			$('input[type=file]').trigger('click');
 		}
 	</script-->
 </body>

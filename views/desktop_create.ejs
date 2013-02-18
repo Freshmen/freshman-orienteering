@@ -73,41 +73,41 @@
 
 		$(document).ready(function(){
 			$("#addOption").hide();
-			var starttime = $("#starttime");
-			var endtime = $("#endtime");
-			starttime.datetimepicker({useLocalTimezone : true, minDate : new Date(), 
-				onClose: function(dateText, inst) {
-					if (endtime.val() != '') {
-						var eventStartTime = starttime.datetimepicker('getDate');
-						var eventEndTime = endtime.datetimepicker('getDate');
-						if (eventStartTime > eventEndTime) 
-							// Display some alert here about the user's error
-							endtime.datetimepicker('setDate', eventStartTime);
-					} else {
-						endtime.val(dateText);
-					}
-				},
-				onSelect: function (selectedDateTime){
-					endtime.datetimepicker('option', 'minDate', starttime.datetimepicker('getDate') );
-				}				
-			});
-			endtime.datetimepicker({useLocalTimezone : true, minDate : new Date(),
-				onClose: function(dateText, inst) {
-					if (starttime.val() != '') {
-						var eventStartTime = starttime.datetimepicker('getDate');
-						var eventEndTime = endtime.datetimepicker('getDate');
-						if (starttime > endtime)
-							// Display some alert here about the user's error
-							starttime.datetimepicker('setDate', eventEndTime);
-					} else {
-						starttime.val(dateText);
-					}
-				},
-				onSelect: function (selectedDateTime){
-					starttime.datetimepicker('option', 'maxDate', endtime.datetimepicker('getDate') );
-				}
-		      	});
+			var startDateTextBox = $('#starttime');
+			var endDateTextBox = $('#endtime');
 
+			startDateTextBox.datetimepicker({ useLocalTimezone : true, minDateTime : new Date(),  
+				onClose: function(dateText, inst) {
+					if (endDateTextBox.val() != '') {
+						var testStartDate = startDateTextBox.datetimepicker('getDate');
+						var testEndDate = endDateTextBox.datetimepicker('getDate');
+						if (testStartDate > testEndDate)
+							endDateTextBox.datetimepicker('setDate', testStartDate);
+					}
+					else {
+						endDateTextBox.val(dateText);
+					}
+				},
+				onSelect: function (selectedDateTime){
+					endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );
+				}
+			});
+			endDateTextBox.datetimepicker({ useLocalTimezone : true, minDateTime : new Date();
+				onClose: function(dateText, inst) {
+					if (startDateTextBox.val() != '') {
+						var testStartDate = startDateTextBox.datetimepicker('getDate');
+						var testEndDate = endDateTextBox.datetimepicker('getDate');
+						if (testStartDate > testEndDate)
+							startDateTextBox.datetimepicker('setDate', testEndDate);
+					}
+					else {
+						startDateTextBox.val(dateText);
+					}
+				},
+				onSelect: function (selectedDateTime){
+					startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate') );
+				}
+			});
 			$( "#checkpoint_holder" ).sortable({
 				stop: function(event, ui) {
         				fixIds();

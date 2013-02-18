@@ -1,5 +1,6 @@
 var log = 0;
 var userEvents = {};
+var eventName = "";
 
 function getEventData(){
 	getUserEvents();
@@ -64,6 +65,7 @@ function viewEventDetails(eventNumber){
 		$('#eventDetailsHolder').append('<h5>The checkpoints of this event are unordered</h5>');
 	}
 	$('#eventDetailsHolder').append('<input type="button" id="deleteButton" onclick=askConfirmation("'+thisEvent._id+'") value="Delete this event" class="button">');
+	eventName = thisEvent.title;
 }
 
 function editProperty(link, ID){
@@ -99,6 +101,7 @@ function viewSubmissions(eventID){
 	$('#submissionsHolder').append('<h1 id="title" class="propertyHeader">'+thisEvent.title+'</h1>');
 	$('#submissionsHolder').append('<input type="button" id="refreshSubmissionsButton" onclick=buildSubmissionsTable("'+eventID+'") value="Refresh" class="button"/>');
 	$('#submissionsHolder').append('<div id="tableHolder"></div>');
+	eventName = thisEvent.title;
 	buildSubmissionsTable(eventID);
 }
 
@@ -125,14 +128,19 @@ function getSubmissions(eventID){
 
 function populateSubmissionsTable(submissions,eventID){
 	for (var s in submissions) {
-		var url = submissions[s].url;
+		var filename = submissions[s].filename;
 		var time = new Date(submissions[s].timestamp);
 		time = moment(time).format("HH:mm:ss, D.MM.YYYY");
 		$.getJSON("/api/v2/events/"+eventID+"/checkpoints/"+submissions[s].checkpoint, function(checkpoint) {
 			var checkpointName = checkpoint.title;
-			$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
-				var userName = user.name;
-				$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName+'</td><td><a id="share" href="https://www.facebook.com/sharer/sharer.php?u='+url+'" target="_blank"><i class="icon-facebook-sign icon-large"> Share on facebook</a></td></tr>');	
+			var submissionPath = eventName + "/" + checkpointName + "/submissions/" + filename;
+			getSubmissionUrl(submissionPath , function(downloadUrl){
+				var url = downloadUrl;
+				$.getJSON("/api/v2/users/"+submissions[s].user, function(user){
+					var userName = user.name;
+					$('#submissions tbody').append('<tr><td><a href="'+url+'">Link</a></td><td>'+time+'</td><td>'+checkpointName+'</td><td>'+userName+'</td><td><a id="share" href="https://www.facebook.com/sharer/sharer.php?u='+url+'" target="_blank"><i class="icon-facebook-sign icon-large"> Share on facebook</a></td></tr>');	
+				});
+
 			});
 		});
 	}
