@@ -622,6 +622,7 @@ module.exports = exports = function api_module(cfg) {
 								items += data;
 							});
 							response.on('end', function(data) {
+								console.log(items);
 								if (items && items.Items && items.Items[0]) {
 									var item = items.Items[0].URL;
 									res.json(200, item);
