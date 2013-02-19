@@ -618,7 +618,7 @@ module.exports = exports = function api_module(cfg) {
 					read_doc(req.params.checkpointID, function(checkpoint) {
 
 						var options = {
-							hostname: 'api-fip.sp.f-secure.com',
+							hostname: 'devapi-fip.sp.f-secure.com',
 							port: 443,
 							method: "GET",
 							path: encodeURI(checkpoint.task.URL),
@@ -668,7 +668,7 @@ module.exports = exports = function api_module(cfg) {
 			getUploadToken : function(eventID, callback) {
 				read_view('Tickets', { key : eventID}, function(tickets) {
 					var options = {
-						hostname: 'api-fip.sp.f-secure.com',
+						hostname: 'devapi-fip.sp.f-secure.com',
 						port: 443,
 						method: "POST",
 						path: '/ticket/1_0_0/upload',
