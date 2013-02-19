@@ -54,9 +54,10 @@
 						page.notification.text = "You are not close enough to any checkpoint.";
 						page.notification.visible = true;
                     } else {
-                    	var path = '/api/v2' + global.location.pathname + "/" + closest._id + "/checkins";
-                    	$.post(path, nokia.mh5.geolocation.coords, function() {
-                    		global.location = global.location.pathname + "/" + closest._id;
+                    	var postpath = '/api/v2/events/' + closest.event + "/checkpoints/" + closest._id + "/checkins";
+                    	var gopath = '/events/' + closest.event + "/checkpoints/" + closest._id;
+                    	$.post(postpath, nokia.mh5.geolocation.coords, function() {
+                    		global.location = gopath;
                     	});
                     }
                 }
