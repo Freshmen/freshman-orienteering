@@ -39,7 +39,6 @@
                     for (var i=0; i < checkpoints.length; i++) {
                         var checkpoint = checkpoints[i];
                         var dist = nokia.mh5.math.pointDistance(nokia.mh5.geolocation.coords, checkpoint);
-
                         if (dist < distance) {
                               distance = dist;
                               closest = checkpoint;
@@ -78,7 +77,7 @@
                 poiclick: function(e) {
                     var poi = e.data[0],
                         checkpoint = poi.data;
-                    if (!poi.infoBubble) {
+                    if (!poi.infoBubble && checkpoint._id) {
                         this.hideInfoBubble();
                         this.showInfoBubble(poi, {
                             content: ["title", "description"],
