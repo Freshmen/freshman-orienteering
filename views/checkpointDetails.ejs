@@ -65,6 +65,8 @@
 			<p>Uploading Submission in Progress</p>
 			<img src="/images/ajax-loader.gif"></img>
 		</center>
+		<center id="taskMediaContent">
+		</center>
 	</div>
 
 	<div id="footer-container" class="fixed-container">
@@ -109,9 +111,18 @@
 
   		function getTaskFile(){
 			$.get("/api/v2/events/<%= evt._id %>/checkpoints/<%= checkpoint._id %>/download", function(data){
+				var fileType = data.Type;
 				var downloadURL = data.URL;
-				$("#hiddenLink").attr("href", downloadURL);
-				window.location = document.getElementById('hiddenLink').href;
+				if(fileType == "file.audio") {
+					$("#taskMediaContent").append('<audio src=' + downloadUrl + ' autoplay controls></audio>');
+				} else if (fileType == "file.video") {
+					$("#taskMediaContent").append('<video src=' + downloadUrl + ' width=100px height=100px autoplay controls></video>');
+				} else if (fileType == "file.image") {
+					$("#taskMediaContent").append('<img src=' + downloadUrl + ' width=100px height=100px></img>');
+				} else {
+					$("#hiddenLink").attr("href", downloadURL);
+					window.location = document.getElementById('hiddenLink').href;
+				}
 			});		
   		}
 
