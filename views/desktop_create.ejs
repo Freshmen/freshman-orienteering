@@ -92,7 +92,7 @@
 					endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate') );
 				}
 			});
-			endDateTextBox.datetimepicker({ useLocalTimezone : true, minDateTime : new Date();
+			endDateTextBox.datetimepicker({ useLocalTimezone : true, minDateTime : new Date(),
 				onClose: function(dateText, inst) {
 					if (startDateTextBox.val() != '') {
 						var testStartDate = startDateTextBox.datetimepicker('getDate');
