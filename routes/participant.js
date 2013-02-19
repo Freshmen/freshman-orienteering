@@ -89,7 +89,7 @@ exports.checkpointDetails = function(req, res) {
 					res.render('checkpointDetails.ejs', {
 						checkpoint: checkpoint,
 						evt : evt,
-						ticket : "mock ticket", 
+						ticket : ticket, 
 						submitted : submitted,
 						user: req.user 
 		 			});
