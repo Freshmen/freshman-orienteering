@@ -38,7 +38,6 @@ $().ready(function() {
         evt.initEvent('locationUpdated', true, true);
         evt.position = data;
         document.dispatchEvent(evt);
-        console.log("Watch");
     };
 
      _Geolocation.g_initialize(watchPositionSuccess);
@@ -102,9 +101,7 @@ $().ready(function() {
 	 */
 	map.addListener(DBLCLICK, function (evt) {
 		evt.preventDefault();
-//		var coord = map.pixelToGeo(evt.displayX, evt.displayY);
 		var coord = getCoord(map, evt.displayX, evt.displayY);
-//		console.log(evt.displayX);
 		notifiedWindow(coord);
 	});
 	
@@ -174,7 +171,6 @@ $().ready(function() {
 				//initialise events for the marker
 				//initEvent(new_marker);
 				//Fill event coordinates on desktop site
-				console.log(new_marker);
 				createCheckpoint(new_marker);
 			})
 			.on('click:cancel', 'destroy');

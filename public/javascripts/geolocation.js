@@ -74,7 +74,6 @@ _Geolocation.g_getPosition = function(callback) {
 };
 
 _Geolocation.g_getCurrentPositionSuccess = function(position) {
-  console.log("position retrieved: " + "Lon:" + position.coords.longitude + " Lan: " + position.coords.longitude);
   _Geolocation.g_currentPosition = position;
 }
 
