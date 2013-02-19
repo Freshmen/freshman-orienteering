@@ -52,9 +52,10 @@
                     }
                     nokia.mh5.adapters.Route.fetch(waypoints,
                         {mode: "walk"}, function(result) {
-                          nokia.mh5.app.controller.switchTo("landing", { method: "geo.getevents", items : waypoints, route : result }, {replaceLastHistoryEntry: true});
+                            global.gamify.route = result;
+                            nokia.mh5.app.controller.switchTo("landing", { method: "geo.getcheckpoints", checkpoints : checkpoints }, {replaceLastHistoryEntry: true});
                         }, function(error) {
-                          nokia.mh5.app.controller.switchTo("landing", { method: "geo.getevents", items : waypoints }, {replaceLastHistoryEntry: true});
+                            nokia.mh5.app.controller.switchTo("landing", { method: "geo.getcheckpoints", checkpoints : checkpoints }, {replaceLastHistoryEntry: true});
                         }
                     );
                 }

@@ -24,6 +24,18 @@ body {
     font-weight: 100;
 }
 
+.gamify_footer {
+    overflow: hidden;
+    position: relative;
+    color: white;
+    margin: 0;
+    height: 5rem;
+    background-color: #13549A;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-weight: 100;
+}
+
 .lastfm_overview {
     height: 5.5rem;
     display: -webkit-box;
