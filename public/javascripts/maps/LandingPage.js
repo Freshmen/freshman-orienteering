@@ -49,7 +49,10 @@
                     if (distance > 100) {
                         alert("You are not close enough to any checkpoint.");
                     } else {
-                        global.location = global.location.pathname + "/" + closest._id;
+                    	var path = '/api/v2' + global.location.pathname + "/" + closest._id + "/checkins";
+                    	$.post(path, nokia.mh5.geolocation.coords, function() {
+                    		global.location = global.location.pathname + "/" + closest._id;
+                    	});
                     }
                 }
             }
@@ -112,7 +115,11 @@
                         checkpoints[i].latitude = parseFloat(checkpoints[i].location.latitude);
                         checkpoints[i].longitude = parseFloat(checkpoints[i].location.longitude);
                         delete checkpoints[i].location;
-                        checkpoints[i].mapIcon = "/images/maps/img/marker.png";
+                        if (checkpoints[i].visited) {
+                        	checkpoints[i].mapIcon = "/images/maps/img/marker_visited.png";
+                        } else {
+                        	checkpoints[i].mapIcon = "/images/maps/img/marker.png";
+                        }
                         checkpoints[i].description = checkpoints[i].title;
                         checkpoints[i].title = "Checkpoint";
                         if (Number(checkpoints[i].order)) {
