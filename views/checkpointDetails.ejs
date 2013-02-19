@@ -114,11 +114,11 @@
 				var fileType = data.Type;
 				var downloadURL = data.URL;
 				if(fileType == "file.audio") {
-					$("#taskMediaContent").append('<audio src=' + downloadUrl + ' autoplay controls></audio>');
+					$("#taskMediaContent").append('<audio src=' + downloadURL + ' autoplay controls></audio>');
 				} else if (fileType == "file.video") {
-					$("#taskMediaContent").append('<video src=' + downloadUrl + ' width=100px height=100px autoplay controls></video>');
+					$("#taskMediaContent").append('<video src=' + downloadURL + ' width="100" height="100" autoplay controls></video>');
 				} else if (fileType == "file.image") {
-					$("#taskMediaContent").append('<img src=' + downloadUrl + ' width=100px height=100px></img>');
+					$("#taskMediaContent").append('<img src=' + downloadURL + ' width="100" height="100"></img>');
 				} else {
 					$("#hiddenLink").attr("href", downloadURL);
 					window.location = document.getElementById('hiddenLink').href;
