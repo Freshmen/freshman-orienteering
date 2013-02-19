@@ -50,11 +50,11 @@
 		</ul>
 		
 		<% if (checkpoint.task.accepts == 'audio/*') {%>
-			<input id="audiofile" type="file" accepts="audio/*;capture=microphone">
+			<input id="audiofile" type="file" accepts="audio/*;capture=microphone" class="hidden">
 		<% } else if (checkpoint.task.accepts == 'video/*') { %>
-			<input id="videofile" type="file" accepts="video/*;capture=camcorder">
+			<input id="videofile" type="file" accepts="video/*;capture=camcorder" class="hidden">
 		<% } else if (checkpoint.task.accepts == 'image/*') { %>
-			<input id="imagefile" type="file" accepts="image/*;capture=camera">
+			<input id="imagefile" type="file" accepts="image/*;capture=camera" class="hidden">
 		<% } else { %>
 			<input id="anyfile" type="file" class="hidden"> 
 		<% } %>
