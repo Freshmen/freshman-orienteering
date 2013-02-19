@@ -7,7 +7,7 @@ var updateAllTickets = function() {
 		for (var i = 0; i < data.length; i++) {
 			(function(ticket) { 
 				var options = {
-					hostname: 'devapi-fip.sp.f-secure.com',
+					hostname: 'api-fip.sp.f-secure.com',
 					port: 443,
 					path: '/content/1_0_0/account?fields=Quota',
 					headers : {
