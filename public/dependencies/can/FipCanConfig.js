@@ -1,6 +1,6 @@
 define({
     ONEID_HOST: "https://devapi-fip.sp.f-secure.com:443",
-    SEBE_HOST: "https://699.spi.f-secure.com",
+    SEBE_HOST: "https://devapi-fip.sp.f-secure.com:443",
     FSIO_PSK: "3SUCMSharedKey",
     FSIO_TICKET_HOST: "https://devapi-fip.sp.f-secure.com:443",
     FSIO_TICKET_DAC: "DAC_699_WINDOWSPC",
