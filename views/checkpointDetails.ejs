@@ -105,12 +105,12 @@
 					$("#hiddenUploader img").attr("src", "/images/green-tick.svg");
 					$("#hiddenUploader p").text("Your submission is done. Go back to the map and follow the next checkpoint");
 					clearInterval(looper);
+					setTimeout(function() {
+						alert("You'll be taken to the maps page now");
+						window.location = document.getElementById('BackButton').href;
+					}, 5000);
 				}
 			}, 1000);
-			setTimeout(function() {
-				alert("You'll be taken to the maps page now");
-				window.location = document.getElementById('BackButton').href;
-			}, 5000);
   		}
 
   		function getTaskFile(){
