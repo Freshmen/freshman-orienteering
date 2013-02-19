@@ -23,6 +23,10 @@
             control: Control,
             cssClass: "gamify_header"
         },
+        notification: {
+           control: nokia.mh5.ui.Notification,
+           visible: false
+        },
         footer: {
             control: Container,
             cssClass: "gamify_footer",
@@ -44,10 +48,11 @@
                               closest = checkpoint;
                         }
                     }
-                    
-                    console.log(dist);
                     if (distance > 100) {
-                        alert("You are not close enough to any checkpoint.");
+                    	var page = this.getRootOwnerByClass(nokia.mh5.ui.Page);
+						page.notification.timeout = 4000;
+						page.notification.text = "You are not close enough to any checkpoint.";
+						page.notification.visible = true;
                     } else {
                     	var path = '/api/v2' + global.location.pathname + "/" + closest._id + "/checkins";
                     	$.post(path, nokia.mh5.geolocation.coords, function() {
@@ -56,10 +61,6 @@
                     }
                 }
             }
-        },
-        notification: {
-           control: nokia.mh5.ui.Notification,
-           visible: false
         },
         map: {
             control: Map,
@@ -71,7 +72,9 @@
                 content: ["title", "description"],
                 listeners: {
                     rightclick: function() {
-                        global.location = global.location.pathname + "/" + this.poi.data._id;
+                    	var checkpoint = this.poi.data;
+                    	var path = "/events/" + checkpoint.event + "/checkpoints/" + checkpoint._id; 
+                        global.location = path;
                     }
                 }
             },
@@ -127,7 +130,6 @@
                             checkpoints[i].markerOptions = {};
                             checkpoints[i].markerOptions.text = checkpoints[i].order;
                         } 
-                        console.log(checkpoints[i]);
                     }
 
                     setTimeout(function() {
