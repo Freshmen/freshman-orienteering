@@ -88,6 +88,7 @@
 	</div>
 
 	<script>
+		var taskMediaDisplayed = false;	
 		var input = document.querySelector('input[type=file]');
 		input.onchange = function () {
   			var file = input.files[0];
@@ -116,11 +117,14 @@
 			$.get("/api/v2/events/<%= evt._id %>/checkpoints/<%= checkpoint._id %>/download", function(data){
 				var fileType = data.Type;
 				var downloadURL = data.URL;
-				if(fileType == "file.audio") {
+				if(fileType == "file.audio" && !taskMediaDisplayed) {
+					taskMediaDisplayed = true;
 					$("#taskMediaContent").append('<audio src=' + downloadURL + ' autoplay controls></audio>');
-				} else if (fileType == "file.video") {
+				} else if (fileType == "file.video" && !taskMediaDisplayed) {
+					taskMediaDisplayed = true;
 					$("#taskMediaContent").append('<video src=' + downloadURL + ' width="400" height="400" autoplay controls></video>');
-				} else if (fileType == "file.image") {
+				} else if (fileType == "file.image" && !taskMediaDisplayed) {
+					taskMediaDisplayed = true;
 					$("#taskMediaContent").append('<img src=' + downloadURL + ' width="400" height="400"></img>');
 				} else {
 					$("#hiddenLink").attr("href", downloadURL);
