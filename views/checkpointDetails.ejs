@@ -126,7 +126,7 @@
 				} else if (fileType == "file.image" && !taskMediaDisplayed) {
 					taskMediaDisplayed = true;
 					$("#taskMediaContent").append('<img src=' + downloadURL + ' width="400" height="400"></img>');
-				} else {
+				} else if (!taskMediaDisplayed) {
 					$("#hiddenLink").attr("href", downloadURL);
 					window.location = document.getElementById('hiddenLink').href;
 				}
