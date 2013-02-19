@@ -28,7 +28,7 @@ $(function(){
 	var loginAttemptsCounter = 0;
 	var loginAttempt = function() { 
 		$.ajax({
-            url: "https://oneid-fip.sp.f-secure.com/OneID/user/2_0_0/scim/v1/Users/current",
+            url: "https://oneid-fip.sp.f-secure.com:443/OneID/user/2_0_0/scim/v1/Users/current",
             headers: {"x-apikey": "l7xx4b2071526ae34e7fb2d33ff02bb82503"},
 			xhrFields: { 
 				withCredentials: true 
