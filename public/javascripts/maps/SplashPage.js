@@ -48,7 +48,6 @@
                         location.latitude = parseFloat(checkpoints[i].location.latitude);
                         location.longitude = parseFloat(checkpoints[i].location.longitude);
                         waypoints.push(location);
-                        console.log(location);
                     }
                     nokia.mh5.adapters.Route.fetch(waypoints,
                         {mode: "walk"}, function(result) {

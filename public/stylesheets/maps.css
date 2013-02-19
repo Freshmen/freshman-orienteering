@@ -36,56 +36,6 @@ body {
     font-weight: 100;
 }
 
-.lastfm_overview {
-    height: 5.5rem;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: box;
-    padding: 1rem;
-    -webkit-box-align: center;
-    border-top:  .1rem solid white;
-}
-
-
-.lastfm_overview .lastfm_eventName {
-    padding-bottom: 1.5rem;
-}
-
-.lastfm_overview > div {
-    -webkit-box-flex: 1;
-    -ms-flex:         1 0 auto;
-    box-flex:         1;
-    color: #FFF;
-}
-
-.lastfm_overview > img {
-    margin-right: .2rem;
-    border: .2rem solid #FFF;
-    max-width: 6.4rem;
-    max-height: 5.6rem;
-    overflow: hidden;
-}
-
-.lastfm_overview > div > div {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.lastfm_overview > div > div > span{
-    font-weight: bold;
-}
-
-.lastfm_overview > div > div:first-child {
-    font-size: 1.8rem;
-    font-weight: bold;
-    line-height: 3rem;
-}
-
-.lastfm_overview > div > div:not(:first-child) {
-    font-size: 1.4rem;
-    line-height: 2rem;
-}
 
 /** Splash Page **/
 .gamify_SplashPage {
@@ -135,127 +85,15 @@ body {
     height: auto;
 }
 
-.gamify_LandingPage .lastfm_listContainer {
+.gamify_LandingPage .gamify_checkinBtn {
+    width: 10rem;
+    margin: 5px auto;
+}
+
+.gamify_LandingPage .gamify_backBtn {
+    width: 5rem;
     position: absolute;
-    width: 100%;
-    top: 10.8rem;
-    bottom: 0;
-    width: 100%;
+    left: 0;
 }
-
-.gamify_LandingPage .lastfm_listContainer .mh5_vScroll {
-    width: 100%;
-}
-
-.gamify_LandingPage .mh5_List {
-    background-color: #FFF;
-}
-
-.gamify_LandingPage .lastfm_gap {
-    height: 20rem;
-    width: 100%;
-    /*necessary for ie10 to catch click events*/
-    background-color: rgba(255, 255, 255, .00001);
-}
-
-
-.gamify_LandingPage .mh5_PlaceDetails {
-    top: 10.8rem;
-}
-
-.gamify_LandingPage .lastfm_ArtistList {
-    padding: 1.2rem .9rem 0 .9rem;
-}
-
-.gamify_LandingPage .lastfm_artistListItem {
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    box-align: center;
-    display: inline-block;
-    margin: 0 1rem 1rem 0;
-    background-color: #0187c5;
-    color: #FFF;
-    line-height: 2.2rem;
-    font-size: 1.2rem;
-    padding: 0 1rem;
-}
-
-.gamify_LandingPage .lastfm_artistTitle {
-    height: 1rem;
-    padding: .9rem;
-    font-size: 2.1rem;
-    color: #991B1F;
-    background-color: #FFF;
-}
-
-.lastfm_eventListItem {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: box;
-    border-bottom: .1rem solid #DEDEDE;
-    height: 6.3rem;
-}
-
-.lastfm_eventListItem > div {
-    -webkit-box-flex: 1;
-    -ms-flex:         1 0 auto;
-    box-flex:         1;
-    margin: 0 1rem;
-}
-
-
-.lastfm_eventListItem > div > div {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.lastfm_eventListItem > img {
-    height: 5.5rem;
-    width: 5.5rem;
-    margin: .4rem .7rem 0 0;
-}
-
-.lastfm_eventListItem .lastfm_eventTitle {
-    color: #000;
-    font-size: 1.3rem;
-    font-weight: bold;
-    line-height: 1.6rem;
-    padding-top: .7rem;
-}
-
-.lastfm_eventListItem .lastfm_eventAddress{
-    color: #444;
-    font-size: 1.3rem;
-    line-height: 1.6rem;
-}
-
-.gamify_LandingPage .lastfm_search_options_button {
-    width: 6rem;
-    padding: 1rem;
-}
-
-.gamify_LandingPage .lastfm_search_options_segment {
-    background: url(/images/maps/img/lastfm_iconsheet.png) no-repeat;
-    width: 2rem;
-    height: 2rem;
-}
-
-.gamify_LandingPage .lastfm_geosearch {
-    background-position: 0 .1rem;
-}
-
-.gamify_LandingPage .mh5_selected .lastfm_geosearch {
-    background-position: -1.9rem .1rem;
-}
-
-.gamify_LandingPage .lastfm_artistsearch {
-    background-position: -4rem .1rem;
-}
-
-.gamify_LandingPage .mh5_selected .lastfm_artistsearch {
-    background-position: -5.9rem .1rem;
-}
-
 
 

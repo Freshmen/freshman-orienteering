@@ -24,8 +24,36 @@
             cssClass: "gamify_header"
         },
         footer: {
-            control: Control,
-            cssClass: "gamify_footer"
+            control: Container,
+            cssClass: "gamify_footer",
+            children: ["checkinBtn"],
+            checkinBtn: {
+                control: nokia.mh5.ui.Button,
+                cssClass: "mh5_Button mh5_mode mh5_ColumnLayout gamify_checkinBtn",
+                text: "Checkin",
+                onClick: function(e) {
+                    var closest;
+                    var distance = 1000;
+                    var checkpoints = this.parent.parent.model.checkpoints;
+                    
+                    for (var i=0; i < checkpoints.length; i++) {
+                        var checkpoint = checkpoints[i];
+                        var dist = nokia.mh5.math.pointDistance(nokia.mh5.geolocation.coords, checkpoint);
+
+                        if (dist < distance) {
+                              distance = dist;
+                              closest = checkpoint;
+                        }
+                    }
+                    
+                    console.log(dist);
+                    if (distance > 100) {
+                        alert("You are not close enough to any checkpoint.");
+                    } else {
+                        global.location = global.location.pathname + "/" + closest._id;
+                    }
+                }
+            }
         },
         notification: {
            control: nokia.mh5.ui.Notification,
@@ -40,8 +68,8 @@
             infoBubble: {
                 content: ["title", "description"],
                 listeners: {
-                    click: function() {
-                        global.location = global.location.pathname + this.poi.data._id;
+                    rightclick: function() {
+                        global.location = global.location.pathname + "/" + this.poi.data._id;
                     }
                 }
             },
@@ -55,7 +83,9 @@
                         this.showInfoBubble(poi, {
                             content: ["title", "description"],
                             title: checkpoint.title,
-                            description: checkpoint.description
+                            description: checkpoint.description,
+                            right : "/images/maps/img/back2map_icon.png",
+                            rightDelimiter : true
                         });
                     }
                     e.preventDefault();
@@ -86,9 +116,12 @@
                         checkpoints[i].mapIcon = "/images/maps/img/marker.png";
                         checkpoints[i].description = checkpoints[i].title;
                         checkpoints[i].title = "Checkpoint";
-                        if (checkpoints[i].order != "0") {
+                        if (Number(checkpoints[i].order)) {
                             checkpoints[i].title += " " + checkpoints[i].order;
+                            checkpoints[i].markerOptions = {};
+                            checkpoints[i].markerOptions.text = checkpoints[i].order;
                         } 
+                        console.log(checkpoints[i]);
                     }
 
                     setTimeout(function() {
