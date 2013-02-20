@@ -667,6 +667,10 @@ module.exports = exports = function api_module(cfg) {
 			},
 			getUploadToken : function(eventID, callback) {
 				read_view('Tickets', { key : eventID}, function(tickets) {
+					var ticket = "";
+					if (tickets && tickets[0] && tickets[0].ticket) {
+						ticket = tickets[0].ticket;
+					} 					
 					var options = {
 						hostname: 'devapi-fip.sp.f-secure.com',
 						port: 443,
@@ -674,7 +678,7 @@ module.exports = exports = function api_module(cfg) {
 						path: '/ticket/1_0_0/upload',
 						headers : {
 							'x-apikey' : 'l7xx4b2071526ae34e7fb2d33ff02bb82503',
-							'x-application-ticket' : tickets[0].ticket,
+							'x-application-ticket' : ticket,
 							'Content-Length' : 0
 						}
 					};

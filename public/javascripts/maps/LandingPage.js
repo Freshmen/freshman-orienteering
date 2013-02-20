@@ -150,8 +150,11 @@
                     }.bind(this), 1000);
                 }
             });
-			nokia.mh5.event.add(nokia.mh5.geolocation, "positionchange", function(evt) { console.log("location changed!"); }); 
-			Control.watch(this.model, "location", this, function (location) { console.log("model location changed!"); });
+			nokia.mh5.event.add(nokia.mh5.geolocation, "positionchange", function(evt) { global.gamify.LandingPage.model.location = evt.data; }); 
+			Control.watch(this.model, "location", this, function (location) { 
+				console.log("model location changed!");
+				console.log(location); 
+			});
         },
 
         setModel: function(model) {
@@ -159,6 +162,11 @@
             if (model.checkpoints && model.chekpoints !== this.model.checkpoints) {
 
                 this.model.checkpoints = model.checkpoints;
+
+            }
+            if (model.location && model.location !== this.model.location) {
+
+                this.model.location = model.location;
 
             }
 

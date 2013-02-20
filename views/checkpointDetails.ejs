@@ -50,11 +50,11 @@
 		</ul>
 		
 		<% if (checkpoint.task.accepts == 'audio/*') {%>
-			<input id="audiofile" type="file" accepts="audio/*;capture=microphone" class="hidden">
+			<input id="audiofile" class="uploadInput hidden" type="file" accepts="audio/*;capture=microphone">
 		<% } else if (checkpoint.task.accepts == 'video/*') { %>
-			<input id="videofile" type="file" accepts="video/*;capture=camcorder" class="hidden">
+			<input id="videofile" class="uploadInput hidden" type="file" accepts="video/*;capture=camcorder">
 		<% } else if (checkpoint.task.accepts == 'image/*') { %>
-			<input id="imagefile" type="file" accepts="image/*;capture=camera" class="hidden">
+			<input id="imagefile" class="uploadInput hidden" type="file" accepts="image/*;capture=camera">
 		<% } else { %>
 			<input id="anyfile" type="file" class="hidden"> 
 		<% } %>
@@ -79,7 +79,7 @@
 				<p>Back</p>
 			</div>
 		</a>
-		<a onClick=openFileSelector()>
+		<a href="#" id="uploadBtn">
 			<div id="upload" class="footer-item">
 				<i class="icon-cloud-upload icon-large"></i>
 				<p>Upload Submission</p>
@@ -133,6 +133,10 @@
 			});		
   		}
 
+  		$("#uploadBtn").bind("click", function(e) {
+  			$(".uploadInput").click();
+  		});
+  		
   		function openFileSelector() {
     			$('input').trigger('click');
 		}
