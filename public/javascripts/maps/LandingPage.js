@@ -34,11 +34,11 @@
             checkinBtn: {
                 control: nokia.mh5.ui.Button,
                 cssClass: "mh5_Button mh5_mode mh5_ColumnLayout gamify_checkinBtn",
-                text: "Checkin",
+                text: "Check in",
                 onClick: function(e) {
                     var closest;
                     var distance = 1000;
-                    var checkpoints = this.parent.parent.model.checkpoints;
+                    var checkpoints = this.getRootOwnerByClass(nokia.mh5.ui.Page).model.checkpoints;
                     
                     for (var i=0; i < checkpoints.length; i++) {
                         var checkpoint = checkpoints[i];
@@ -69,6 +69,7 @@
             addressLookup: false,
             suggestions: false,
             settingsButton : null,
+            mapLogo: null,
             infoBubble: {
                 content: ["title", "description"],
                 listeners: {
@@ -112,9 +113,11 @@
                 }
 
                 nokia.mh5.app.controller.updateHistoryEntry();
-
+                
                 if (checkpoints.length > 0) {
                     this.map.zoom = 14;
+                    var next;
+                    var smallest;
                     for (var i = 0; i < checkpoints.length; i++) {
                         checkpoints[i].latitude = parseFloat(checkpoints[i].location.latitude);
                         checkpoints[i].longitude = parseFloat(checkpoints[i].location.longitude);
@@ -123,6 +126,13 @@
                         	checkpoints[i].mapIcon = "/images/maps/img/marker_visited.png";
                         } else {
                         	checkpoints[i].mapIcon = "/images/maps/img/marker.png";
+                        	if (!next) {
+                        		next = checkpoints[i];
+                        		smallest = checkpoints[i].order;
+                        	} else if (smallest > checkpoints[i].order) {
+								next = checkpoints[i];
+                        		smallest = checkpoints[i].order;
+                        	}
                         }
                         checkpoints[i].description = checkpoints[i].title;
                         checkpoints[i].title = "Checkpoint";
@@ -135,12 +145,13 @@
 
                     setTimeout(function() {
                         this.map.pois = checkpoints;
-                        var poi = this.map.pois[0];
-                        this.map.moveTo(poi);
+                        //this.map.route = [nokia.mh5.geolocation.coords, next];
+                        this.map.moveTo(next?next:this.model.location);
                     }.bind(this), 1000);
-                } 
+                }
             });
-
+			nokia.mh5.event.add(nokia.mh5.geolocation, "positionchange", function(evt) { console.log("location changed!"); }); 
+			Control.watch(this.model, "location", this, function (location) { console.log("model location changed!"); });
         },
 
         setModel: function(model) {

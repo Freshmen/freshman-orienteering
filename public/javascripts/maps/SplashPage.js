@@ -40,23 +40,15 @@
                     delete this._timeoutId;
                     //switch to the landing page but only if the fallback switch hasn't happened
                     var location = ((result && result.data) || defaultLocation).coords;
-                    //add checkpoints and route here;
-                    var checkpoints = global.gamify.checkpoints;
-                    var waypoints = [];
-                    for (var i = 0; i < checkpoints.length; i++) {
-                        var location = {};
-                        location.latitude = parseFloat(checkpoints[i].location.latitude);
-                        location.longitude = parseFloat(checkpoints[i].location.longitude);
-                        waypoints.push(location);
-                    }
-                    nokia.mh5.adapters.Route.fetch(waypoints,
-                        {mode: "walk"}, function(result) {
-                            global.gamify.route = result;
-                            nokia.mh5.app.controller.switchTo("landing", { method: "geo.getcheckpoints", checkpoints : checkpoints }, {replaceLastHistoryEntry: true});
-                        }, function(error) {
-                            nokia.mh5.app.controller.switchTo("landing", { method: "geo.getcheckpoints", checkpoints : checkpoints }, {replaceLastHistoryEntry: true});
-                        }
-                    );
+                    //add checkpoints;
+                    nokia.mh5.app.controller.switchTo("landing", 
+                    	{ 
+	                    	method: "geo.getcheckpoints", 
+	                    	checkpoints : global.gamify.checkpoints,
+	                    	location : location 
+	                    },
+                		{replaceLastHistoryEntry: true}
+                	);
                 }
             }
             nokia.mh5.event.one(nokia.mh5.geolocation, "positionactivate", onPositionActivated.bind(this));
