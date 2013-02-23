@@ -85,15 +85,36 @@ body {
     height: auto;
 }
 
+.gamify_LandingPage .gamify_backBtn {
+    width: 10rem;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+    color: #13549A;
+}
+
 .gamify_LandingPage .gamify_checkinBtn {
     width: 10rem;
-    margin: 5px auto;
-}
-
-.gamify_LandingPage .gamify_backBtn {
-    width: 5rem;
     position: absolute;
-    left: 0;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: #13549A;
+}
+.mh5_Button.mh5_textButton:before{ background-image: url('/images/maps/img/button_long2_light.png'); }
+.mh5_Button.mh5_textButton:after{ background-image: url('/images/maps/img/button_long2_light.png'); }
+.mh5_Button.mh5_textButton:not(.mh5_disabled).mh5_active:before,.mh5_Button.mh5_textButton:not(.mh5_disabled):active:before{background-image:url('/images/maps/img/button_long2_light_active.png');}
+.mh5_Button.mh5_textButton:not(.mh5_disabled).mh5_active .mh5_ButtonText,.mh5_Button.mh5_textButton:not(.mh5_disabled):active .mh5_ButtonText{background-image:url('/images/maps/img/button_long2_light_active.png');}
+.mh5_Button.mh5_textButton:not(.mh5_disabled).mh5_active:after,.mh5_Button.mh5_textButton:not(.mh5_disabled):active:after{background-image:url('/images/maps/img/button_long2_light_active.png');}
+.mh5_Button.mh5_textButton .mh5_ButtonText{ background-image: url('/images/maps/img/button_long2_light.png');}
+
+.mh5_Notification {
+	border-bottom-color: #13549A;
 }
 
-
+.mh5_Notification .mh5_NotificationText {
+	background-color: #fff;
+	color: #13549A;
+	font-weight: bold; 
+}

@@ -30,7 +30,18 @@
         footer: {
             control: Container,
             cssClass: "gamify_footer",
-            children: ["checkinBtn"],
+            layout: {
+                type: ColumnLayout
+            },
+            children: ["backBtn","checkinBtn"],
+            backBtn: {
+                control: nokia.mh5.ui.Button,
+                cssClass: "mh5_Button mh5_mode mh5_ColumnLayout gamify_backBtn",
+                text: "< Back",
+                onClick: function(e) {
+                    global.location = global.location.href.replace('/checkpoints', '');
+                }
+            },
             checkinBtn: {
                 control: nokia.mh5.ui.Button,
                 cssClass: "mh5_Button mh5_mode mh5_ColumnLayout gamify_checkinBtn",
@@ -102,7 +113,8 @@
         model: {
             method: "geo.getcheckpoints",
             location: null,
-            checkpoints: []
+            checkpoints: [],
+            footpath : []
         },
 
         build: function() {
@@ -145,15 +157,17 @@
 
                     setTimeout(function() {
                         this.map.pois = checkpoints;
-                        //this.map.route = [nokia.mh5.geolocation.coords, next];
+                        this.map.route = [nokia.mh5.geolocation.coords, next];
                         this.map.moveTo(next?next:this.model.location);
                     }.bind(this), 1000);
                 }
             });
-			nokia.mh5.event.add(nokia.mh5.geolocation, "positionchange", function(evt) { global.gamify.LandingPage.model.location = evt.data; }); 
+			nokia.mh5.event.add(nokia.mh5.geolocation, "positionchange", function(evt) { global.gamify.LandingPage.model.footpath.push(evt.data); }); 
 			Control.watch(this.model, "location", this, function (location) { 
-				console.log("model location changed!");
-				console.log(location); 
+				var page = this.getRootOwnerByClass(nokia.mh5.ui.Page);
+				page.notification.timeout = 4000;
+				page.notification.text = "Location changed!";
+				page.notification.visible = true;
 			});
         },
 
