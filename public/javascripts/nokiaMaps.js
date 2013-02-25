@@ -14,7 +14,7 @@ $().ready(function() {
 	      	components: [ 
 	      	             // Behavior collection
 	      	             new nokia.maps.map.component.Behavior(),
-	      	             //new nokia.maps.map.component.ZoomBar(),
+	      	             new nokia.maps.map.component.ZoomBar(),
 	      	             new nokia.maps.map.component.ScaleBar()],
 	            // Zoom level for the map
 	            'zoomLevel': 10,
