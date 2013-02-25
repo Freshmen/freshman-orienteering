@@ -1,8 +1,8 @@
 (function(global) {
     var defaultLocation = {
         coords: {
-            latitude: 40.0,
-            longitude: 30.0
+            latitude: 60.1678446,
+            longitude: 24.9477423
         }
     };
     if (!global.gamify) {
