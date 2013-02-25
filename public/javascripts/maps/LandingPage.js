@@ -163,11 +163,8 @@
                 }
             });
 			nokia.mh5.event.add(nokia.mh5.geolocation, "positionchange", function(evt) { global.gamify.LandingPage.model.footpath.push(evt.data); }); 
-			Control.watch(this.model, "location", this, function (location) { 
-				var page = this.getRootOwnerByClass(nokia.mh5.ui.Page);
-				page.notification.timeout = 4000;
-				page.notification.text = "Location changed!";
-				page.notification.visible = true;
+			Control.watch(this.model, "location", this, function (location) {
+				console.log("location changed!");
 			});
         },
 
