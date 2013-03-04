@@ -28,7 +28,7 @@ nconf.argv().env().file({file: './config.json'});
 nconf.defaults({
   'PORT' : 3000,
   'sessionSecret' : 'db10fff838c41e0393f655b423d8c595',
-  'database_host' : 'http://couch:zu5r8ZcL@gami.fi:8124/',
+  'database_host' : 'http://couch:zu5r8ZcL@gami.fi:5984/',
   'database_name' : 'gamify-2013-02',
   'database_secured' : false,
   'FACEBOOK_APP_ID' : '449519988438382',
